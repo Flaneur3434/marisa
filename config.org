@@ -169,16 +169,16 @@ Super - Control - <arrow>
 #+END_SRC
 ** Create an indirect buffer with narrow view
 #+BEGIN_SRC emacs-lisp
-  ;; (defun narrow-to-region-indirect (start end)
-  ;;   "Restrict editing in this buffer to the current region, indirectly."
-  ;;   (interactive "r")
-  ;;   (deactivate-mark)
-  ;;   (let ((buf (clone-indirect-buffer nil nil)))
-  ;;     (with-current-buffer buf
-  ;;       (narrow-to-region start end))
-  ;;       (switch-to-buffer buf)))
+  (defun narrow-to-region-indirect (start end)
+    "Restrict editing in this buffer to the current region, indirectly."
+    (interactive "r")
+    (deactivate-mark)
+    (let ((buf (clone-indirect-buffer nil nil)))
+      (with-current-buffer buf
+        (narrow-to-region start end))
+        (switch-to-buffer buf)))
 
-  ;; (global-set-key (kbd "C-x C-n") 'narrow-to-region-indirect)
+  (global-set-key (kbd "C-x C-n") 'narrow-to-region-indirect)
 #+END_SRC
 ** Make buffer full screen
 #+BEGIN_SRC emacs-lisp

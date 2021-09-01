@@ -5,6 +5,8 @@
 *.html
 *.pdf
 *.tex
+*.elc
+
 
 eshell
 network-security.data
@@ -12,7 +14,7 @@ network-security.data
 irony
 dmenu-items
 config.el
-recentf
+recentf*
 smex-items
 tramp
 emms
@@ -21,3 +23,11 @@ elpa
 transient
 auto-complete-love
 auto-complete-lua
+elpa*
+transient*
+url*
+meghanada*
+img*
+image-dired*
+.last-package-update-day*
+*~
