@@ -60,7 +60,7 @@
  '(custom-safe-themes
    '("acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84" default))
  '(package-selected-packages
-   '(counsel elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard spaceline diminish auto-package-update htmlize use-package))
+   '(xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard spaceline diminish auto-package-update htmlize use-package))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t))
 (custom-set-faces
@@ -68,7 +68,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#010202" :foreground "#aba7a3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "ADBO" :family "ProFontIIx"))))
+ '(cursor ((t (:background "white smoke" :foreground "white smoke"))))
+ '(mouse ((t (:background "white smoke")))))
 
 ; UTF-8 as default encoding
 (set-language-environment "UTF-8")

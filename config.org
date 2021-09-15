@@ -354,7 +354,7 @@ Super - Control - <arrow>
                    ("Temporary" (name . "\*.*\*"))
                    )))
 
-   (defun open-ibuffer-and-move ()
+  (defun open-ibuffer-and-move ()
      (interactive)
      (split-and-follow-vertically)
      (ibuffer))
@@ -368,14 +368,41 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'kill-emacs)
   (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
-  (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
   ;; (key-chord-define-global "ss" 'crux-smart-open-line)
-  (key-chord-define-global "gg" 'goto-line)
-  (key-chord-define-global "xx" 'delete-char)
+  ;; (key-chord-define-global "gg" 'goto-line)
+  ;; (key-chord-define-global "xx" 'delete-char)
 #+END_SRC
 *** Missing
-Visual Block
 When jumping set mark automatically (like jumping up or down the buffer or jumping to word)
+** CSS color coding
+#+BEGIN_SRC emacs-lisp
+  (defun xah-syntax-color-hex ()
+    "Syntax color text of the form 「#ff1100」 and 「#abc」 in current buffer.
+  URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
+  Version 2017-03-12"
+    (interactive)
+    (font-lock-add-keywords
+     nil
+     '(("#[[:xdigit:]]\\{3\\}"
+        (0 (put-text-property
+            (match-beginning 0)
+            (match-end 0)
+            'face (list :background
+                        (let* (
+                               (ms (match-string-no-properties 0))
+                               (r (substring ms 1 2))
+                               (g (substring ms 2 3))
+                               (b (substring ms 3 4)))
+                          (concat "#" r r g g b b))))))
+       ("#[[:xdigit:]]\\{6\\}"
+        (0 (put-text-property
+            (match-beginning 0)
+            (match-end 0)
+            'face (list :background (match-string-no-properties 0)))))))
+    (font-lock-flush))
+  (add-hook 'prog-mode-hook 'xah-syntax-color-hex)
+  (add-hook 'conf-xdefaults-mode-hook 'xah-syntax-color-hex)
+#+END_SRC
 * =Org= mode
 ** Description
 One of the main selling points of Emacs! no Emacs distribution is complete without sensible and well-defined org-mode defaults
@@ -471,11 +498,6 @@ Incredibly useful package; if you are in the middle of a command and don't know 
     :ensure t
     :init
     (which-key-mode))
-#+END_SRC
-** Initialize =ivy=
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :ensure t)
 #+END_SRC
 ** Initialize =diminish=
 *** Description
