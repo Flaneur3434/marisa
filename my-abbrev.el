@@ -1,98 +1,68 @@
-(clear-abbrev-table global-abbrev-table)
-
+;;-*-coding: utf-8;-*-
 (define-abbrev-table 'global-abbrev-table
   '(
-    ;; net abbrev
-    ("afaik" "as far as i know" )
-    ("atm" "at the moment" )
-    ("dfb" "difference between" )
-    ("ty" "thank you" )
-    ("ui" "user interface" )
-    ("uns" "understand" )
-    ("ur" "you are" )
-    ("btw" "by the way" )
-
-    ("cnt" "can't" )
-    ("ddnt" "didn't" )
-    ("dnt" "don't" )
-
-    ;; english word abbrev
-    ("ann" "announcement" )
-    ("arg" "argument" )
-    ("autom" "automatic" )
-    ("bc" "because" )
-    ("bg" "background" )
-    ("bt" "between" )
-    ("math" "mathematics" )
-
-    ;; computing
-    ("ahk" "AutoHotkey" )
-    ("cfg" "context-free grammar" )
-    ("cj" "Clojure" )
-    ("cs" "computer science" )
-
-    ;; tech company
-    ("gc" "Google Chrome" )
-    ("gm" "Google Map" )
-    ("macos" "Mac OS" )
-    ("msw" "Microsoft Windows" )
-
-    ;; programing
-    ("ev" "environment variable" )
-    ("ipa" "IP address" )
-    ("jvm" "Java Virtual Machine" )
-    ("rsi" "Repetitive Strain Injury" )
-    ("subdir" "sub-directory" )
-    ("wd" "web development" )
-
-    ("db" "database" )
-    ("gui3" "graphical user interface" )
-    ("oop3" "object oriented programing" )
-
-    ("os3" "operating system" )
-
-    ;; programing
-    ("eq" "==" )
-    ("rt" "return" )
-
-    ;; regex
-    ("xaz" "\\([A-Za-z0-9]+\\)" )
-
-    ;; url
-    ("urlemacs" "http://ergoemacs.org/" )
-
-    ))
-
-;; define abbrev for specific major mode
-;; the first part of the name should be the value of the variable major-mode of that mode
-;; e.g. for go-mode, name should be go-mode-abbrev-table
-
-(when (boundp 'go-mode-abbrev-table)
-  (clear-abbrev-table go-mode-abbrev-table))
+    ("10" "carousel" nil :count 1)
+    ("afaik" "as far as i know" nil :count 0)
+    ("ahk" "AutoHotkey" nil :count 0)
+    ("ann" "announcement" nil :count 0)
+    ("arg" "argument" nil :count 0)
+    ("atm" "at the moment" nil :count 0)
+    ("autom" "automatic" nil :count 0)
+    ("bc" "because" nil :count 0)
+    ("bg" "background" nil :count 0)
+    ("bt" "between" nil :count 0)
+    ("btw" "by the way" nil :count 0)
+    ("cfg" "context-free grammar" nil :count 0)
+    ("cj" "Clojure" nil :count 0)
+    ("cnt" "can't" nil :count 0)
+    ("cs" "computer science" nil :count 0)
+    ("db" "database" nil :count 0)
+    ("ddnt" "didn't" nil :count 0)
+    ("dfb" "difference between" nil :count 0)
+    ("dnt" "don't" nil :count 0)
+    ("eq" "==" nil :count 0)
+    ("ev" "environment variable" nil :count 0)
+    ("gc" "Google Chrome" nil :count 0)
+    ("gm" "Google Map" nil :count 0)
+    ("gui3" "graphical user interface" nil :count 0)
+    ("ipa" "IP address" nil :count 0)
+    ("jvm" "Java Virtual Machine" nil :count 0)
+    ("macos" "Mac OS" nil :count 0)
+    ("math" "mathematics" nil :count 0)
+    ("msw" "Microsoft Windows" nil :count 0)
+    ("obstecales" "obstacles" nil :count 0)
+    ("oop3" "object oriented programing" nil :count 0)
+    ("os3" "operating system" nil :count 0)
+    ("rsi" "Repetitive Strain Injury" nil :count 0)
+    ("rt" "return" nil :count 0)
+    ("subdir" "sub-directory" nil :count 0)
+    ("ty" "thank you" nil :count 0)
+    ("ui" "user interface" nil :count 0)
+    ("uns" "understand" nil :count 0)
+    ("ur" "you are" nil :count 0)
+    ("urlemacs" "http://ergoemacs.org/" nil :count 0)
+    ("wd" "web development" nil :count 0)
+    ("xaz" "\\([A-Za-z0-9]+\\)" nil :count 0)
+   ))
 
 (define-abbrev-table 'go-mode-abbrev-table
   '(
+    ("c" "const x = 3" nil :count 0)
+    ("df" "x := 3" nil :count 0)
+    ("eq" "==" nil :count 0)
+    ("f" "func ff(x int) int {
+    return nil
+}" nil :count 0)
+    ("for" "for i := 0; i < 4; i++ { i }" nil :count 0)
     ("go" "package main
 import \"fmt\"
 func main() {
         fmt.Println(\"3\")
-}")
+}" nil :count 0)
+    ("p" "fmt.Printf(\"%v\\n\", hh▮)" nil :count 0)
+    ("pl" "fmt.Println(hh▮)" nil :count 0)
+    ("r" "return" nil :count 0)
+    ("st" "string" nil :count 0)
+    ("v" "var x = 3" nil :count 0)
+   ))
 
-    ("p" "fmt.Printf(\"%v\\n\", hh▮)")
-    ("pl" "fmt.Println(hh▮)")
-    ("r" "return")
-    ("st" "string")
-    ("eq" "==")
-    ("v" "var x = 3")
-    ("df" "x := 3")
-    ("c" "const x = 3")
-    ("f" "func ff(x int) int {
-    return nil
-}")
-    ("for" "for i := 0; i < 4; i++ { i }")
-
-    ))
-
-(set-default 'abbrev-mode t)
-
-(setq save-abbrevs nil)

@@ -113,10 +113,10 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 ** Easier resize bindigs
 Super - Control - <arrow>
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-<left>") 'shrink-window-horizontally)
-  (global-set-key (kbd "M-<right>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "M-<down>") 'shrink-window)
-  (global-set-key (kbd "M-<up>") 'enlarge-window)
+  (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+  (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
+  (global-set-key (kbd "s-<down>") 'shrink-window)
+  (global-set-key (kbd "s-<up>") 'enlarge-window)
 #+END_SRC
 ** Highlight current line
 #+BEGIN_SRC emacs-lisp
@@ -368,6 +368,7 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'kill-emacs)
   (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
+  (global-set-key (kbd "C-x M-s") 'crux-sudo-edit)
   ;; (key-chord-define-global "ss" 'crux-smart-open-line)
   ;; (key-chord-define-global "gg" 'goto-line)
   ;; (key-chord-define-global "xx" 'delete-char)
@@ -402,6 +403,17 @@ When jumping set mark automatically (like jumping up or down the buffer or jumpi
     (font-lock-flush))
   (add-hook 'prog-mode-hook 'xah-syntax-color-hex)
   (add-hook 'conf-xdefaults-mode-hook 'xah-syntax-color-hex)
+#+END_SRC
+** Dired Sudo Mode
+Dired sudo mode
+You can also edit files in sudo mode with crux-edit-sudo
+#+BEGIN_SRC emacs-lisp
+  (define-key dired-mode-map (kbd "C-c M-s") 'dired-toggle-sudo)
+  (eval-after-load 'tramp
+   '(progn
+      ;; Allow to use: /sudo:user@host:/path/to/file
+      (add-to-list 'tramp-default-proxies-alist
+        '(".*" "\\`.+\\'" "/ssh:%h:"))))
 #+END_SRC
 * =Org= mode
 ** Description
@@ -827,6 +839,13 @@ Neat side-bar file and project explorer
       :after treemacs dired
       :ensure t
       :config (treemacs-icons-dired-mode))
+#+END_SRC
+** Initialize =dired-toggle-sudo=
+*** Code
+Allow to switch from current user to sudo when browsind `dired' buffers.
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-toggle-sudo
+  :ensure t)
 #+END_SRC
 ** Initialize =elisp-format=
 *** Description
