@@ -3772,7 +3772,7 @@ minor modes loaded later may override bindings in this map.")
 ;; HHH___________________________________________________________________
 ;; commands related to highlight
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-dot-keymap)
+ (define-prefix-command 'xah-fly-highlight-keymap)
  ;; 2019-02-22 experiment. this is now empty. so you can use this key space for all major mode custom keys or personal keys. These highlight command isn't used much in my experience
  '(
    ("." . highlight-symbol-at-point)
@@ -3816,7 +3816,7 @@ minor modes loaded later may override bindings in this map.")
 ;; HHH___________________________________________________________________
 
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-c-keymap)
+ (define-prefix-command 'xah-fly-file-keymap)
  '(
    ("," . xah-open-in-external-app)
    ("." . find-file)
@@ -3837,7 +3837,7 @@ minor modes loaded later may override bindings in this map.")
    ))
 
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-e-keymap)
+ (define-prefix-command 'xah-fly-insert-keymap)
  '(
    ("RET" . insert-char)
    ("SPC" . xah-insert-unicode)
@@ -3862,7 +3862,7 @@ minor modes loaded later may override bindings in this map.")
    ("y" . xah-insert-double-angle-quote)))
 
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-h-keymap)
+ (define-prefix-command 'xah-fly-describe-keymap)
  '(
    ;; ',.
    ;; ;
@@ -3893,7 +3893,7 @@ minor modes loaded later may override bindings in this map.")
 
 (xah-fly--define-keys
  ;; commands here are “harmless”, they don't modify text etc. they turn on modes, change display, prompt, start shell, etc.
- (define-prefix-command 'xah-fly-n-keymap)
+ (define-prefix-command 'xah-fly-buffer-keymap)
  '(
    ("SPC" . whitespace-mode)
    ("," . abbrev-mode)
@@ -3939,7 +3939,7 @@ minor modes loaded later may override bindings in this map.")
 
 (xah-fly--define-keys
  ;; kinda replacement related
- (define-prefix-command 'xah-fly-r-keymap)
+ (define-prefix-command 'xah-fly-visual-keymap)
  '(
    ("SPC" . rectangle-mark-mode)
    ("," . apply-macro-to-region-lines)
@@ -3964,7 +3964,7 @@ minor modes loaded later may override bindings in this map.")
    ("y" . delete-whitespace-rectangle)))
 
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-t-keymap)
+ (define-prefix-command 'xah-fly-edit-keymap)
  '(
    ("SPC" . xah-clean-whitespace)
    ("TAB" . move-to-column)
@@ -4010,7 +4010,7 @@ minor modes loaded later may override bindings in this map.")
 ))
 
 (xah-fly--define-keys
- (define-prefix-command 'xah-fly-w-keymap)
+ (define-prefix-command 'xah-fly-eval-keymap)
  '(
    ("d" . xah-delete-current-file-make-backup)
    ("." . eval-buffer)
@@ -4050,7 +4050,7 @@ minor modes loaded later may override bindings in this map.")
    ("DEL" . xah-fly-insert-mode-activate)
    ("RET" . xah-fly-M-x)
    ("TAB" . xah-fly--tab-key-map)
-   ("." . xah-fly-dot-keymap)
+   ("." . xah-fly-highlight-keymap)
    ("'" . xah-fill-or-unfill)
    ("," . xah-fly-comma-keymap)
    ("-" . xah-show-formfeed-as-line)
@@ -4074,27 +4074,27 @@ minor modes loaded later may override bindings in this map.")
 
    ("a" . mark-whole-buffer)
    ("b" . end-of-buffer)
-   ("c" . xah-fly-c-keymap)
+   ("c" . xah-fly-file-keymap)
    ("d" . beginning-of-buffer)
-   ("e" . xah-fly-e-keymap)
+   ("e" . xah-fly-insert-keymap)
    ("f" . xah-search-current-word)
    ("g" . xah-close-current-buffer)
-   ("h" . xah-fly-h-keymap)
+   ("h" . xah-fly-describe-keymap)
    ("i" . kill-line)
    ("j" . xah-copy-all-or-region)
    ;; k
    ("l" . recenter-top-bottom)
    ("m" . dired-jump)
-   ("n" . xah-fly-n-keymap)
+   ("n" . xah-fly-buffer-keymap)
    ("o" . exchange-point-and-mark)
    ("p" . query-replace)
    ("q" . xah-cut-all-or-region)
-   ("r" . xah-fly-r-keymap)
+   ("r" . xah-fly-visual-keymap)
    ("s" . save-buffer)
-   ("t" . xah-fly-t-keymap)
+   ("t" . xah-fly-edit-keymap)
    ("u" . switch-to-buffer)
    ;; v
-   ("w" . xah-fly-w-keymap)
+   ("w" . xah-fly-eval-keymap)
    ("x" . xah-toggle-previous-letter-case)
    ("y" . xah-show-kill-ring)
    ;; z
