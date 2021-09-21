@@ -366,7 +366,7 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-x a") 'crux-transpose-windows)
   (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
   (global-set-key (kbd "C-c z") 'remember)
-  (global-set-key (kbd "C-c q") 'kill-emacs)
+  (global-set-key (kbd "C-c q") 'delete-frame)
   (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
   (global-set-key (kbd "C-x M-s") 'crux-sudo-edit)
   ;; (key-chord-define-global "ss" 'crux-smart-open-line)
@@ -414,6 +414,19 @@ You can also edit files in sudo mode with crux-edit-sudo
       ;; Allow to use: /sudo:user@host:/path/to/file
       (add-to-list 'tramp-default-proxies-alist
         '(".*" "\\`.+\\'" "/ssh:%h:"))))
+#+END_SRC
+* Emacs Daemon
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+  (defun my/load-theme (frame)
+    (select-frame frame)
+    (load-theme 'xresources t))
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions #'my/load-theme)
+    (load-theme 'material t))
 #+END_SRC
 * =Org= mode
 ** Description
