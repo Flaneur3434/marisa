@@ -414,6 +414,7 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'delete-frame)
+  (global-set-key (kbd "C-c t") 'my-create-tags)
   (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
   (global-set-key (kbd "C-x M-s") 'crux-sudo-edit)
   ;; (key-chord-define-global "ss" 'crux-smart-open-line)
@@ -464,16 +465,16 @@ You can also edit files in sudo mode with crux-edit-sudo
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
-  (server-start)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    (server-start)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-  (defun my/load-theme (frame)
-    (select-frame frame)
-    (load-theme 'xresources t))
+    (defun my/load-theme (frame)
+      (select-frame frame)
+      (load-theme 'xresources t))
 
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions #'my/load-theme)
-    (load-theme 'material t))
+;;   (if (daemonp)
+;;       (add-hook 'after-make-frame-functions #'my/load-theme)
+;;     (load-theme 'witchmacs t))
 #+END_SRC
 * =Org= mode
 ** Description

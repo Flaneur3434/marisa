@@ -4037,11 +4037,33 @@ minor modes loaded later may override bindings in this map.")
 ;;    ("x" . set-selection-coding-system)))
 
 (xah-fly--define-keys
- ;; kinda replacement related
- (define-prefix-command 'xah-fly-comma-keymap)
+ ;; ctags related
+ (define-prefix-command 'xah-fly-tag-keymap)
  '(
-   ("t" . xref-find-definitions)
-   ("n" . xref-pop-marker-stack)))
+   ("t" . my-jump-to-wrapper)
+   ("n" . my-jump-back-wrapper)))
+
+(defun my-jump-to-wrapper ()
+  "call different jump-to-definition functions depending on what's current major mode."
+  (interactive)
+  (cond
+   ((string-equal major-mode "java-mode") (meghanada-jump-declaration))
+   ((string-equal major-mode "c-mode") (xref-find-definitions (thing-at-point 'symbol)))
+   ;; more major-mode checking here
+
+   ;; if nothing match, do nothing
+   (t nil)))
+
+(defun my-jump-back-wrapper ()
+  "call different jump-back-definition functions depending on what's current major mode."
+  (interactive)
+  (cond
+   ((string-equal major-mode "java-mode") (meghanada-back-jump))
+   ((string-equal major-mode "c-mode") (xref-pop-marker-stack))
+   ;; more major-mode checking here
+
+   ;; if nothing match, do nothing
+   (t nil)))
 
 (xah-fly--define-keys
  (define-prefix-command 'xah-fly-leader-key-map)
@@ -4082,7 +4104,7 @@ minor modes loaded later may override bindings in this map.")
    ("h" . xah-fly-describe-keymap)
    ("i" . kill-line)
    ("j" . xah-copy-all-or-region)
-   ;; k
+   ("k" . xah-fly-tag-keymap)
    ("l" . recenter-top-bottom)
    ("m" . dired-jump)
    ("n" . xah-fly-buffer-keymap)
