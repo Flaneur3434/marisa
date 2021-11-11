@@ -1,11 +1,13 @@
 ;;disable emacs from creating files on system
 (setq make-backup-file nil)
 (setq auto-save-default nil)
+(abbrev-mode -1)
 
 ;; requirements to be loaded before config.org
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'space-chord)
+(require 'google-c-style)
 (load "xah-fly-keys.elc") ;; recompile for any changes
 (load "ctags-utils.elc")
 
@@ -14,7 +16,6 @@
 (xah-fly-keys 1)
 
 ;; Minor Mode Settings
-(load "~/.emacs.d/my-abbrev.el") ;; dictionary for my abbreviations
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the “camelCase” words
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
@@ -58,7 +59,7 @@
  '(custom-safe-themes
    '("998975856274957564b0ab8f4219300bca12a0f553d41c1438bbca065f298a29" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" "e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84" default))
  '(package-selected-packages
-   '(xah-elisp-mode spaceline command-log-mode dired-toggle-sudo xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard diminish auto-package-update htmlize use-package))
+   '(go-mode xah-elisp-mode spaceline command-log-mode dired-toggle-sudo xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard diminish auto-package-update htmlize use-package))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t))
 (custom-set-faces

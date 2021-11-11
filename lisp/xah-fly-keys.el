@@ -4049,6 +4049,7 @@ minor modes loaded later may override bindings in this map.")
   (cond
    ((string-equal major-mode "java-mode") (meghanada-jump-declaration))
    ((string-equal major-mode "c-mode") (xref-find-definitions (thing-at-point 'symbol)))
+   ((string-equal major-mode "go-mode") (godef-jump)))
    ;; more major-mode checking here
 
    ;; if nothing match, do nothing

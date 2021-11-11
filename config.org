@@ -246,6 +246,7 @@ Super - Control - <arrow>
 ** Dired Qol
 #+BEGIN_SRC emacs-lisp
   (require 'dired-x)
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
 #+END_SRC
 *** Create a new file from dired mode
 #+BEGIN_SRC emacs-lisp
@@ -465,16 +466,16 @@ You can also edit files in sudo mode with crux-edit-sudo
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
-    (server-start)
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (server-start)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-    (defun my/load-theme (frame)
-      (select-frame frame)
-      (load-theme 'xresources t))
+  (defun my/load-theme (frame)
+    (select-frame frame)
+    (load-theme 'xresources t))
 
-;;   (if (daemonp)
-;;       (add-hook 'after-make-frame-functions #'my/load-theme)
-;;     (load-theme 'witchmacs t))
+  (if (daemonp)
+    (add-hook 'after-make-frame-functions #'my/load-theme)
+    (load-theme 'witchmacs t))
 #+END_SRC
 * =Org= mode
 ** Description
@@ -1023,6 +1024,12 @@ I use meghanada to provide very neat autocompletion when editing Java files. I u
                 (meghanada-mode t)))
     (setq meghanada-java-path "java")
     (setq meghanada-maven-path "mvn"))
+(add-hook 'c-mode-common-hook
+      (lambda()
+            (subword-mode)
+            (google-set-c-style)
+            (google-make-newline-indent)
+            (setq c-basic-offset 4)))
 #+END_SRC
 
 ** Scheme =geiser-mit=
@@ -1037,4 +1044,10 @@ Collection of Emacs major and minor modes that work with scheme
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
                 (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
+#+END_SRC
+
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
 #+END_SRC
