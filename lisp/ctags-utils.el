@@ -6,3 +6,5 @@
   (shell-command
    (format "%s -f TAGS -e -R --languages=%s *" path-to-ctags (read-string "Lang: ")))
 )
+
+(provide 'ctags-utils)

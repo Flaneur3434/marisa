@@ -8,8 +8,10 @@
 
 (require 'space-chord)
 (require 'google-c-style)
-(load "xah-fly-keys.elc") ;; recompile for any changes
-(load "ctags-utils.elc")
+(require 'xah-fly-keys)
+(require 'ctags-utils)
+;; (load "xah-fly-keys.elc") ;; recompile for any changes
+;; (load "ctags-utils.elc")
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")

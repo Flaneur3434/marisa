@@ -4053,7 +4053,7 @@ minor modes loaded later may override bindings in this map.")
    ;; more major-mode checking here
 
    ;; if nothing match, do nothing
-   (t nil)))
+   (t nil))
 
 (defun my-jump-back-wrapper ()
   "call different jump-back-definition functions depending on what's current major mode."
