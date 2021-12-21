@@ -466,18 +466,18 @@ You can also edit files in sudo mode with crux-edit-sudo
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
-  (server-start)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    (server-start)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-  (defun my/load-theme (frame)
-    (select-frame frame)
-    (load-theme 'xresources t))
+    (defun my/load-theme (frame)
+      (select-frame frame)
+      (load-theme 'xresources t))
 
-  (if (daemonp)
-    (add-hook 'after-make-frame-functions #'my/load-theme)
-    (load-theme 'witchmacs t))
+   (if (daemonp)
+     (add-hook 'after-make-frame-functions #'my/load-theme)
+     (load-theme 'witchmacs t))
 #+END_SRC
-* =Org= mode
+* Org mode
 ** Description
 One of the main selling points of Emacs! no Emacs distribution is complete without sensible and well-defined org-mode defaults
 ** Code
@@ -494,6 +494,10 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
 
   (use-package htmlize
     :ensure t)
+
+  (set-face-attribute 'org-block nil :background
+                      (color-lighten-name
+                       (face-attribute 'default :background) 2))
 #+END_SRC
 * Eshell
 ** Why Eshell?
