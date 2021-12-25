@@ -90,6 +90,7 @@
  '(ibuffer-marked-face 'modus-themes-mark-sel)
  '(ibuffer-title-face 'default)
  '(org-src-block-faces 'nil)
+ '(org-startup-folded t)
  '(package-selected-packages
    '(modus-themes go-mode xah-elisp-mode spaceline command-log-mode dired-toggle-sudo xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard diminish auto-package-update htmlize use-package))
  '(pdf-view-midnight-colors '("#000000" . "#f8f8f8"))

@@ -2626,6 +2626,34 @@ Version 2017-01-29"
   (interactive)
   (describe-function major-mode))
 
+;; ken_nc functions______________________________________________________
+
+(defun ken_nc/dwim-open-line ()
+  "Create a new line above or below the current line depending on position of cursor.
+The first section uses narrowing to find the current-colum of the cusor relative
+to the current line. The current-column is stored in my-point-pos.
+The second section determines whither to open a new line bellow and above the current line.
+It does this by checking if the middle of the line is before or after the 'my-point-pos'.
+If the middle is before, it opens a new line above. If its after, the opposite happens."
+  (interactive)
+  (save-excursion
+	(save-restriction
+	  (let ((original-pos (point)))
+		(goto-char (line-beginning-position))
+		(skip-chars-forward "[[:space:]]*")
+		(narrow-to-region (point) (line-end-position))
+		(goto-char original-pos)
+		(setq my-point-pos (current-column)))))
+  (save-excursion
+	(let ((line-length (float (- (line-end-position) (point)))))
+	  (if (< (float my-point-pos) (float (/ line-length 2)))
+		  (progn
+			(goto-char (line-beginning-position))
+			(open-line 1))
+		(progn
+		  (goto-char (line-end-position))
+		  (open-line 1))))))
+
 ;; HHH___________________________________________________________________
 ;; key maps for conversion
 
@@ -3608,7 +3636,7 @@ minor modes loaded later may override bindings in this map.")
    ("l" . xah-insert-space-before)
    ("m" . xah-backward-left-bracket)
    ("n" . forward-char)
-   ;; ("o" . open-line)
+   ("o" . ken_nc/dwim-open-line)
    ("p" . kill-word)
    ("q" . xah-cut-line-or-region)
    ("r" . forward-word)
