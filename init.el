@@ -10,6 +10,7 @@
 (require 'google-c-style)
 (require 'xah-fly-keys)
 (require 'ctags-utils)
+(require 'move-text)
 ;; (load "xah-fly-keys.elc") ;; recompile for any changes
 ;; (load "ctags-utils.elc")
 
@@ -27,8 +28,7 @@
   (setq file-name-handler-alist startup/file-name-handler-alist))
 
 (defun startup/reset-gc ()
-  (setq gc-cons-threshold 402653184
-    gc-cons-percentage 0.6))
+  (setq gc-cons-threshold 100000000))
 
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
@@ -92,7 +92,7 @@
  '(org-src-block-faces 'nil)
  '(org-startup-folded t)
  '(package-selected-packages
-   '(modus-themes go-mode xah-elisp-mode spaceline command-log-mode dired-toggle-sudo xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard diminish auto-package-update htmlize use-package))
+   '(ryo-modal modus-themes go-mode xah-elisp-mode spaceline command-log-mode dired-toggle-sudo xah-css-mode elisp-format crux xresources-theme acme-theme geiser-mit meghanada company-irony company-c-headers yasnippet-snippets yasnippet company magit treemacs-icons-dired treemacs-evil treemacs undo-tree page-break-lines async ido-vertical-mode switch-window avy beacon swiper dashboard diminish auto-package-update htmlize use-package))
  '(pdf-view-midnight-colors '("#000000" . "#f8f8f8"))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t)

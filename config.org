@@ -410,18 +410,6 @@ Super - Control - <arrow>
 #+END_SRC
 ** Crux keybinds
 #+BEGIN_SRC emacs-lisp
-  ;; (defun ken_nc/open-newline-above ()
-  ;;   (interactive)
-  ;;   (save-excursion
-  ;;     (beginning-of-line)
-  ;;     (insert hard-newline)))
-
-  ;; (defun ken_nc/open-newline-below ()
-  ;;   (interactive)
-  ;;   (save-excursion
-  ;;     (end-of-line)
-  ;;     (insert hard-newline)))
-
   (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
   (global-set-key (kbd "C-x a") 'crux-transpose-windows)
   (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
@@ -430,9 +418,8 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-c t") 'my-create-tags)
   (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
   (global-set-key (kbd "C-x M-s") 'crux-sudo-edit)
-  ;; (key-chord-define-global "ss" 'ken_nc/open-newline-below)
-  ;; (key-chord-define-global "SS" 'ken_nc/open-newline-above)
-  ;; (key-chord-define-global "gg" 'goto-line)
+  (global-set-key (kbd "M-i") 'move-text-up)
+  (global-set-key (kbd "M-k") 'move-text-down)
 #+END_SRC
 *** Missing
 When jumping set mark automatically (like jumping up or down the buffer or jumping to word)
@@ -481,6 +468,17 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
   (setq tab-always-indent 'complete)
   (add-to-list 'completion-styles 'initial t)
+#+END_SRC
+** Setup mouse click to highlight matching words
+#+BEGIN_SRC emacs-lisp
+  (defun ken_nc/find-word-on-click (event)
+    (interactive "e")
+    (let ((word-at-point  (posn-point (event-end event))))
+      (goto-char word-at-point)
+      (isearch-forward-symbol-at-point)))
+
+
+  (global-set-key (kbd "<mouse-3>") 'ken_nc/find-word-on-click)
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
