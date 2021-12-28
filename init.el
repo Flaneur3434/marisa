@@ -11,12 +11,11 @@
 (require 'xah-fly-keys)
 (require 'ctags-utils)
 (require 'move-text)
-;; (load "xah-fly-keys.elc") ;; recompile for any changes
-;; (load "ctags-utils.elc")
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
+
 
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the “camelCase” words
@@ -32,7 +31,6 @@
 
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
-;;
 
 ;; Initialize melpa repo
 (require 'package)
@@ -48,6 +46,7 @@
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+
 
 ; UTF-8 as default encoding
 (set-language-environment "UTF-8")
@@ -66,14 +65,7 @@
  '(custom-safe-themes
    '("e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" default))
  '(mouse ((t (:background "white smoke" :foreground "white smoke"))))
- '(org-startup-folded t)
  '(package-selected-packages
-   '(xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
+   '(expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

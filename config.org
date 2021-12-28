@@ -426,7 +426,7 @@ When jumping set mark automatically (like jumping up or down the buffer or jumpi
 ** CSS color coding
 #+BEGIN_SRC emacs-lisp
   (defun xah-syntax-color-hex ()
-    "Syntax color text of the form „Äå#ff1100„Äç and „Äå#abc„Äç in current buffer.
+    "Syntax color text of the form °÷#ff1100°◊ and °÷#abc°◊ in current buffer.
   URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
   Version 2017-03-12"
     (interactive)
@@ -480,6 +480,28 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 
   (global-set-key (kbd "<mouse-3>") 'ken_nc/find-word-on-click)
 #+END_SRC
+** Auto Complete in IELM
+#+BEGIN_SRC emacs-lisp
+  (defun ielm-auto-complete ()
+    "Enables `auto-complete' support in \\[ielm]."
+    (setq ac-sources '(ac-source-functions
+                       ac-source-variables
+                       ac-source-features
+                       ac-source-symbols
+                       ac-source-words-in-same-mode-buffers))
+    (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
+    (auto-complete-mode 1))
+  (add-hook 'ielm-mode-hook 'ielm-auto-complete)
+#+END_SRC
+** Japanese Input
+#+BEGIN_SRC emacs-lisp
+  (set-language-environment "Japanese")
+  (set-default-coding-systems 'euc-japan)
+  (set-terminal-coding-system 'euc-japan)
+  (set-buffer-file-coding-system 'euc-japan)
+  (set-default-font "-*-fixed-medium-r-normal-*-16-*-*-*-*-*- fontset-standard")
+  (progn (load-library "canna" ) (canna) )
+#+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
     (server-start)
@@ -502,18 +524,20 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 One of the main selling points of Emacs! no Emacs distribution is complete without sensible and well-defined org-mode defaults
 ** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-    :config
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    (add-hook 'org-mode-hook
-              '(lambda ()
-                 (visual-line-mode 1))))
+    (use-package org
+      :config
+      (add-hook 'org-mode-hook 'org-indent-mode)
+      (add-hook 'org-mode-hook
+                '(lambda ()
+                   (visual-line-mode 1))))
 
-  (use-package org-indent
-    :diminish org-indent-mode)
+    (use-package org-indent
+      :diminish org-indent-mode)
 
-  (use-package htmlize
-    :ensure t)
+    (use-package htmlize
+      :ensure t)
+
+  (setq org-startup-folded t)
 #+END_SRC
 * Eshell
 ** Why Eshell?
@@ -522,7 +546,7 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Prompt
 #+BEGIN_SRC emacs-lisp
-  (setq eshell-prompt-regexp "^[^Œ±Œª\n]*[Œ±Œª] ")
+  (setq eshell-prompt-regexp "^[^¶¡¶À\n]*[¶¡¶À] ")
   (setq eshell-prompt-function
         (lambda nil
           (concat
@@ -533,8 +557,8 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
               (propertize "~" 'face `(:foreground "#99CCFF"))
               (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
            (if (= (user-uid) 0)
-               (propertize " Œ± " 'face `(:foreground "#FF6666"))
-           (propertize " Œª " 'face `(:foreground "#A6E22E"))))))
+               (propertize " ¶¡ " 'face `(:foreground "#FF6666"))
+           (propertize " ¶À " 'face `(:foreground "#A6E22E"))))))
 
   (setq eshell-highlight-prompt nil)
 #+END_SRC
@@ -602,7 +626,7 @@ Diminish hides minor modes to prevent cluttering your mode line
     :ensure t)
 #+END_SRC
 *** Historical
-22/04/2019: This macro was provided by user [[https://gist.github.com/ld34/44d100b79964407e5ddf41035e3cd32f][ld43]] after I couldn‚Äôt figure out how to make diminish work by being at the top of the config file.
+22/04/2019: This macro was provided by user [[https://gist.github.com/ld34/44d100b79964407e5ddf41035e3cd32f][ld43]] after I couldn°«t figure out how to make diminish work by being at the top of the config file.
 
 #+BEGIN_SRC emacs-lisp
   ;; (defmacro diminish-built-in (&rest modes)
@@ -845,6 +869,14 @@ twice in quick succession to a command. Such bindings are called
     :ensure t
     :config
     (key-chord-mode 1))
+#+END_SRC
+** Initialize =expand-region=
+*** Description
+Expand region increases the selected region by semantic units. Just keep pressing the key until it selects what you want.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
