@@ -426,7 +426,7 @@ When jumping set mark automatically (like jumping up or down the buffer or jumpi
 ** CSS color coding
 #+BEGIN_SRC emacs-lisp
   (defun xah-syntax-color-hex ()
-    "Syntax color text of the form °÷#ff1100°◊ and °÷#abc°◊ in current buffer.
+    "Syntax color text of the form è¢¬è™”#ff1100è¢¬°ﬂ and è¢¬è™”#abcè¢¬°ﬂ in current buffer.
   URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
   Version 2017-03-12"
     (interactive)
@@ -499,45 +499,45 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (set-default-coding-systems 'euc-japan)
   (set-terminal-coding-system 'euc-japan)
   (set-buffer-file-coding-system 'euc-japan)
-  (set-default-font "-*-fixed-medium-r-normal-*-16-*-*-*-*-*- fontset-standard")
-  (progn (load-library "canna" ) (canna) )
+#+END_SRC
+* Colors and Set Face
+#+BEGIN_SRC emacs-lisp
+  (set-face-background 'cursor "white smoke")
+  (set-face-background 'mouse "white smoke")
+  (setq read-file-name-completion-ignore-case t)
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
-    (server-start)
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (server-start)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-    (defun my/load-theme (frame)
-      (select-frame frame)
-      (load-theme 'xresources t))
+  (defun ken_nc/load-theme (frame)
+    (select-frame frame)
+    (load-theme 'xresources t))
 
-    (if (daemonp)
-      (add-hook 'after-make-frame-functions #'my/load-theme)
-      (load-theme 'xresources t)
-      (require 'color)
-      (set-face-attribute 'org-block nil :background
-                       (color-lighten-name
-                        (face-attribute 'default :background) 6)))
+  (if (daemonp)
+      (progn
+        (add-hook 'after-make-frame-functions #'ken_nc/load-theme)
+        (require 'color))
+    (load-theme 'xresources t))
 #+END_SRC
 * Org mode
 ** Description
 One of the main selling points of Emacs! no Emacs distribution is complete without sensible and well-defined org-mode defaults
 ** Code
 #+BEGIN_SRC emacs-lisp
-    (use-package org
-      :config
-      (add-hook 'org-mode-hook 'org-indent-mode)
-      (add-hook 'org-mode-hook
-                '(lambda ()
-                   (visual-line-mode 1))))
+  (use-package org
+    :config
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    (add-hook 'org-mode-hook
+              '(lambda ()
+                 (visual-line-mode 1)))
+    (setq org-startup-folded t))
 
-    (use-package org-indent
-      :diminish org-indent-mode)
-
-    (use-package htmlize
-      :ensure t)
-
-  (setq org-startup-folded t)
+  (use-package org-indent-
+    :diminish org-indent-mode)
+  (set-face-attribute 'org-block nil
+                      :background "#0a0a0a")
 #+END_SRC
 * Eshell
 ** Why Eshell?
@@ -546,7 +546,7 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Prompt
 #+BEGIN_SRC emacs-lisp
-  (setq eshell-prompt-regexp "^[^¶¡¶À\n]*[¶¡¶À] ")
+  (setq eshell-prompt-regexp "^[^è¢√è™°è¢√è™≥\n]*[è¢√è™°è¢√è™≥] ")
   (setq eshell-prompt-function
         (lambda nil
           (concat
@@ -557,8 +557,8 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
               (propertize "~" 'face `(:foreground "#99CCFF"))
               (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
            (if (= (user-uid) 0)
-               (propertize " ¶¡ " 'face `(:foreground "#FF6666"))
-           (propertize " ¶À " 'face `(:foreground "#A6E22E"))))))
+               (propertize " è¢√è™° " 'face `(:foreground "#FF6666"))
+           (propertize " è¢√è™≥ " 'face `(:foreground "#A6E22E"))))))
 
   (setq eshell-highlight-prompt nil)
 #+END_SRC
@@ -626,7 +626,7 @@ Diminish hides minor modes to prevent cluttering your mode line
     :ensure t)
 #+END_SRC
 *** Historical
-22/04/2019: This macro was provided by user [[https://gist.github.com/ld34/44d100b79964407e5ddf41035e3cd32f][ld43]] after I couldn°«t figure out how to make diminish work by being at the top of the config file.
+22/04/2019: This macro was provided by user [[https://gist.github.com/ld34/44d100b79964407e5ddf41035e3cd32f][ld43]] after I couldnè¢¬è™Æt figure out how to make diminish work by being at the top of the config file.
 
 #+BEGIN_SRC emacs-lisp
   ;; (defmacro diminish-built-in (&rest modes)
@@ -752,6 +752,14 @@ You might find beacon an unnecesary package but I find it very neat. It briefly 
     :diminish beacon-mode
     :init
     (beacon-mode 1))
+#+END_SRC
+** Initialize =htmlize=
+*** Description
+Highligh rgb and hex values with the color associated with them
+*** Code
+#+BEGIN_SRC emacs-lisp
+   (use-package htmlize
+     :ensure t)
 #+END_SRC
 ** Initialize =avy=
 *** Description

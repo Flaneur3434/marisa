@@ -11,11 +11,11 @@
 (require 'xah-fly-keys)
 (require 'ctags-utils)
 (require 'move-text)
+(require 'color)  ;; for org mode codeblock background color
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
-
 
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the “camelCase” words
@@ -58,13 +58,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#262626" "#FF6666" "#A6E22E" "#FFFF66" "#6666FF" "#FD5FF0" "#99CCFF" "#F1EFEE"])
- '(cursor ((t (:background "white smoke" :foreground "white smoke"))))
- '(custom-enabled-themes '(xresources))
- '(custom-safe-themes
-   '("e5dc5b39fecbeeb027c13e8bfbf57a865be6e0ed703ac1ffa96476b62d1fae84" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" default))
- '(mouse ((t (:background "white smoke" :foreground "white smoke"))))
  '(package-selected-packages
    '(expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
  '(read-buffer-completion-ignore-case t)
