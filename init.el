@@ -18,7 +18,7 @@
 (xah-fly-keys 1)
 
 ;; Minor Mode Settings
-(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the ‚ÄúcamelCase‚Äù words
+(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the °»camelCase°… words
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -59,6 +59,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
- '(read-buffer-completion-ignore-case t)
- '(read-file-name-completion-ignore-case t))
+   '(expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window)))

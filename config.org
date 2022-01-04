@@ -452,16 +452,26 @@ When jumping set mark automatically (like jumping up or down the buffer or jumpi
   (add-hook 'prog-mode-hook 'xah-syntax-color-hex)
   (add-hook 'conf-xdefaults-mode-hook 'xah-syntax-color-hex)
 #+END_SRC
-** Dired Sudo Mode
-Dired sudo mode
+** Tramp
+#+BEGIN_SRC emacs-lisp
+  (require 'tramp)
+#+END_SRC
+*** Dired sudo mode
 You can also edit files in sudo mode with crux-edit-sudo
 #+BEGIN_SRC emacs-lisp
-  (define-key dired-mode-map (kbd "C-c M-s") 'dired-toggle-sudo)
-  (eval-after-load 'tramp
-   '(progn
-      ;; Allow to use: /sudo:user@host:/path/to/file
-      (add-to-list 'tramp-default-proxies-alist
-        '(".*" "\\`.+\\'" "/ssh:%h:"))))
+  (defun sudired ()
+    (interactive)
+    (require 'tramp)
+    (let ((dir (expand-file-name default-directory)))
+      (if (string-match "^/sudo:" dir)
+          (user-error "Already in sudo")
+        (dired (concat "/sudo::" dir)))))
+  (define-key dired-mode-map "!" 'sudired)
+#+END_SRC
+*** SSH editing with tramp
+Others remote file editing packages use FTP to connect to the remote host and to transfer the files, TRAMP uses a remote shell connection (rlogin, telnet, ssh).
+#+BEGIN_SRC emacs-lisp
+  (setq tramp-default-method "ssh")
 #+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
@@ -511,15 +521,18 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (server-start)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-  (defun ken_nc/load-theme (frame)
-    (select-frame frame)
-    (load-theme 'xresources t))
+    (defun ken_nc/setup-emacsclient (frame)
+      (select-frame frame)
+      (load-theme 'xresources t)
+      (add-to-list 'default-frame-alist '(height . 55))
+      (add-to-list 'default-frame-alist '(width  . 55)))
 
   (if (daemonp)
-      (progn
-        (add-hook 'after-make-frame-functions #'ken_nc/load-theme)
-        (require 'color))
-    (load-theme 'xresources t))
+        (add-hook 'after-make-frame-functions
+                  #'ken_nc/setup-emacsclient)
+    (progn
+      (load-theme 'xresources t)
+      (when window-system (set-frame-size (selected-frame) 115 55))))
 #+END_SRC
 * Org mode
 ** Description
