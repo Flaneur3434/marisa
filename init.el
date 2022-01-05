@@ -5,6 +5,7 @@
 
 ;; requirements to be loaded before config.org
 (add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp/mct")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -12,6 +13,7 @@
 (require 'ctags-utils)
 (require 'move-text)
 (require 'color)  ;; for org mode codeblock background color
+(require 'mct-customizations)
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
