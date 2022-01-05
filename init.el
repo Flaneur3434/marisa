@@ -59,4 +59,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window)))
+   '(auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
+ '(read-buffer-completion-ignore-case t)
+ '(read-file-name-completion-ignore-case t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

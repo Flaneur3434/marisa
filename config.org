@@ -515,21 +515,24 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (set-face-background 'cursor "white smoke")
   (set-face-background 'mouse "white smoke")
   (setq read-file-name-completion-ignore-case t)
+  (setq frame-resize-pixelwise t)
+
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
   (server-start)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-    (defun ken_nc/setup-emacsclient (frame)
-      (select-frame frame)
-      (load-theme 'xresources t)
-      (add-to-list 'default-frame-alist '(height . 55))
-      (add-to-list 'default-frame-alist '(width  . 55)))
+  (defun ken_nc/setup-emacsclient (frame)
+    (select-frame frame)
+    (load-theme 'xresources t)
+    ;; (set-frame-position (selected-frame) 0 0)
+    (set-frame-size (selected-frame) 800 1000 t))
+
 
   (if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  #'ken_nc/setup-emacsclient)
+      (add-hook 'after-make-frame-functions
+                #'ken_nc/setup-emacsclient)
     (progn
       (load-theme 'xresources t)
       (when window-system (set-frame-size (selected-frame) 115 55))))
@@ -952,24 +955,24 @@ Yasnippet provides useful snippets, nothing to do with Company but still useful 
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package company-c-headers
-    :defer nil
-    :ensure t)
+  ;; (use-package company-c-headers
+  ;;   :defer nil
+  ;;   :ensure t)
 
-  (use-package company-irony
-    :defer nil
-    :ensure t
-    :config
-    (setq company-backends '((company-c-headers
-                              company-dabbrev-code
-                              company-irony))))
-  (use-package irony
-    :defer nil
-    :ensure t
-    :config
-    :hook
-    ((c++-mode c-mode) . irony-mode)
-    ('irony-mode-hook) . 'irony-cdb-autosetup-compile-options)
+  ;; (use-package company-irony
+  ;;   :defer nil
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq company-backends '((company-c-headers
+  ;;                             company-dabbrev-code
+  ;;                             company-irony))))
+  ;; (use-package irony
+  ;;   :defer nil
+  ;;   :ensure t
+  ;;   :config
+  ;;   :hook
+  ;;   ((c++-mode c-mode) . irony-mode)
+  ;;   ('irony-mode-hook) . 'irony-cdb-autosetup-compile-options)
 #+END_SRC
 ** Java
 *** Description
@@ -1011,4 +1014,10 @@ Collection of Emacs major and minor modes that work with scheme
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :ensure t)
+#+END_SRC
+
+** Auto-complete
+*** Description
+*** Code
+#+BEGIN_SRC emacs-lisp
 #+END_SRC
