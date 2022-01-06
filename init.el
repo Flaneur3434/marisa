@@ -6,6 +6,7 @@
 ;; requirements to be loaded before config.org
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
+(add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -14,13 +15,16 @@
 (require 'move-text)
 (require 'color)  ;; for org mode codeblock background color
 (require 'mct-customizations)
+(require 'prot-comment)
+(require 'prot-diff)
+(require 'prot-simple)
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
 
 ;; Minor Mode Settings
-(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the °»camelCase°… words
+(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the è¢¬è™≤camelCaseè¢¬è™± words
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -61,7 +65,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines meghanada magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux company-irony company-c-headers cfrs beacon auto-package-update async ace-window))
+   '(auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window))
  '(read-buffer-completion-ignore-case t)
  '(read-file-name-completion-ignore-case t))
 (custom-set-faces

@@ -413,18 +413,22 @@ Super - Control - <arrow>
      (interactive)
      (split-and-follow-vertically)
      (ibuffer))
-   (global-set-key (kbd "C-x C-b") 'open-ibuffer-and-move)
+   (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
 #+END_SRC
 ** Crux keybinds
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
-  (global-set-key (kbd "C-x a") 'crux-transpose-windows)
   (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
   (global-set-key (kbd "C-c z") 'remember)
-  (global-set-key (kbd "C-c q") 'delete-frame)
+  (global-set-key (kbd "C-c q") 'delete-frame) ; TODO 2022-01-05: Change so its dwim
   (global-set-key (kbd "C-c t") 'my-create-tags)
-  (global-set-key (kbd "C-x C-r") 'crux-rename-file-and-buffer)
-  (global-set-key (kbd "C-x M-s") 'crux-sudo-edit)
+  (global-set-key (kbd "C-c c") 'prot-comment-timestamp-keyword)
+
+  (global-set-key (kbd "C-x R") 'crux-rename-file-and-buffer)
+  (global-set-key (kbd "C-x x") 'crux-transpose-windows)
+  (global-set-key (kbd "C-x S") 'crux-sudo-edit)
+  (global-set-key (kbd "C-x X") 'crux-delete-file-and-buffer)
+
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
 #+END_SRC
@@ -523,7 +527,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (set-face-background 'mouse "white smoke")
   (setq read-file-name-completion-ignore-case t)
   (setq frame-resize-pixelwise t)
-
 #+END_SRC
 * Emacs Daemon
 #+BEGIN_SRC emacs-lisp
@@ -872,14 +875,6 @@ Allow to switch from current user to sudo when browsind `dired' buffers.
   (use-package dired-toggle-sudo
   :ensure t)
 #+END_SRC
-** Initialize =elisp-format=
-*** Description
-ElispFormat is a mode that format elisp code
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package elisp-format
-    :ensure t)
-#+END_SRC
 ** Initialize =magit=
 *** Description
 Git porcelain for Emacs
@@ -922,87 +917,27 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :diminish abbrev-mode)
 #+END_SRC
 * Programming section
-** Initialize =company=
-*** Description
-Company is the autocompletion frontend that takes all the backends and gives you possible autocompletions when writing programs
+** Initialize =flycheck=
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package company
+  (use-package flycheck
     :ensure t
-    :diminish (meghanada-mode company-mode irony-mode)
     :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3)
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    (define-key company-active-map (kbd "SPC") #'company-abort)
-    :hook
-    ((java-mode c-mode c++-mode) . company-mode))
+    (add-hook 'java-mode-hook 'flycheck-mode)
+    (add-hook 'c-mode-common-hook 'flycheck-mode))
 #+END_SRC
-** Initialize =yasnippet=
-*** Description
-Yasnippet provides useful snippets, nothing to do with Company but still useful when used in conjuction with it
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :ensure t
-    :diminish yas-minor-mode
-    :hook
-    ((c-mode c++-mode) . yas-minor-mode)
-    :config
-    (yas-reload-all))
 
-  (use-package yasnippet-snippets
-    :ensure t)
-#+END_SRC
 ** C & C++
 *** Description
 Irony is the company backend for C and C++
 *** Code
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package company-c-headers
-  ;;   :defer nil
-  ;;   :ensure t)
-
-  ;; (use-package company-irony
-  ;;   :defer nil
-  ;;   :ensure t
-  ;;   :config
-  ;;   (setq company-backends '((company-c-headers
-  ;;                             company-dabbrev-code
-  ;;                             company-irony))))
-  ;; (use-package irony
-  ;;   :defer nil
-  ;;   :ensure t
-  ;;   :config
-  ;;   :hook
-  ;;   ((c++-mode c-mode) . irony-mode)
-  ;;   ('irony-mode-hook) . 'irony-cdb-autosetup-compile-options)
+  (add-hook 'c-mode-common-hook
+            (lambda()
+              (subword-mode)
+              (google-set-c-style)
+              (google-make-newline-indent)
+              (setq c-basic-offset 4)))
 #+END_SRC
-** Java
-*** Description
-I use meghanada to provide very neat autocompletion when editing Java files. I use it mainly for autocompletion but there's a ton of other things it can do, automatic imports, for example.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package meghanada
-    :ensure t
-    :defer nil
-    :config
-    (add-hook 'java-mode-hook
-              (lambda ()
-                (meghanada-mode t)))
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn"))
-(add-hook 'c-mode-common-hook
-      (lambda()
-            (subword-mode)
-            (google-set-c-style)
-            (google-make-newline-indent)
-            (setq c-basic-offset 4)))
-#+END_SRC
-
 ** Scheme =geiser-mit=
 *** Description
 Collection of Emacs major and minor modes that work with scheme
@@ -1020,5 +955,14 @@ Collection of Emacs major and minor modes that work with scheme
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
+    :ensure t)
+#+END_SRC
+
+** Elisp Format
+*** Description
+ElispFormat is a mode that format elisp code
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package elisp-format
     :ensure t)
 #+END_SRC
