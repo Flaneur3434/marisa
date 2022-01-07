@@ -2653,6 +2653,7 @@ If the middle is before, it opens a new line above. If its after, the opposite h
 		(progn
 		  (goto-char (line-end-position))
 		  (open-line 1))))))
+
 (defun ken_nc/forward-word (&optional arg)
   "Move point to the end of the next word or string of
 non-word-constituent characters.
@@ -2698,7 +2699,7 @@ direction if ARG is negative. ARG defaults to 1."
   "Delete characters forward until encountering the end of a word.
 With argument ARG, do this that many times."
   (interactive "p")
-  (delete-region (point) (progn (ken_nc/forward-word arg) (point))))
+  (kill-region (point) (progn (ken_nc/forward-word arg) (point))))
 
 (defun ken_nc/backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
@@ -2729,6 +2730,24 @@ With argument ARG, do this that many times."
     (back-to-indentation)
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
+
+(defun ken_nc/goto-match-paren ()
+  "Go to the matching  if on (){}[], similar to vi style of % "
+  (interactive)
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+		((looking-at "[\"\'\<\>]")
+		 (let (start end)
+		   (skip-chars-forward "^<>\"'")
+		   (setq start (point))
+		   (skip-chars-backward "^<>\"'")
+		   (setq end (point))
+		   (set-mark start)))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
 
 ;; HHH___________________________________________________________________
 ;; key maps for conversion
@@ -3683,7 +3702,7 @@ minor modes loaded later may override bindings in this map.")
    ("[" . xah-backward-punct )
    ("]" . xah-forward-punct)
    ("`" . other-frame)
-
+   ("%" . ken_nc/goto-match-paren)
    ;; ("$" . xah-forward-punct)
 
    ("1" . xah-extend-selection)
@@ -4220,10 +4239,12 @@ minor modes loaded later may override bindings in this map.")
    ("i" . kill-line)
    ("j" . xah-copy-all-or-region)
    ("k" . xah-fly-tag-keymap)
-   ("l" . recenter-top-bottom)
+   ;; ("l" . recenter-top-bottom)
+   ("l" . ken_nc/prot-keymap)
    ("m" . dired-jump)
    ("n" . xah-fly-buffer-keymap)
-   ("o" . exchange-point-and-mark)
+   ;; ("o" . exchange-point-and-mark)
+   ("o" . ken_nc/crux-keymap)
    ("p" . query-replace)
    ("q" . xah-cut-all-or-region)
    ("r" . xah-fly-visual-keymap)

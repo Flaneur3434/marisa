@@ -24,7 +24,7 @@
 (xah-fly-keys 1)
 
 ;; Minor Mode Settings
-(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the ¢Âª²camelCase¢Âª± words
+(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)

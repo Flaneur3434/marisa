@@ -1,0 +1,1485 @@
+
+ctags-utils.el,53
+(defun my-create-tags (dir-name)my-create-tags3,39
+
+google-c-style.el,272
+(defun google-c-lineup-expression-plus-4 (langelem)google-c-lineup-expression-plus-437,1261
+(defconst google-c-stylegoogle-c-style68,2485
+(defun google-set-c-style ()google-set-c-style134,5568
+(defun google-make-newline-indent ()google-make-newline-indent143,5865
+
+key-chord.el,1408
+(defgroup key-chord nilkey-chord33,1262
+(defcustom key-chord-two-keys-delay 0.1key-chord-two-keys-delay37,1365
+(defcustom key-chord-one-key-delay 0.2key-chord-one-key-delay41,1493
+(defcustom key-chord-in-macros tkey-chord-in-macros46,1705
+(defvar key-chord-mode nil)key-chord-mode57,2108
+(defvar key-chord-last-unmatched nil)key-chord-last-unmatched61,2289
+(defvar key-chord-in-last-kbd-macro nil)key-chord-in-last-kbd-macro66,2522
+(defvar key-chord-defining-kbd-macro nil)key-chord-defining-kbd-macro67,2563
+(define-minor-mode key-chord-modekey-chord-mode70,2621
+(defun key-chord-define-global (keys command)key-chord-define-global82,3002
+(defun key-chord-define-local (keys command)key-chord-define-local98,3595
+(defun key-chord-unset-global (keys)key-chord-unset-global113,4232
+(defun key-chord-unset-local (keys)key-chord-unset-local118,4430
+(defun key-chord-define (keymap keys command)key-chord-define124,4639
+(defun key-chord-lookup-key1 (keymap key)key-chord-lookup-key1144,5483
+(defun key-chord-lookup-key (key)key-chord-lookup-key150,5676
+(defun key-chord-describe ()key-chord-describe162,6090
+(defun key-chord-input-method (first-char)key-chord-input-method170,6309
+(defun key-chord--start-kbd-macro (_append &optional _no-exec)key-chord--start-kbd-macro204,7985
+(defun key-chord--end-kbd-macro (&optional _repeat _loopfunc)key-chord--end-kbd-macro208,8158
+
+mct/mct.el,8306
+(defgroup mct ()mct37,1251
+(defcustom mct-completion-windows-regexpmct-completion-windows-regexp41,1326
+(defcustom mct-remove-shadowed-file-names nilmct-remove-shadowed-file-names48,1528
+(defcustom mct-hide-completion-mode-line nilmct-hide-completion-mode-line59,1881
+(defcustom mct-show-completion-line-numbers nilmct-show-completion-line-numbers64,2015
+(defcustom mct-apply-completion-stripes nilmct-apply-completion-stripes69,2149
+(defcustom mct-live-completion tmct-live-completion74,2287
+(defcustom mct-minimum-input 3mct-minimum-input108,3839
+(defcustom mct-live-update-delay 0.3mct-live-update-delay116,4062
+(defcustom mct-completion-blocklist nilmct-completion-blocklist123,4230
+(defcustom mct-completion-passlist nilmct-completion-passlist138,4750
+(defcustom mct-display-buffer-actionmct-display-buffer-action146,5065
+(defcustom mct-completions-format 'one-columnmct-completions-format170,5940
+(defcustom mct-region-excluded-modes nilmct-region-excluded-modes176,6183
+(defun mct--completion-category ()mct--completion-category182,6333
+(defface mct-highlight-candidatemct-highlight-candidate199,7003
+(defun mct--setup-line-numbers ()mct--setup-line-numbers211,7443
+(defun mct--first-line-completion-p ()mct--first-line-completion-p217,7666
+(defun mct--setup-clean-completions ()mct--setup-clean-completions229,8328
+(defun mct--fit-completions-window (&rest _args)mct--fit-completions-window244,8977
+(defun mct--minimum-input ()mct--minimum-input251,9279
+(defun mct--live-completions (&rest _)mct--live-completions260,9618
+(defun mct--live-completions-timer (&rest _)mct--live-completions-timer275,10163
+(defun mct--live-completions-visible-timer (&rest _)mct--live-completions-visible-timer281,10389
+(defun mct--this-command ()mct--this-command286,10572
+(defun mct--setup-live-completions ()mct--setup-live-completions290,10693
+(defvar-local mct--active nilmct--active304,11311
+(defun mct--active-p ()mct--active-p307,11394
+(defun mct--region-p ()mct--region-p313,11584
+(defun mct--display-completion-list-advice (&rest app)mct--display-completion-list-advice319,11782
+(defun mct--completing-read-advice (&rest app)mct--completing-read-advice328,12115
+(defface mct-stripemct-stripe349,12844
+(defun mct--remove-stripes ()mct--remove-stripes358,13137
+(defun mct--add-stripes ()mct--add-stripes362,13249
+(defun mct--one-column-p ()mct--one-column-p403,15134
+(defun mct-focus-minibuffer ()mct-focus-minibuffer411,15359
+(defun mct--get-completion-window ()mct--get-completion-window417,15539
+(defun mct--show-completions ()mct--show-completions425,15784
+(defun mct-focus-mini-or-completions ()mct-focus-mini-or-completions445,16632
+(defun mct-list-completions-toggle ()mct-list-completions-toggle468,17473
+(defun mct-backward-updir ()mct-backward-updir478,17795
+(defun mct--completions-completion-p ()mct--completions-completion-p496,18436
+(defun mct--first-completion-point ()mct--first-completion-point504,18749
+(defun mct--last-completion-point ()mct--last-completion-point511,18920
+(defun mct--completions-line-boundary (boundary)mct--completions-line-boundary518,19090
+(defun mct--completions-no-completion-line-p (arg)mct--completions-no-completion-line-p529,19523
+(defun mct--switch-to-completions ()mct--switch-to-completions535,19745
+(defun mct--restore-old-point-in-grid (line)mct--restore-old-point-in-grid541,19935
+(defun mct-switch-to-completions-top ()mct-switch-to-completions-top553,20448
+(defun mct-switch-to-completions-bottom ()mct-switch-to-completions-bottom560,20714
+(defun mct--bottom-of-completions-p (arg)mct--bottom-of-completions-p576,21200
+(defun mct--next-completion (arg)mct--next-completion591,21788
+(defun mct-next-completion-or-mini (&optional arg)mct-next-completion-or-mini612,22684
+(defun mct--top-of-completions-p (arg)mct--top-of-completions-p626,23174
+(defun mct--previous-completion (arg)mct--previous-completion636,23644
+(defun mct-previous-completion-or-mini (&optional arg)mct-previous-completion-or-mini657,24576
+(defun mct-next-completion-group (&optional arg)mct-next-completion-group670,25053
+(defun mct-previous-completion-group (&optional arg)mct-previous-completion-group684,25668
+(defun mct-choose-completion-exit ()mct-choose-completion-exit708,26764
+(defun mct-choose-completion-no-exit ()mct-choose-completion-no-exit715,27006
+(defvar display-line-numbers-mode)display-line-numbers-mode721,27214
+(defun mct--line-completion (n)mct--line-completion723,27250
+(defun mct--line-bounds (n)mct--line-bounds730,27475
+(defun mct-goto-line ()mct-goto-line737,27773
+(defun mct--line-number-selection ()mct--line-number-selection745,28031
+(defun mct-choose-completion-number ()mct-choose-completion-number757,28472
+(defvar crm-completion-table)crm-completion-table783,29536
+(defvar crm-separator)crm-separator784,29566
+(defun mct--regex-to-separator (regex)mct--regex-to-separator786,29590
+(defun mct-choose-completion-dwim ()mct-choose-completion-dwim801,30087
+(defun mct-edit-completion ()mct-edit-completion817,30761
+(defun mct-complete-and-exit ()mct-complete-and-exit847,31807
+(defun mct-beginning-of-buffer ()mct-beginning-of-buffer861,32246
+(defun mct-keyboard-quit-dwim ()mct-keyboard-quit-dwim866,32411
+(defun mct--messageless (&rest app)mct--messageless886,33115
+(defun mct--crm-indicator (args)mct--crm-indicator893,33362
+(defun mct--honor-inhibit-message (&rest app)mct--honor-inhibit-message899,33632
+(defun mct--stealthily (&rest app)mct--stealthily906,33864
+(defun mct--setup-appearance ()mct--setup-appearance912,34069
+(defun mct--shadow-filenames (&rest _)mct--shadow-filenames923,34385
+(defun mct--setup-shadow-files ()mct--setup-shadow-files937,34993
+(defvar-local mct--highlight-overlay nilmct--highlight-overlay943,35171
+(defvar mct--overlay-priority -50mct--overlay-priority946,35277
+(defun mct--completions-text-property-search ()mct--completions-text-property-search954,35577
+(defun mct--completions-completion-beg ()mct--completions-completion-beg961,35892
+(defun mct--completions-completion-end ()mct--completions-completion-end969,36190
+(defun mct--overlay-make ()mct--overlay-make978,36495
+(defun mct--overlay-move (overlay)mct--overlay-move985,36732
+(defun mct--completions-candidate-highlight ()mct--completions-candidate-highlight991,36952
+(defun mct--setup-highlighting ()mct--setup-highlighting997,37184
+(defvar mct-minibuffer-completion-list-mapmct-minibuffer-completion-list-map1003,37377
+(defvar mct-minibuffer-local-completion-mapmct-minibuffer-local-completion-map1024,38579
+(defvar mct-minibuffer-local-filename-completion-mapmct-minibuffer-local-filename-completion-map1038,39362
+(defun mct--setup-completion-list-keymap ()mct--setup-completion-list-keymap1044,39578
+(defun mct--setup-keymap ()mct--setup-keymap1050,39783
+(defun mct--setup-completion-list ()mct--setup-completion-list1060,40156
+(define-minor-mode mct-minibuffer-modemct-minibuffer-mode1077,40644
+(define-obsolete-function-alias 'mct-mode 'mct-minibuffer-mode "0.4.0")mct-mode1112,42615
+(defun mct--region-current-buffer ()mct--region-current-buffer1118,42748
+(defun mct--region-live-completions (&rest _)mct--region-live-completions1123,42931
+(defun mct--region-live-update ()mct--region-live-update1133,43244
+(defvar mct-region-buffer-mapmct-region-buffer-map1139,43431
+(defun mct--region-setup-completion-in-region ()mct--region-setup-completion-in-region1149,43883
+(defun mct-next-completion-or-quit (&optional arg)mct-next-completion-or-quit1164,44648
+(defun mct-previous-completion-or-quit (&optional arg)mct-previous-completion-or-quit1182,45247
+(defvar mct-region-completion-list-mapmct-region-completion-list-map1200,45873
+(defun mct--region-setup-completion-list-keymap ()mct--region-setup-completion-list-keymap1216,46739
+(defun mct--region-setup-completion-list ()mct--region-setup-completion-list1222,46947
+(defun mct--region-completion-done (&rest app)mct--region-completion-done1234,47328
+(define-minor-mode mct-region-modemct-region-mode1264,48506
+(define-globalized-minor-mode mct-region-global-mode mct-region-mode mct-region--on)mct-region-global-mode1287,49807
+(defun mct-region--on ()mct-region--on1289,49893
+
+mct/.dir-locals.el,0
+
+mct-customizations.el,0
+
+move-text.el,996
+(defun move-text-get-region-and-prefix ()move-text-get-region-and-prefix60,1905
+(defun move-text--total-lines ()move-text--total-lines76,2446
+(defun move-text--at-first-line-p ()move-text--at-first-line-p81,2615
+(defun move-text--at-penultimate-line-p ()move-text--at-penultimate-line-p86,2745
+(defun move-text--last-line-is-just-newline ()move-text--last-line-is-just-newline97,3131
+(defun move-text--at-last-line-p ()move-text--at-last-line-p105,3344
+(defun move-text-line-up ()move-text-line-up110,3495
+(defun move-text-line-down ()move-text-line-down129,4031
+(defun move-text-region (start end n)move-text-region144,4431
+(defun move-text-region-up (start end n)move-text-region-up155,4789
+(defun move-text-region-down (start end n)move-text-region-down161,5006
+(defun move-text-up (&optional start end n)move-text-up167,5222
+(defun move-text-down (&optional start end n)move-text-down177,5582
+(defun move-text-default-bindings ()move-text-default-bindings186,5902
+
+prot-lisp/prot-proced.el,600
+(defgroup prot-proced ()prot-proced37,1329
+(defface prot-proced-user '((t :inherit shadow))prot-proced-user43,1436
+(defface prot-proced-pidprot-proced-pid46,1528
+(defface prot-proced-cpuprot-proced-cpu53,1763
+(defface prot-proced-memprot-proced-mem60,2001
+(defface prot-proced-time-startprot-proced-time-start67,2236
+(defface prot-proced-time-durationprot-proced-time-duration74,2485
+(defface prot-proced-process nilprot-proced-process81,2731
+(defconst prot-proced-keywordsprot-proced-keywords84,2810
+(define-minor-mode prot-proced-extra-keywordsprot-proced-extra-keywords97,3234
+
+prot-lisp/prot-prism.el,641
+(defgroup prot-prism ()prot-prism40,1418
+(defcustom prot-prism-negative-space-sensitive-modes '(sh-mode yaml-mode)prot-prism-negative-space-sensitive-modes46,1567
+(defcustom prot-prism-presets-function #'prot-prism--colorsprot-prism-presets-function51,1752
+(defun prot-prism--colors ()prot-prism--colors59,2074
+(defvar prot-prism--preset-hist '()prot-prism--preset-hist96,3262
+(defun prot-prism--set-colors-prompt ()prot-prism--set-colors-prompt99,3352
+(defvar prism-num-faces)prism-num-faces109,3737
+(defun prot-prism-set-colors (preset)prot-prism-set-colors114,3865
+(defun prot-prism-disable ()prot-prism-disable131,4560
+
+prot-lisp/mct.el,8306
+(defgroup mct ()mct37,1256
+(defcustom mct-completion-windows-regexpmct-completion-windows-regexp41,1331
+(defcustom mct-remove-shadowed-file-names nilmct-remove-shadowed-file-names48,1533
+(defcustom mct-hide-completion-mode-line nilmct-hide-completion-mode-line59,1886
+(defcustom mct-show-completion-line-numbers nilmct-show-completion-line-numbers64,2020
+(defcustom mct-apply-completion-stripes nilmct-apply-completion-stripes69,2154
+(defcustom mct-live-completion tmct-live-completion74,2292
+(defcustom mct-minimum-input 3mct-minimum-input108,3844
+(defcustom mct-live-update-delay 0.3mct-live-update-delay116,4067
+(defcustom mct-completion-blocklist nilmct-completion-blocklist123,4235
+(defcustom mct-completion-passlist nilmct-completion-passlist138,4755
+(defcustom mct-display-buffer-actionmct-display-buffer-action146,5070
+(defcustom mct-completions-format 'one-columnmct-completions-format170,5945
+(defcustom mct-region-excluded-modes nilmct-region-excluded-modes176,6188
+(defun mct--completion-category ()mct--completion-category182,6338
+(defface mct-highlight-candidatemct-highlight-candidate199,7008
+(defun mct--setup-line-numbers ()mct--setup-line-numbers211,7448
+(defun mct--first-line-completion-p ()mct--first-line-completion-p217,7671
+(defun mct--setup-clean-completions ()mct--setup-clean-completions229,8333
+(defun mct--fit-completions-window (&rest _args)mct--fit-completions-window244,8982
+(defun mct--minimum-input ()mct--minimum-input251,9284
+(defun mct--live-completions (&rest _)mct--live-completions260,9623
+(defun mct--live-completions-timer (&rest _)mct--live-completions-timer275,10168
+(defun mct--live-completions-visible-timer (&rest _)mct--live-completions-visible-timer281,10394
+(defun mct--this-command ()mct--this-command286,10577
+(defun mct--setup-live-completions ()mct--setup-live-completions290,10698
+(defvar-local mct--active nilmct--active304,11316
+(defun mct--active-p ()mct--active-p307,11399
+(defun mct--region-p ()mct--region-p313,11589
+(defun mct--display-completion-list-advice (&rest app)mct--display-completion-list-advice319,11787
+(defun mct--completing-read-advice (&rest app)mct--completing-read-advice328,12120
+(defface mct-stripemct-stripe349,12849
+(defun mct--remove-stripes ()mct--remove-stripes358,13142
+(defun mct--add-stripes ()mct--add-stripes362,13254
+(defun mct--one-column-p ()mct--one-column-p403,15139
+(defun mct-focus-minibuffer ()mct-focus-minibuffer411,15364
+(defun mct--get-completion-window ()mct--get-completion-window417,15544
+(defun mct--show-completions ()mct--show-completions425,15789
+(defun mct-focus-mini-or-completions ()mct-focus-mini-or-completions445,16637
+(defun mct-list-completions-toggle ()mct-list-completions-toggle468,17478
+(defun mct-backward-updir ()mct-backward-updir478,17800
+(defun mct--completions-completion-p ()mct--completions-completion-p496,18441
+(defun mct--first-completion-point ()mct--first-completion-point504,18754
+(defun mct--last-completion-point ()mct--last-completion-point511,18925
+(defun mct--completions-line-boundary (boundary)mct--completions-line-boundary518,19095
+(defun mct--completions-no-completion-line-p (arg)mct--completions-no-completion-line-p529,19528
+(defun mct--switch-to-completions ()mct--switch-to-completions535,19750
+(defun mct--restore-old-point-in-grid (line)mct--restore-old-point-in-grid541,19940
+(defun mct-switch-to-completions-top ()mct-switch-to-completions-top553,20453
+(defun mct-switch-to-completions-bottom ()mct-switch-to-completions-bottom560,20719
+(defun mct--bottom-of-completions-p (arg)mct--bottom-of-completions-p576,21205
+(defun mct--next-completion (arg)mct--next-completion591,21793
+(defun mct-next-completion-or-mini (&optional arg)mct-next-completion-or-mini612,22689
+(defun mct--top-of-completions-p (arg)mct--top-of-completions-p626,23179
+(defun mct--previous-completion (arg)mct--previous-completion636,23649
+(defun mct-previous-completion-or-mini (&optional arg)mct-previous-completion-or-mini657,24581
+(defun mct-next-completion-group (&optional arg)mct-next-completion-group670,25058
+(defun mct-previous-completion-group (&optional arg)mct-previous-completion-group684,25673
+(defun mct-choose-completion-exit ()mct-choose-completion-exit708,26769
+(defun mct-choose-completion-no-exit ()mct-choose-completion-no-exit715,27011
+(defvar display-line-numbers-mode)display-line-numbers-mode721,27219
+(defun mct--line-completion (n)mct--line-completion723,27255
+(defun mct--line-bounds (n)mct--line-bounds730,27480
+(defun mct-goto-line ()mct-goto-line737,27778
+(defun mct--line-number-selection ()mct--line-number-selection745,28036
+(defun mct-choose-completion-number ()mct-choose-completion-number757,28477
+(defvar crm-completion-table)crm-completion-table783,29541
+(defvar crm-separator)crm-separator784,29571
+(defun mct--regex-to-separator (regex)mct--regex-to-separator786,29595
+(defun mct-choose-completion-dwim ()mct-choose-completion-dwim801,30092
+(defun mct-edit-completion ()mct-edit-completion817,30766
+(defun mct-complete-and-exit ()mct-complete-and-exit847,31812
+(defun mct-beginning-of-buffer ()mct-beginning-of-buffer861,32251
+(defun mct-keyboard-quit-dwim ()mct-keyboard-quit-dwim866,32416
+(defun mct--messageless (&rest app)mct--messageless886,33120
+(defun mct--crm-indicator (args)mct--crm-indicator893,33367
+(defun mct--honor-inhibit-message (&rest app)mct--honor-inhibit-message899,33637
+(defun mct--stealthily (&rest app)mct--stealthily906,33869
+(defun mct--setup-appearance ()mct--setup-appearance912,34074
+(defun mct--shadow-filenames (&rest _)mct--shadow-filenames923,34390
+(defun mct--setup-shadow-files ()mct--setup-shadow-files937,34998
+(defvar-local mct--highlight-overlay nilmct--highlight-overlay943,35176
+(defvar mct--overlay-priority -50mct--overlay-priority946,35282
+(defun mct--completions-text-property-search ()mct--completions-text-property-search954,35582
+(defun mct--completions-completion-beg ()mct--completions-completion-beg961,35897
+(defun mct--completions-completion-end ()mct--completions-completion-end969,36195
+(defun mct--overlay-make ()mct--overlay-make978,36500
+(defun mct--overlay-move (overlay)mct--overlay-move985,36737
+(defun mct--completions-candidate-highlight ()mct--completions-candidate-highlight991,36957
+(defun mct--setup-highlighting ()mct--setup-highlighting997,37189
+(defvar mct-minibuffer-completion-list-mapmct-minibuffer-completion-list-map1003,37382
+(defvar mct-minibuffer-local-completion-mapmct-minibuffer-local-completion-map1022,38458
+(defvar mct-minibuffer-local-filename-completion-mapmct-minibuffer-local-filename-completion-map1036,39241
+(defun mct--setup-completion-list-keymap ()mct--setup-completion-list-keymap1042,39457
+(defun mct--setup-keymap ()mct--setup-keymap1048,39662
+(defun mct--setup-completion-list ()mct--setup-completion-list1058,40035
+(define-minor-mode mct-minibuffer-modemct-minibuffer-mode1075,40523
+(define-obsolete-function-alias 'mct-mode 'mct-minibuffer-mode "0.4.0")mct-mode1110,42494
+(defun mct--region-current-buffer ()mct--region-current-buffer1116,42627
+(defun mct--region-live-completions (&rest _)mct--region-live-completions1121,42810
+(defun mct--region-live-update ()mct--region-live-update1131,43123
+(defvar mct-region-buffer-mapmct-region-buffer-map1137,43310
+(defun mct--region-setup-completion-in-region ()mct--region-setup-completion-in-region1147,43762
+(defun mct-next-completion-or-quit (&optional arg)mct-next-completion-or-quit1162,44527
+(defun mct-previous-completion-or-quit (&optional arg)mct-previous-completion-or-quit1180,45126
+(defvar mct-region-completion-list-mapmct-region-completion-list-map1198,45752
+(defun mct--region-setup-completion-list-keymap ()mct--region-setup-completion-list-keymap1215,46620
+(defun mct--region-setup-completion-list ()mct--region-setup-completion-list1221,46828
+(defun mct--region-completion-done (&rest app)mct--region-completion-done1233,47209
+(define-minor-mode mct-region-modemct-region-mode1239,47373
+(define-globalized-minor-mode mct-region-global-mode mct-region-mode mct-region--on)mct-region-global-mode1262,48674
+(defun mct-region--on ()mct-region--on1264,48760
+
+prot-lisp/prot-ibuffer.el,184
+(defun prot-ibuffer-buffers-major-mode (&optional arg)prot-ibuffer-buffers-major-mode40,1393
+(defun prot-ibuffer-buffers-vc-root (&optional arg)prot-ibuffer-buffers-vc-root57,2068
+
+prot-lisp/prot-diary.el,2064
+(defgroup prot-diary ()prot-diary41,1424
+(defun prot-diary--list-entries (n inhibit)prot-diary--list-entries47,1534
+(defvar prot-diary--current-window-configuration nilprot-diary--current-window-configuration54,1804
+(defvar prot-diary--current-window-configuration-point nilprot-diary--current-window-configuration-point57,1893
+(defun prot-diary--store-window-configuration ()prot-diary--store-window-configuration60,1997
+(defun prot-diary--restore-window-configuration ()prot-diary--restore-window-configuration65,2243
+(defun prot-diary-mail-entries (&optional ndays)prot-diary-mail-entries75,2647
+(defun prot-diary-display-entries (&optional days)prot-diary-display-entries114,4438
+(defun prot-diary-edit-diary ()prot-diary-edit-diary126,4903
+(defun prot-diary-insert-entry (date)prot-diary-insert-entry136,5196
+(defvar align-default-spacing)align-default-spacing143,5448
+(defun prot-diary-align-timestamped-entries (beg end)prot-diary-align-timestamped-entries146,5495
+(defun prot-diary-newline-indent ()prot-diary-newline-indent154,5768
+(defface prot-diary-calendar-anniversary-markprot-diary-calendar-anniversary-mark163,5966
+(defface prot-diary-calendar-administrative-markprot-diary-calendar-administrative-mark171,6300
+(defface prot-diary-calendar-event-markprot-diary-calendar-event-mark179,6647
+(defface prot-diary-calendar-mundane-markprot-diary-calendar-mundane-mark187,6970
+(defconst prot-diary-font-lock-keywordsprot-diary-font-lock-keywords197,7407
+(defvar outline-regexp)outline-regexp209,7896
+(defvar outline-heading-end-regexp)outline-heading-end-regexp210,7920
+(defun prot-diary--outline-level ()prot-diary--outline-level212,7957
+(defun prot-diary--extras-setup ()prot-diary--extras-setup219,8200
+(defconst prot-diary-date-patternprot-diary-date-pattern232,8810
+(defun prot-diary-heading-next (&optional arg)prot-diary-heading-next237,9006
+(defun prot-diary-heading-previous (&optional arg)prot-diary-heading-previous248,9407
+(defvar prot-diary-local-holidaysprot-diary-local-holidays259,9781
+
+prot-lisp/prot-ivy-deprecated-conf.el,0
+
+prot-lisp/invtr.el,4624
+(defvar invtr-directory (expand-file-name "~/Documents/inventory/"))invtr-directory50,2082
+(defun invtr--directory ()invtr--directory52,2152
+(defvar invtr-known-categoriesinvtr-known-categories57,2314
+(defvar invtr--title-history '())invtr--title-history64,2581
+(defvar invtr--cost-history '())invtr--cost-history65,2615
+(defvar invtr--discount-history '())invtr--discount-history66,2648
+(defvar invtr--productID-history '())invtr--productID-history67,2685
+(defvar invtr--producer-history '())invtr--producer-history68,2723
+(defvar invtr--producer-history '())invtr--producer-history69,2760
+(defvar invtr--price-history '())invtr--price-history70,2797
+(defvar invtr--quantity-history '())invtr--quantity-history71,2831
+(defvar invtr--dimensions-history '())invtr--dimensions-history72,2868
+(defvar invtr--weight-history '())invtr--weight-history73,2907
+(defun invtr--file-name-construction (path id categories slug dimensions weight price)invtr--file-name-construction75,2943
+(defun invtr-percentage-change (n-original n-final)invtr-percentage-change110,4299
+(defun invtr-reverse-percentage (number percent change-p)invtr-reverse-percentage125,4936
+(defun invtr--new-truecost-from-discount (cost discount)invtr--new-truecost-from-discount141,5561
+(defun invtr-new-record (title categories cost discount productID producer price quantity dimensinvtr-new-record151,5947
+(defvar invtr--add-acquisition-quantity-history '())invtr--add-acquisition-quantity-history225,9216
+(defvar invtr--add-acquisition-invoice-history '())invtr--add-acquisition-invoice-history226,9269
+(defun invtr--maybe-add-records-heading ()invtr--maybe-add-records-heading228,9322
+(defun invtr--find-key-value-pair (regexp)invtr--find-key-value-pair234,9515
+(defun invtr--make-replacement (regexp stock total &optional float-p)invtr--make-replacement240,9745
+(defun invtr-add-acquisition (quantity invoice-code)invtr-add-acquisition258,10383
+(defvar invtr--remove-stock-quantity-hist '())invtr--remove-stock-quantity-hist278,11423
+(defun invtr-remove-stock (quantity &optional arg)invtr-remove-stock281,11486
+(defun invtr--reset-cost (cost)invtr--reset-cost301,12310
+(defun invtr--reset-discount (discount)invtr--reset-discount311,12678
+(defun invtr--reset-truecost (truecost)invtr--reset-truecost321,13078
+(defvar invtr--reset-cost-history '())invtr--reset-cost-history331,13486
+(defvar invtr--reset-cost-discount-history '())invtr--reset-cost-discount-history332,13525
+(defun invtr-reset-cost-discount (cost discount)invtr-reset-cost-discount335,13589
+(defvar invtr--reset-price-history '())invtr--reset-price-history359,14728
+(defun invtr--reset-price (price)invtr--reset-price361,14769
+(defun invtr--reset-price-rename (price)invtr--reset-price-rename370,15074
+(defun invtr-reset-price (price)invtr-reset-price384,15672
+(defvar invtr-receipt-template-function #'invtr--single-item-receiptinvtr-receipt-template-function410,16905
+(defun invtr--single-item-receipt (quantity price id title)invtr--single-item-receipt417,17190
+(defun invtr-create-receipt (quantity)invtr-create-receipt437,17927
+(defvar invtr-receipt-multi-template-function #'invtr--multi-item-receiptinvtr-receipt-multi-template-function450,18628
+(defun invtr--multi-item-receipt (receiptid entries total-cost entity &optional phone address mainvtr--multi-item-receipt458,18997
+(defvar invtr--receipt-multi-items-history '())invtr--receipt-multi-items-history512,21272
+(defvar invtr--receipt-multi-entity-history '())invtr--receipt-multi-entity-history513,21320
+(defun invtr--multi-item-receipt-client-prompt ()invtr--multi-item-receipt-client-prompt515,21370
+(defun invtr-create-receipt-multiple (items entity)invtr-create-receipt-multiple524,21805
+(defvar invtr-client-directory (concat (invtr--directory) "clients")invtr-client-directory570,24245
+(defun invtr--client-directory ()invtr--client-directory573,24375
+(defun invtr--make-clients-dir ()invtr--make-clients-dir577,24513
+(defvar invtr--client-name-history '())invtr--client-name-history581,24612
+(defvar invtr--client-phone-history '())invtr--client-phone-history582,24652
+(defvar invtr--client-adress-history '())invtr--client-adress-history583,24693
+(defvar invtr--client-email-history '())invtr--client-email-history584,24735
+(defun invtr-new-client (name &optional phone address email)invtr-new-client587,24792
+(defvar invtr--client-data nil)invtr--client-data615,25926
+(defun invtr--collate-client-data ()invtr--collate-client-data617,25959
+(defun invtr-usls-mode-activate ()invtr-usls-mode-activate633,26732
+
+prot-lisp/prot-simple.el,4203
+(defgroup prot-simple ()prot-simple40,1377
+(defcustom prot-simple-insert-pair-alistprot-simple-insert-pair-alist45,1504
+(defcustom prot-simple-date-specifier "%F"prot-simple-date-specifier65,2429
+(defcustom prot-simple-time-specifier "%R %z"prot-simple-time-specifier71,2591
+(defcustom prot-simple-focusable-help-commandsprot-simple-focusable-help-commands77,2756
+(defcustom prot-simple-scratch-buffer-default-mode 'markdown-modeprot-simple-scratch-buffer-default-mode88,3097
+(defun prot-simple--scratch-list-modes ()prot-simple--scratch-list-modes100,3459
+(defun prot-simple--scratch-buffer-setup (region &optional mode)prot-simple--scratch-buffer-setup110,3834
+(defun prot-simple-scratch-buffer (&optional arg)prot-simple-scratch-buffer131,4566
+(defvar prot-simple-help-mode-post-render-hook nilprot-simple-help-mode-post-render-hook199,7185
+(defun prot-simple--help-mode-post-render (&rest _)prot-simple--help-mode-post-render202,7300
+(defconst prot-simple--help-symbol-regexpprot-simple--help-symbol-regexp206,7458
+(defconst prot-simple--help-symbol-false-positivesprot-simple--help-symbol-false-positives215,7906
+(defun prot-simple--rename-help-buffer ()prot-simple--rename-help-buffer219,8041
+(define-minor-mode prot-simple-rename-help-buffersprot-simple-rename-help-buffers239,8843
+(defun prot-simple-describe-symbol ()prot-simple-describe-symbol257,9468
+(defun prot-simple-new-line-below (&optional arg)prot-simple-new-line-below265,9655
+(defun prot-simple-new-line-above (&optional arg)prot-simple-new-line-above277,10016
+(defun prot-simple-copy-line-or-region (&optional arg)prot-simple-copy-line-or-region293,10527
+(defun prot-simple-yank-replace-line-or-region ()prot-simple-yank-replace-line-or-region326,11689
+(defun prot-simple-multi-line-next ()prot-simple-multi-line-next337,12049
+(defun prot-simple-multi-line-prev ()prot-simple-multi-line-prev343,12170
+(defun prot-simple-kill-line-backward ()prot-simple-kill-line-backward349,12290
+(defvar prot-simple--character-hist '()prot-simple--character-hist356,12465
+(defun prot-simple--character-prompt (chars)prot-simple--character-prompt359,12571
+(defun prot-simple-insert-pair (pair &optional count)prot-simple-insert-pair371,12981
+(defun prot-simple-delete-pair-dwim ()prot-simple-delete-pair-dwim413,14293
+(defun prot-simple-insert-date (&optional arg)prot-simple-insert-date423,14610
+(defvar ffap-string-at-point-region)ffap-string-at-point-region441,15262
+(defun prot-simple-escape-url ()prot-simple-escape-url444,15315
+(defun prot-simple-cite-region (beg end &optional arg)prot-simple-cite-region458,15767
+(defun prot-simple-insert-undercaret (&optional arg)prot-simple-insert-undercaret504,18009
+(defmacro prot-simple-transpose (name scope &optional doc)prot-simple-transpose537,19900
+(defun prot-simple-transpose-chars ()prot-simple-transpose-chars573,20943
+(defun prot-simple-transpose-words (arg)prot-simple-transpose-words583,21237
+(defmacro prot-simple-mark (name object &optional docstring)prot-simple-mark609,22025
+(defun prot-simple-mark-sexp-backward (&optional arg)prot-simple-mark-sexp-backward665,24210
+(defun prot-simple-mark-construct-dwim (&optional arg)prot-simple-mark-construct-dwim674,24463
+(defun prot-simple-downward-list (&optional arg)prot-simple-downward-list708,25761
+(defvar-local prot-simple--auto-fill-cycle-state 1prot-simple--auto-fill-cycle-state718,26089
+(defun prot-simple-auto-fill-cycle ()prot-simple-auto-fill-cycle724,26328
+(defun prot-simple-unfill-region-or-paragraph (&optional beg end)prot-simple-unfill-region-or-paragraph744,27068
+(defun prot-simple-narrow-visible-window ()prot-simple-narrow-visible-window760,27660
+(defun prot-simple-narrow-dwim ()prot-simple-narrow-dwim772,28123
+(defvar prot-simple--windows-current nilprot-simple--windows-current798,28882
+(define-minor-mode prot-simple-monocleprot-simple-monocle802,28974
+(defun prot-simple--monocle-disable ()prot-simple--monocle-disable815,29457
+(defun prot-simple-kill-buffer-current (&optional arg)prot-simple-kill-buffer-current828,29906
+(defun prot-simple-rename-file-and-buffer (name)prot-simple-rename-file-and-buffer841,30305
+
+prot-lisp/prot-eww.el,4810
+(defgroup prot-eww ()prot-eww55,1963
+(defun prot-eww--rename-buffer ()prot-eww--rename-buffer64,2192
+(defvar prot-eww-visited-history '()prot-eww-visited-history78,2714
+(defcustom prot-eww-save-history-fileprot-eww-save-history-file81,2782
+(defcustom prot-eww-save-visited-history nilprot-eww-save-visited-history87,2967
+(defcustom prot-eww-list-history-buffer "*prot-eww-history*"prot-eww-list-history-buffer94,3188
+(defun prot-eww--save-visited-history ()prot-eww--save-visited-history100,3391
+(defun prot-eww--read-visited-history (&optional error-out)prot-eww--read-visited-history109,3815
+(defun prot-eww--history-prepare ()prot-eww--history-prepare127,4531
+(defun prot-eww-list-history ()prot-eww-list-history143,5109
+(defvar prot-eww-history-kill-ring nilprot-eww-history-kill-ring154,5528
+(defun prot-eww-history-kill ()prot-eww-history-kill157,5607
+(defun prot-eww-history-yank ()prot-eww-history-yank173,6189
+(defun prot-eww-history-browse ()prot-eww-history-browse192,6920
+(defvar prot-eww-history-mode-mapprot-eww-history-mode-map202,7243
+(define-derived-mode prot-eww-history-modeprot-eww-history-mode222,8032
+(defun prot-eww--record-history ()prot-eww--record-history231,8224
+(defvar elpher-current-page)elpher-current-page239,8522
+(defun prot-eww--record-elpher-history (arg1 &optional arg2 arg3)prot-eww--record-elpher-history241,8552
+(defun prot-eww--get-current-url ()prot-eww--get-current-url261,9344
+(defun prot-eww--interactive-arg (prompt)prot-eww--interactive-arg277,10039
+(defun prot-eww (url &optional arg)prot-eww299,10933
+(defun prot-eww-browse-dwim (url &optional arg)prot-eww-browse-dwim312,11331
+(defun prot-eww-visit-bookmark (&optional arg)prot-eww-visit-bookmark337,12390
+(defun prot-eww--capture-url-on-page (&optional position)prot-eww--capture-url-on-page352,12840
+(defmacro prot-eww-act-visible-window (&rest body)prot-eww-act-visible-window390,14549
+(defun prot-eww-visit-url-on-page (&optional arg)prot-eww-visit-url-on-page401,14929
+(defun prot-eww-jump-to-url-on-page (&optional arg)prot-eww-jump-to-url-on-page414,15420
+(defvar prot-eww--occur-feed-regexpprot-eww--occur-feed-regexp437,16385
+(defun prot-eww-find-feed ()prot-eww-find-feed443,16584
+(defvar prot-eww-search-enginesprot-eww-search-engines474,17985
+(defun prot-eww--cons-search-engines (name s-string)prot-eww--cons-search-engines509,19461
+(defun prot-eww--select-hist-name (aplist engine-name)prot-eww--select-hist-name523,20070
+(defun prot-eww--select-engine-names (aplist)prot-eww--select-engine-names530,20322
+(defun prot-eww--select-s-string (aplist engine-name)prot-eww--select-s-string536,20523
+(defun prot-eww--define-hist-var (aplist)prot-eww--define-hist-var543,20744
+(defun prot-eww-search-engine (engine s-term &optional arg)prot-eww-search-engine556,21196
+(defun prot-eww-open-in-other-window ()prot-eww-open-in-other-window586,22459
+(defun prot-eww-readable ()prot-eww-readable593,22684
+(defun prot-eww-bookmark-page (title)prot-eww-bookmark-page608,23188
+(defvar prot-eww--punctuation-regexp "[][{}!@#$%^&*()_=+'\"?,.\|;:~`‘’“”]*"prot-eww--punctuation-regexp616,23419
+(defun prot-eww--slug-no-punct (str)prot-eww--slug-no-punct619,23569
+(defun prot-eww--slug-hyphenate (str)prot-eww--slug-hyphenate623,23710
+(defun prot-eww--sluggify (str)prot-eww--sluggify633,24011
+(defun prot-eww-download-html (name)prot-eww-download-html638,24174
+(defun prot-eww--kill-buffers-when (predicate)prot-eww--kill-buffers-when654,24889
+(defun prot-eww--kill-eww-buffers-p (buffer)prot-eww--kill-eww-buffers-p668,25381
+(defun prot-eww-kill-eww-buffers ()prot-eww-kill-eww-buffers680,25886
+(defcustom prot-eww-delete-cookies tprot-eww-delete-cookies686,26119
+(defun prot-eww-delete-cookies ()prot-eww-delete-cookies691,26256
+(defvar prot-eww-quit-hook nilprot-eww-quit-hook697,26425
+(defun prot-eww-quit ()prot-eww-quit707,26737
+(defcustom prot-eww-bookmark-link nilprot-eww-bookmark-link726,27432
+(defun prot-eww--bookmark-make-record ()prot-eww--bookmark-make-record742,28092
+(defun prot-eww--set-bookmark-handler ()prot-eww--set-bookmark-handler767,29094
+(defun prot-eww--pop-to-buffer (buffer &rest _args)prot-eww--pop-to-buffer774,29367
+(defun prot-eww-bookmark-jump (bookmark)prot-eww-bookmark-jump792,30327
+(defcustom prot-eww-post-lynx-dump-function nilprot-eww-post-lynx-dump-function886,33765
+(defcustom prot-eww-lynx-dump-dirprot-eww-lynx-dump-dir897,34126
+(defun prot-eww--lynx-available-p ()prot-eww--lynx-available-p907,34447
+(defun prot-eww--get-text-property-string (prop)prot-eww--get-text-property-string911,34555
+(defun prot-eww--current-page-title ()prot-eww--current-page-title925,35112
+(defun prot-eww-lynx-dump (url filename)prot-eww-lynx-dump929,35240
+
+prot-lisp/prot-cursor.el,639
+(defgroup prot-cursor ()prot-cursor37,1336
+(defcustom prot-cursor-presetsprot-cursor-presets41,1414
+(defcustom prot-cursor-last-state-fileprot-cursor-last-state-file69,2242
+(defvar prot-cursor--style-hist '()prot-cursor--style-hist75,2427
+(defun prot-cursor--set-cursor-prompt ()prot-cursor--set-cursor-prompt78,2526
+(defun prot-cursor-set-cursor (style)prot-cursor-set-cursor87,2844
+(defun prot-cursor-store-last-preset ()prot-cursor-store-last-preset109,3863
+(defvar prot-cursor--recovered-preset nilprot-cursor--recovered-preset118,4268
+(defun prot-cursor-restore-last-preset ()prot-cursor-restore-last-preset121,4361
+
+prot-lisp/prot-recentf.el,738
+(defun prot-recentf-keep-predicate (file)prot-recentf-keep-predicate41,1409
+(defvar prot-recentf--history-files '()prot-recentf--history-files47,1612
+(defvar prot-recentf--history-dirs '()prot-recentf--history-dirs50,1701
+(defun prot-recentf--files ()prot-recentf--files53,1795
+(defun prot-recentf--files-prompt (files)prot-recentf--files-prompt59,1974
+(defun prot-recentf-recent-files (file)prot-recentf-recent-files67,2251
+(defun prot-recentf--dirs ()prot-recentf--dirs74,2496
+(defun prot-recentf--dirs-prompt (dirs)prot-recentf--dirs-prompt86,2921
+(defun prot-recentf-recent-dirs (dir)prot-recentf-recent-dirs94,3194
+(defun prot-recentf-recent-files-or-dirs (&optional arg)prot-recentf-recent-files-or-dirs102,3446
+
+prot-lisp/prot-bookmark.el,369
+(defgroup prot-bookmark ()prot-bookmark38,1339
+(defface prot-bookmark-urlprot-bookmark-url44,1461
+(defface prot-bookmark-pdfprot-bookmark-pdf52,1713
+(defface prot-bookmark-directoryprot-bookmark-directory60,1964
+(defconst prot-bookmark-keywordsprot-bookmark-keywords71,2417
+(define-minor-mode prot-bookmark-extra-keywordsprot-bookmark-extra-keywords86,2909
+
+prot-lisp/prot-icomplete-deprecated-conf.el,0
+
+prot-lisp/prot-consult.el,1101
+(defgroup prot-consult ()prot-consult41,1428
+(defcustom prot-consult-command-centre-list '(consult-line consult-mark)prot-consult-command-centre-list45,1504
+(defcustom prot-consult-command-top-list '(consult-outline)prot-consult-command-top-list52,1758
+(defvar prot-consult-jump-recentre-hook nilprot-consult-jump-recentre-hook61,2053
+(defun prot-consult-after-jump-recentre (&rest _)prot-consult-after-jump-recentre65,2179
+(defvar prot-consult-jump-top-hook nilprot-consult-jump-top-hook69,2321
+(defun prot-consult-after-jump-top (&rest _)prot-consult-after-jump-top73,2442
+(define-minor-mode prot-consult-set-up-hooks-modeprot-consult-set-up-hooks-mode78,2584
+(defvar consult--find-cmd)consult--find-cmd101,3662
+(defvar consult--directory-prompt)consult--directory-prompt102,3689
+(defun prot-consult-project-root ()prot-consult-project-root107,3839
+(defun prot-consult-outline ()prot-consult-outline115,4090
+(defun prot-consult-imenu ()prot-consult-imenu121,4266
+(defun prot-consult-line ()prot-consult-line127,4436
+(defun prot-consult-yank ()prot-consult-yank133,4603
+
+prot-lisp/prot-text.el,81
+(defun prot-text-insert-heading (&optional arg)prot-text-insert-heading41,1421
+
+prot-lisp/prot-moody.el,542
+(defgroup prot-moody ()prot-moody41,1421
+(defcustom prot-moody-font-height-multiplier 1.65prot-moody-font-height-multiplier45,1492
+(defun prot-moody--height ()prot-moody--height50,1639
+(defvar moody-mode-line-height)moody-mode-line-height61,2098
+(defun prot-moody--mode-line-height ()prot-moody--mode-line-height63,2131
+(define-minor-mode prot-moody-set-heightprot-moody-set-height72,2436
+(defvar keycast-insert-after)keycast-insert-after89,3192
+(defun prot-moody-keycast-insert-after ()prot-moody-keycast-insert-after91,3223
+
+prot-lisp/tmr.el,790
+(defgroup tmr ()tmr39,1336
+(defcustom tmr-sound-filetmr-sound-file43,1430
+(defcustom tmr-notification-urgency 'normaltmr-notification-urgency49,1601
+(defcustom tmr-descriptions-list (list "Boil water" "Prepare tea" "Bake bread")tmr-descriptions-list58,1901
+(defun tmr--unit (time)tmr--unit63,2081
+(defun tmr--play-sound ()tmr--play-sound84,2750
+(defun tmr--notify-send (start &optional description)tmr--notify-send93,3131
+(defvar tmr--last-timer niltmr--last-timer123,4287
+(defun tmr-cancel ()tmr-cancel127,4377
+(defun tmr--echo-area (time &optional description)tmr--echo-area134,4564
+(defvar tmr--description-hist '()tmr--description-hist153,5382
+(defun tmr--description-prompt ()tmr--description-prompt156,5464
+(defun tmr (time &optional description)tmr165,5751
+
+prot-lisp/prot-outline.el,580
+(defgroup prot-outline ()prot-outline40,1408
+(defun prot-outline-move-major-heading-down (&optional arg)prot-outline-move-major-heading-down47,1513
+(defun prot-outline-move-major-heading-up (&optional arg)prot-outline-move-major-heading-up57,1897
+(defun prot-outline-narrow-to-subtree ()prot-outline-narrow-to-subtree67,2279
+(defcustom prot-outline-headings-per-modeprot-outline-headings-per-mode88,2835
+(defcustom prot-outline-major-modes-blocklistprot-outline-major-modes-blocklist94,3054
+(defun prot-outline-minor-mode-safe ()prot-outline-minor-mode-safe101,3270
+
+prot-lisp/prot-comment.el,669
+(defgroup prot-comment ()prot-comment39,1381
+(defcustom prot-comment-comment-keywordsprot-comment-comment-keywords43,1461
+(defcustom prot-comment-timestamp-format-concise "%F"prot-comment-timestamp-format-concise49,1637
+(defcustom prot-comment-timestamp-format-verbose "%F %T %z"prot-comment-timestamp-format-verbose56,1867
+(defun prot-comment-comment-dwim (arg)prot-comment-comment-dwim62,2045
+(defvar prot-comment--keyword-hist '()prot-comment--keyword-hist89,2984
+(defun prot-comment--keyword-prompt (keywords)prot-comment--keyword-prompt92,3073
+(defun prot-comment-timestamp-keyword (keyword &optional verbose)prot-comment-timestamp-keyword100,3349
+
+prot-lisp/prot-spell.el,419
+(defgroup prot-spell ()prot-spell37,1365
+(defcustom prot-spell-dictionariesprot-spell-dictionaries41,1448
+(defvar prot-spell--dictionary-hist '()prot-spell--dictionary-hist51,1738
+(defun prot-spell--dictionary-prompt ()prot-spell--dictionary-prompt54,1834
+(defun prot-spell-change-dictionary (dictionary)prot-spell-change-dictionary63,2160
+(defun prot-spell-spell-dwim (beg end)prot-spell-spell-dwim77,2690
+
+prot-lisp/prot-pulse.el,696
+(defgroup prot-pulse ()prot-pulse39,1377
+(defcustom prot-pulse-pulse-command-listprot-pulse-pulse-command-list43,1452
+(defface prot-pulse-lineprot-pulse-line51,1725
+(defun prot-pulse-pulse-line (&optional face)prot-pulse-pulse-line62,2051
+(defun prot-pulse-recentre-top ()prot-pulse-recentre-top74,2477
+(defun prot-pulse-recentre-centre ()prot-pulse-recentre-centre82,2696
+(defun prot-pulse-show-entry ()prot-pulse-show-entry95,3046
+(defvar prot-pulse-after-command-hook nilprot-pulse-after-command-hook106,3367
+(defun prot-pulse-after-command (&rest _)prot-pulse-after-command111,3549
+(define-minor-mode prot-pulse-advice-commands-modeprot-pulse-advice-commands-mode116,3694
+
+prot-lisp/prot-elfeed-bongo.el,382
+(defgroup prot-elfeed-bongo ()prot-elfeed-bongo43,1522
+(defcustom prot-elfeed-bongo-playlist "*prot-elfeed-bongo-queue*"prot-elfeed-bongo-playlist47,1606
+(defvar elfeed-show-entry)elfeed-show-entry63,2232
+(defun prot-elfeed-bongo-insert-item ()prot-elfeed-bongo-insert-item66,2275
+(defun prot-elfeed-bongo-switch-to-playlist ()prot-elfeed-bongo-switch-to-playlist101,3749
+
+prot-lisp/prot-embark.el,886
+(defgroup prot-embark ()prot-embark47,1615
+(defvar prot-embark-become-general-mapprot-embark-become-general-map58,1854
+(defvar prot-embark-become-line-mapprot-embark-become-line-map65,2087
+(defvar embark-become-file+buffer-map)embark-become-file+buffer-map73,2401
+(defvar prot-embark-become-file+buffer-mapprot-embark-become-file+buffer-map78,2581
+(defvar embark-become-keymaps)embark-become-keymaps87,2955
+(define-minor-mode prot-embark-keymapsprot-embark-keymaps90,3002
+(defvar keycast--this-command-keys)keycast--this-command-keys112,3809
+(defvar keycast--this-command)keycast--this-command113,3845
+(defun prot-embark--store-action-key+cmd (cmd)prot-embark--store-action-key+cmd115,3877
+(defun prot-embark--force-keycast-update (&rest _)prot-embark--force-keycast-update123,4226
+(define-minor-mode prot-embark-setup-packagesprot-embark-setup-packages135,4600
+
+prot-lisp/prot-common.el,1626
+(defgroup prot-common ()prot-common39,1356
+(defun prot-common-number-even-p (n)prot-common-number-even-p44,1457
+(defun prot-common-number-integer-p (n)prot-common-number-integer-p51,1618
+(defun prot-common-number-integer-positive-p (n)prot-common-number-integer-positive-p58,1769
+(defun prot-common-number-negative (n)prot-common-number-negative67,2094
+(defun prot-common-reverse-percentage (number percent change-p)prot-common-reverse-percentage74,2269
+(defun prot-common-percentage-change (n-original n-final)prot-common-percentage-change92,2977
+(defun prot-common-empty-buffer-p ()prot-common-empty-buffer-p108,3651
+(defun prot-common-minor-modes-active ()prot-common-minor-modes-active118,3952
+(defun prot-common-truncate-lines-silently ()prot-common-truncate-lines-silently128,4253
+(defun prot-common-disable-hl-line ()prot-common-disable-hl-line134,4430
+(defun prot-common-window-bounds ()prot-common-window-bounds139,4543
+(defun prot-common-read-data (file)prot-common-read-data144,4683
+(defun prot-common-completion-table (category candidates)prot-common-completion-table152,4912
+(defvar crm-separator)crm-separator166,5502
+(defun prot-common-crm-exclude-selected-p (input)prot-common-crm-exclude-selected-p169,5541
+(defvar prot-common--line-regexp-alistprot-common--line-regexp-alist195,6620
+(defun prot-common-line-regexp-p (type &optional n)prot-common-line-regexp-p203,6879
+(defun prot-common-shell-command-with-exit-code-and-output (command &rest args)prot-common-shell-command-with-exit-code-and-output223,7593
+(defvar prot-common-url-regexpprot-common-url-regexp230,7863
+
+prot-lisp/prot-org.el,1554
+(defgroup prot-org ()prot-org39,1382
+(defvar modus-themes-org-blocks)modus-themes-org-blocks45,1467
+(defvar org-fontify-whole-block-delimiter-line)org-fontify-whole-block-delimiter-line46,1500
+(defun prot-org--modus-themes-fontify-block-delimiters ()prot-org--modus-themes-fontify-block-delimiters48,1549
+(defun prot-org-capture-jukebox ()prot-org-capture-jukebox66,2219
+(defun prot-org--capture-no-delete-windows (oldfun args)prot-org--capture-no-delete-windows76,2548
+(defvar org-agenda-format-date)org-agenda-format-date92,3094
+(defun prot-org-agenda-format-date-aligned (date)prot-org-agenda-format-date-aligned95,3142
+(defvar org-priority-highest)org-priority-highest121,4239
+(defvar prot-org-custom-daily-agendaprot-org-custom-daily-agenda123,4270
+(defvar prot-org-agenda-after-edit-hook nilprot-org-agenda-after-edit-hook184,7336
+(defun prot-org--agenda-after-edit (&rest _)prot-org--agenda-after-edit188,7458
+(defvar prot-org-after-deadline-or-schedule-hook nilprot-org-after-deadline-or-schedule-hook192,7595
+(defvar prot-org--appt-agenda-commandsprot-org--appt-agenda-commands196,7734
+(defun prot-org--after-deadline-or-schedule (&rest _)prot-org--after-deadline-or-schedule204,8047
+(defun prot-org-org-agenda-to-appt ()prot-org-org-agenda-to-appt208,8211
+(defun prot-org-ox-html ()prot-org-ox-html230,8960
+(defun prot-org-ox-texinfo ()prot-org-ox-texinfo236,9094
+(defun prot-org--id-get (&optional pom create prefix)prot-org--id-get251,9549
+(defun prot-org-id-headlines ()prot-org-id-headlines273,10393
+
+prot-lisp/prot-eshell.el,1673
+(defgroup prot-eshell ()prot-eshell44,1454
+(defcustom prot-eshell-output-buffer "*Exported Eshell output*"prot-eshell-output-buffer48,1546
+(defcustom prot-eshell-output-delimiter "* * *"prot-eshell-output-delimiter54,1739
+(defmacro prot-eshell-ffap (name doc &rest body)prot-eshell-ffap65,2020
+(defun prot-eshell--command-prompt-output ()prot-eshell--command-prompt-output104,3187
+(defun prot-eshell-export ()prot-eshell-export113,3530
+(defun prot-eshell-redirect-to-buffer (buffer)prot-eshell-redirect-to-buffer129,4194
+(defconst prot-eshell--highlight-facesprot-eshell--highlight-faces135,4409
+(defvar prot-eshell--highlight-last-face nilprot-eshell--highlight-last-face139,4553
+(defun prot-eshell--highlight-random-face ()prot-eshell--highlight-random-face142,4649
+(defvar prot-eshell--output-highlight-history '()prot-eshell--output-highlight-history160,5266
+(defun prot-eshell-narrow-output-highlight-regexp (regexp)prot-eshell-narrow-output-highlight-regexp164,5394
+(defun prot-eshell--cd (dir)prot-eshell--cd179,6159
+(defun prot-eshell-complete-recent-dir (dir &optional arg)prot-eshell-complete-recent-dir188,6448
+(defvar prot-eshell--complete-history-prompt-history '()prot-eshell--complete-history-prompt-history209,7268
+(defun prot-eshell--complete-history-prompt ()prot-eshell--complete-history-prompt212,7388
+(defun prot-eshell-complete-history (elt)prot-eshell-complete-history222,7808
+(defun prot-eshell-find-subdirectory-recursive ()prot-eshell-find-subdirectory-recursive233,8133
+(defun prot-eshell-root-dir ()prot-eshell-root-dir251,8934
+(defun prot-eshell-bookmark-jump (bookmark)prot-eshell-bookmark-jump268,9634
+
+prot-lisp/prot-fonts.el,1152
+(defgroup prot-fonts ()prot-fonts38,1396
+(defcustom prot-fonts-typeface-sets-alistprot-fonts-typeface-sets-alist47,1684
+(defun prot-fonts-laptop-desktop-keys ()prot-fonts-laptop-desktop-keys119,4798
+(defcustom prot-fonts-laptop-desktop-keys-listprot-fonts-laptop-desktop-keys-list126,5086
+(defcustom prot-fonts-max-small-resolution-width 1366prot-fonts-max-small-resolution-width139,5612
+(defvar prot-fonts--font-display-hist '()prot-fonts--font-display-hist148,5992
+(defun prot-fonts--set-face-attribute (face family &optional weight height)prot-fonts--set-face-attribute151,6097
+(defun prot-fonts--set-fonts-prompt ()prot-fonts--set-fonts-prompt166,6909
+(defvar prot-fonts-set-typeface-hook nilprot-fonts-set-typeface-hook174,7239
+(defvar prot-fonts--current-spec nilprot-fonts--current-spec177,7331
+(defun prot-fonts-set-fonts (display)prot-fonts-set-fonts181,7443
+(defun prot-fonts-restore-last ()prot-fonts-restore-last211,9306
+(defun prot-fonts--display-type-for-monitor (&optional smaller larger)prot-fonts--display-type-for-monitor224,9879
+(defun prot-fonts-fonts-per-monitor ()prot-fonts-fonts-per-monitor245,10810
+
+prot-lisp/prot-notmuch.el,3721
+(defgroup prot-notmuch ()prot-notmuch39,1395
+(defcustom prot-notmuch-search-field-width 100 ; Or use something like (/ (frame-width) 2)prot-notmuch-search-field-width43,1472
+(defcustom prot-notmuch-delete-tag "del"prot-notmuch-delete-tag50,1760
+(defcustom prot-notmuch-mark-complete-tags '("+archived" "-inbox" "-list" "-todo" "-ref" "-unreaprot-notmuch-mark-complete-tags56,1943
+(defcustom prot-notmuch-mark-delete-tags '("+del" "-inbox" "-archived" "-unread")prot-notmuch-mark-delete-tags61,2132
+(defcustom prot-notmuch-mark-flag-tags '("+flag" "-unread")prot-notmuch-mark-flag-tags67,2366
+(defcustom prot-notmuch-mark-spam-tags '("+spam" "+del" "-inbox" "-unread")prot-notmuch-mark-spam-tags74,2614
+(defcustom prot-notmuch-mark-todo-tags '("+todo" "-unread")prot-notmuch-mark-todo-tags79,2774
+(defcustom prot-notmuch-mark-reference-tags '("+ref" "-unread")prot-notmuch-mark-reference-tags84,2926
+(defface prot-notmuch-encrypted-tagprot-notmuch-encrypted-tag91,3097
+(defface prot-notmuch-sent-tagprot-notmuch-sent-tag101,3458
+(defface prot-notmuch-spam-tagprot-notmuch-spam-tag111,3809
+(defface prot-notmuch-ref-tagprot-notmuch-ref-tag121,4160
+(defface prot-notmuch-todo-tagprot-notmuch-todo-tag131,4509
+(defface prot-notmuch-widget-fieldprot-notmuch-widget-field141,4860
+(defun prot-notmuch-widget-field-face-remap ()prot-notmuch-widget-field-face-remap171,6088
+(defvar notmuch-saved-searches)notmuch-saved-searches177,6359
+(defvar notmuch-show-empty-saved-searches)notmuch-show-empty-saved-searches178,6391
+(defvar notmuch-search-oldest-first)notmuch-search-oldest-first179,6434
+(defvar notmuch-saved-search-sort-function)notmuch-saved-search-sort-function180,6471
+(defun prot-notmuch-hello-insert-saved-searches ()prot-notmuch-hello-insert-saved-searches189,6866
+(defvar notmuch-hello-indent)notmuch-hello-indent220,8340
+(defvar notmuch-search-history)notmuch-search-history221,8370
+(defvar notmuch-hello-recent-searches-max)notmuch-hello-recent-searches-max222,8402
+(define-widget 'prot-notmuch-search-item 'itemprot-notmuch-search-item226,8532
+(defun prot-notmuch-search-item-value-create (widget)prot-notmuch-search-item-value-create232,8736
+(defun prot-notmuch--search-width ()prot-notmuch--search-width242,9072
+(defun prot-notmuch-hello-insert-recent-searches ()prot-notmuch-hello-insert-recent-searches250,9395
+(defmacro prot-notmuch-search-tag-thread (name tags)prot-notmuch-search-tag-thread269,10072
+(defmacro prot-notmuch-show-tag-message (name tags)prot-notmuch-show-tag-message317,11515
+(defun prot-notmuch-refresh-buffer (&optional arg)prot-notmuch-refresh-buffer359,12663
+(defun prot-notmuch-delete-mail ()prot-notmuch-delete-mail369,12957
+(defcustom prot-notmuch-mode-line-count-args "tag:unread and tag:inbox"prot-notmuch-mode-line-count-args398,14112
+(defcustom prot-notmuch-mode-line-indicator-commands '(notmuch-refresh-this-buffer)prot-notmuch-mode-line-indicator-commands403,14289
+(defface prot-notmuch-mail-countprot-notmuch-mail-count410,14588
+(defvar prot-notmuch-new-mail-string nilprot-notmuch-new-mail-string419,14911
+(defun prot-notmuch--new-mail ()prot-notmuch--new-mail422,15002
+(defun prot-notmuch--mode-string (count)prot-notmuch--mode-string429,15264
+(defvar prot-notmuch--mode-line-mail-indicator nilprot-notmuch--mode-line-mail-indicator436,15548
+(defun prot-notmuch--mode-line-mail-indicator ()prot-notmuch--mode-line-mail-indicator439,15661
+(defvar prot-notmuch--mode-line-mail-sync-hook nilprot-notmuch--mode-line-mail-sync-hook453,16267
+(defun prot-notmuch--add-hook (&rest _)prot-notmuch--add-hook456,16378
+(define-minor-mode prot-notmuch-mail-indicatorprot-notmuch-mail-indicator463,16659
+
+prot-lisp/prot-minibuffer.el,5258
+(defgroup prot-minibuffer ()prot-minibuffer46,1512
+(defcustom prot-minibuffer-completion-windows-regexpprot-minibuffer-completion-windows-regexp50,1599
+(defcustom prot-minibuffer-mini-cursors nilprot-minibuffer-mini-cursors57,1874
+(defcustom prot-minibuffer-remove-shadowed-file-names nilprot-minibuffer-remove-shadowed-file-names64,2115
+(defcustom prot-minibuffer-minimum-input 3prot-minibuffer-minimum-input75,2492
+(defcustom prot-minibuffer-live-update-delay 0.3prot-minibuffer-live-update-delay83,2740
+(defcustom prot-minibuffer-completion-blocklist nilprot-minibuffer-completion-blocklist90,2932
+(defcustom prot-minibuffer-completion-passlist nilprot-minibuffer-completion-passlist102,3361
+(defun prot-minibuffer--messageless (fn &rest args)prot-minibuffer--messageless116,3944
+(defun prot-minibuffer--crm-indicator (args)prot-minibuffer--crm-indicator131,4506
+(defun prot-minibuffer--honor-inhibit-message (fn &rest args)prot-minibuffer--honor-inhibit-message139,4875
+(defun prot-minibuffer--stealthily (fn &rest args)prot-minibuffer--stealthily150,5355
+(defun prot-minibuffer--field-beg ()prot-minibuffer--field-beg160,5717
+(defun prot-minibuffer--field-end ()prot-minibuffer--field-end167,5921
+(defun prot-minibuffer--completion-category ()prot-minibuffer--completion-category174,6107
+(defun prot-minibuffer--shadow-filenames (&rest _)prot-minibuffer--shadow-filenames181,6374
+(defun prot-minibuffer--setup-shadow-files ()prot-minibuffer--setup-shadow-files195,7028
+(defun prot-minibuffer--cursor-type ()prot-minibuffer--cursor-type204,7335
+(defun prot-minibuffer-mini-cursor ()prot-minibuffer-mini-cursor212,7570
+(defun prot-minibuffer-completions-cursor ()prot-minibuffer-completions-cursor221,7916
+(defun prot-minibuffer-focus-minibuffer ()prot-minibuffer-focus-minibuffer232,8302
+(defun prot-minibuffer--get-completion-window ()prot-minibuffer--get-completion-window238,8470
+(defun prot-minibuffer-focus-mini-or-completions ()prot-minibuffer-focus-mini-or-completions246,8739
+(defun prot-minibuffer-backward-updir ()prot-minibuffer-backward-updir270,9654
+(defface prot-minibuffer-hl-lineprot-minibuffer-hl-line289,10530
+(defface prot-minibuffer-line-numberprot-minibuffer-line-number299,10920
+(defface prot-minibuffer-line-number-current-lineprot-minibuffer-line-number-current-line309,11307
+(defun prot-minibuffer-display-line-numbers ()prot-minibuffer-display-line-numbers323,11843
+(defun prot-minibuffer-hl-line ()prot-minibuffer-hl-line333,12282
+(defun prot-minibuffer--clean-completions ()prot-minibuffer--clean-completions347,13014
+(defun prot-minibuffer-beginning-of-buffer ()prot-minibuffer-beginning-of-buffer368,13889
+(defun prot-minibuffer--fit-completions-window ()prot-minibuffer--fit-completions-window373,14029
+(defun prot-minibuffer--input-string ()prot-minibuffer--input-string379,14277
+(defun prot-minibuffer--minimum-input ()prot-minibuffer--minimum-input383,14445
+(defun prot-minibuffer--live-completions (&rest _)prot-minibuffer--live-completions390,14780
+(defun prot-minibuffer--live-completions-timer (&rest _)prot-minibuffer--live-completions-timer410,15692
+(defun prot-minibuffer--setup-completions ()prot-minibuffer--setup-completions416,15966
+(defface prot-minibuffer-stripeprot-minibuffer-stripe438,16917
+(defun prot-minibuffer--remove-stripes ()prot-minibuffer--remove-stripes447,17234
+(defun prot-minibuffer--add-stripes ()prot-minibuffer--add-stripes451,17382
+(define-minor-mode prot-minibuffer-completions-stripesprot-minibuffer-completions-stripes474,18250
+(defun prot-minibuffer-toggle-completions ()prot-minibuffer-toggle-completions486,18598
+(defun prot-minibuffer-keyboard-quit-dwim ()prot-minibuffer-keyboard-quit-dwim495,18909
+(defun prot-minibuffer--switch-to-completions ()prot-minibuffer--switch-to-completions509,19393
+(defun prot-minibuffer-switch-to-completions-top ()prot-minibuffer-switch-to-completions-top517,19685
+(defun prot-minibuffer-switch-to-completions-bottom ()prot-minibuffer-switch-to-completions-bottom526,19967
+(defun prot-minibuffer-next-completion-or-mini (&optional arg)prot-minibuffer-next-completion-or-mini541,20398
+(defun prot-minibuffer-previous-completion-or-mini (&optional arg)prot-minibuffer-previous-completion-or-mini555,20906
+(defun prot-minibuffer-completion-next-group ()prot-minibuffer-completion-next-group584,22267
+(defun prot-minibuffer-completion-previous-group ()prot-minibuffer-completion-previous-group598,22804
+(defun prot-minibuffer-choose-completion-exit ()prot-minibuffer-choose-completion-exit697,27265
+(defun prot-minibuffer--goto-line (n &optional args)prot-minibuffer--goto-line705,27555
+(defun prot-minibuffer-choose-completion-number (n)prot-minibuffer-choose-completion-number717,27973
+(defvar crm-completion-table)crm-completion-table735,28735
+(defun prot-minibuffer-choose-completion-dwim ()prot-minibuffer-choose-completion-dwim738,28781
+(defun prot-minibuffer-edit-completion ()prot-minibuffer-edit-completion759,29741
+(defun prot-minibuffer--completion-at-point ()prot-minibuffer--completion-at-point789,31007
+(defmacro prot-minibuffer-completions-buffer-act (name doc &rest body)prot-minibuffer-completions-buffer-act810,31944
+
+prot-lisp/prot-orderless.el,699
+(defgroup prot-orderless ()prot-orderless37,1355
+(defcustom prot-orderless-default-stylesprot-orderless-default-styles41,1453
+(defcustom prot-orderless-alternative-stylesprot-orderless-alternative-styles51,1726
+(defun prot-orderless-literal-dispatcher (pattern _index _total)prot-orderless-literal-dispatcher64,2133
+(defun prot-orderless-initialism-dispatcher (pattern _index _total)prot-orderless-initialism-dispatcher71,2438
+(defun prot-orderless-flex-dispatcher (pattern _index _total)prot-orderless-flex-dispatcher78,2759
+(defvar orderless-matching-styles)orderless-matching-styles85,3039
+(defun prot-orderless-with-styles (cmd &optional styles)prot-orderless-with-styles88,3090
+
+prot-lisp/prot-elfeed.el,2528
+(defgroup prot-elfeed ()prot-elfeed42,1450
+(defcustom prot-elfeed-feeds-file (concat user-emacs-directory "feeds.el.gpg")prot-elfeed-feeds-file46,1530
+(defcustom prot-elfeed-archives-directory "~/Documents/feeds/"prot-elfeed-archives-directory51,1687
+(defcustom prot-elfeed-tag-faces nilprot-elfeed-tag-faces56,1840
+(defcustom prot-elfeed-laptop-resolution-breakpoint 1366prot-elfeed-laptop-resolution-breakpoint62,1995
+(defcustom prot-elfeed-video-resolution-small 720prot-elfeed-video-resolution-small71,2386
+(defcustom prot-elfeed-video-resolution-large 1080prot-elfeed-video-resolution-large76,2530
+(defcustom prot-elfeed-search-tags '(critical important personal)prot-elfeed-search-tags81,2674
+(defface prot-elfeed-entry-criticalprot-elfeed-entry-critical87,2843
+(defface prot-elfeed-entry-importantprot-elfeed-entry-important95,3195
+(defface prot-elfeed-entry-personalprot-elfeed-entry-personal103,3552
+(defun prot-elfeed-load-feeds ()prot-elfeed-load-feeds114,3938
+(defvar elfeed-search-face-alist)elfeed-search-face-alist122,4201
+(defun prot-elfeed-fontify-tags ()prot-elfeed-fontify-tags125,4251
+(defvar prot-elfeed--tag-hist '()prot-elfeed--tag-hist136,4722
+(defun prot-elfeed--character-prompt (tags)prot-elfeed--character-prompt139,4810
+(defvar elfeed-show-entry)elfeed-show-entry146,5060
+(defun prot-elfeed-toggle-tag (tag)prot-elfeed-toggle-tag153,5290
+(defvar elfeed-show-truncate-long-urls)elfeed-show-truncate-long-urls172,5933
+(defun prot-elfeed-show-archive-entry ()prot-elfeed-show-archive-entry177,6084
+(defvar elfeed-show-entry)elfeed-show-entry202,7120
+(defcustom prot-elfeed-privacy-redirect-alistprot-elfeed-privacy-redirect-alist206,7245
+(defun prot-elfeed-show-eww (&optional link)prot-elfeed-show-eww224,8089
+(defun prot-elfeed-search-open-other-window (&optional arg)prot-elfeed-search-open-other-window253,9295
+(defun prot-elfeed-kill-buffer-close-window-dwim ()prot-elfeed-kill-buffer-close-window-dwim279,10330
+(defvar elfeed-search-filter-active)elfeed-search-filter-active299,11055
+(defvar elfeed-search-filter)elfeed-search-filter300,11092
+(defun prot-elfeed-search-tag-filter ()prot-elfeed-search-tag-filter306,11293
+(defvar prot-elfeed-mpv-buffer-name "*prot-elfeed-mpv-output*"prot-elfeed-mpv-buffer-name333,12409
+(defun prot-elfeed--video-resolution ()prot-elfeed--video-resolution336,12520
+(defun prot-elfeed--get-mpv-buffer ()prot-elfeed--get-mpv-buffer343,12807
+(defun prot-elfeed-mpv-dwim ()prot-elfeed-mpv-dwim353,13103
+
+prot-lisp/prot-icomplete.el,330
+(defgroup prot-icomplete ()prot-icomplete37,1364
+(defun prot-icomplete-truncate ()prot-icomplete-truncate41,1469
+(defmacro prot-icomplete-act (name doc &rest body)prot-icomplete-act52,1879
+(defvar prot-icomplete-act-mapprot-icomplete-act-map79,2767
+(define-minor-mode prot-icomplete-actionsprot-icomplete-actions87,3073
+
+prot-lisp/prot-bongo.el,3536
+(defgroup prot-bongo ()prot-bongo44,1520
+(defcustom prot-bongo-enabled-backends '(mpv vlc)prot-bongo-enabled-backends48,1597
+(defcustom prot-bongo-playlist-section-delimiter (make-string 30 ?*)prot-bongo-playlist-section-delimiter54,1769
+(defcustom prot-bongo-playlist-heading-delimiter "§"prot-bongo-playlist-heading-delimiter62,2073
+(defvar bongo-default-directory)bongo-default-directory69,2343
+(defcustom prot-bongo-playlist-directoryprot-bongo-playlist-directory71,2377
+(defcustom prot-bongo-last-inserted-fileprot-bongo-last-inserted-file85,2855
+(defvar bongo-enabled-backends)bongo-enabled-backends93,3071
+(defun prot-bongo-enabled-backends (&optional negation)prot-bongo-enabled-backends96,3119
+(defvar bongo-default-playlist-buffer-name)bongo-default-playlist-buffer-name110,3752
+(defvar bongo-default-library-buffer-name)bongo-default-library-buffer-name111,3796
+(defun prot-bongo-playlist-buffer-no-banner ()prot-bongo-playlist-buffer-no-banner115,3933
+(defun prot-bongo-library-buffer-no-banner ()prot-bongo-library-buffer-no-banner125,4354
+(defun prot-bongo-remove-headers (&optional negation)prot-bongo-remove-headers136,4784
+(defun prot-bongo-playlist-heading (title &optional description)prot-bongo-playlist-heading150,5440
+(defun prot-bongo-playlist-section ()prot-bongo-playlist-section159,5801
+(defmacro prot-bongo-playlist-motion (fn desc rx move-buf move-point)prot-bongo-playlist-motion169,6219
+(defun prot-bongo--section-delimiter-string ()prot-bongo--section-delimiter-string205,7562
+(defun prot-bongo-playlist-mark-section ()prot-bongo-playlist-mark-section226,8242
+(defun prot-bongo-playlist-kill-section ()prot-bongo-playlist-kill-section245,8878
+(defvar prot-bongo-playlist-setup-hook nilprot-bongo-playlist-setup-hook255,9173
+(defun prot-bongo--playlist-imenu-heading ()prot-bongo--playlist-imenu-heading260,9379
+(defun prot-bongo-imenu-setup (&optional negation)prot-bongo-imenu-setup270,9735
+(defvar bongo-player)bongo-player287,10449
+(defun prot-bongo-show ()prot-bongo-show293,10663
+(defun prot-bongo-playlist-play-random ()prot-bongo-playlist-play-random317,11607
+(defvar bongo-next-action)bongo-next-action330,12044
+(defun prot-bongo-playlist-random-toggle ()prot-bongo-playlist-random-toggle333,12087
+(defun prot-bongo-playlist-reset ()prot-bongo-playlist-reset341,12355
+(defun prot-bongo-playlist-terminate ()prot-bongo-playlist-terminate351,12638
+(defvar prot-bongo--playlist-history '()prot-bongo--playlist-history360,12931
+(defun prot-bongo--playlist-prompt ()prot-bongo--playlist-prompt363,13039
+(defun prot-bongo-playlist-insert-playlist-file ()prot-bongo-playlist-insert-playlist-file379,13652
+(defvar prot-bongo-playlist-change-track-hook nilprot-bongo-playlist-change-track-hook416,15087
+(defun prot-bongo-playlist-run-hook-change-track (&rest _)prot-bongo-playlist-run-hook-change-track419,15197
+(defun prot-bongo-playlist-recenter ()prot-bongo-playlist-recenter430,15667
+(defmacro prot-bongo-dired-library (name doc val)prot-bongo-dired-library445,16209
+(defvar prot-bongo--dired-last-inserted nilprot-bongo--dired-last-inserted480,17462
+(defun prot-bongo--save-last-inserted-file ()prot-bongo--save-last-inserted-file484,17606
+(defun prot-bongo--dired-insert-files (&optional last-inserted crm)prot-bongo--dired-insert-files499,18229
+(defun prot-bongo-dired-insert (&optional arg)prot-bongo-dired-insert534,19608
+(defun prot-bongo-dired-make-playlist-file ()prot-bongo-dired-make-playlist-file560,20691
+
+prot-lisp/prot-mu4e-deprecated-conf.el,0
+
+prot-lisp/prot-fill.el,316
+(defgroup prot-fill ()prot-fill37,1352
+(defcustom prot-fill-default-column 72prot-fill-default-column41,1426
+(defcustom prot-fill-prog-mode-column 80prot-fill-prog-mode-column46,1541
+(defun prot-fill--fill-prog ()prot-fill--fill-prog52,1699
+(define-minor-mode prot-fill-fill-modeprot-fill-fill-mode58,1902
+
+prot-lisp/modus-themes-exporter.el,945
+(defvar modus-themes-exporter-templates-alistmodus-themes-exporter-templates-alist52,1917
+(defun modus-themes-exporter-xcolors ()modus-themes-exporter-xcolors61,2365
+(defun modus-themes-exporter-xterm ()modus-themes-exporter-xterm89,3428
+(defun modus-themes-exporter-alacritty ()modus-themes-exporter-alacritty117,4559
+(defun modus-themes-exporter-urxvt ()modus-themes-exporter-urxvt149,5845
+(defun modus-themes-exporter-xfce ()modus-themes-exporter-xfce179,7080
+(defun modus-themes-exporter-windows-terminal ()modus-themes-exporter-windows-terminal199,7776
+(defun modus-themes-exporter-vim ()modus-themes-exporter-vim234,9361
+(defvar modus-themes-exporter-template-hist '()modus-themes-exporter-template-hist501,24204
+(defun modus-themes-exporter--export-prompt (apps)modus-themes-exporter--export-prompt504,24291
+(defun modus-themes-exporter-export (template &optional file no-visit)modus-themes-exporter-export509,24519
+
+prot-lisp/prot-sideline.el,438
+(defgroup prot-sideline ()prot-sideline37,1405
+(define-minor-mode prot-sideline-modeprot-sideline-mode42,1522
+(defun prot-sideline--diff-hl-toggle ()prot-sideline--diff-hl-toggle49,1679
+(defun prot-sideline--numbers-toggle ()prot-sideline--numbers-toggle58,1988
+(defun prot-sideline--hl-line-toggle ()prot-sideline--hl-line-toggle67,2306
+(defun prot-sideline-negative-space-toggle ()prot-sideline-negative-space-toggle81,2763
+
+prot-lisp/prot-vc.el,5896
+(defgroup prot-vc ()prot-vc54,1869
+(defcustom prot-vc-log-limit 100prot-vc-log-limit58,1958
+(defcustom prot-vc-log-bulk-action-limit 50prot-vc-log-bulk-action-limit63,2082
+(defcustom prot-vc-git-log-edit-show-commits nilprot-vc-git-log-edit-show-commits70,2306
+(defcustom prot-vc-git-log-edit-show-commit-count 10prot-vc-git-log-edit-show-commit-count75,2442
+(defcustom prot-vc-shell-output "*prot-vc-output*"prot-vc-shell-output80,2591
+(defcustom prot-vc-patch-output-dirs (list "~/" "~/Desktop/")prot-vc-patch-output-dirs85,2726
+(defcustom prot-vc-git-patch-apply-args (list "--3way")prot-vc-git-patch-apply-args90,2883
+(defun prot-vc--current-project ()prot-vc--current-project97,3074
+(defun prot-vc-project-or-dir (&optional arg)prot-vc-project-or-dir103,3235
+(defun prot-vc--log-edit-files-prompt ()prot-vc--log-edit-files-prompt112,3547
+(defun prot-vc-git-log-edit-extract-file-name ()prot-vc-git-log-edit-extract-file-name119,3762
+(defvar prot-vc--log-insert-num-hist '()prot-vc--log-insert-num-hist138,4501
+(defun prot-vc-git-log-insert-commits (&optional arg)prot-vc-git-log-insert-commits144,4666
+(defun prot-vc--commit-num ()prot-vc--commit-num170,5750
+(defun prot-vc-custom-log (&optional arg)prot-vc-custom-log179,6008
+(defvar vc-git-root-log-format)vc-git-root-log-format218,7696
+(defun prot-vc-log-view-toggle-entry-all ()prot-vc-log-view-toggle-entry-all221,7744
+(defun prot-vc-log-kill-hash ()prot-vc-log-kill-hash246,8615
+(defvar prot-vc--commit-hist '()prot-vc--commit-hist253,8862
+(defvar prot-vc--patch-output-hist '()prot-vc--patch-output-hist256,8937
+(defun prot-vc--log-commit-hash (fn)prot-vc--log-commit-hash259,9034
+(defun prot-vc--log-commit-prompt (&optional prompt limit)prot-vc--log-commit-prompt265,9251
+(defun prot-vc-git-patch-apply (patch project &optional args)prot-vc-git-patch-apply290,10143
+(defun prot-vc-git-patch-create-dwim (&optional arg)prot-vc-git-patch-create-dwim317,11282
+(defun prot-vc-git-show (&optional limit)prot-vc-git-show397,14938
+(defun prot-vc-git-grep (regexp)prot-vc-git-grep424,15972
+(defun prot-vc-git-log-grep (pattern &optional diff)prot-vc-git-log-grep437,16455
+(defun prot-vc-git--file-rev (file &optional limit)prot-vc-git--file-rev456,17234
+(defun prot-vc-git-find-revision (&optional limit)prot-vc-git-find-revision474,17845
+(defvar prot-vc--blame-beg nil)prot-vc--blame-beg501,19003
+(defvar prot-vc--blame-end nil)prot-vc--blame-end502,19035
+(defvar prot-vc--blame-file nil)prot-vc--blame-file503,19067
+(defvar prot-vc--blame-origin nil)prot-vc--blame-origin504,19100
+(defun prot-vc-git-blame-region-or-file (beg end &optional file)prot-vc-git-blame-region-or-file507,19151
+(defun prot-vc-git-reset (&optional limit)prot-vc-git-reset551,21124
+(defun prot-vc-git-log-reset (&optional hard)prot-vc-git-log-reset574,22078
+(defun prot-vc-git-checkout-remote (remote)prot-vc-git-checkout-remote588,22681
+(defun prot-vc-git-expanded-log-entry (revision)prot-vc-git-expanded-log-entry604,23331
+(defun prot-vc-git-expand-function ()prot-vc-git-expand-function615,23706
+(defvar prot-vc-git-log-view-mode-hook nilprot-vc-git-log-view-mode-hook621,23948
+(defun prot-vc-git-log-view-add-hook (&rest _)prot-vc-git-log-view-add-hook624,24042
+(defun prot-vc--format-git-comment (branch remote files &optional commits)prot-vc--format-git-comment630,24229
+(defun prot-vc-git-log-edit-comment (&optional no-headers)prot-vc-git-log-edit-comment639,24647
+(defun prot-vc-git-log-edit-previous-comment (arg)prot-vc-git-log-edit-previous-comment681,26610
+(defun prot-vc-git-log-edit-next-comment (arg)prot-vc-git-log-edit-next-comment702,27451
+(defvar prot-vc--log-edit-comment-hist '()prot-vc--log-edit-comment-hist708,27667
+(defun prot-vc--log-edit-complete-prompt (comments)prot-vc--log-edit-complete-prompt711,27779
+(defun prot-vc-git-log-edit-complete-comment ()prot-vc-git-log-edit-complete-comment718,27976
+(defun prot-vc-git-log-remove-comment ()prot-vc-git-log-remove-comment740,28788
+(defun prot-vc-git-log-edit-toggle-amend ()prot-vc-git-log-edit-toggle-amend750,29171
+(defun prot-vc--buffer-string-omit-comment ()prot-vc--buffer-string-omit-comment762,29564
+(defvar log-edit-comment-ring)log-edit-comment-ring771,29941
+(defun prot-vc-git-log-edit-remember-comment (&optional comment)prot-vc-git-log-edit-remember-comment776,30064
+(defvar prot-vc--current-window-configuration nilprot-vc--current-window-configuration788,30571
+(defvar prot-vc--current-window-configuration-point nilprot-vc--current-window-configuration-point791,30679
+(defun prot-vc--store-window-configuration ()prot-vc--store-window-configuration794,30802
+(defvar prot-vc-git-pre-log-edit-hook nilprot-vc-git-pre-log-edit-hook800,31115
+(defun prot-vc-git-pre-log-edit (&rest _)prot-vc-git-pre-log-edit803,31212
+(defun prot-vc--log-edit-restore-window-configuration ()prot-vc--log-edit-restore-window-configuration808,31391
+(defun prot-vc--log-edit-diff-window-configuration ()prot-vc--log-edit-diff-window-configuration815,31735
+(defun prot-vc--kill-log-edit ()prot-vc--kill-log-edit827,32271
+(defvar prot-vc-git-log-edit-done-hook nilprot-vc-git-log-edit-done-hook833,32544
+(defun prot-vc-git-log-edit-done ()prot-vc-git-log-edit-done839,32758
+(defface prot-vc-git-log-edit-file-nameprot-vc-git-log-edit-file-name848,33066
+(defface prot-vc-git-log-edit-local-branch-nameprot-vc-git-log-edit-local-branch-name857,33401
+(defface prot-vc-git-log-edit-remote-branch-nameprot-vc-git-log-edit-remote-branch-name866,33751
+(defconst prot-vc-git-log-edit-font-lockprot-vc-git-log-edit-font-lock875,34106
+(defun prot-vc-git-log-edit-extra-keywords ()prot-vc-git-log-edit-extra-keywords885,34457
+(defvar vc-git-log-edit-mode-map)vc-git-log-edit-mode-map897,35017
+(define-minor-mode prot-vc-git-setup-modeprot-vc-git-setup-mode900,35067
+
+prot-lisp/prot-project.el,1577
+(defgroup prot-project ()prot-project45,1569
+(defcustom prot-project-project-roots (list "~/Git/Projects/")prot-project-project-roots49,1668
+(defcustom prot-project-commit-log-limit 25prot-project-commit-log-limit55,1873
+(defcustom prot-project-large-file-lines 1000prot-project-large-file-lines61,2050
+(defun prot-project--project-files-in-directory (dir)prot-project--project-files-in-directory79,2754
+(defun prot-project--list-projects ()prot-project--list-projects101,3638
+(defun prot-project-add-projects ()prot-project-add-projects115,4184
+(defun prot-project-remove-project ()prot-project-remove-project126,4583
+(defun prot-project--directory-subdirs (dir)prot-project--directory-subdirs135,4946
+(defun prot-project--directory-subdirs-no-git (dir)prot-project--directory-subdirs-no-git143,5203
+(defun prot-project--subdirs-completion-table (dir)prot-project--subdirs-completion-table153,5537
+(defvar prot-project--subdir-hist '()prot-project--subdir-hist159,5745
+(defun prot-project-find-subdir ()prot-project-find-subdir163,5855
+(defun prot-project-commit-log (&optional arg)prot-project-commit-log177,6443
+(defun prot-project-retrieve-tag ()prot-project-retrieve-tag198,7276
+(defun prot-project-magit-status ()prot-project-magit-status215,7828
+(defun prot-project--max-line ()prot-project--max-line222,8000
+(defun prot-project--large-file-p (&optional n)prot-project--large-file-p228,8142
+(defun prot-project-flymake-mode-activate ()prot-project-flymake-mode-activate239,8639
+(defvar org-src-mode-hook)org-src-mode-hook255,9280
+
+prot-lisp/prot-logos.el,1546
+(defgroup prot-logos ()prot-logos37,1378
+(defcustom prot-logos-org-presentation nilprot-logos-org-presentation41,1477
+(defcustom prot-logos-variable-pitch nilprot-logos-variable-pitch49,1799
+(defcustom prot-logos-scroll-lock nilprot-logos-scroll-lock56,2050
+(defcustom prot-logos-hidden-modeline nilprot-logos-hidden-modeline61,2177
+(defcustom prot-logos-affect-prot-cursor nilprot-logos-affect-prot-cursor67,2283
+(defvar prot-logos--focus-mode-hook nilprot-logos--focus-mode-hook73,2440
+(define-minor-mode prot-logos-focus-modeprot-logos-focus-mode77,2555
+(defun prot-logos--variable-pitch-toggle ()prot-logos--variable-pitch-toggle90,3004
+(defun prot-logos--olivetti-toggle ()prot-logos--olivetti-toggle103,3484
+(defface prot-logos-fringeprot-logos-fringe112,3799
+(defvar-local prot-logos--fringe-cookie nilprot-logos--fringe-cookie121,4102
+(defun prot-logos--fringe-toggle ()prot-logos--fringe-toggle127,4342
+(defun prot-logos--org-tree-slide-mode ()prot-logos--org-tree-slide-mode141,4865
+(defun prot-logos--org-indent-mode ()prot-logos--org-indent-mode156,5449
+(defun prot-logos--scroll-lock ()prot-logos--scroll-lock169,5978
+(defun prot-logos--hidden-modeline ()prot-logos--hidden-modeline182,6434
+(defvar prot-logos--prot-cursor-preset nilprot-logos--prot-cursor-preset193,6830
+(defvar prot-cursor--style-hist)prot-cursor--style-hist196,6917
+(defvar prot-cursor--recovered-preset)prot-cursor--recovered-preset197,6950
+(defun prot-logos--prot-cursor-preset ()prot-logos--prot-cursor-preset200,7046
+
+prot-lisp/prot-dired.el,1763
+(defgroup prot-dired ()prot-dired40,1414
+(defcustom prot-dired-media-extensionsprot-dired-media-extensions46,1506
+(defcustom prot-dired-image-extensionsprot-dired-image-extensions58,1871
+(defcustom prot-dired-media-players '("mpv" "vlc")prot-dired-media-players70,2222
+(defcustom prot-dired-image-viewers '("feh" "sxiv")prot-dired-image-viewers81,2562
+(defmacro prot-dired-file-association (name programs)prot-dired-file-association96,3054
+(defvar prot-dired--limit-hist '()prot-dired--limit-hist127,3950
+(defun prot-dired-limit-regexp (regexp omit)prot-dired-limit-regexp131,4056
+(defvar prot-dired--find-grep-hist '()prot-dired--find-grep-hist152,4704
+(defun prot-dired-grep-marked-files (regexp &optional arg)prot-dired-grep-marked-files157,4871
+(defvar prot-dired--directory-header-regexp "^ +\\(.+\\):\n"prot-dired--directory-header-regexp200,6847
+(defun prot-dired-subdirectory-next (&optional arg)prot-dired-subdirectory-next204,6972
+(defun prot-dired-subdirectory-previous (&optional arg)prot-dired-subdirectory-previous218,7465
+(defun prot-dired-remove-inserted-subdirs ()prot-dired-remove-inserted-subdirs233,7994
+(defun prot-dired--dir-list (list)prot-dired--dir-list244,8362
+(defun prot-dired--insert-dir (dir &optional flags)prot-dired--insert-dir251,8523
+(defvar dired-subdir-switches)dired-subdir-switches258,8814
+(defvar dired-actual-switches)dired-actual-switches259,8845
+(defun prot-dired-insert-subdir (&optional arg)prot-dired-insert-subdir262,8892
+(defun prot-dired--imenu-prev-index-position ()prot-dired--imenu-prev-index-position299,10339
+(defun prot-dired--imenu-extract-index-name ()prot-dired--imenu-extract-index-name304,10524
+(defun prot-dired-setup-imenu ()prot-dired-setup-imenu311,10765
+
+prot-lisp/prot-search.el,1233
+(defgroup prot-search ()prot-search42,1474
+(defcustom prot-search-outline-regexp-alistprot-search-outline-regexp-alist48,1708
+(defun prot-search-isearch-other-end ()prot-search-isearch-other-end63,2095
+(defun prot-search-isearch-abort-dwim ()prot-search-isearch-abort-dwim73,2415
+(defun prot-search-isearch-repeat-forward (&optional arg)prot-search-isearch-repeat-forward91,3070
+(defun prot-search-isearch-repeat-backward (&optional arg)prot-search-isearch-repeat-backward100,3404
+(defmacro prot-search-isearch-occurrence (name edge &optional doc)prot-search-isearch-occurrence108,3732
+(defun prot-search-isearch-replace-symbol ()prot-search-isearch-replace-symbol138,4767
+(defun prot-search-occur-urls ()prot-search-occur-urls147,5013
+(defun prot-search-occur-browse-url ()prot-search-occur-browse-url156,5377
+(defvar prot-search--occur-outline-hist '()prot-search--occur-outline-hist171,5920
+(defun prot-search--occur-outline-prompt ()prot-search--occur-outline-prompt174,6021
+(defun prot-search-occur-outline (&optional arg)prot-search-occur-outline185,6450
+(defvar prot-search--grep-hist '()prot-search--grep-hist210,7481
+(defun prot-search-grep (regexp &optional recursive)prot-search-grep214,7569
+
+prot-lisp/prot-mail.el,1072
+(defgroup prot-mail ()prot-mail39,1357
+(defcustom prot-mail-maildir-path-regexp "~/.mail/*/Inbox/new/"prot-mail-maildir-path-regexp43,1422
+(defcustom prot-mail-mode-line-indicator-commands '(notmuch-refresh-this-buffer)prot-mail-mode-line-indicator-commands52,1765
+(defun prot-mail-auth-get-field (host prop)prot-mail-auth-get-field64,2139
+(defvar ebdb-db-list)ebdb-db-list71,2408
+(defface prot-mail-mail-countprot-mail-mail-count89,2996
+(defvar prot-mail-new-mail-string nilprot-mail-new-mail-string98,3316
+(defun prot-mail--new-mail ()prot-mail--new-mail101,3404
+(defun prot-mail--mode-string (count)prot-mail--mode-string108,3666
+(defvar prot-mail--mode-line-mail-indicator nilprot-mail--mode-line-mail-indicator115,3921
+(defun prot-mail--mode-line-mail-indicator ()prot-mail--mode-line-mail-indicator118,4031
+(defvar prot-mail--mode-line-mail-sync-hook nilprot-mail--mode-line-mail-sync-hook132,4619
+(defun prot-mail--add-hook (&rest _)prot-mail--add-hook135,4727
+(define-minor-mode prot-mail-mail-indicatorprot-mail-mail-indicator142,4999
+
+prot-lisp/lin.el,648
+(defconst lin--default-foreign-hookslin--default-foreign-hooks63,2437
+(defgroup lin ()lin80,2919
+(defcustom lin-override-foreground nillin-override-foreground84,3016
+(defcustom lin-foreign-hooks lin--default-foreign-hookslin-foreign-hooks97,3405
+(defface lin-hllin-hl104,3621
+(defface lin-hl-override-fglin-hl-override-fg115,4031
+(defvar-local lin--cookie nillin--cookie126,4467
+(defvar hl-line-face)hl-line-face129,4549
+(defun lin--source-face ()lin--source-face131,4572
+(defun lin--dest-face ()lin--dest-face143,4898
+(define-minor-mode lin-modelin-mode148,5107
+(defun lin-add-to-many-modes ()lin-add-to-many-modes158,5434
+
+prot-lisp/usls.el,6445
+(defgroup usls ()usls37,1125
+(defcustom usls-directory (expand-file-name "~/Documents/notes/")usls-directory42,1217
+(defcustom usls-known-categories '("economics" "philosophy" "politics")usls-known-categories47,1361
+(defcustom usls-subdir-support nilusls-subdir-support60,1914
+(defcustom usls-file-type-extension ".txt"usls-file-type-extension77,2512
+(defcustom usls-file-region-separator 'lineusls-file-region-separator88,2858
+(defcustom usls-file-region-separator-heading-level 1usls-file-region-separator-heading-level134,4859
+(defcustom usls-custom-header-function nilusls-custom-header-function141,5083
+(defconst usls-id "%Y%m%d_%H%M%S"usls-id175,6469
+(defconst usls-id-regexp "\\([0-9_]+\\{15\\}\\)"usls-id-regexp178,6551
+(defconst usls-category-regexp "\\(--\\)\\([0-9A-Za-z_+]*\\)\\(--\\)"usls-category-regexp181,6645
+(defconst usls-file-regexpusls-file-regexp184,6768
+(defvar usls--file-link-regexp "^\\(@@\\|\\^^\\) \\(.*\\.\\)\\(txt\\|md\\|org\\)"usls--file-link-regexp188,6943
+(defvar usls--title-history '()usls--title-history193,7080
+(defvar usls--category-history '()usls--category-history196,7171
+(defvar usls--file-history '()usls--file-history199,7269
+(defvar usls--link-history '()usls--link-history202,7364
+(defvar usls--subdirectory-history '()usls--subdirectory-history205,7454
+(defun usls--completion-table (category candidates)usls--completion-table212,7676
+(defvar crm-separator)crm-separator219,7960
+(defun usls-crm-exclude-selected-p (input)usls-crm-exclude-selected-p223,8067
+(defvar usls-mode)usls-mode245,8917
+(defun usls--barf-non-text-usls-mode ()usls--barf-non-text-usls-mode247,8937
+(defun usls--directory ()usls--directory254,9165
+(defun usls--extract (regexp str &optional group)usls--extract258,9279
+(defvar usls--punctuation-regexp "[][{}!@#$%^&*()_=+'\"?,.\|;:~`‘’“”]*"usls--punctuation-regexp268,9623
+(defun usls--slug-no-punct (str)usls--slug-no-punct271,9769
+(defun usls--slug-hyphenate (str)usls--slug-hyphenate275,9902
+(defun usls--sluggify (str)usls--sluggify285,10199
+(defun usls--directory-files-flat (&optional directory)usls--directory-files-flat291,10360
+(defun usls--directory-files-recursive ()usls--directory-files-recursive304,10866
+(defun usls--make-directory (directory)usls--make-directory312,11170
+(defun usls--directory-files (&optional directory)usls--directory-files318,11338
+(defun usls--directory-subdirs ()usls--directory-subdirs327,11642
+(defun usls--directory-subdirs-no-git ()usls--directory-subdirs-no-git335,11915
+(defun usls--directory-subdirs-completion-table (dirs)usls--directory-subdirs-completion-table342,12113
+(defun usls--directory-subdirs-prompt ()usls--directory-subdirs-prompt350,12436
+(defun usls--categories-in-files ()usls--categories-in-files364,12957
+(defun usls--inferred-categories ()usls--inferred-categories371,13205
+(defun usls-categories ()usls-categories378,13429
+(defun usls--categories-prompt ()usls--categories-prompt382,13602
+(defun usls--categories-combine (categories)usls--categories-combine396,14158
+(defun usls--categories-capitalize (categories)usls--categories-capitalize403,14400
+(defun usls--categories-add-to-history (categories)usls--categories-add-to-history410,14667
+(defun usls--file-meta-header (title date categories filename id)usls--file-meta-header429,15380
+(defun usls--file-region-separator-heading-level (mark str)usls--file-region-separator-heading-level458,16693
+(defun usls--file-region-separator-str ()usls--file-region-separator-str467,17122
+(defvar eww-data)eww-data485,18114
+(defun usls--file-region-source ()usls--file-region-source488,18184
+(defun usls--file-region-separator (region)usls--file-region-separator500,18566
+(defun usls--file-region ()usls--file-region507,18771
+(defun usls--file-region-append ()usls--file-region-append516,19033
+(defun usls--format-file (path id categories slug extension)usls--format-file528,19333
+(defun usls-new-note (&optional arg)usls-new-note541,19715
+(defun usls--directory-files-not-current ()usls--directory-files-not-current578,21483
+(defun usls--insert-file-reference (file delimiter)usls--insert-file-reference589,21816
+(defun usls--delete-duplicate-links ()usls--delete-duplicate-links597,22040
+(defun usls-id-insert ()usls-id-insert606,22289
+(defun usls--links ()usls--links628,23105
+(defun usls-follow-link ()usls-follow-link641,23489
+(defun usls--file-name (file)usls--file-name656,23967
+(defun usls--find-file-prompt ()usls--find-file-prompt662,24148
+(defun usls-find-file (file)usls-find-file668,24388
+(defun usls--window-buffer-list ()usls--window-buffer-list682,24842
+(defun usls--window-buffer-file-names-list ()usls--window-buffer-file-names-list688,24985
+(defun usls--window-usls-file-buffers ()usls--window-usls-file-buffers695,25196
+(defun usls--window-usls-buffers ()usls--window-usls-buffers705,25568
+(defun usls--window-buffers-live ()usls--window-buffers-live711,25768
+(defun usls--window-buffers ()usls--window-buffers719,26092
+(defun usls--window-single-buffer-or-prompt ()usls--window-single-buffer-or-prompt725,26273
+(defun usls--window-buffer-or-file ()usls--window-buffer-or-file740,26850
+(defun usls--append-region (buf region arg)usls--append-region746,27116
+(defun usls-append-region-buffer-or-file (&optional arg)usls-append-region-buffer-or-file759,27578
+(defun usls-dired (&optional arg)usls-dired790,28740
+(defvar usls-mode-mapusls-mode-map806,29320
+(define-minor-mode usls-modeusls-mode811,29435
+(defun usls-mode-activate ()usls-mode-activate820,29602
+(defgroup usls-faces ()usls-faces830,30029
+(defface usls-header-data-dateusls-header-data-date834,30096
+(defface usls-header-data-categoryusls-header-data-category843,30396
+(defface usls-header-data-titleusls-header-data-title852,30705
+(defface usls-header-data-secondaryusls-header-data-secondary861,31008
+(defface usls-header-data-keyusls-header-data-key869,31288
+(defface usls-section-delimiterusls-section-delimiter877,31577
+(defface usls-dired-field-dateusls-dired-field-date885,31880
+(defface usls-dired-field-delimiterusls-dired-field-delimiter893,32180
+(defface usls-dired-field-categoryusls-dired-field-category897,32308
+(defface usls-dired-field-nameusls-dired-field-name905,32610
+(defconst usls-font-lock-keywordsusls-font-lock-keywords915,32972
+(defun usls--fontify ()usls--fontify947,34039
+
+prot-lisp/prot-diff.el,1133
+(defgroup prot-diff ()prot-diff42,1520
+(defun prot-diff-buffer-dwim (&optional arg)prot-diff-buffer-dwim47,1605
+(defvar-local prot-diff--refine-diff-state 0prot-diff--refine-diff-state64,2184
+(defun prot-diff-refine-cycle ()prot-diff-refine-cycle68,2292
+(defun prot-diff-narrow-dwim (&optional arg)prot-diff-narrow-dwim93,3050
+(defvar modus-themes-diffs)modus-themes-diffs111,3652
+(defun prot-diff-modus-themes-diffs ()prot-diff-modus-themes-diffs114,3696
+(defface prot-diff-diffstat-addedprot-diff-diffstat-added134,4453
+(defface prot-diff-diffstat-removedprot-diff-diffstat-removed138,4572
+(defface prot-diff-commit-headerprot-diff-commit-header142,4697
+(defface prot-diff-commit-hashprot-diff-commit-hash149,4953
+(defface prot-diff-commit-authorprot-diff-commit-author157,5229
+(defface prot-diff-commit-emailprot-diff-commit-email165,5497
+(defface prot-diff-commit-dateprot-diff-commit-date173,5765
+(defface prot-diff-commit-subjectprot-diff-commit-subject181,6027
+(defconst prot-diff-keywordsprot-diff-keywords191,6403
+(define-minor-mode prot-diff-extra-keywordsprot-diff-extra-keywords237,8105
+
+prot-lisp/prot-tab.el,1212
+(defgroup prot-tab ()prot-tab39,1404
+(defcustom prot-tab-tab-select-num-threshold 3prot-tab-tab-select-num-threshold43,1477
+(defun prot-tab--tab-bar-tabs ()prot-tab--tab-bar-tabs54,1898
+(defun prot-tab-select-tab-dwim (&optional arg)prot-tab-select-tab-dwim61,2101
+(define-minor-mode prot-tab-bar-toggleprot-tab-bar-toggle95,3239
+(defun prot-tab-winner-undo ()prot-tab-winner-undo113,3668
+(defun prot-tab-winner-redo ()prot-tab-winner-redo132,4356
+(defun prot-tab-format-mule-info ()prot-tab-format-mule-info152,5086
+(defun prot-tab-format-modified ()prot-tab-format-modified156,5265
+(defun prot-tab-format-modes ()prot-tab-format-modes160,5441
+(defun prot-tab-format-position ()prot-tab-format-position166,5751
+(defun prot-tab-format-vc ()prot-tab-format-vc170,5927
+(defun prot-tab-format-misc-info ()prot-tab-format-misc-info174,6075
+(defun prot-tab-format-space-single ()prot-tab-format-space-single178,6254
+(defun prot-tab-format-space-double ()prot-tab-format-space-double182,6364
+(defvar prot-tab--window-divider-place (default-value 'window-divider-default-places)prot-tab--window-divider-place186,6482
+(define-minor-mode prot-tab-status-lineprot-tab-status-line194,6796
+
+space-chord.el,679
+(defvar space-chord-version "$Id: space-chord.el,v 1.3 2008/11/05 03:38:22 rubikitch Exp $")space-chord-version91,3032
+(defvar space-chord-delay 0.08space-chord-delay93,3146
+(defun space-chord-define-global (key command)space-chord-define-global97,3294
+(defun space-chord-define (keymap key command)space-chord-define105,3692
+(defadvice key-chord-input-method (around space-chord activate)key-chord-input-method111,4006
+(defvar space-chord-maintainer-mail-addressspace-chord-maintainer-mail-address125,4676
+(defvar space-chord-bug-report-salutationspace-chord-bug-report-salutation127,4764
+(defun space-chord-send-bug-report ()space-chord-send-bug-report139,5252
+
+xah-fly-keys.el,16233
+(defgroup xah-fly-keys nilxah-fly-keys139,4377
+(defvar xah-fly-command-mode-activate-hook nil "Hook for `xah-fly-command-mode-activate'")xah-fly-command-mode-activate-hook143,4468
+(defvar xah-fly-insert-mode-activate-hook nil "Hook for `xah-fly-insert-mode-activate'")xah-fly-insert-mode-activate-hook144,4559
+(defcustom xah-fly-use-control-key txah-fly-use-control-key146,4649
+(defcustom xah-fly-use-meta-key txah-fly-use-meta-key150,4825
+(defcustom xah-fly-use-isearch-arrows txah-fly-use-isearch-arrows154,4938
+(defun xah-get-bounds-of-block ()xah-get-bounds-of-block159,5095
+(defun xah-get-bounds-of-block-or-region ()xah-get-bounds-of-block-or-region172,5552
+(defun xah-pop-local-mark-ring ()xah-pop-local-mark-ring182,5897
+(defun xah-beginning-of-line-or-block ()xah-beginning-of-line-or-block191,6181
+(defun xah-end-of-line-or-block ()xah-end-of-line-or-block217,7222
+(defvar xah-brackets nil "string of left/right brackets pairs.")xah-brackets234,7888
+(defvar xah-left-brackets '( "(" "{" "[" "<" "〔" "【" "〖" "〈" "《" "「" "『" "“" "‘xah-left-brackets237,8337
+(defvar xah-right-brackets '( ")" "]" "}" ">" "〕" "】" "〗" "〉" "》" "」" "』" "”" "’xah-right-brackets249,8784
+(defvar xah-punctuation-regex nil "A regex string for the purpose of moving cursor to a punctuatxah-punctuation-regex260,9189
+(defun xah-forward-punct (&optional n)xah-forward-punct263,9351
+(defun xah-backward-punct (&optional n)xah-backward-punct272,9678
+(defun xah-backward-left-bracket ()xah-backward-left-bracket280,9960
+(defun xah-forward-right-bracket ()xah-forward-right-bracket289,10294
+(defun xah-goto-matching-bracket ()xah-goto-matching-bracket298,10626
+(defun xah-forward-quote ()xah-forward-quote317,11392
+(defun xah-forward-quote-twice ()xah-forward-quote-twice331,11804
+(defun xah-forward-quote-smart ()xah-forward-quote-smart341,12072
+(defun xah-copy-line-or-region ()xah-copy-line-or-region362,12787
+(defun xah-cut-line-or-region ()xah-cut-line-or-region399,14141
+(defun xah-copy-all-or-region ()xah-copy-all-or-region414,14774
+(defun xah-cut-all-or-region ()xah-cut-all-or-region429,15229
+(defun xah-copy-all ()xah-copy-all444,15700
+(defun xah-cut-all ()xah-cut-all452,15911
+(defun xah-paste-or-paste-previous ()xah-paste-or-paste-previous460,16125
+(defvar xah-show-kill-ring-separator nil "A line divider for `xah-show-kill-ring'.")xah-show-kill-ring-separator480,16812
+(defun xah-show-kill-ring ()xah-show-kill-ring483,17024
+(defun xah-delete-backward-char-or-bracket-text ()xah-delete-backward-char-or-bracket-text500,17524
+(defun xah-delete-backward-bracket-text ()xah-delete-backward-bracket-text535,18831
+(defun xah-delete-backward-bracket-pair ()xah-delete-backward-bracket-pair550,19361
+(defun xah-delete-forward-bracket-pairs ( &optional DeleteInnerTextQ)xah-delete-forward-bracket-pairs571,20082
+(defun xah-change-bracket-pairs ( FromChars ToChars)xah-change-bracket-pairs595,20961
+(defun xah-toggle-letter-case ()xah-toggle-letter-case725,26420
+(defun xah-toggle-previous-letter-case ()xah-toggle-previous-letter-case758,27438
+(defun xah-upcase-sentence ()xah-upcase-sentence771,27869
+(defun xah-title-case-region-or-line (Begin End)xah-title-case-region-or-line808,29707
+(defun xah-delete-blank-lines ()xah-delete-blank-lines868,31974
+(defun xah-fly-delete-spaces ()xah-fly-delete-spaces881,32328
+(defun xah-shrink-whitespaces ()xah-shrink-whitespaces892,32617
+(defun xah-toggle-read-novel-mode ()xah-toggle-read-novel-mode951,34480
+(defun xah-fill-or-unfill ()xah-fill-or-unfill975,35268
+(defun xah-unfill-paragraph ()xah-unfill-paragraph994,36287
+(defun xah-unfill-region (Begin End)xah-unfill-region1004,36599
+(defun xah-change-newline-chars-to-one (Begin End)xah-change-newline-chars-to-one1014,36914
+(defun xah-reformat-whitespaces-to-one-space (Begin End)xah-reformat-whitespaces-to-one-space1026,37289
+(defun xah-reformat-to-multi-lines ( &optional Begin End MinLength)xah-reformat-to-multi-lines1048,37896
+(defun xah-reformat-lines ( &optional Width)xah-reformat-lines1068,38788
+(defun xah-reformat-to-sentence-lines ()xah-reformat-to-sentence-lines1090,40064
+(defun xah-space-to-newline ()xah-space-to-newline1119,41454
+(defun xah-slash-to-backslash (&optional pos1 pos2)xah-slash-to-backslash1134,41975
+(defun xah-slash-to-double-backslash (&optional pos1 pos2)xah-slash-to-double-backslash1151,42543
+(defun xah-double-backslash-to-slash (&optional pos1 pos2)xah-double-backslash-to-slash1168,43129
+(defun xah-comment-dwim ()xah-comment-dwim1203,44348
+(defun xah-quote-lines (QuoteL QuoteR Sep )xah-quote-lines1223,44946
+(defun xah-escape-quotes (Begin End)xah-escape-quotes1303,47257
+(defun xah-unescape-quotes (Begin End)xah-unescape-quotes1320,47836
+(defun xah-dired-rename-space-to-underscore ()xah-dired-rename-space-to-underscore1337,48378
+(defun xah-dired-rename-space-to-hyphen ()xah-dired-rename-space-to-hyphen1356,49048
+(defun xah-cycle-hyphen-lowline-space ( &optional Begin End )xah-cycle-hyphen-lowline-space1373,49647
+(defun xah-copy-file-path (&optional DirPathOnlyQ)xah-copy-file-path1421,51975
+(defun xah-delete-current-text-block ()xah-delete-current-text-block1452,53167
+(defun xah-clear-register-1 ()xah-clear-register-11469,53751
+(defun xah-copy-to-register-1 ()xah-copy-to-register-11480,54063
+(defun xah-append-to-register-1 ()xah-append-to-register-11494,54597
+(defun xah-paste-from-register-1 ()xah-paste-from-register-11511,55306
+(defun xah-copy-rectangle-to-kill-ring (Begin End)xah-copy-rectangle-to-kill-ring1522,55634
+(defun xah-insert-date ()xah-insert-date1536,56155
+(defun xah-insert-bracket-pair (LBracket RBracket &optional WrapMethod)xah-insert-bracket-pair1616,58863
+(defun xah-insert-paren () (interactive) (xah-insert-bracket-pair "(" ")") )xah-insert-paren1693,62284
+(defun xah-insert-square-bracket () (interactive) (xah-insert-bracket-pair "[" "]") )xah-insert-square-bracket1694,62361
+(defun xah-insert-brace () (interactive) (xah-insert-bracket-pair "{" "}") )xah-insert-brace1695,62447
+(defun xah-insert-double-curly-quote () (interactive) (xah-insert-bracket-pair "“" "”") )xah-insert-double-curly-quote1697,62525
+(defun xah-insert-curly-single-quote () (interactive) (xah-insert-bracket-pair "‘" "’") )xah-insert-curly-single-quote1698,62619
+(defun xah-insert-single-angle-quote () (interactive) (xah-insert-bracket-pair "‹" "›") )xah-insert-single-angle-quote1699,62713
+(defun xah-insert-double-angle-quote () (interactive) (xah-insert-bracket-pair "«" "»") )xah-insert-double-angle-quote1700,62807
+(defun xah-insert-ascii-double-quote () (interactive) (xah-insert-bracket-pair "\"" "\"") )xah-insert-ascii-double-quote1701,62899
+(defun xah-insert-ascii-single-quote () (interactive) (xah-insert-bracket-pair "'" "'") )xah-insert-ascii-single-quote1702,62991
+(defun xah-insert-emacs-quote () (interactive) (xah-insert-bracket-pair "`" "'") )xah-insert-emacs-quote1703,63081
+(defun xah-insert-corner-bracket () (interactive) (xah-insert-bracket-pair "「" "」" ) )xah-insert-corner-bracket1704,63164
+(defun xah-insert-white-corner-bracket () (interactive) (xah-insert-bracket-pair "『" "』") )xah-insert-white-corner-bracket1705,63255
+(defun xah-insert-angle-bracket () (interactive) (xah-insert-bracket-pair "〈" "〉") )xah-insert-angle-bracket1706,63351
+(defun xah-insert-double-angle-bracket () (interactive) (xah-insert-bracket-pair "《" "》") )xah-insert-double-angle-bracket1707,63440
+(defun xah-insert-white-lenticular-bracket () (interactive) (xah-insert-bracket-pair "〖" "〗"xah-insert-white-lenticular-bracket1708,63536
+(defun xah-insert-black-lenticular-bracket () (interactive) (xah-insert-bracket-pair "【" "】"xah-insert-black-lenticular-bracket1709,63636
+(defun xah-insert-tortoise-shell-bracket () (interactive) (xah-insert-bracket-pair "〔" "〕" )xah-insert-tortoise-shell-bracket1710,63736
+(defun xah-insert-hyphen ()xah-insert-hyphen1712,63836
+(defun xah-insert-low-line ()xah-insert-low-line1717,63934
+(defun xah-insert-string-assignment ()xah-insert-string-assignment1722,64030
+(defun xah-insert-space-before ()xah-insert-space-before1728,64152
+(defun xah-insert-space-after ()xah-insert-space-after1733,64251
+(defun xah-insert-formfeed ()xah-insert-formfeed1739,64361
+(defun xah-show-formfeed-as-line ()xah-show-formfeed-as-line1744,64476
+(defun xah-insert-column-az ()xah-insert-column-az1758,64964
+(defvar xah-unicode-list nil "Associative list of Unicode symbols. First element is a Unicode chxah-unicode-list1777,65659
+(defun xah-insert-unicode ()xah-insert-unicode1801,66432
+(defun xah-select-block ()xah-select-block1816,66889
+(defun xah-select-line ()xah-select-line1832,67435
+(defun xah-extend-selection ()xah-extend-selection1856,68204
+(defun xah-select-text-in-quote ()xah-select-text-in-quote1960,72419
+(defun xah-user-buffer-q ()xah-user-buffer-q1980,73250
+(defun xah-next-user-buffer ()xah-next-user-buffer1993,73811
+(defun xah-previous-user-buffer ()xah-previous-user-buffer2008,74222
+(defun xah-next-emacs-buffer ()xah-next-emacs-buffer2023,74649
+(defun xah-previous-emacs-buffer ()xah-previous-emacs-buffer2035,75032
+(defun xah-new-empty-buffer ()xah-new-empty-buffer2047,75431
+(defvar xah-recently-closed-buffers nil "a Alist of recently closed buffers. Each element is (buxah-recently-closed-buffers2063,75881
+(defcustom xah-recently-closed-buffers-max 40 "The maximum length for `xah-recently-closed-buffexah-recently-closed-buffers-max2065,76092
+(defun xah-close-current-buffer ()xah-close-current-buffer2072,76343
+(defun xah-open-last-closed ()xah-open-last-closed2112,78448
+(defun xah-open-recently-closed ()xah-open-recently-closed2122,78796
+(defun xah-list-recently-closed ()xah-list-recently-closed2131,79097
+(defvar bookmark-alist)bookmark-alist2143,79514
+(defun xah-open-file-fast ()xah-open-file-fast2146,79617
+(defun xah-open-file-at-cursor ()xah-open-file-at-cursor2158,80152
+(defvar xah-fly-M-x-command nil "Command to call for emacs `execute-extended-command' replacemenxah-fly-M-x-command2230,83893
+(defun xah-fly-M-x ()xah-fly-M-x2234,84081
+(defvar xah-run-current-file-before-hook nil "Hook for `xah-run-current-file'. Before the file ixah-run-current-file-before-hook2252,84712
+(defvar xah-run-current-file-after-hook nil "Hook for `xah-run-current-file'. After the file is xah-run-current-file-after-hook2254,84818
+(defun xah-run-current-go-file ()xah-run-current-go-file2256,84922
+(defvar xah-run-current-file-map nil "A association list that maps file extension to program patxah-run-current-file-map2283,85771
+(defun xah-run-current-file ()xah-run-current-file2310,86578
+(defun xah-clean-empty-lines ()xah-clean-empty-lines2353,88263
+(defun xah-clean-whitespace ()xah-clean-whitespace2372,88889
+(defun xah-make-backup ()xah-make-backup2394,89763
+(defun xah-make-backup-and-save ()xah-make-backup-and-save2423,90953
+(defun xah-delete-current-file-make-backup ()xah-delete-current-file-make-backup2439,91424
+(defun xah-search-current-word ()xah-search-current-word2469,92695
+(defun xah-show-in-desktop ()xah-show-in-desktop2493,93578
+(defun xah-open-in-vscode ()xah-open-in-vscode2525,95100
+(defun xah-open-in-external-app (&optional Fname)xah-open-in-external-app2554,96506
+(defun xah-open-in-terminal ()xah-open-in-terminal2583,97901
+(defun xah-next-window-or-frame ()xah-next-window-or-frame2604,99092
+(defun xah-unsplit-window-or-next-frame ()xah-unsplit-window-or-next-frame2616,99437
+(defun xah-describe-major-mode ()xah-describe-major-mode2624,99668
+(defun ken_nc/dwim-open-line ()ken_nc/dwim-open-line2631,99877
+(defun ken_nc/forward-word (&optional arg)ken_nc/forward-word2656,100972
+(defun ken_nc/backward-word (&optional arg)ken_nc/backward-word2688,102281
+(defun ken_nc/delete-word (&optional arg)ken_nc/delete-word2697,102595
+(defun ken_nc/backward-delete-word (arg)ken_nc/backward-delete-word2703,102839
+(defun ken_nc/smarter-move-beginning-of-line (arg)ken_nc/smarter-move-beginning-of-line2710,103118
+(defvar xah--dvorak-to-azerty-kmapxah--dvorak-to-azerty-kmap2736,103964
+(defvar xah--dvorak-to-azerty-be-kmapxah--dvorak-to-azerty-be-kmap2786,105004
+(defvar xah--dvorak-to-beopy-kmapxah--dvorak-to-beopy-kmap2836,106052
+(defvar xah--dvorak-to-colemak-kmapxah--dvorak-to-colemak-kmap2881,106811
+(defvar xah--dvorak-to-colemak-mod-dh-kmapxah--dvorak-to-colemak-mod-dh-kmap2911,107505
+(defvar xah--dvorak-to-colemak-mod-dh-new-kmapxah--dvorak-to-colemak-mod-dh-new-kmap2942,108229
+(defvar xah--dvorak-to-dvorak-kmapxah--dvorak-to-dvorak-kmap2973,108958
+(defvar xah--dvorak-to-programer-dvorak-kmapxah--dvorak-to-programer-dvorak-kmap2977,109032
+(defvar xah--dvorak-to-qwerty-kmapxah--dvorak-to-qwerty-kmap3018,109955
+(defvar xah--dvorak-to-qwerty-no-kmapxah--dvorak-to-qwerty-no-kmap3055,110752
+(defvar xah--dvorak-to-qwerty-abnt-kmapxah--dvorak-to-qwerty-abnt-kmap3091,111598
+(defvar xah--dvorak-to-qwertz-kmapxah--dvorak-to-qwertz-kmap3127,112383
+(defvar xah--dvorak-to-workman-kmapxah--dvorak-to-workman-kmap3163,113169
+(defvar xah--dvorak-to-norman-kmapxah--dvorak-to-norman-kmap3195,113895
+(defvar xah--dvorak-to-neo2-kmapxah--dvorak-to-neo2-kmap3231,114597
+(defvar xah--dvorak-to-koy-kmapxah--dvorak-to-koy-kmap3272,115364
+(defvar xah--dvorak-to-adnw-kmapxah--dvorak-to-adnw-kmap3301,115952
+(defvar xah--dvorak-to-pt-nativo-kmapxah--dvorak-to-pt-nativo-kmap3333,116590
+(defvar xah--dvorak-to-carpalx-qgmlwy-kmapxah--dvorak-to-carpalx-qgmlwy-kmap3366,117333
+(defvar xah--dvorak-to-carpalx-qgmlwb-kmapxah--dvorak-to-carpalx-qgmlwb-kmap3404,118169
+(defvar xah--dvorak-to-carpalx-qfmlwy-kmapxah--dvorak-to-carpalx-qfmlwy-kmap3442,119005
+(defvar xah--dvorak-to-bepo-kmapxah--dvorak-to-bepo-kmap3479,119825
+(define-obsolete-variable-alias 'xah-fly-key--current-layout 'xah-fly-key-current-layout "2020-0xah-fly-key--current-layout3525,120672
+(defcustom xah-fly-key-current-layout nilxah-fly-key-current-layout3526,120775
+(defvar xah-fly--current-layout-kmap nilxah-fly--current-layout-kmap3563,122493
+(defun xah-fly--key-char (Charstr)xah-fly--key-char3576,123068
+(defmacro xah-fly--define-keys (Keymap-name Key-cmd-alist &optional Direct-q)xah-fly--define-keys3586,123463
+(defvar xah-fly-key-map (make-sparse-keymap)xah-fly-key-map3613,124483
+(defvar xah-fly-shared-map (make-sparse-keymap)xah-fly-shared-map3625,124977
+(defvar xah-fly-command-map (cons 'keymap xah-fly-shared-map)xah-fly-command-map3632,125337
+(defvar xah-fly-insert-map (cons 'keymap xah-fly-shared-map)xah-fly-insert-map3646,126017
+(defvar xah-fly--deactivate-command-mode-func nil)xah-fly--deactivate-command-mode-func3661,126775
+(defun my-jump-to-wrapper ()my-jump-to-wrapper4157,143688
+(defun my-jump-back-wrapper ()my-jump-back-wrapper4170,144228
+(defvar xah-fly-insert-state-q t "Boolean value. true means insertion mode is on.")xah-fly-insert-state-q4385,150846
+(defun xah-fly--update-key-map ()xah-fly--update-key-map4387,150931
+(defun xah-fly-keys-set-layout (Layout)xah-fly-keys-set-layout4392,151113
+(defun xah-fly-command-mode-init ()xah-fly-command-mode-init4428,151909
+(defun xah-fly-space-key ()xah-fly-space-key4441,152350
+(defun xah-fly-insert-mode-init (&optional no-indication)xah-fly-insert-mode-init4450,152578
+(defun xah-fly-mode-toggle ()xah-fly-mode-toggle4462,152984
+(defun xah-fly-save-buffer-if-file ()xah-fly-save-buffer-if-file4469,153182
+(defun xah-fly-command-mode-activate ()xah-fly-command-mode-activate4475,153325
+(defun xah-fly-command-mode-activate-no-hook ()xah-fly-command-mode-activate-no-hook4482,153553
+(defun xah-fly-insert-mode-activate ()xah-fly-insert-mode-activate4488,153745
+(defun xah-fly-insert-mode-activate-newline ()xah-fly-insert-mode-activate-newline4495,153928
+(defun xah-fly-insert-mode-activate-space-before ()xah-fly-insert-mode-activate-space-before4501,154093
+(defun xah-fly-insert-mode-activate-space-after ()xah-fly-insert-mode-activate-space-after4507,154261
+(define-minor-mode xah-fly-keysxah-fly-keys4516,154517

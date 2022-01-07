@@ -81,24 +81,6 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
                               ))
   (electric-pair-mode t)
 #+END_SRC
-** Creating a new window switches your cursor to it
-#+BEGIN_SRC emacs-lisp
-  (defun split-and-follow-horizontally ()
-    (interactive)
-    (split-window-below)
-    (balance-windows)
-    (other-window 1))
-    (global-set-key (kbd "C-x h") 'split-and-follow-horizontally)
-  ;; (space-chord-define-global "b" 'split-and-follow-horizontally)
-
-  (defun split-and-follow-vertically ()
-    (interactive)
-    (split-window-right)
-    (balance-windows)
-    (other-window 1))
-    (global-set-key (kbd "C-x v") 'split-and-follow-vertically)
-  (space-chord-define-global "v" 'split-and-follow-vertically)
-#+END_SRC
 ** Move between windows quickly
 #+BEGIN_SRC emacs-lisp
   ;; (space-chord-define-global "h" 'windmove-left)
@@ -113,10 +95,11 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
 ** Easier resize bindigs
 Super - Control - <arrow>
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
-  (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "s-<down>") 'shrink-window)
-  (global-set-key (kbd "s-<up>") 'enlarge-window)
+  ;; #TODO: change the keybindings
+    ;; (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
+    ;; (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
+    ;; (global-set-key (kbd "s-<down>") 'shrink-window)
+    ;; (global-set-key (kbd "s-<up>") 'enlarge-window)
 #+END_SRC
 ** Highlight current line
 #+BEGIN_SRC emacs-lisp
@@ -125,27 +108,6 @@ Super - Control - <arrow>
 ** Defer loading most packages for quicker startup times
 #+BEGIN_SRC emacs-lisp
  (setq use-package-always-defer t)
-#+END_SRC
-** Quiting windows and buffers
-#+BEGIN_SRC emacs-lisp
-  ;; (defun quit-window ()
-  ;;       (interactive)
-  ;;       (delete-window)
-  ;;       (balance-windows)
-  ;;       (other-window 1))
-  ;; (global-set-key (kbd "C-x q") 'quit-window)
-
-  ;; (defun quit-window-and-buffer ()
-  ;;         (interactive)
-  ;;         (kill-buffer-and-window)
-  ;;         (balance-windows)
-  ;;         (other-window 1))
-  ;; (global-set-key (kbd "C-x C-q") 'quit-window-and-buffer)
-
-  ;; (defun quit-window-not-buffer ()
-  ;;         (interactive)
-  ;;         (kill-buffer (current-buffer)))
-  ;; (global-set-key (kbd "C-x Q") 'quit-window-not-buffer)
 #+END_SRC
 ** Default encoding
 #+BEGIN_SRC emacs-lisp
@@ -175,81 +137,7 @@ Super - Control - <arrow>
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** Create an indirect buffer with narrow view
-#+BEGIN_SRC emacs-lisp
-  (defun narrow-to-region-indirect (start end)
-    "Restrict editing in this buffer to the current region, indirectly."
-    (interactive "r")
-    (deactivate-mark)
-    (let ((buf (clone-indirect-buffer nil nil)))
-      (with-current-buffer buf
-        (narrow-to-region start end))
-        (switch-to-buffer buf)))
-
-
-  ;;;;; Narrow DWIM
-
-  ;; this is the helper code from prot-common.el
-  ;;;###autoload
-  (defun prot-common-window-bounds ()
-    "Determine start and end points in the window."
-    (list (window-start) (window-end)))
-
-  ;;;###autoload
-  (defun prot-simple-narrow-visible-window ()
-    "Narrow buffer to wisible window area.
-  Also check `prot-simple-narrow-dwim'."
-    (interactive)
-    (let* ((bounds (prot-common-window-bounds))
-           (window-area (- (cadr bounds) (car bounds)))
-           (buffer-area (- (point-max) (point-min))))
-      (if (/= buffer-area window-area)
-          (narrow-to-region (car bounds) (cadr bounds))
-        (user-error "Buffer fits in the window; won't narrow"))))
-
-  ;;;###autoload
-  (defun prot-simple-narrow-dwim ()
-    "Do-what-I-mean narrowing.
-  If region is active, narrow the buffer to the region's
-  boundaries.
-
-  If no region is active, narrow to the visible portion of the
-  window.
-
-  If narrowing is in effect, widen the view."
-    (interactive)
-    (unless mark-ring                  ; needed when entering a new buffer
-      (push-mark (point) t nil))
-    (cond
-     ((and (use-region-p)
-           (null (buffer-narrowed-p)))
-      (let ((beg (region-beginning))
-            (end (region-end)))
-        (narrow-to-region beg end)))
-     ((null (buffer-narrowed-p))
-      (prot-simple-narrow-visible-window))
-     (t
-      (widen)
-      (recenter))))
-
-  (global-set-key (kbd "C-x C-n") 'prot-simple-narrow-dwim)
-
-#+END_SRC
-** Make buffer full screen
-#+BEGIN_SRC emacs-lisp
-  (defun toggle-maximize-buffer () "Maximize buffer"
-    (interactive)
-    (if (= 1 (length (window-list)))
-        (jump-to-register '_)
-      (progn
-        (window-configuration-to-register '_)
-        (delete-other-windows))))
-  (global-set-key (kbd "C-x f") 'toggle-maximize-buffer)
-#+END_SRC
 ** Spelling (not implemented)
-** Commenting and Uncommenting
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c c") 'comment-dwim)
-#+END_SRC
 ** Dired Qol
 #+BEGIN_SRC emacs-lisp
   (require 'dired-x)
@@ -381,9 +269,9 @@ Super - Control - <arrow>
           (file-or-dir (dired-get-file-for-visit))
           (buffer (find-file-noselect file-or-dir)))
         (my-display-buffer-right buffer nil)))
-  (define-key dired-mode-map (kbd "C-x k") 'dired-display-above)
-  (define-key dired-mode-map (kbd "C-x j") 'dired-display-below)
-  (define-key dired-mode-map (kbd "C-x h") 'dired-display-left)
+  (define-key dired-mode-map (kbd "C-x i") 'dired-display-above)
+  (define-key dired-mode-map (kbd "C-x k") 'dired-display-below)
+  (define-key dired-mode-map (kbd "C-x j") 'dired-display-left)
   (define-key dired-mode-map (kbd "C-x l") 'dired-display-right)
 #+END_SRC
 *** Deleting dired buffer
@@ -415,25 +303,49 @@ Super - Control - <arrow>
      (ibuffer))
    (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
 #+END_SRC
+** Diff Mode
+#+BEGIN_SRC emacs-lisp
+  (setq diff-default-read-only t)
+  (setq diff-advance-after-apply-hunk t)
+  (setq diff-update-on-the-fly t)
+  (setq diff-refine nil)
+  (setq diff-font-lock-prettify nil)
+  (setq diff-font-lock-syntax 'hunk-also)
+#+END_SRC
 ** Crux keybinds
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c f") 'crux-recentf-find-file)
-  (global-set-key (kbd "C-c s") 'crux-ispell-word-then-abbrev)
+  (xah-fly--define-keys
+   (define-prefix-command 'ken_nc/crux-keymap)
+   '(
+     ("f" . 'crux-recentf-find-file)
+     ("r" . 'crux-rename-file-and-buffer)
+     ("x" . 'crux-transpose-windows)
+     ("s" . 'crux-sudo-edit)
+     ("x" . 'crux-delete-file-and-buffer)))
+#+END_SRC
+** Prot Function keybinds
+#+BEGIN_SRC emacs-lisp
+  (xah-fly--define-keys
+   (define-prefix-command 'ken_nc/prot-keymap)
+   '(
+     ("n" . 'prot-simple-narrow-dwim)
+     ("c" . 'prot-comment-timestamp-keyword)
+     ("f" . 'prot-simple-delete-pair-dwim)
+     ("d" . 'prot-diff-buffer-dwim)))
+   ;;  TODO 2022-01-07: Add / Change MCT keybinds
+   ;;  TODO 2022-01-07: Add prot-text.el keybindings
+   ;;  TODO 2022-01-07: Add prot-comment.el keybindings
+   ;;  TODO 2022-01-07: Add prot-spell.el keybindings
+#+END_SRC
+** General Keybindings
+#+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'delete-frame) ; TODO 2022-01-05: Change so its dwim
   (global-set-key (kbd "C-c t") 'my-create-tags)
-  (global-set-key (kbd "C-c c") 'prot-comment-timestamp-keyword)
-
-  (global-set-key (kbd "C-x R") 'crux-rename-file-and-buffer)
-  (global-set-key (kbd "C-x x") 'crux-transpose-windows)
-  (global-set-key (kbd "C-x S") 'crux-sudo-edit)
-  (global-set-key (kbd "C-x X") 'crux-delete-file-and-buffer)
-
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
+  (global-set-key (kbd "M-RET") 'indent-new-comment-line)
 #+END_SRC
-*** Missing
-When jumping set mark automatically (like jumping up or down the buffer or jumping to word)
 ** CSS color coding
 #+BEGIN_SRC emacs-lisp
   (defun xah-syntax-color-hex ()
