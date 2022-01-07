@@ -10,7 +10,6 @@
 
 (require 'space-chord)
 (require 'google-c-style)
-(require 'xah-fly-keys)
 (require 'ctags-utils)
 (require 'move-text)
 (require 'color)  ;; for org mode codeblock background color
@@ -18,6 +17,7 @@
 (require 'prot-comment)
 (require 'prot-diff)
 (require 'prot-simple)
+(require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")

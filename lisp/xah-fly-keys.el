@@ -4199,65 +4199,6 @@ minor modes loaded later may override bindings in this map.")
    ;; if nothing match, do nothing
    (t nil)))
 
-(xah-fly--define-keys
- (define-prefix-command 'xah-fly-leader-key-map)
- '(
-   ("SPC" . xah-fly-insert-mode-activate)
-   ("DEL" . xah-fly-insert-mode-activate)
-   ("RET" . xah-fly-M-x)
-   ("TAB" . xah-fly--tab-key-map)
-   ("." . xah-fly-highlight-keymap)
-   ("'" . xah-fill-or-unfill)
-   ("," . xah-fly-comma-keymap)
-   ("-" . xah-show-formfeed-as-line)
-   ;; /
-   ;; ;
-   ;; =
-   ;; [
-   ("\\" . toggle-input-method)
-   ;; `
-
-   ;; 1
-   ;; 2
-   ("3" . delete-window)
-   ("4" . split-window-right)
-   ("5" . balance-windows)
-   ("6" . xah-upcase-sentence)
-   ;; 7
-   ;; 8
-   ("9" . ispell-word)
-   ;; 0
-
-   ("a" . mark-whole-buffer)
-   ("b" . end-of-buffer)
-   ("c" . xah-fly-file-keymap)
-   ("d" . beginning-of-buffer)
-   ("e" . xah-fly-insert-keymap)
-   ("f" . xah-search-current-word)
-   ("g" . xah-close-current-buffer)
-   ("h" . xah-fly-describe-keymap)
-   ("i" . kill-line)
-   ("j" . xah-copy-all-or-region)
-   ("k" . xah-fly-tag-keymap)
-   ;; ("l" . recenter-top-bottom)
-   ("l" . ken_nc/prot-keymap)
-   ("m" . dired-jump)
-   ("n" . xah-fly-buffer-keymap)
-   ;; ("o" . exchange-point-and-mark)
-   ("o" . ken_nc/crux-keymap)
-   ("p" . query-replace)
-   ("q" . xah-cut-all-or-region)
-   ("r" . xah-fly-visual-keymap)
-   ("s" . save-buffer)
-   ("t" . xah-fly-edit-keymap)
-   ("u" . switch-to-buffer)
-   ;; v
-   ("w" . xah-fly-eval-keymap)
-   ("x" . xah-toggle-previous-letter-case)
-   ("y" . xah-show-kill-ring)
-   ;; z
-   ;;
-   ))
 
 ;; HHH___________________________________________________________________
 ;; Movement key integrations with built-in Emacs packages
