@@ -320,6 +320,7 @@ Super - Control - <arrow>
      ("u" . crux-recentf-find-file)
      ("p" . crux-rename-file-and-buffer)
      ("q" . crux-transpose-windows)
+     ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)))
 #+END_SRC
@@ -328,7 +329,7 @@ Super - Control - <arrow>
   (xah-fly--define-keys
    (define-prefix-command 'ken_nc/prot-keymap)
    '(
-     ("b" . prot-simple-narrow-dwim)
+     ("n" . prot-simple-narrow-dwim)
      ("j" . prot-comment-timestamp-keyword)
      ("u" . prot-simple-delete-pair-dwim)
      ("e" . prot-diff-buffer-dwim)))
@@ -342,6 +343,7 @@ Super - Control - <arrow>
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'delete-frame) ; TODO 2022-01-05: Change so its dwim
   (global-set-key (kbd "C-c t") 'my-create-tags)
+
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
@@ -402,7 +404,8 @@ Super - Control - <arrow>
      ("u" . switch-to-buffer)
      ;; v
      ("w" . xah-fly-eval-keymap)
-     ("x" . xah-toggle-previous-letter-case)
+     ;; ("x" . xah-toggle-previous-letter-case)
+     ("x" . ken_nc/jump-to-mark)
      ("y" . xah-show-kill-ring)
      ;; z
      ;;
@@ -499,6 +502,7 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
   (set-face-background 'cursor "white smoke")
   (set-face-background 'mouse "white smoke")
+  (set-face-background 'region  "#666")
   (setq read-file-name-completion-ignore-case t)
   (setq frame-resize-pixelwise t)
 #+END_SRC
@@ -876,6 +880,12 @@ Expand region increases the selected region by semantic units. Just keep pressin
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
+    :ensure t)
+#+END_SRC
+** Initialize =highlight=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight
     :ensure t)
 #+END_SRC
 ** Built-in entry: =eldoc=
