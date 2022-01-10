@@ -39,10 +39,10 @@ direction if ARG is negative. ARG defaults to 1."
         (when (looking-at-p "[ \t\n]")
           (skip-chars-forward " \t\n"))
         (unless (= (point) (point-max))
-          ;; Now, if we're at the beginning of a word, skip it¡Ä
+          ;; Now, if we're at the beginning of a word, skip it
           (if (looking-at-p "\\sw")
               (skip-syntax-forward "w")
-            ;; ¡Äotherwise it means we're at the beginning of a string of
+            ;; otherwise it means we're at the beginning of a string of
             ;; symbols. Then move forward to another whitespace char,
             ;; word-constituent char, or to the end of the buffer.
             (if (re-search-forward "\n\\|\\s-\\|\\sw" nil t)

@@ -461,6 +461,18 @@ Others remote file editing packages use FTP to connect to the remote host and to
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
 #+END_SRC
+** Isearch functionality
+The defualt functionality of isearch is to put the cursor after the last character searched. Thats bad usability. Changed so that the cusor is moved to the beginning of the match searched.
+#+BEGIN_SRC emacs-lisp
+  (defun my-goto-match-beginning ()
+      (when (and isearch-forward isearch-other-end (not isearch-mode-end-hook-quit))
+        (goto-char isearch-other-end)))
+  (defadvice isearch-exit (after my-goto-match-beginning activate)
+    "Go to beginning of match."
+    (when (and isearch-forward isearch-other-end)
+      (goto-char isearch-other-end)))
+  (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
+#+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
