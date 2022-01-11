@@ -487,7 +487,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
       (goto-char word-at-point)
       (isearch-forward-symbol-at-point)))
 
-
   (global-set-key (kbd "<mouse-3>") 'ken_nc/find-word-on-click)
 #+END_SRC
 ** Auto Complete in IELM
@@ -514,7 +513,9 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 
   (defun activate-default-input-method ()
     (interactive)
-    (setq default-input-method "japanese")
+    ;; need emacs-mozc to be installed
+    (setq default-input-method "japanese-mozc")
+    ;; (setq default-input-method "japanese")
     (activate-input-method default-input-method))
   (add-hook 'text-mode-hook 'activate-default-input-method)
 #+END_SRC
@@ -536,7 +537,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
     (load-theme 'xresources t)
     ;; (set-frame-position (selected-frame) 0 0)
     (set-frame-size (selected-frame) 800 1000 t))
-
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
@@ -794,6 +794,13 @@ Avy is a very useful package; instead of having to move your cursor to a line th
     :ensure t
     :bind
     ("M-s" . avy-goto-char))
+#+END_SRC
+** Initialize =mozc=
+*** “ú–{Œê“ü—Í
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package mozc
+    :ensure t)
 #+END_SRC
 ** Initialize =switch-window=
 *** Description
