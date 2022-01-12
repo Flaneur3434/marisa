@@ -18,10 +18,12 @@
 (require 'prot-comment)
 (require 'prot-diff)
 (require 'prot-simple)
+(require 'prot-eshell)
 (require 'ken_nc-functions)
 (require 'ken_nc-custom-colors)
 (require 'darkroom)
 (require 'wgrep)
+(require 'grep-buffers)
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
@@ -66,4 +68,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window)))
+   '(meghanada irony company-irony company-c-headers company compnay mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -308,6 +308,7 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)
      ("i" . ken_nc/grep-dwim)))
+  ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
 #+BEGIN_SRC emacs-lisp
@@ -322,6 +323,7 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
   ;;  TODO 2022-01-07: Add prot-text.el keybindings
   ;;  TODO 2022-01-07: Add prot-comment.el keybindings
   ;;  TODO 2022-01-07: Add prot-spell.el keybindings
+  ;;  TODO 2022-01-11: Add prot-eshell keybinds (cd history, redirect to buffer)
 #+END_SRC
 ** General Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -943,12 +945,48 @@ Expand region increases the selected region by semantic units. Just keep pressin
     (add-hook 'java-mode-hook 'flycheck-mode)
     (add-hook 'c-mode-common-hook 'flycheck-mode))
 #+END_SRC
-
+** Initialize =company=
+*** Description
+Company is a modular text completion framework for GNU Emacs
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :diminish (meghanada-mode company-mode irony-mode)
+    :config
+    ;; (setq company-idle-delay 5)
+    ;; (setq company-minimum-prefix-length 6)
+    (setq company-idle-delay nil)
+    (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+    (define-key company-active-map (kbd "j") #'company-select-next)
+    (define-key company-active-map (kbd "l") #'company-select-previous)
+    (define-key company-active-map (kbd "<home>") #'company-abort)
+    (global-company-mode)
+#+END_SRC
 ** C & C++
 *** Description
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
+  (use-package company-c-headers
+    :defer nil
+    :ensure t)
+
+  (use-package company-irony
+    :defer nil
+    :ensure t
+    :config
+    (setq company-backends '((company-c-headers
+                              company-dabbrev-code
+                              company-irony))))
+  (use-package irony
+    :defer nil
+    :ensure t
+    :config
+    :hook
+    ((c++-mode c-mode) . irony-mode)
+    ('irony-mode-hook) . 'irony-cdb-autosetup-compile-options)
+
   (add-hook 'c-mode-common-hook
             (lambda()
               (subword-mode)
@@ -957,6 +995,35 @@ Irony is the company backend for C and C++
               (setq c-default-style "bsd")
               (setq c-basic-offset 4)))
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
+#+END_SRC
+** Java
+*** Description
+Meghanada provides autocompletion when editing Java files. I use it mainly for autocompletion but thereÅfs a ton of other things it can do, automatic imports, for example.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package meghanada
+    :ensure t
+    :defer nil
+    :config
+    (add-hook 'java-mode-hook
+              (lambda ()
+                (meghanada-mode t)))
+    (setq meghanada-java-path "java")
+    (setq meghanada-maven-path "mvn"))
+#+END_SRC
+** Elisp Format
+*** Description
+ElispFormat is a mode that format elisp code
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package elisp-format
+    :ensure t)
+#+END_SRC
+
 ** Scheme =geiser-mit=
 *** Description
 Collection of Emacs major and minor modes that work with scheme
@@ -969,19 +1036,4 @@ Collection of Emacs major and minor modes that work with scheme
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
                 (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
-#+END_SRC
-
-** Go
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :ensure t)
-#+END_SRC
-
-** Elisp Format
-*** Description
-ElispFormat is a mode that format elisp code
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package elisp-format
-    :ensure t)
 #+END_SRC
