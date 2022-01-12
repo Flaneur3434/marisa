@@ -81,25 +81,9 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
                               ))
   (electric-pair-mode t)
 #+END_SRC
-** Move between windows quickly
-#+BEGIN_SRC emacs-lisp
-  ;; (space-chord-define-global "h" 'windmove-left)
-  ;; (space-chord-define-global "l" 'windmove-right)
-  ;; (space-chord-define-global "j" 'windmove-down)
-  ;; (space-chord-define-global "k" 'windmove-up)
-#+END_SRC
 ** Transform yes-or-no questions into y-or-n
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
-** Easier resize bindigs
-Super - Control - <arrow>
-#+BEGIN_SRC emacs-lisp
-  ;; #TODO: change the keybindings
-    ;; (global-set-key (kbd "s-<left>") 'shrink-window-horizontally)
-    ;; (global-set-key (kbd "s-<right>") 'enlarge-window-horizontally)
-    ;; (global-set-key (kbd "s-<down>") 'shrink-window)
-    ;; (global-set-key (kbd "s-<up>") 'enlarge-window)
 #+END_SRC
 ** Highlight current line
 #+BEGIN_SRC emacs-lisp
@@ -111,12 +95,13 @@ Super - Control - <arrow>
 #+END_SRC
 ** Default encoding
 #+BEGIN_SRC emacs-lisp
+  (prefer-coding-system 'utf-8-unix)
   (set-language-environment "UTF-8")
-  (prefer-coding-system       'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8-unix)
+  (set-terminal-coding-system 'utf-8-unix)
+  (set-keyboard-coding-system 'utf-8-unix)
+  (set-selection-coding-system 'utf-8-unix)
+  (setq-default buffer-file-coding-system 'utf-8-unix)
 #+END_SRC
 ** Completion and Minibuffer settings
 #+BEGIN_SRC emacs-lisp
@@ -137,7 +122,6 @@ Super - Control - <arrow>
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** Create an indirect buffer with narrow view
-** Spelling (not implemented)
 ** Dired Qol
 #+BEGIN_SRC emacs-lisp
   (require 'dired-x)
@@ -322,7 +306,8 @@ Super - Control - <arrow>
      ("q" . crux-transpose-windows)
      ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
-     ("e" . crux-delete-file-and-buffer)))
+     ("e" . crux-delete-file-and-buffer)
+     ("i" . ken_nc/grep-dwim)))
 #+END_SRC
 ** Prot Function keybinds
 #+BEGIN_SRC emacs-lisp
@@ -399,7 +384,8 @@ Super - Control - <arrow>
      ("p" . query-replace)
      ("q" . xah-cut-all-or-region)
      ("r" . xah-fly-visual-keymap)
-     ("s" . save-buffer)
+     ;; ("s" . save-buffer)
+     ("s" . ken_nc/save-buffer-dwim)
      ("t" . xah-fly-edit-keymap)
      ("u" . switch-to-buffer)
      ;; v
@@ -473,6 +459,23 @@ The defualt functionality of isearch is to put the cursor after the last charact
       (goto-char isearch-other-end)))
   (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
 #+END_SRC
+** WGrep
+WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
+
+Save buffer automatically when wgrep-finish-edit
+#+BEGIN_SRC emacs-lisp
+  (setq wgrep-auto-save-buffer t)
+#+END_SRC
+Change the default key binding to switch to wgrep
+#+BEGIN_SRC emacs-lisp
+  (setq wgrep-enable-key "r")
+#+END_SRC
+Default grep flags
+#+BEGIN_SRC emacs-lisp
+  (grep-apply-setting
+   'grep-template
+   "--color -inHr --null -e")
+#+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
@@ -536,7 +539,10 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
     (select-frame frame)
     (load-theme 'xresources t)
     ;; (set-frame-position (selected-frame) 0 0)
-    (set-frame-size (selected-frame) 800 1000 t))
+    (set-frame-size (selected-frame) 800 1000 t)
+    (setq xah-fly-use-control-key nil)
+    (xah-fly-keys-set-layout "qwerty")
+    (xah-fly-keys t))
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
@@ -570,7 +576,7 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Prompt
 #+BEGIN_SRC emacs-lisp
-  (setq eshell-prompt-regexp "^[^è¢√è™°è¢√è™≥\n]*[è¢√è™°è¢√è™≥] ")
+  (setq eshell-prompt-regexp "^[^ÉøÉ…\n]*[ÉøÉ…] ")
   (setq eshell-prompt-function
         (lambda nil
           (concat
@@ -581,8 +587,8 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
               (propertize "~" 'face `(:foreground "#99CCFF"))
               (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
            (if (= (user-uid) 0)
-               (propertize " è¢√è™° " 'face `(:foreground "#FF6666"))
-           (propertize " è¢√è™≥ " 'face `(:foreground "#A6E22E"))))))
+               (propertize " Éø " 'face `(:foreground "#FF6666"))
+             (propertize " É… " 'face `(:foreground "#A6E22E"))))))
 
   (setq eshell-highlight-prompt nil)
 #+END_SRC
@@ -942,11 +948,13 @@ Expand region increases the selected region by semantic units. Just keep pressin
 *** Description
 Irony is the company backend for C and C++
 *** Code
+#+BEGIN_SRC emacs-lisp
   (add-hook 'c-mode-common-hook
             (lambda()
               (subword-mode)
               (google-set-c-style)
               (google-make-newline-indent)
+              (setq c-default-style "bsd")
               (setq c-basic-offset 4)))
 #+END_SRC
 ** Scheme =geiser-mit=

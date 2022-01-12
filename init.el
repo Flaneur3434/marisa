@@ -7,6 +7,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -20,6 +21,7 @@
 (require 'ken_nc-functions)
 (require 'ken_nc-custom-colors)
 (require 'darkroom)
+(require 'wgrep)
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
@@ -55,16 +57,6 @@
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
-
-
-; UTF-8 as default encoding
-(prefer-coding-system 'utf-8-unix)
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8-unix)
-(set-terminal-coding-system 'utf-8-unix)
-(set-keyboard-coding-system 'utf-8-unix)
-(set-selection-coding-system 'utf-8-unix)
-(setq-default buffer-file-coding-system 'utf-8-unix)
 
 (put 'narrow-to-region 'disabled nil)
 

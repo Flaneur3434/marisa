@@ -127,4 +127,18 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
   (interactive)
   (goto-char (mark)))
 
+;; Grep Mode Keybindings
+(defun ken_nc/save-buffer-dwim ()
+  (interactive)
+  (cond
+   ((string-equal major-mode "grep-mode") (wgrep-finish-edit))
+   (t (save-buffer))))
+
+(defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)
+  (interactive "*p\nsSearch pattern (regex): \nsWhich files to search (regex): ")
+  (if (= set-invert 4)
+	  (set (make-local-variable 'command) (concat "grep --color -ivnHr --null -e" " " search-pattern " " file-name))
+	(set (make-local-variable 'command) (concat "grep --color -inHr --null -e" " " search-pattern " " file-name)))
+  (grep command))
+
 (provide 'ken_nc-functions)
