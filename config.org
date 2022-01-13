@@ -470,7 +470,7 @@ Save buffer automatically when wgrep-finish-edit
 #+END_SRC
 Change the default key binding to switch to wgrep
 #+BEGIN_SRC emacs-lisp
-  (setq wgrep-enable-key "r")
+  (global-set-key (kbd "C-r") 'ken_nc/edit-grep-buffer-dwim)
 #+END_SRC
 Default grep flags
 #+BEGIN_SRC emacs-lisp
@@ -509,13 +509,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 #+END_SRC
 ** Japanese Input
 #+BEGIN_SRC emacs-lisp
-  (prefer-coding-system 'utf-8-unix)
-  (set-default-coding-systems 'utf-8-unix)
-  (set-terminal-coding-system 'utf-8-unix)
-  (set-keyboard-coding-system 'utf-8-unix)
-  (set-selection-coding-system 'utf-8-unix)
-  (setq-default buffer-file-coding-system 'utf-8-unix)
-
   (defun activate-default-input-method ()
     (interactive)
     ;; need emacs-mozc to be installed
@@ -961,7 +954,7 @@ Company is a modular text completion framework for GNU Emacs
     (define-key company-active-map (kbd "j") #'company-select-next)
     (define-key company-active-map (kbd "l") #'company-select-previous)
     (define-key company-active-map (kbd "<home>") #'company-abort)
-    (global-company-mode)
+    (global-company-mode))
 #+END_SRC
 ** C & C++
 *** Description

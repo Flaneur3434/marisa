@@ -132,13 +132,32 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
   (interactive)
   (cond
    ((string-equal major-mode "grep-mode") (wgrep-finish-edit))
+   ((string-equal major-mode "occur-edit-mode") (occur-cease-edit))
    (t (save-buffer))))
 
+;; Grep Mode Keybindings
+(defun ken_nc/edit-grep-buffer-dwim ()
+  (interactive)
+  (cond
+   ((string-equal major-mode "grep-mode") (wgrep-change-to-wgrep-mode))
+   ((string-equal major-mode "occur-mode") (occur-edit-mode))
+   (t nil)))
+
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)
-  (interactive "*p\nsSearch pattern (regex): \nsWhich files to search (regex): ")
-  (if (= set-invert 4)
-	  (set (make-local-variable 'command) (concat "grep --color -ivnHr --null -e" " " search-pattern " " file-name))
-	(set (make-local-variable 'command) (concat "grep --color -inHr --null -e" " " search-pattern " " file-name)))
-  (grep command))
+  "Runs grep and grep-buffer in one command. Default (no prefix) runs regular grep with the arguments of grep --color -inHr --null -e.
+If the prefix is 4 (the default number for prefix), it runs grep inverse. The arguments are grep --color -ivnHr --null -e.
+If no file is specified, then run occur."
+  (interactive "p")
+  (set (make-local-variable 'search-pattern) (read-regexp "Search pattern (regex): "))
+  (if (y-or-n-p "File")
+	  (progn
+		(set (make-local-variable 'directory-name) (read-directory-name "Which directory: "))
+		(set (make-local-variable 'file-name) (read-string "Which file(s): "))
+		(cond
+		 ((= set-invert 4)
+		  (set (make-local-variable 'command) (concat "grep --color -ivnHr --null -e" " " search-pattern " " directory-name file-name)))
+		 (t (set (make-local-variable 'command) (concat "grep --color -inHr --null -e" " " search-pattern " " directory-name file-name))))
+		(grep command))
+	(occur search-pattern)))
 
 (provide 'ken_nc-functions)
