@@ -27,6 +27,10 @@ Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview 
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'text-mode-hook 'display-line-numbers-mode)
 #+END_SRC
+Use absolute line numbers even when buffer is narrowed.
+#+BEGIN_SRC emacs-lisp
+  (customize-set-variable 'display-line-numbers-widen t)
+#+END_SRC
 ** Show parent parentheses
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
@@ -524,10 +528,10 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (set-face-background 'region  "#666")
   (setq read-file-name-completion-ignore-case t)
   (setq frame-resize-pixelwise t)
-  (when (member "Misc Tamsyn" (font-family-list))
-    (set-frame-font "Misc Tamsyn 12" t t))
 #+END_SRC
 * Emacs Daemon
+Emacs frame settings that need to started when emacs is in daemon mode.
+These include the frame (window) size, xah-fly-keys settings, and font settings.
 #+BEGIN_SRC emacs-lisp
   (server-start)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
@@ -538,6 +542,8 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
     ;; (set-frame-position (selected-frame) 0 0)
     (set-frame-size (selected-frame) 800 1000 t)
     (setq xah-fly-use-control-key nil)
+    (when (member "Misc Tamsyn" (font-family-list))
+      (set-frame-font "Misc Tamsyn 12" t t))
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))
 
@@ -546,7 +552,9 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
                 #'ken_nc/setup-emacsclient)
     (progn
       (load-theme 'xresources t)
-      (when window-system (set-frame-size (selected-frame) 115 55))))
+      (when window-system (set-frame-size (selected-frame) 115 55))
+      (when (member "Misc Tamsyn" (font-family-list))
+        (set-frame-font "Misc Tamsyn 12" t t))))
 #+END_SRC
 * Org mode
 ** Description
@@ -627,7 +635,6 @@ Auto-package-update automatically updates and removes old packages
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package auto-package-update
-    :defer nil
     :ensure t
     :config
     (setq auto-package-update-delete-old-versions t)
@@ -687,7 +694,6 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
-    :defer nil
     :preface
     (defun update-config ()
       "Update Witchmacs to the latest version."
@@ -938,7 +944,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :ensure t
     :config
     (add-hook 'java-mode-hook 'flycheck-mode)
-    (add-hook 'c-mode-common-hook 'flycheck-mode))
+    (add-hook 'c-mode-hook 'flycheck-mode))
 #+END_SRC
 ** Initialize =company=
 *** Description
@@ -947,12 +953,9 @@ Company is a modular text completion framework for GNU Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
-    :diminish (meghanada-mode company-mode irony-mode)
     :config
-    ;; (setq company-idle-delay 5)
-    ;; (setq company-minimum-prefix-length 6)
     (setq company-idle-delay nil)
-    (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+    (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
     (define-key company-active-map (kbd "j") #'company-select-next)
     (define-key company-active-map (kbd "l") #'company-select-previous)
     (define-key company-active-map (kbd "<home>") #'company-abort)
@@ -964,18 +967,15 @@ Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package company-c-headers
-    :defer nil
     :ensure t)
 
   (use-package company-irony
-    :defer nil
     :ensure t
     :config
     (setq company-backends '((company-c-headers
                               company-dabbrev-code
                               company-irony))))
   (use-package irony
-    :defer nil
     :ensure t
     :config
     :hook
@@ -987,7 +987,6 @@ Irony is the company backend for C and C++
               (subword-mode)
               (google-set-c-style)
               (google-make-newline-indent)
-              (setq c-default-style "bsd")
               (setq c-basic-offset 4)))
 #+END_SRC
 ** Go
@@ -1002,7 +1001,6 @@ Meghanada provides autocompletion when editing Java files. I use it mainly for a
 #+BEGIN_SRC emacs-lisp
   (use-package meghanada
     :ensure t
-    :defer nil
     :config
     (add-hook 'java-mode-hook
               (lambda ()
@@ -1018,7 +1016,6 @@ ElispFormat is a mode that format elisp code
   (use-package elisp-format
     :ensure t)
 #+END_SRC
-
 ** Scheme =geiser-mit=
 *** Description
 Collection of Emacs major and minor modes that work with scheme
