@@ -512,23 +512,23 @@ Version 2017-07-02"
     (cond
      ((looking-back "\\s)" 1)
       (if current-prefix-arg
-          (xah-delete-backward-bracket-pair)
-        (xah-delete-backward-bracket-text)))
+          (xah-delete-backward-bracket-text)
+        (xah-delete-backward-bracket-pair)))
      ((looking-back "\\s(" 1)
       (progn
         (backward-char)
         (forward-sexp)
         (if current-prefix-arg
-            (xah-delete-backward-bracket-pair)
-          (xah-delete-backward-bracket-text))))
+            (xah-delete-backward-bracket-text)
+          (xah-delete-backward-bracket-pair))))
      ((looking-back "\\s\"" 1)
       (if (nth 3 (syntax-ppss))
           (progn
             (backward-char)
             (xah-delete-forward-bracket-pairs (not current-prefix-arg)))
         (if current-prefix-arg
-            (xah-delete-backward-bracket-pair)
-          (xah-delete-backward-bracket-text))))
+            (xah-delete-backward-bracket-text)
+          (xah-delete-backward-bracket-pair))))
      (t
       (delete-char -1)))))
 
@@ -3599,9 +3599,8 @@ minor modes loaded later may override bindings in this map.")
    ("c" . previous-line)
    ;; ("d" . xah-beginning-of-line-or-block)
    ("d" . ken_nc/smarter-move-beginning-of-line)
-   ;;("e" . xah-delete-backward-char-or-bracket-text)
+   ("e" . xah-delete-backward-char-or-bracket-text)
    ;; ("e" . delete-forward-char)
-   ("e" . ken_nc/delete-surround-char)
    ("f" . undo)
    ;;("g" . backward-word)
    ("g" . ken_nc/backward-word)

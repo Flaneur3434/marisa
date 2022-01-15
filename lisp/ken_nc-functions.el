@@ -160,13 +160,6 @@ If no file is specified, then run occur."
 		(grep command))
 	(occur search-pattern)))
 
-(defun ken_nc/delete-surround-char (&optional delete-char)
-  "If marked region, delete matching pairs. Else delete character."
-  (interactive "p")
-  (if (region-active-p)
-	  (delete-pair)
-	(delete-char 1)))
-
-;; (global-set-key (kbd "C-c 0") 'ken_nc/delete-surround-char)
+(global-set-key (kbd "C-c 0") 'ken_nc/delete-surround-char)
 
 (provide 'ken_nc-functions)
