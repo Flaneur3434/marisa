@@ -542,8 +542,8 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
     ;; (set-frame-position (selected-frame) 0 0)
     (set-frame-size (selected-frame) 800 1000 t)
     (setq xah-fly-use-control-key nil)
-    (when (member "Misc Tamsyn" (font-family-list))
-      (set-frame-font "Misc Tamsyn 12" t t))
+    (when (member "Source Code Pro" (font-family-list))
+      (set-frame-font "Source Code Pro" t t))
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))
 
@@ -553,8 +553,8 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
     (progn
       (load-theme 'xresources t)
       (when window-system (set-frame-size (selected-frame) 115 55))
-      (when (member "Misc Tamsyn" (font-family-list))
-        (set-frame-font "Misc Tamsyn 12" t t))))
+      (when (member "Source Code Pro" (font-family-list))
+        (set-frame-font "Source Code Pro" t t))))
 #+END_SRC
 * Org mode
 ** Description
@@ -635,6 +635,7 @@ Auto-package-update automatically updates and removes old packages
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package auto-package-update
+    :defer nil
     :ensure t
     :config
     (setq auto-package-update-delete-old-versions t)
@@ -693,6 +694,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
+    :defer nil
     :ensure t
     :preface
     (defun update-config ()
@@ -729,7 +731,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
             ((,nil
               "Witchmacs on github"
               "Open Marisa on github"
-              (lambda (&rest _) (browse-url "https://github.com/snackon/witchmacs"))
+              (lambda (&rest _) (browse-url "https://github.com/GrapeJuiceSoda/marisa"))
               'default)
              (nil
               "Witchmacs crash course"
@@ -967,20 +969,22 @@ Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package company-c-headers
+    :defer nil
     :ensure t)
 
   (use-package company-irony
+    :defer nil
     :ensure t
     :config
     (setq company-backends '((company-c-headers
                               company-dabbrev-code
                               company-irony))))
   (use-package irony
+    :defer nil
     :ensure t
-    :config
     :hook
     ((c++-mode c-mode) . irony-mode)
-    ('irony-mode-hook) . 'irony-cdb-autosetup-compile-options)
+    (('irony-mode-hook) . 'irony-cdb-autosetup-compile-options))
 
   (add-hook 'c-mode-common-hook
             (lambda()
@@ -992,6 +996,7 @@ Irony is the company backend for C and C++
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
+    :defer nil
     :ensure t)
 #+END_SRC
 ** Java
@@ -1000,6 +1005,7 @@ Meghanada provides autocompletion when editing Java files. I use it mainly for a
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package meghanada
+    :defer nil
     :ensure t
     :config
     (add-hook 'java-mode-hook
@@ -1014,6 +1020,7 @@ ElispFormat is a mode that format elisp code
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package elisp-format
+    :defer nil
     :ensure t)
 #+END_SRC
 ** Scheme =geiser-mit=
@@ -1022,9 +1029,10 @@ Collection of Emacs major and minor modes that work with scheme
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package geiser-mit
-      :ensure t
-      :config
-      (add-hook 'geiser-mode-hook
+    :defer nil
+    :ensure t
+    :config
+    (add-hook 'geiser-mode-hook
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
                 (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
