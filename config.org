@@ -311,7 +311,11 @@ Use absolute line numbers even when buffer is narrowed.
      ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)
-     ("i" . ken_nc/grep-dwim)))
+     ("i" . ken_nc/grep-dwim)
+     (">" . mpc-next)
+     ("<" . mpc-prev)
+     ("]" . mpc-pause)
+     ("+" . mpc-resume)))
   ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
@@ -474,7 +478,7 @@ Save buffer automatically when wgrep-finish-edit
 #+END_SRC
 Change the default key binding to switch to wgrep
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-q") 'ken_nc/edit-grep-buffer-dwim)
+  (global-set-key (kbd "C-q") 'ken_nc/edit-buffer-dwim)
 #+END_SRC
 Default grep flags
 #+BEGIN_SRC emacs-lisp
@@ -520,6 +524,12 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
     ;; (setq default-input-method "japanese")
     (activate-input-method default-input-method))
   (add-hook 'text-mode-hook 'activate-default-input-method)
+#+END_SRC
+** Music in emacs
+#+BEGIN_SRC emacs-lisp
+  (setq
+    mpc-browser-tags '(Artist Album)
+    mpc-songs-format "%-5{Time} %25{Title} %20{Album} %20{Artist}")
 #+END_SRC
 * Colors and Set Face
 #+BEGIN_SRC emacs-lisp

@@ -127,20 +127,22 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
   (interactive)
   (goto-char (mark)))
 
-;; Grep Mode Keybindings
+;; Turn on Write Mode Keybindings
 (defun ken_nc/save-buffer-dwim ()
   (interactive)
   (cond
    ((string-equal major-mode "grep-mode") (wgrep-finish-edit))
    ((string-equal major-mode "occur-edit-mode") (occur-cease-edit))
+   ((string-equal major-mode "wdired-mode") (wdired-finish-edit))
    (t (save-buffer))))
 
-;; Grep Mode Keybindings
-(defun ken_nc/edit-grep-buffer-dwim ()
+;; Save Mode Keybindings
+(defun ken_nc/edit-buffer-dwim ()
   (interactive)
   (cond
    ((string-equal major-mode "grep-mode") (wgrep-change-to-wgrep-mode))
    ((string-equal major-mode "occur-mode") (occur-edit-mode))
+   ((string-equal major-mode "dired-mode") (dired-toggle-read-only))
    (t nil)))
 
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)

@@ -8,6 +8,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
+(add-to-list 'load-path "~/.emacs.d/lisp/fzf")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -24,6 +25,7 @@
 (require 'ken_nc-custom-colors)
 (require 'darkroom)
 (require 'wgrep)
+(require 'fzf)
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
