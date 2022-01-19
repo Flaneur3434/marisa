@@ -3801,7 +3801,6 @@ minor modes loaded later may override bindings in this map.")
  ;; To customize this keymap see http://ergoemacs.org/misc/xah-fly-keys_customization.html.
  '(
    ("TAB" . indent-for-tab-command)
-
    ("i" . complete-symbol)
    ("g" . indent-rigidly)
    ("r" . indent-region)

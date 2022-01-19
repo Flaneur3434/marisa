@@ -955,12 +955,13 @@ Company is a modular text completion framework for GNU Emacs
     :defer nil
     :ensure t
     :config
+    (global-company-mode)
+    (setq company-global-modes '(not erc-mode message-mode eshell-mode))
     (setq company-idle-delay nil)
     (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
     (define-key company-active-map (kbd "j") #'company-select-next)
     (define-key company-active-map (kbd "l") #'company-select-previous)
-    (define-key company-active-map (kbd "<home>") #'company-abort)
-    (global-company-mode))
+    (define-key company-active-map (kbd "<home>") #'company-abort))
 #+END_SRC
 ** C & C++
 *** Description
@@ -980,17 +981,17 @@ Irony is the company backend for C and C++
                               company-irony))))
   (use-package irony
     :defer nil
-    :ensure t
-    :hook
-    ((c++-mode c-mode) . irony-mode)
-    (('irony-mode-hook) . 'irony-cdb-autosetup-compile-options))
+    :ensure t)
+
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
   (add-hook 'c-mode-common-hook
             (lambda()
               (subword-mode)
               (google-set-c-style)
-              (google-make-newline-indent)
-              (setq c-basic-offset 4)))
+              (google-make-newline-indent)))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp

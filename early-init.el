@@ -24,5 +24,4 @@
 (when (member "Source Code Pro" (font-family-list))
       (set-frame-font "Source Code Pro" t t))
 
-
 (provide 'early-init)
