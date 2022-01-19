@@ -35,18 +35,6 @@
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
 
-(defvar startup/file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-
-(defun startup/revert-file-name-handler-alist ()
-  (setq file-name-handler-alist startup/file-name-handler-alist))
-
-(defun startup/reset-gc ()
-  (setq gc-cons-threshold 100000000))
-
-(add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
-(add-hook 'emacs-startup-hook 'startup/reset-gc)
-
 ;; Initialize melpa repo
 (require 'package)
 (setq package-enable-at-startup nil)
