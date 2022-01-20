@@ -970,6 +970,9 @@ Corfu enhances the default completion in region function with a completion overl
   (add-hook 'prog-mode-hook 'corfu-mode)
   (add-hook 'shell-mode-hook 'corfu-mode)
   (add-hook 'eshell-mode-hook 'corfu-mode)
+
+  (add-to-list 'corfu-auto-commands 'auto-complete)
+
   ;; A few more useful configurations...
   (use-package emacs
     :init
@@ -1009,25 +1012,19 @@ This package provides an orderless completion style that divides the pattern int
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package company-c-headers
-    :defer nil
-    :ensure t)
-
-  (use-package company-irony
-    :defer nil
-    :ensure t
-    :config
-    (setq company-backends '((company-c-headers
-                              company-dabbrev-code
-                              company-irony))))
   (use-package irony
     :defer nil
     :ensure t)
 
+  (add-hook 'c-mode-hook 'ken_nc/ac-c-headers-init)
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
+  (defun ken_nc/ac-c-headers-init ()
+    (add-to-list 'ac-sources 'ac-source-c-headers))
+
+  (add-hook 'c++-mode-hook 'ken_nc/ac-c-headers-init)
   (add-hook 'c-mode-common-hook
             (lambda()
               (subword-mode)

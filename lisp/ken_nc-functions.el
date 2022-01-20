@@ -145,15 +145,6 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
    ((string-equal major-mode "dired-mode") (dired-toggle-read-only))
    (t nil)))
 
-(defun ken_nc/tab-dwim ()
-  (interactive)
-  (cond
-   ((string-equal major-mode "java-mode") (company-indent-or-complete-common 1))
-   ((string-equal major-mode "c-mode") (company-indent-or-complete-common 1))
-   ((string-equal major-mode "c++-mode") (company-indent-or-complete-common 1))
-   ((string-equal major-mode "emacs-lisp-mode") (company-indent-or-complete-common 1))
-   (t completion-at-point)))
-
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)
   "Runs grep and grep-buffer in one command. Default (no prefix) runs regular grep with the arguments of grep --color -inHr --null -e.
 If the prefix is 4 (the default number for prefix), it runs grep inverse. The arguments are grep --color -ivnHr --null -e.

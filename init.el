@@ -10,6 +10,8 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 (add-to-list 'load-path "~/.emacs.d/lisp/fzf")
 (add-to-list 'load-path "~/.emacs.d/lisp/corfu")
+(add-to-list 'load-path "~/.emacs.d/lisp/auto-complete")
+(add-to-list 'load-path "~/.emacs.d/lisp/auto-complete-c-headers")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -29,6 +31,8 @@
 (require 'wgrep)
 (require 'fzf)
 (require 'smart-tab)
+(require 'auto-complete)
+(require 'auto-complete-c-headers)
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
@@ -62,7 +66,7 @@
  ;; If there is more than one, they won't work right.
  '(display-line-numbers-widen t)
  '(package-selected-packages
-   '(orderless corfu meghanada irony company-irony company-c-headers company compnay mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window)))
+   '(orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
