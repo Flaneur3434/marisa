@@ -287,9 +287,9 @@ Use absolute line numbers even when buffer is narrowed.
 
   (defun open-ibuffer-and-move ()
      (interactive)
-     (split-and-follow-vertically)
+     (split-window-below)
      (ibuffer))
-   (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
+  (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
 #+END_SRC
 ** Diff Mode
 #+BEGIN_SRC emacs-lisp
@@ -946,22 +946,63 @@ Expand region increases the selected region by semantic units. Just keep pressin
     (add-hook 'java-mode-hook 'flycheck-mode)
     (add-hook 'c-mode-hook 'flycheck-mode))
 #+END_SRC
-** Initialize =company=
+** Initialize =corfu=
 *** Description
-Company is a modular text completion framework for GNU Emacs
+Corfu enhances the default completion in region function with a completion overlay.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :defer nil
-    :ensure t
-    :config
-    (global-company-mode)
-    (setq company-global-modes '(not erc-mode message-mode eshell-mode))
-    (setq company-idle-delay nil)
-    (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
-    (define-key company-active-map (kbd "j") #'company-select-next)
-    (define-key company-active-map (kbd "l") #'company-select-previous)
-    (define-key company-active-map (kbd "<home>") #'company-abort))
+  (setq corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
+  (setq corfu-auto t)              ;; Enable auto completion
+  (setq corfu-quit-no-match t)     ;; Automatically quit if there is no match
+  (setq corfu-preview-current nil) ;; Disable current candidate preview
+  (setq corfu-preselect-first nil) ;; Disable candidate preselection
+
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  (define-key corfu-map (kbd "TAB") #'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
+
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer only if Vertico is not active."
+    (unless (or (bound-and-true-p mct--active))
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
+
+  (add-hook 'prog-mode-hook 'corfu-mode)
+  (add-hook 'shell-mode-hook 'corfu-mode)
+  (add-hook 'eshell-mode-hook 'corfu-mode)
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 3)
+
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+    ;; (setq read-extended-command-predicate
+    ;;       #'command-completion-default-include-p)
+
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete))
+
+#+END_SRC
+** Orderless
+*** Description
+This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
+  ;; in the Consult wiki for an advanced Orderless style dispatcher.
+  ;; Enable `partial-completion' for files to allow path expansion.
+  ;; You may prefer to use `initials' instead of `partial-completion'.
+  (use-package orderless
+    :init
+    ;; Configure a custom style dispatcher (see the Consult wiki)
+    ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+    (setq completion-styles '(orderless)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles . (partial-completion))))))
 #+END_SRC
 ** C & C++
 *** Description
