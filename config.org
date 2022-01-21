@@ -579,7 +579,7 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Prompt
 #+BEGIN_SRC emacs-lisp
-  (setq eshell-prompt-regexp "^[^ƒ¿ƒÉ\n]*[ƒ¿ƒÉ] ")
+  (setq eshell-prompt-regexp "^[^ƒÉ\n]*[ƒÉ] ")
   (setq eshell-prompt-function
         (lambda nil
           (concat
@@ -958,8 +958,8 @@ Corfu enhances the default completion in region function with a completion overl
   (setq corfu-preselect-first nil) ;; Disable candidate preselection
 
   ;; Use TAB for cycling, default is `corfu-complete'.
-  (define-key corfu-map (kbd "TAB") #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
+  (define-key corfu-map (kbd "k") #'corfu-next)
+  (define-key corfu-map (kbd "i") #'corfu-previous)
 
   (defun corfu-enable-in-minibuffer ()
     "Enable Corfu in the minibuffer only if Vertico is not active."
@@ -981,31 +981,31 @@ Corfu enhances the default completion in region function with a completion overl
 
     ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
     ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-    ;; (setq read-extended-command-predicate
-    ;;       #'command-completion-default-include-p)
+    (setq read-extended-command-predicate
+          #'command-completion-default-include-p)
 
     ;; Enable indentation+completion using the TAB key.
     ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete))
-
+    (setq tab-always-indent 'complete)
+    (setq enable-recursive-minibuffers t))
+#+END_SRC
+** Cape
+*** Description
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
 #+END_SRC
 ** Orderless
 *** Description
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  ;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
-  ;; in the Consult wiki for an advanced Orderless style dispatcher.
-  ;; Enable `partial-completion' for files to allow path expansion.
-  ;; You may prefer to use `initials' instead of `partial-completion'.
   (use-package orderless
     :init
-    ;; Configure a custom style dispatcher (see the Consult wiki)
-    ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-    (setq completion-styles '(orderless)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles . (partial-completion))))))
+    (setq completion-styles '(basic orderless flex)))
 #+END_SRC
 ** C & C++
 *** Description

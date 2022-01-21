@@ -12,6 +12,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/corfu")
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete")
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete-c-headers")
+(add-to-list 'load-path "~/.emacs.d/lisp/cape")
 
 (require 'space-chord)
 (require 'google-c-style)
@@ -25,6 +26,7 @@
 (require 'prot-simple)
 (require 'prot-eshell)
 (require 'corfu)
+(require 'cape)
 (require 'ken_nc-functions)
 (require 'ken_nc-custom-colors)
 (require 'darkroom)

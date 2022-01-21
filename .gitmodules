@@ -1,0 +1,15 @@
+[submodule "lisp/cape"]
+	path = lisp/cape
+	url = https://github.com/minad/cape
+[submodule "lisp/mct"]
+	path = lisp/mct
+	url = https://github.com/protesilaos/mct
+[submodule "lisp/auto-complete-c-headers"]
+	path = lisp/auto-complete-c-headers
+	url = https://github.com/mooz/auto-complete-c-headers
+[submodule "lisp/auto-complete"]
+	path = lisp/auto-complete
+	url = https://github.com/auto-complete/auto-complete
+[submodule "lisp/corfu"]
+	path = lisp/corfu
+	url = https://github.com/minad/corfu
