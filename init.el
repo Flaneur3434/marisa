@@ -14,7 +14,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete-c-headers")
 (add-to-list 'load-path "~/.emacs.d/lisp/cape")
 
-(require 'space-chord)
 (require 'google-c-style)
 (require 'ctags-utils)
 (require 'move-text)
@@ -68,7 +67,7 @@
  ;; If there is more than one, they won't work right.
  '(display-line-numbers-widen t)
  '(package-selected-packages
-   '(orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree switch-window swiper powerline pfuture page-break-lines magit key-chord ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async ace-window)))
+   '(orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region xresources-theme which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

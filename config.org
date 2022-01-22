@@ -168,14 +168,6 @@ Use absolute line numbers even when buffer is narrowed.
        )
     )
   #+END_SRC
-*** Create a new window with dired
-#+BEGIN_SRC emacs-lisp
-  (defun open-dired-virtical-window ()
-    (interactive)
-    (split-and-follow-vertically)
-    (ido-dired))
-  (space-chord-define-global "d" 'open-dired-virtical-window)
-#+END_SRC
 *** Create a new window and open dired there
 #+BEGIN_SRC emacs-lisp
     (defun my-display-buffer-below (buffer alist)
@@ -766,15 +758,6 @@ If you pay close attention to the code in dashboard, you'll  notice that it uses
   ;
   ;(dashboard-center-line)
 #+END_SRC
-** Initialize =swiper=
-*** Description
-When doing C-s to search, you get this very nice and neat mini-buffer that you can traverse with the arrow keys (or C-n and C-p) and then press <RET> to select where you want to go
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper
-	:ensure t
-	:bind ("C-s" . 'swiper))
-#+END_SRC
 ** Initialize =beacon=
 *** Description
 You might find beacon an unnecesary package but I find it very neat. It briefly highlights the cursor position when switching to a new window or buffer
@@ -794,39 +777,12 @@ Highligh rgb and hex values with the color associated with them
    (use-package htmlize
      :ensure t)
 #+END_SRC
-** Initialize =avy=
-*** Description
-Avy is a very useful package; instead of having to move your cursor to a line that is very far away, just do M - s and type the character that you want to move to
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t
-    :bind
-    ("M-s" . avy-goto-char))
-#+END_SRC
 ** Initialize =mozc=
 *** “ú–{Œê“ü—Í
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package mozc
     :ensure t)
-#+END_SRC
-** Initialize =switch-window=
-*** Description
-Switch window is a neat package because instead of having to painstakingly do C - x o until you're in the window you want  to edit, you can just do C - x o and pick the one you want to move to according to the letter it is assigned to
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package switch-window
-    :ensure t
-    :config
-    (setq switch-window-input-style 'minibuffer)
-    (setq switch-window-increase 4)
-    (setq switch-window-threshold 2)
-    (setq switch-window-shortcut-style 'qwerty)
-    (setq switch-window-qwerty-shortcuts
-          '("a" "s" "d" "f" "j" "k" "l"))
-    :bind
-    ([remap other-window] . switch-window))
 #+END_SRC
 ** Initialize =ido= and =ido-vertical=
 *** Description
@@ -896,19 +852,6 @@ Git porcelain for Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t)
-#+END_SRC
-** Initialize =key-chord=
-*** Description
-This package implements support for mapping a pair of simultaneously
-pressed keys to a command and for mapping the same key being pressed
-twice in quick succession to a command. Such bindings are called
-"key chords".
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package key-chord
-    :ensure t
-    :config
-    (key-chord-mode 1))
 #+END_SRC
 ** Initialize =expand-region=
 *** Description
