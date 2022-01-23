@@ -164,4 +164,17 @@ If no file is specified, then run occur."
 
 (global-set-key (kbd "C-c 0") 'ken_nc/delete-surround-char)
 
+(defun ken_nc/mozc-dwim ()
+"If mozc is active turn it off. If mozc is turned off, turn it on."
+  (interactive)
+  (if mozc-mode
+	(mozc-mode nil)
+  (mozc-mode t)))
+
+(defun ken_nc/quit-emacs-dwim ()
+  (interactive)
+  (if (daemonp)
+	  (delete-frame)
+	(kill-emacs)))
+
 (provide 'ken_nc-functions)

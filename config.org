@@ -307,7 +307,8 @@ Use absolute line numbers even when buffer is narrowed.
      (">" . mpc-next)
      ("<" . mpc-prev)
      ("]" . mpc-pause)
-     ("+" . mpc-resume)))
+     ("+" . mpc-resume)
+     ("m" . ken_nc/mozc-dwim)))
   ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
@@ -328,7 +329,7 @@ Use absolute line numbers even when buffer is narrowed.
 ** General Keybindings
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c z") 'remember)
-  (global-set-key (kbd "C-c q") 'delete-frame) ; TODO 2022-01-05: Change so its dwim
+  (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim) ; TODO 2022-01-05: Change so its dwim
   (global-set-key (kbd "C-c t") 'my-create-tags)
 
   (global-set-key (kbd "M-i") 'move-text-up)
@@ -507,16 +508,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
     (auto-complete-mode 1))
   (add-hook 'ielm-mode-hook 'ielm-auto-complete)
 #+END_SRC
-** Japanese Input
-#+BEGIN_SRC emacs-lisp
-  (defun activate-default-input-method ()
-    (interactive)
-    ;; need emacs-mozc to be installed
-    (setq default-input-method "japanese-mozc")
-    ;; (setq default-input-method "japanese")
-    (activate-input-method default-input-method))
-  (add-hook 'text-mode-hook 'activate-default-input-method)
-#+END_SRC
 ** Music in emacs
 #+BEGIN_SRC emacs-lisp
   (setq
@@ -650,34 +641,6 @@ Diminish hides minor modes to prevent cluttering your mode line
   (use-package diminish
     :ensure t)
 #+END_SRC
-*** Historical
-22/04/2019: This macro was provided by user [[https://gist.github.com/ld34/44d100b79964407e5ddf41035e3cd32f][ld43]] after I couldn¢Âª®t figure out how to make diminish work by being at the top of the config file.
-
-#+BEGIN_SRC emacs-lisp
-  ;; (defmacro diminish-built-in (&rest modes)
-  ;;  "Accepts a list MODES of built-in emacs modes and generates `with-eval-after-load` diminish forms based on the file implementing the mode functionality for each mode."
-  ;;  (declare (indent defun))
-  ;;  (let* ((get-file-names (lambda (pkg) (file-name-base (symbol-file pkg))))
-  ;;      (diminish-files (mapcar get-file-names modes))
-  ;;      (zip-diminish   (-zip modes diminish-files)))
-  ;;    `(progn
-  ;;       ,@(cl-loop for (mode . file) in zip-diminish
-  ;;           collect `(with-eval-after-load ,file
-  ;;                  (diminish (quote ,mode)))))))
-  ;; This bit goes in init.el
-  ;; (diminish-built-in
-  ;;  beacon-mode
-  ;;  which-key-mode
-  ;;  page-break-lines-mode
-  ;;  undo-tree-mode
-  ;;  eldoc-mode
-  ;;  abbrev-mode
-  ;;  irony-mode
-  ;;  company-mode
-  ;;  meghanada-mode)
-#+END_SRC
-
-27/05/2019: Since the diminish functionality was always built-in in use-package, there was never a point in using a diminish config. lol silly me
 ** Initialize =dashboard=
 *** Description
 The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
@@ -894,25 +857,29 @@ Expand region increases the selected region by semantic units. Just keep pressin
 Corfu enhances the default completion in region function with a completion overlay.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (setq corfu-cycle t)             ;; Enable cycling for `corfu-next/previous'
-  (setq corfu-auto t)              ;; Enable auto completion
-  (setq corfu-quit-no-match t)     ;; Automatically quit if there is no match
-  (setq corfu-preview-current nil) ;; Disable current candidate preview
-  (setq corfu-preselect-first nil) ;; Disable candidate preselection
+  (setq corfu-cycle t)
+  (setq corfu-auto t)
+  (setq corfu-quit-no-match t)
+  (setq corfu-preview-current t)
+  (setq corfu-preselect-first nil)
 
   ;; Use TAB for cycling, default is `corfu-complete'.
-  (define-key corfu-map (kbd "k") #'corfu-next)
-  (define-key corfu-map (kbd "i") #'corfu-previous)
+  (define-key corfu-map (kbd "TAB")  #'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
 
   (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer only if Vertico is not active."
+    "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
     (unless (or (bound-and-true-p mct--active))
       (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
 
   (add-hook 'prog-mode-hook 'corfu-mode)
-  (add-hook 'shell-mode-hook 'corfu-mode)
-  (add-hook 'eshell-mode-hook 'corfu-mode)
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setq-local corfu-quit-at-boundary t
+                          corfu-quit-no-match t
+                          corfu-auto nil)
+              (corfu-mode)))
 
   (add-to-list 'corfu-auto-commands 'auto-complete)
 
@@ -936,10 +903,14 @@ Corfu enhances the default completion in region function with a completion overl
 *** Description
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
+   (add-to-list 'completion-at-point-functions #'cape-file)
+   (add-to-list 'completion-at-point-functions #'cape-keyword)
+   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+   (add-to-list 'completion-at-point-functions #'cape-symbol)
+
+   ;; Shell completion
+   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
 #+END_SRC
 ** Orderless
 *** Description
@@ -948,7 +919,7 @@ This package provides an orderless completion style that divides the pattern int
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :init
-    (setq completion-styles '(basic orderless flex)))
+    (setq completion-styles '(basic flex orderless )))
 #+END_SRC
 ** C & C++
 *** Description
