@@ -13,6 +13,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete")
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete-c-headers")
 (add-to-list 'load-path "~/.emacs.d/lisp/cape")
+(add-to-list 'load-path "~/.emacs.d/lisp/iedit/")
 
 (require 'google-c-style)
 (require 'ctags-utils)
@@ -34,6 +35,8 @@
 (require 'smart-tab)
 (require 'auto-complete)
 (require 'auto-complete-c-headers)
+(require 'iedit)
+(require 'iedit-rect)
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)

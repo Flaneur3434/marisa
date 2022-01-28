@@ -13,3 +13,6 @@
 [submodule "lisp/corfu"]
 	path = lisp/corfu
 	url = https://github.com/minad/corfu
+[submodule "lisp/iedit"]
+	path = lisp/iedit
+	url = https://github.com/victorhge/iedit

@@ -71,6 +71,10 @@ Use absolute line numbers even when buffer is narrowed.
   (setq-default indent-tabs-mode t)
   (setq backward-delete-char-untabify-method 'nil)
 #+END_SRC
+** Paragraph Filling
+#+BEGIN_SRC emacs-lisp
+  (setq-default fill-column 80)
+#+END_SRC
 ** Enable prettify symbols mode
 #+BEGIN_SRC emacs-lisp
   (global-prettify-symbols-mode t)
@@ -303,6 +307,7 @@ Use absolute line numbers even when buffer is narrowed.
      ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)
+     ("d" . grep-symbol-at-point)
      ("i" . ken_nc/grep-dwim)
      (">" . mpc-next)
      ("<" . mpc-prev)
@@ -394,7 +399,7 @@ Use absolute line numbers even when buffer is narrowed.
      ;; v
      ("w" . xah-fly-eval-keymap)
      ;; ("x" . xah-toggle-previous-letter-case)
-     ("x" . ken_nc/jump-to-mark)
+     ("x" . exchange-point-and-mark)
      ("y" . xah-show-kill-ring)
      ;; z
      ;;

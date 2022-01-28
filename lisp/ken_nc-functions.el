@@ -177,4 +177,19 @@ If no file is specified, then run occur."
 	  (delete-frame)
 	(kill-emacs)))
 
+(defun ken_nc/grep-symbol-at-point (&optional occur-or-grep)
+  "Call 'grep' on symbol at point."
+  (interactive "p")
+  (push (if (region-active-p)
+            (buffer-substring-no-properties
+             (region-beginning)
+             (region-end))
+          (let ((sym (thing-at-point 'symbol)))
+            (when (stringp sym)
+              (regexp-quote sym))))
+        regexp-history)
+  (if (= occur-or-grep 4)
+	  (grep (concat "grep " grep-template " " (grep-read-regexp)))
+	(call-interactively 'occur)))
+
 (provide 'ken_nc-functions)
