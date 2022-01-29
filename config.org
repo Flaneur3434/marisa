@@ -7,6 +7,12 @@ Emacs - Connect To The Wired Edition
 [[./gnumarisa.png]]
 * Introduction
 Based off of Witchmacs(https://github.com/snackon/Witchmacs)
+How to download
+#+BEGIN_SRC shell
+  git clone https://github.com/GrapeJuiceSoda/marisa .emacs.d
+  cd .emacs.d
+  git submodule update --init
+#+END_SRC
 * Why would I use this?
 #+BEGIN_QUOTE
 A very basic config (KISS!)

@@ -16,6 +16,9 @@
 [submodule "lisp/iedit"]
 	path = lisp/iedit
 	url = https://github.com/victorhge/iedit
+[submodule "lisp/popup-el"]
+	path = lisp/popup-el
+	url = https://github.com/auto-complete/popup-el
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
-	url = https://github.com/martenlienen/xresources-theme
+	url = https://github.com/GrapeJuiceSoda/xresources-theme

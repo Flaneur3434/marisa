@@ -14,6 +14,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/auto-complete-c-headers")
 (add-to-list 'load-path "~/.emacs.d/lisp/cape")
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
+(add-to-list 'load-path "~/.emacs.d/lisp/popup-el")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
