@@ -16,3 +16,6 @@
 [submodule "lisp/iedit"]
 	path = lisp/iedit
 	url = https://github.com/victorhge/iedit
+[submodule "themes/xresources-theme"]
+	path = themes/xresources-theme
+	url = https://github.com/martenlienen/xresources-theme

@@ -307,7 +307,7 @@ Use absolute line numbers even when buffer is narrowed.
      ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)
-     ("d" . grep-symbol-at-point)
+     ("d" . ken_nc/grep-symbol-at-point)
      ("i" . ken_nc/grep-dwim)
      (">" . mpc-next)
      ("<" . mpc-prev)
