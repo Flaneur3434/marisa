@@ -341,7 +341,7 @@ Use absolute line numbers even when buffer is narrowed.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim) ; TODO 2022-01-05: Change so its dwim
-  (global-set-key (kbd "C-c t") 'my-create-tags)
+  (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
 
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
@@ -528,6 +528,7 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 ** Mode line Customization
 #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook 'wc-mode)
+  (add-hook 'prog-mode-hook 'wc-mode)
   (setq wc-modeline-format "[Words: %tw, Lines: %tl]")
 #+END_SRC
 * Emacs Daemon
