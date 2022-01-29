@@ -29,6 +29,7 @@
 (require 'prot-diff)
 (require 'prot-simple)
 (require 'prot-eshell)
+(require 'wc-mode)
 (require 'corfu)
 (require 'cape)
 (require 'ken_nc-functions)
