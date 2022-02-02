@@ -22,3 +22,6 @@
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
 	url = https://github.com/GrapeJuiceSoda/xresources-theme
+[submodule "themes/zenburn-emacs"]
+	path = themes/zenburn-emacs
+	url = https://github.com/bbatsov/zenburn-emacs
