@@ -146,7 +146,7 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
    (t nil)))
 
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)
-  "Runs grep and grep-buffer in one command. Default (no prefix) runs regular grep with the arguments of grep --color -inHr --null -e.
+  "Runs grep and occur in one command. Default (no prefix) runs regular grep with the arguments of grep --color -inHr --null -e -r. Thats recursive btw.
 If the prefix is 4 (the default number for prefix), it runs grep inverse. The arguments are grep --color -ivnHr --null -e.
 If no file is specified, then run occur."
   (interactive "p")
@@ -157,8 +157,8 @@ If no file is specified, then run occur."
 		(set (make-local-variable 'file-name) (read-string "Which file(s): "))
 		(cond
 		 ((= set-invert 4)
-		  (set (make-local-variable 'command) (concat "grep --color -ivnHr --null -e" " " search-pattern " " directory-name file-name)))
-		 (t (set (make-local-variable 'command) (concat "grep --color -inHr --null -e" " " search-pattern " " directory-name file-name))))
+		  (set (make-local-variable 'command) (concat "grep --color --ignore-case --invert-match --line-number --with-filename --recursive --null --regexp" " " search-pattern " " directory-name file-name)))
+		 (t (set (make-local-variable 'command) (concat "grep --color --ignore-case --line-number --with-filename --recursive --null --regexp" " " search-pattern " " directory-name file-name))))
 		(grep command))
 	(occur search-pattern)))
 
@@ -191,5 +191,14 @@ If no file is specified, then run occur."
   (if (= occur-or-grep 4)
 	  (grep (concat "grep " grep-template " " (grep-read-regexp)))
 	(call-interactively 'occur)))
+
+(defun ken_nc/pop-local-mark-ring (&optional global-prefix)
+  "Move cursor to last mark position of current buffer. If prefix is given
+pop-global-mark is called instead of set-mark-command.  Call this repeatedly
+will cycle all positions in `mark-ring'."
+  (interactive "p")
+  (cond
+   ((= global-prefix 4) (pop-global-mark))
+   (t (set-mark-command t))))
 
 (provide 'ken_nc-functions)

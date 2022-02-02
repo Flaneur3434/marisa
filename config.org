@@ -8,7 +8,7 @@ Emacs - Connect To The Wired Edition
 * Introduction
 Based off of Witchmacs(https://github.com/snackon/Witchmacs)
 How to download
-#+BEGIN_SRC shell
+    #+BEGIN_SRC bash
   git clone https://github.com/GrapeJuiceSoda/marisa .emacs.d
   cd .emacs.d
   git submodule update --init
@@ -29,47 +29,47 @@ After all, Emacs works best when it's customized to your own liking!
 Minor quality-of-life modifications for a more pleasant Emacs experience
 ** Enable line numbers
 Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'text-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 Use absolute line numbers even when buffer is narrowed.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (customize-set-variable 'display-line-numbers-widen t)
 #+END_SRC
 ** Show parent parentheses
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
 ** Disable the default startup screen
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
 #+END_SRC
 ** Disable most gui elements
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
 #+END_SRC
 ** Enable copypasting outside of Emacs
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq x-select-enable-clipboard t)
 #+END_SRC
 ** Disable automatic creation of backup files
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq make-backup-files nil)
   (setq auto-save-default nil)
 #+END_SRC
 ** Enable conservative scrolling
-#+BEGIN_SRC emacs-lisp
-  (setq scroll-conservatively 100)
+    #+BEGIN_SRC emacs-lisp
+  (setq scroll-conservatively 101)
 #+END_SRC
 ** Disable ring-bell
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
 ** Indentation
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 4)
   (setq-default standard-indent 4)
   (setq c-basic-offset tab-width)
@@ -78,15 +78,15 @@ Use absolute line numbers even when buffer is narrowed.
   (setq backward-delete-char-untabify-method 'nil)
 #+END_SRC
 ** Paragraph Filling
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 80)
 #+END_SRC
 ** Enable prettify symbols mode
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (global-prettify-symbols-mode t)
 #+END_SRC
 ** Enable bracket pair-matching
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq electric-pair-pairs '(
                               (?\{ . ?\})
                               (?\( . ?\))
@@ -96,19 +96,19 @@ Use absolute line numbers even when buffer is narrowed.
   (electric-pair-mode t)
 #+END_SRC
 ** Transform yes-or-no questions into y-or-n
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 ** Highlight current line
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
 #+END_SRC
 ** Defer loading most packages for quicker startup times
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
  (setq use-package-always-defer t)
 #+END_SRC
 ** Default encoding
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (prefer-coding-system 'utf-8-unix)
   (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8-unix)
@@ -118,7 +118,7 @@ Use absolute line numbers even when buffer is narrowed.
   (setq-default buffer-file-coding-system 'utf-8-unix)
 #+END_SRC
 ** Completion and Minibuffer settings
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq completion-ignore-case t)
   (setq read-buffer-completion-ignore-case t)
   (setq read-file-name-completion-ignore-case t)
@@ -132,17 +132,17 @@ Use absolute line numbers even when buffer is narrowed.
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+END_SRC
 ** Delete trailing whitespace before saving a file
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** Create an indirect buffer with narrow view
 ** Dired Qol
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (require 'dired-x)
   (add-hook 'dired-mode-hook 'auto-revert-mode)
 #+END_SRC
 *** Create a new file from dired mode
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (eval-after-load 'dired
     '(progn
        (define-key dired-mode-map (kbd "c") 'my-dired-create-file)
@@ -179,7 +179,7 @@ Use absolute line numbers even when buffer is narrowed.
     )
   #+END_SRC
 *** Create a new window and open dired there
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (defun my-display-buffer-below (buffer alist)
     "Doc-string."
       (let (
@@ -267,7 +267,7 @@ Use absolute line numbers even when buffer is narrowed.
 *** Deleting dired buffer
 **** Look under ibuffer
 ** Quickly access config.org and eval init.el
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun config-visit ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
@@ -279,7 +279,7 @@ Use absolute line numbers even when buffer is narrowed.
   (global-set-key (kbd "C-c r") 'eval-init-file)
 #+END_SRC
 ** ibuffer
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq-default ibuffer-saved-filter-groups
                 `(("Default"
                    ;; In the ibuffer window, group all of the buffers with dired-mode enabled
@@ -294,7 +294,7 @@ Use absolute line numbers even when buffer is narrowed.
   (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
 #+END_SRC
 ** Diff Mode
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq diff-default-read-only t)
   (setq diff-advance-after-apply-hunk t)
   (setq diff-update-on-the-fly t)
@@ -303,7 +303,7 @@ Use absolute line numbers even when buffer is narrowed.
   (setq diff-font-lock-syntax 'hunk-also)
 #+END_SRC
 ** Crux keybinds
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (xah-fly--define-keys
    (define-prefix-command 'ken_nc/crux-keymap)
    '(
@@ -323,7 +323,7 @@ Use absolute line numbers even when buffer is narrowed.
   ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (xah-fly--define-keys
    (define-prefix-command 'ken_nc/prot-keymap)
    '(
@@ -338,7 +338,7 @@ Use absolute line numbers even when buffer is narrowed.
   ;;  TODO 2022-01-11: Add prot-eshell keybinds (cd history, redirect to buffer)
 #+END_SRC
 ** General Keybindings
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim) ; TODO 2022-01-05: Change so its dwim
   (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
@@ -348,7 +348,7 @@ Use absolute line numbers even when buffer is narrowed.
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
 #+END_SRC
 ** xah-fly-keys leader keymap
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (xah-fly--define-keys
    (define-prefix-command 'xah-fly-leader-key-map)
    '(
@@ -405,14 +405,14 @@ Use absolute line numbers even when buffer is narrowed.
      ;; v
      ("w" . xah-fly-eval-keymap)
      ;; ("x" . xah-toggle-previous-letter-case)
-     ("x" . exchange-point-and-mark)
+     ("x" . ken_nc/pop-local-mark-ring)
      ("y" . xah-show-kill-ring)
      ;; z
      ;;
      ))
 #+END_SRC
 ** CSS color coding
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun xah-syntax-color-hex ()
     "Syntax color text of the form #ff1100 and #abc in current buffer.
   URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
@@ -441,12 +441,12 @@ Use absolute line numbers even when buffer is narrowed.
   (add-hook 'conf-xdefaults-mode-hook 'xah-syntax-color-hex)
 #+END_SRC
 ** Tramp
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (require 'tramp)
 #+END_SRC
 *** Dired sudo mode
 You can also edit files in sudo mode with crux-edit-sudo
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun sudired ()
     (interactive)
     (require 'tramp)
@@ -458,12 +458,12 @@ You can also edit files in sudo mode with crux-edit-sudo
 #+END_SRC
 *** SSH editing with tramp
 Others remote file editing packages use FTP to connect to the remote host and to transfer the files, TRAMP uses a remote shell connection (rlogin, telnet, ssh).
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
 #+END_SRC
 ** Isearch functionality
 The defualt functionality of isearch is to put the cursor after the last character searched. Thats bad usability. Changed so that the cusor is moved to the beginning of the match searched.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun my-goto-match-beginning ()
       (when (and isearch-forward isearch-other-end (not isearch-mode-end-hook-quit))
         (goto-char isearch-other-end)))
@@ -477,27 +477,27 @@ The defualt functionality of isearch is to put the cursor after the last charact
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
 
 Save buffer automatically when wgrep-finish-edit
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq wgrep-auto-save-buffer t)
 #+END_SRC
 Change the default key binding to switch to wgrep
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-q") 'ken_nc/edit-buffer-dwim)
 #+END_SRC
 Default grep flags
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (grep-apply-setting
    'grep-template
-   "--color -inHr --null -e")
+   "--color --ignore-case --line-number --with-filename --recursive --null --regexp")
 #+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq tab-always-indent 'complete)
   (add-to-list 'completion-styles 'initial t)
 #+END_SRC
 ** Setup mouse click to highlight matching words
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun ken_nc/find-word-on-click (event)
     (interactive "e")
     (let ((word-at-point  (posn-point (event-end event))))
@@ -507,7 +507,7 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (global-set-key (kbd "<mouse-3>") 'ken_nc/find-word-on-click)
 #+END_SRC
 ** Auto Complete in IELM
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun ielm-auto-complete ()
     "Enables `auto-complete' support in \\[ielm]."
     (setq ac-sources '(ac-source-functions
@@ -520,13 +520,13 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (add-hook 'ielm-mode-hook 'ielm-auto-complete)
 #+END_SRC
 ** Music in emacs
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq
    mpc-browser-tags '(Artist Album)
    mpc-songs-format "%-5{Time} %25{Title} %20{Album} %20{Artist}")
 #+END_SRC
 ** Mode line Customization
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook 'wc-mode)
   (add-hook 'prog-mode-hook 'wc-mode)
   (setq wc-modeline-format "[Words: %tw, Lines: %tl]")
@@ -534,7 +534,7 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 * Emacs Daemon
 Emacs frame settings that need to started when emacs is in daemon mode.
 These include the frame (window) size, xah-fly-keys settings, and font settings.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (server-start)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
@@ -558,7 +558,7 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
 ** Description
 One of the main selling points of Emacs! no Emacs distribution is complete without sensible and well-defined org-mode defaults
 ** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package org
     :config
     (add-hook 'org-mode-hook 'org-indent-mode)
@@ -578,7 +578,7 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 *** Caveats
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Prompt
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq eshell-prompt-regexp "^[^É…\n]*[É…] ")
   (setq eshell-prompt-function
         (lambda nil
@@ -596,13 +596,13 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
   (setq eshell-highlight-prompt nil)
 #+END_SRC
 ** Aliases
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defalias 'open 'find-file-other-window)
   (defalias 'clean 'eshell/clear-scrollback)
 #+END_SRC
 ** Custom functions
 *** Open files as root
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun eshell/sudo-open (filename)
     "Open a file as root in Eshell."
     (let ((qual-filename (if (string-match "^/" filename)
@@ -613,7 +613,7 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
         (concat "/sudo::" qual-filename)))))
 #+END_SRC
 *** Super - Control - RET to open eshell
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun eshell-other-window ()
     "Create or visit an eshell buffer."
     (interactive)
@@ -631,7 +631,7 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
 *** Description
 Auto-package-update automatically updates and removes old packages
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package auto-package-update
     :defer nil
     :ensure t
@@ -644,7 +644,7 @@ Auto-package-update automatically updates and removes old packages
 *** Description
 Incredibly useful package; if you are in the middle of a command and don't know what to type next, just wait a second and you'll get a nice buffer with all possible completions
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
     :init
@@ -654,7 +654,7 @@ Incredibly useful package; if you are in the middle of a command and don't know 
 *** Description
 Diminish hides minor modes to prevent cluttering your mode line
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure t)
 #+END_SRC
@@ -662,7 +662,7 @@ Diminish hides minor modes to prevent cluttering your mode line
 *** Description
 The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :defer nil
     :ensure t
@@ -730,7 +730,7 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 If you pay close attention to the code in dashboard, you'll  notice that it uses custom functions defined under the :preface use-package block. I wrote all of those functions by looking at other people's Emacs distributions (Mainly [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]) and then experimenting and adapting them to Witchmacs. If you dig around, you'll find the same things I did - maybe even more!
 *** Historical
 22/05/19: On this day, the main maintainers of the dashboard package have added built-in fuinctionality to display init and package load time, thing that I already had implemented much earlier on my own. I have left here my implementation for historical purposes
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   ;(insert (concat
   ;         (propertize (format "%d packages loaded in %s"
   ;                             (length package-activated-list) (emacs-init-time))
@@ -742,7 +742,7 @@ If you pay close attention to the code in dashboard, you'll  notice that it uses
 *** Description
 You might find beacon an unnecesary package but I find it very neat. It briefly highlights the cursor position when switching to a new window or buffer
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package beacon
     :ensure t
     :diminish beacon-mode
@@ -753,14 +753,14 @@ You might find beacon an unnecesary package but I find it very neat. It briefly 
 *** Description
 Highligh rgb and hex values with the color associated with them
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
    (use-package htmlize
      :ensure t)
 #+END_SRC
 ** Initialize =mozc=
 *** ì˙ñ{åÍì¸óÕ
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package mozc
     :ensure t)
 #+END_SRC
@@ -768,7 +768,7 @@ Highligh rgb and hex values with the color associated with them
 *** Description
 For the longest time I used the default way of switching and killing buffers in Emacs. Same for finding files. Ido-mode made these three tasks IMMENSELY easier and more intuitive. Please not that I still use the default way M - x works because I believe all you really need for it is which-key
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package ido
     :init
     (ido-mode 1)
@@ -790,7 +790,7 @@ For the longest time I used the default way of switching and killing buffers in 
 *** Description
 Utilize asynchronous processes whenever possible
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package async
 	:ensure t
 	:init
@@ -798,14 +798,14 @@ Utilize asynchronous processes whenever possible
 #+END_SRC
 ** Initialize =page-break-lines=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
     :ensure t
     :diminish (page-break-lines-mode visual-line-mode))
 #+END_SRC
 ** Initialize =undo-tree=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
     :diminish undo-tree-mode)
@@ -814,14 +814,14 @@ Utilize asynchronous processes whenever possible
 *** Description
 A Collection of Ridiculously Useful eXtensions for Emac
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package crux
     :ensure t)
 #+END_SRC
 ** Initialize =dired-toggle-sudo=
 *** Code
 Allow to switch from current user to sudo when browsind `dired' buffers.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package dired-toggle-sudo
   :ensure t)
 #+END_SRC
@@ -829,7 +829,7 @@ Allow to switch from current user to sudo when browsind `dired' buffers.
 *** Description
 Git porcelain for Emacs
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t)
 #+END_SRC
@@ -837,32 +837,32 @@ Git porcelain for Emacs
 *** Description
 Expand region increases the selected region by semantic units. Just keep pressing the key until it selects what you want.
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package expand-region
     :ensure t)
 #+END_SRC
 ** Initialize =highlight=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package highlight
     :ensure t)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package eldoc
     :diminish eldoc-mode)
 #+END_SRC
 ** Built-in entry: =abbrev=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package abbrev
     :diminish abbrev-mode)
 #+END_SRC
 * Programming section
 ** Initialize =flycheck=
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
     :config
@@ -873,10 +873,11 @@ Expand region increases the selected region by semantic units. Just keep pressin
 *** Description
 Corfu enhances the default completion in region function with a completion overlay.
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq corfu-cycle t)
   (setq corfu-auto t)
   (setq corfu-quit-no-match t)
+  (setq corfu-quit-at-boundary t)
   (setq corfu-preview-current t)
   (setq corfu-preselect-first nil)
 
@@ -919,7 +920,7 @@ Corfu enhances the default completion in region function with a completion overl
 ** Cape
 *** Description
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
    (add-to-list 'completion-at-point-functions #'cape-file)
    (add-to-list 'completion-at-point-functions #'cape-keyword)
    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
@@ -933,7 +934,7 @@ Corfu enhances the default completion in region function with a completion overl
 *** Description
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :init
     (setq completion-styles '(basic flex orderless )))
@@ -942,7 +943,7 @@ This package provides an orderless completion style that divides the pattern int
 *** Description
 Irony is the company backend for C and C++
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package irony
     :defer nil
     :ensure t)
@@ -963,7 +964,7 @@ Irony is the company backend for C and C++
               (google-make-newline-indent)))
 #+END_SRC
 ** Go
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :defer nil
     :ensure t)
@@ -972,7 +973,7 @@ Irony is the company backend for C and C++
 *** Description
 Meghanada provides autocompletion when editing Java files. I use it mainly for autocompletion but thereÅfs a ton of other things it can do, automatic imports, for example.
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package meghanada
     :defer nil
     :ensure t
@@ -987,7 +988,7 @@ Meghanada provides autocompletion when editing Java files. I use it mainly for a
 *** Description
 ElispFormat is a mode that format elisp code
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package elisp-format
     :defer nil
     :ensure t)
@@ -996,7 +997,7 @@ ElispFormat is a mode that format elisp code
 *** Description
 Collection of Emacs major and minor modes that work with scheme
 *** Code
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package geiser-mit
     :defer nil
     :ensure t
