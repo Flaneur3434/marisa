@@ -688,7 +688,8 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents . 5)))
     (setq dashboard-banner-logo-title "M A R I S A - Connect To The Wired Edition!")
-    (setq dashboard-startup-banner "~/.emacs.d/lain.png")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/lain.png")
+    (setq dashboard-startup-banner "~/.emacs.d/athos_monk_emacs.png")
     (setq dashboard-center-content t)
     (setq dashboard-show-shortcuts nil)
     (setq dashboard-set-init-info t)
@@ -858,6 +859,19 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package abbrev
     :diminish abbrev-mode)
+#+END_SRC
+** Initialize =screenshot=
+#+BEGIN_SRC emacs-lisp
+  (setq screenshot-schemes
+        '(
+          ("local"
+           :dir "~/Pictures/screenshots/")            ; Image repository directory
+          ("current-directory"          ; No need to modify
+           :dir default-directory)
+          ("local-server"
+           :dir "/volume2/backup/thinkpad_backup/kennc_Pic/screenshots"           ; local server directory
+           :url "https://192.168.1.115/")))     ; local server URL prefix
+  (setq screenshot-default-scheme "local") ; default scheme is "local"
 #+END_SRC
 * Programming section
 ** Initialize =flycheck=

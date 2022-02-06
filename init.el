@@ -15,12 +15,14 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/cape")
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/popup-el")
+(add-to-list 'load-path "~/.emacs.d/lisp/screenshot")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
 
 (require 'google-c-style)
+(require 'screenshot)
 (require 'ctags-utils)
 (require 'move-text)
 (require 'color)  ;; for org mode codeblock background color
@@ -70,6 +72,16 @@
 (put 'narrow-to-region 'disabled nil)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(display-line-numbers-widen t)
  '(package-selected-packages
    '(orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
