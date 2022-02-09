@@ -848,18 +848,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (use-package highlight
     :ensure t)
 #+END_SRC
-** Built-in entry: =eldoc=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package eldoc
-    :diminish eldoc-mode)
-#+END_SRC
-** Built-in entry: =abbrev=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package abbrev
-    :diminish abbrev-mode)
-#+END_SRC
 ** Initialize =screenshot=
 #+BEGIN_SRC emacs-lisp
   (setq screenshot-schemes
@@ -872,6 +860,18 @@ Expand region increases the selected region by semantic units. Just keep pressin
            :dir "/volume2/backup/thinkpad_backup/kennc_Pic/screenshots"           ; local server directory
            :url "https://192.168.1.115/")))     ; local server URL prefix
   (setq screenshot-default-scheme "local") ; default scheme is "local"
+#+END_SRC
+** Built-in entry: =eldoc=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc
+    :diminish eldoc-mode)
+#+END_SRC
+** Built-in entry: =abbrev=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package abbrev
+    :diminish abbrev-mode)
 #+END_SRC
 * Programming section
 ** Initialize =flycheck=
