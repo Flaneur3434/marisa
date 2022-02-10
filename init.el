@@ -21,30 +21,38 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
 
-(require 'google-c-style)
-(require 'screenshot)
+(require 'auto-complete)
+(require 'auto-complete-c-headers)
+(require 'basic-edit-toolkit)			; TODO 2022-02-09: Add keybinds
+(require 'cape)
+(require 'color)
+(require 'corfu)
 (require 'ctags-utils)
-(require 'move-text)
-(require 'color)  ;; for org mode codeblock background color
+(require 'darkroom)
+(require 'dired-sort)					; TODO 2022-02-09: Add keybinds
+(require 'fzf)
+(require 'google-c-style)
+(require 'go-to-char)					; TODO 2022-02-09: Add keybinds
+(require 'iedit)
+(require 'iedit-rect)
+(require 'ken_nc-custom-colors)
+(require 'ken_nc-functions)
 (require 'mct-customizations)
+(require 'move-text)
+(require 'package)
 (require 'prot-comment)
 (require 'prot-common)
 (require 'prot-diff)
-(require 'prot-simple)
 (require 'prot-eshell)
-(require 'wc-mode)
-(require 'corfu)
-(require 'cape)
-(require 'ken_nc-functions)
-(require 'ken_nc-custom-colors)
-(require 'darkroom)
-(require 'wgrep)
-(require 'fzf)
+(require 'prot-simple)
+(require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
+(require 'sam)							; TODO 2022-02-09: Add keybinds
+(require 'screenshot)
 (require 'smart-tab)
-(require 'auto-complete)
-(require 'auto-complete-c-headers)
-(require 'iedit)
-(require 'iedit-rect)
+(require 'wc-mode)
+(require 'wgrep)
+
+;; needs to be last due to it calling interactive functions from other files
 (require 'xah-fly-keys)
 
 (setq xah-fly-use-control-key nil)
