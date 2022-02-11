@@ -132,10 +132,11 @@ if not select any area, then strip all line number of buffer."
   (strip-regular-expression-string "^[0-9]+")
   (message "Have strip line number. ^_^"))
 
-(defun strip-regular-expression-string (regular-expression)
+(defun strip-regular-expression-string (&optional regular-expression)
   "Strip all string that match REGULAR-EXPRESSION in select area of buffer.
 If not select any area, then strip current buffer"
   (interactive)
+  (setq regular-expression (read-regexp "Search pattern (regex): "))
   (let ((begin (point-min))             ;initialization make select all buffer
         (end (point-max)))
     (if mark-active                     ;if have select some area of buffer, then strip this area

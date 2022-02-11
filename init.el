@@ -23,16 +23,16 @@
 
 (require 'auto-complete)
 (require 'auto-complete-c-headers)
-(require 'basic-edit-toolkit)			; TODO 2022-02-09: Add keybinds
+(require 'basic-edit-toolkit)
 (require 'cape)
 (require 'color)
 (require 'corfu)
 (require 'ctags-utils)
 (require 'darkroom)
-(require 'dired-sort)					; TODO 2022-02-09: Add keybinds
+(require 'dired-sort)
 (require 'fzf)
 (require 'google-c-style)
-(require 'go-to-char)					; TODO 2022-02-09: Add keybinds
+(require 'go-to-char)
 (require 'iedit)
 (require 'iedit-rect)
 (require 'ken_nc-custom-colors)
@@ -46,7 +46,6 @@
 (require 'prot-eshell)
 (require 'prot-simple)
 (require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
-(require 'sam)							; TODO 2022-02-09: Add keybinds
 (require 'screenshot)
 (require 'smart-tab)
 (require 'wc-mode)

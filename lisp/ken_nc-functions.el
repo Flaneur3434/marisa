@@ -201,4 +201,11 @@ will cycle all positions in `mark-ring'."
    ((= global-prefix 4) (pop-global-mark))
    (t (set-mark-command t))))
 
+(defun ken_nc/go-to-char (&optional direction)
+  (interactive "p")
+  (cond
+   ((= direction 4) (call-interactively 'go-to-char-backward-word))
+   (t (call-interactively 'go-to-char-forward-word))))
+
+
 (provide 'ken_nc-functions)
