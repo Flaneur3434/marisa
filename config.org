@@ -553,7 +553,7 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
     (select-frame frame)
     (load-theme 'xresources t)
     ;; (set-frame-position (selected-frame) 0 0)
-    (set-frame-size (selected-frame) 800 1000 t)
+    ;; (set-frame-size (selected-frame) 800 1000 t)
     (setq xah-fly-use-control-key nil)
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))

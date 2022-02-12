@@ -84,6 +84,9 @@
 
 
 ;;; Code:
+;; (character . direction)
+(setq ken_nc/goto-char-hist (cons nil nil))
+
 (defface go-to-char-highlight
   '((((class color) (background dark))
      (:underline "Gold")))
@@ -113,6 +116,8 @@
 (defun go-to-char-forward (n char)
   "Go to same character as input forward."
   (interactive "p\ncGo to char (forward): ")
+  (setcdr ken_nc/goto-char-hist 0)
+  (setcar ken_nc/goto-char-hist char)
   (unwind-protect
       (progn
         (search-forward (string char) nil nil n)
@@ -128,6 +133,8 @@
 (defun go-to-char-backward (n char)
   "Go to same character as input backward."
   (interactive "p\ncGo to char (backward): ")
+  (setcdr ken_nc/goto-char-hist 4)
+  (setcar ken_nc/goto-char-hist char)
   (unwind-protect
       (progn
         (search-backward (string char) nil nil n)
@@ -143,21 +150,8 @@
 (defun go-to-char-forward-word (n char)
   "Go to same character as input forward."
   (interactive "p\ncGo to char (forward word): ")
-  (unwind-protect
-      (progn
-        (search-forward (string char) nil nil n)
-        (go-to-char-highlight-overlay (- (point) 1))
-        (message "Search %c forward." char)
-        (while (char-equal (read-char) char)
-          (forward-word n)
-          (search-forward (string char) nil nil n)
-          (go-to-char-highlight-overlay (- (point) 1))
-          (message "Search %c forward." char))
-        (setq unread-command-events (list last-input-event)))
-    (go-to-char-clean-highlight-overlay)))
-
-(defun go-to-char-forward-word-noninteractive (n char)
-  "Go to same character as input forward. Used for programmatically elisp code."
+  (setcdr ken_nc/goto-char-hist 0)
+  (setcar ken_nc/goto-char-hist char)
   (unwind-protect
       (progn
         (search-forward (string char) nil nil n)
@@ -174,21 +168,8 @@
 (defun go-to-char-backward-word (n char)
   "Go to same character as input backward."
   (interactive "p\ncGo to char (backward word): ")
-  (unwind-protect
-      (progn
-        (search-backward (string char) nil nil n)
-        (go-to-char-highlight-overlay (point))
-        (message "Search %c backward." char)
-        (while (char-equal (read-char) char)
-          (backward-word n)
-          (search-backward (string char) nil nil n)
-          (go-to-char-highlight-overlay (point))
-          (message "Search %c backward." char))
-        (setq unread-command-events (list last-input-event)))
-    (go-to-char-clean-highlight-overlay)))
-
-(defun go-to-char-backward-word-noninteractive (n char)
-  "Go to same character as input backward. Used for programmatically elisp code."
+  (setcdr ken_nc/goto-char-hist 4)
+  (setcar ken_nc/goto-char-hist char)
   (unwind-protect
       (progn
         (search-backward (string char) nil nil n)

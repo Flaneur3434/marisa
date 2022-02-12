@@ -83,6 +83,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("9f6c33886ec2ef02f95e367f8f4f0177ecca36bf4d5d76ef2bbec59b2584bbcf" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" default))
  '(display-line-numbers-widen t)
  '(package-selected-packages
    '(caml caml-mode sml-mode orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
