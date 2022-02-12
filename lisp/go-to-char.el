@@ -156,9 +156,39 @@
         (setq unread-command-events (list last-input-event)))
     (go-to-char-clean-highlight-overlay)))
 
+(defun go-to-char-forward-word-noninteractive (n char)
+  "Go to same character as input forward. Used for programmatically elisp code."
+  (unwind-protect
+      (progn
+        (search-forward (string char) nil nil n)
+        (go-to-char-highlight-overlay (- (point) 1))
+        (message "Search %c forward." char)
+        (while (char-equal (read-char) char)
+          (forward-word n)
+          (search-forward (string char) nil nil n)
+          (go-to-char-highlight-overlay (- (point) 1))
+          (message "Search %c forward." char))
+        (setq unread-command-events (list last-input-event)))
+    (go-to-char-clean-highlight-overlay)))
+
 (defun go-to-char-backward-word (n char)
   "Go to same character as input backward."
   (interactive "p\ncGo to char (backward word): ")
+  (unwind-protect
+      (progn
+        (search-backward (string char) nil nil n)
+        (go-to-char-highlight-overlay (point))
+        (message "Search %c backward." char)
+        (while (char-equal (read-char) char)
+          (backward-word n)
+          (search-backward (string char) nil nil n)
+          (go-to-char-highlight-overlay (point))
+          (message "Search %c backward." char))
+        (setq unread-command-events (list last-input-event)))
+    (go-to-char-clean-highlight-overlay)))
+
+(defun go-to-char-backward-word-noninteractive (n char)
+  "Go to same character as input backward. Used for programmatically elisp code."
   (unwind-protect
       (progn
         (search-backward (string char) nil nil n)

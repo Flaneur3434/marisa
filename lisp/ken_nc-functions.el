@@ -201,11 +201,22 @@ will cycle all positions in `mark-ring'."
    ((= global-prefix 4) (pop-global-mark))
    (t (set-mark-command t))))
 
+;; (character . direction)
+(setq ken_nc/goto-char-hist (cons nil nil))
+
 (defun ken_nc/go-to-char (&optional direction)
   (interactive "p")
-  (cond
-   ((= direction 4) (call-interactively 'go-to-char-backward-word))
-   (t (call-interactively 'go-to-char-forward-word))))
+  (if (eq last-command 'ken_nc/go-to-char) ;; doesnt work
+	  (cond
+	   ((= (cdr ken_nc/goto-char-hist) 4) (go-to-char-backward-word-noninteractive 1 (car ken_nc/goto-char-hist)))
+	   (t (go-to-char-forward-word-noninteractive 1 (car ken_nc/goto-char-hist))))
+	(progn
+	 (setcdr ken_nc/goto-char-hist direction)
+	 (setcar ken_nc/goto-char-hist (string-to-char (read-string "Go to char: " )))
+	 (cond
+	 ((= direction 4) (go-to-char-backward-word-noninteractive 1 (car ken_nc/goto-char-hist)))
+	 (t (go-to-char-forward-word-noninteractive 1 (car ken_nc/goto-char-hist)))))))
+
 
 
 (provide 'ken_nc-functions)
