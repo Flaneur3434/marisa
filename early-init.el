@@ -21,7 +21,6 @@
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
 
-(when (member "Source Code Pro" (font-family-list))
-      (set-frame-font "Source Code Pro" t t))
+(setq comp-deferred-compilation t)
 
 (provide 'early-init)
