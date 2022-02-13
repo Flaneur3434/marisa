@@ -12,6 +12,10 @@ How to download
   git clone https://github.com/GrapeJuiceSoda/marisa .emacs.d
   cd .emacs.d
   git submodule update --init
+  # requires sregx (https://github.com/zyedidia/sregx)
+  # requires fzy (https://github.com/jhawthorn/fzy)
+  ./update-git-packages.sh --init
+  ./update-git-packages.sh --update
 #+END_SRC
 * Why would I use this?
 #+BEGIN_QUOTE
