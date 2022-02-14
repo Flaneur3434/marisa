@@ -36,22 +36,27 @@ USEAGE: update-git-packages.sh [OPTION]
   --help              Print help message
   --init              use this flag to set master/main branch in each submodule
   --update            git pull for each submodule
+  no flags            Print help message
 EOF
 }
 
-while [[ ! $# == 0 ]]
-do
-    case "$1" in
-        --init)
-            init
-            ;;
-        --help)
-            help_message
-            ;;
-        --update)
-            printf "updating submodules..\n\n\n"
-			update
-            ;;
-    esac
-    shift
-done
+if [[ $# != 0 ]]; then
+	while [[ ! $# == 0 ]]
+	do
+		case "$1" in
+			--init)
+				init
+				;;
+			--help)
+				help_message
+				;;
+			--update)
+				printf "updating submodules..\n\n\n"
+				update
+				;;
+		esac
+		shift
+	done
+else
+	help_message
+fi

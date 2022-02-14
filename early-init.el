@@ -2,6 +2,10 @@
 (set-face-background 'cursor "white smoke")
 (set-face-background 'mouse "white smoke")
 (set-face-background 'region  "#666")
+(when (member "Source Code Pro" (font-family-list))
+    (progn
+	  (setq default-frame-alist '((font . "Source Code Pro")))
+	  (set-face-attribute 'default nil :height 100))) ;  2022-02-13: The value is in 1/10pt, so 100 will give you 10pt, etc.
 (setq read-file-name-completion-ignore-case t)
 (setq frame-resize-pixelwise t)
 ;;  (set-frame-parameter (selected-frame) 'alpha '(active . inactive))

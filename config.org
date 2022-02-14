@@ -553,8 +553,6 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
   (server-start)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-  (when (member "Source Code Pro" (font-family-list))
-    (set-frame-font "Source Code Pro" t t))
   (defun ken_nc/setup-emacsclient (frame)
     (select-frame frame)
     (load-theme 'xresources t)
