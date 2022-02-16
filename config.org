@@ -123,6 +123,7 @@ Use absolute line numbers even when buffer is narrowed.
 #+END_SRC
 ** Completion and Minibuffer settings
 #+BEGIN_SRC emacs-lisp
+  (setq read-file-name-completion-ignore-case t)
   (setq completion-ignore-case t)
   (setq read-buffer-completion-ignore-case t)
   (setq read-file-name-completion-ignore-case t)
@@ -540,6 +541,26 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
    mpc-browser-tags '(Artist Album)
    mpc-songs-format "%-5{Time} %25{Title} %20{Album} %20{Artist}")
 #+END_SRC
+** Emacs Frame Customization
+#+BEGIN_SRC emacs-lisp
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+  (when (member "Source Code Pro" (font-family-list))
+    (progn
+      (setq default-frame-alist '((font . "Source Code Pro")))))
+
+  (set-face-background 'cursor "white smoke")
+  (set-face-background 'mouse "white smoke")
+  (set-face-background 'region  "#666")
+
+  (setq frame-resize-pixelwise t)
+  (set-frame-position (selected-frame) 0 0)
+  (set-frame-size (selected-frame) 800 1000 t)
+  ;; The syntax of setting the alpha value of emacs frame
+  ;; (set-frame-parameter (selected-frame) 'alpha '(active . inactive))
+  ;; (set-frame-parameter (selected-frame) 'alpha '(both))
+  (set-frame-parameter (selected-frame) 'alpha '(100 . 99))
+#+END_SRC
 ** Mode line Customization
 #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook 'wc-mode)
@@ -551,13 +572,9 @@ Emacs frame settings that need to started when emacs is in daemon mode.
 These include the frame (window) size, xah-fly-keys settings, and font settings.
 #+BEGIN_SRC emacs-lisp
   (server-start)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-
   (defun ken_nc/setup-emacsclient (frame)
     (select-frame frame)
     (load-theme 'xresources t)
-    ;; (set-frame-position (selected-frame) 0 0)
-    ;; (set-frame-size (selected-frame) 800 1000 t)
     (setq xah-fly-use-control-key nil)
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))
