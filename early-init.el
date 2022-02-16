@@ -6,9 +6,6 @@
 ;; the process of making already-installed packages available, may be customized
 ;; in the regular init file.
 
-;; The value is in 1/10pt, so 100 will give you 10pt
-(set-face-attribute 'default nil :height 100)
-
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 

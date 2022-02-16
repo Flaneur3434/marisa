@@ -545,9 +545,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-  (when (member "Source Code Pro" (font-family-list))
-    (progn
-      (setq default-frame-alist '((font . "Source Code Pro")))))
 
   (set-face-background 'cursor "white smoke")
   (set-face-background 'mouse "white smoke")
@@ -575,6 +572,9 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
   (defun ken_nc/setup-emacsclient (frame)
     (select-frame frame)
     (load-theme 'xresources t)
+    (set-frame-font "Source Code Pro" nil t)
+    ;; The value is in 1/10pt, so 100 will give you 10pt
+    (set-face-attribute 'default nil :height 100)
     (setq xah-fly-use-control-key nil)
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))
@@ -583,7 +583,9 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
       (add-hook 'after-make-frame-functions
                 #'ken_nc/setup-emacsclient)
     (progn
-      (load-theme 'xresources t)))
+      (load-theme 'xresources t)
+      (add-to-list 'default-frame-alist '(font . "Source Code Pro"))
+      (set-face-attribute 'default nil :height 100)))
 #+END_SRC
 * Org mode
 ** Description
