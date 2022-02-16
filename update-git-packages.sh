@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# !!! Warning This Script relies on sregx (https://github.com/zyedidia/sregx)
-package_list="$(sregx 'x/.*\n/ g/path/ x/[a-z]+\/[[:ascii:]]+\n/p' .gitmodules)"
-
 update (){
+	# save, clear screen
+	tput smcup
+	clear
+
 	cd /home/$USER/.emacs.d/
 
 	IFS=$'\n'
@@ -12,6 +13,10 @@ update (){
 		git pull
 		cd ../.. # move back to /home/$USER/.emacs.d/
 	done
+
+	read -n1 -p "Press any key to continue..."
+	# restore
+	tput rmcup
 }
 
 init () {
@@ -40,6 +45,32 @@ USEAGE: update-git-packages.sh [OPTION]
 EOF
 }
 
+my_needed_commands="sregx fzy"
+missing_counter=0
+for needed_command in $my_needed_commands; do
+  if ! hash "$needed_command" >/dev/null 2>&1; then
+    printf "Command not found in PATH: %s\n" "$needed_command" >&2
+	case "$needed_command" in
+		sregx)
+			echo "Can be installed from this repo: https://github.com/zyedidia/sregx"
+			;;
+		fzy)
+			echo "Can be installed from this repo: https://github.com/jhawthorn/fzy"
+			;;
+	esac
+    ((missing_counter++))
+  fi
+done
+
+if ((missing_counter > 0)); then
+  printf "Minimum %d commands are missing in PATH, aborting\n" "$missing_counter" >&2
+  exit 1
+fi
+
+package_list="$(sregx 'x/.*\n/ g/path/ x/[a-z]+\/[[:ascii:]]+\n/p' .gitmodules)"
+
+
+
 if [[ $# != 0 ]]; then
 	while [[ ! $# == 0 ]]
 	do
@@ -60,3 +91,5 @@ if [[ $# != 0 ]]; then
 else
 	help_message
 fi
+
+exit 0
