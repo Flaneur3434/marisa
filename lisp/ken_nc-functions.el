@@ -206,13 +206,13 @@ will cycle all positions in `mark-ring'."
 character by character mode. Default is to search by word. This method requires
 the cutomized version of go-to-char.el I have in this git repo"
   (interactive "p")
-  (if (eq last-command 'ken_nc/go-to-char) ;; doesnt work
+  (if (eq last-command 'ken_nc/go-to-char)
 	  (cond
 	   ((= (cdr ken_nc/goto-char-hist) 4) (go-to-char-backward 1 (car ken_nc/goto-char-hist)))
 	   (t (go-to-char-forward 1 (car ken_nc/goto-char-hist))))
 	(progn
 	  (cond
-	   ((= direction 4) (call-interactively 'go-to-char-backward))
-	   (t (call-interactively 'go-to-char-forward))))))
+	   ((= direction 4) (go-to-char-backward 1 (read-char "Go to char backward: ")))
+	   (t (go-to-char-forward 1 (read-char "Go to char forward: ")))))))
 
 (provide 'ken_nc-functions)

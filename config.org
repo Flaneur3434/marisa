@@ -355,7 +355,7 @@ Use absolute line numbers even when buffer is narrowed.
 ** General Keybindings
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c z") 'remember)
-  (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim) ; TODO 2022-01-05: Change so its dwim
+  (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim)
   (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
 
   (global-set-key (kbd "M-i") 'move-text-up)
