@@ -8,7 +8,8 @@
 *.elc
 
 
-eshell
+eshell/history
+eshell/lastdir
 network-security.data
 .python-environments
 irony

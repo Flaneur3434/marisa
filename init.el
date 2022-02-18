@@ -40,6 +40,7 @@
 (require 'iedit)
 (require 'iedit-rect)
 (require 'ken_nc-custom-colors)
+(require 'ken_nc-eshell)
 (require 'ken_nc-functions)
 (require 'mct-customizations)
 (require 'move-text)

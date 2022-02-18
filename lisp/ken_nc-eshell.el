@@ -74,5 +74,5 @@
    ("C-l" . ken_nc/eshell-clear-buffer)))
 
 (message "loading init-eshell")
-(provide 'init-eshell)
+(provide 'ken_nc-eshell)
 ;;; init-eshell.el ends here
