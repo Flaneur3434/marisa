@@ -22,6 +22,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/popup-el")
 (add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
+(add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
 
 (require 'auto-complete)
 (require 'auto-complete-c-headers)
@@ -43,6 +44,7 @@
 (require 'mct-customizations)
 (require 'move-text)
 (require 'package)
+(require 'pcmpl-args)
 (require 'prot-comment)
 (require 'prot-common)
 (require 'prot-diff)
@@ -79,6 +81,7 @@
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+
 
 (if (fboundp 'native-compile-async)
 	(progn

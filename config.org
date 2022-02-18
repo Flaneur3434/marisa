@@ -614,10 +614,17 @@ We are using Emacs, so we might as well implement as many tools from our workflo
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
 ** Settings
 Both M-x shell-command and M-x compile execute commands in an inferior shell via call-process.
-To use the login shell we need to set these variables:
+Change to use aliases found in login shell. Also disable internal elisp commands.
 #+BEGIN_SRC emacs-lisp
   (setq shell-file-name "bash")
   (setq shell-command-switch "-ic")
+  (setq eshell-prefer-lisp-functions nil)
+
+  ;; Inable corfu-mode in eshell
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setq-local corfu-auto nil)
+              (corfu-mode)))
 #+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp
@@ -956,7 +963,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :ensure t
     :diminish t
     :config
-    (add-hook 'prog-mode 'flycheck-mode)
+    (add-hook 'prog-mode 'flycheck-mode))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1010,14 +1017,17 @@ Corfu enhances the default completion in region function with a completion overl
 *** Description
 *** Code
 #+BEGIN_SRC emacs-lisp
-   (add-to-list 'completion-at-point-functions #'cape-file)
-   (add-to-list 'completion-at-point-functions #'cape-keyword)
-   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-   (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
 
-   ;; Shell completion
-   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+  ;; Shell completion
+  ;; Silence the pcomplete capf, no errors or messages!
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+  ;; Ensure that pcomplete does not write to the buffer
+  ;; and behaves as a pure `completion-at-point-function'.
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
 #+END_SRC
 ** Orderless
 *** Description
