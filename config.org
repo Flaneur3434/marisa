@@ -68,8 +68,9 @@ Use absolute line numbers even when buffer is narrowed.
 scrolling
 #+BEGIN_SRC emacs-lisp
   (good-scroll-mode 1)
-  (global-set-key (kbd "<down>")  'scroll-up-1)
-  (global-set-key (kbd "<up>")    'scroll-down-1)
+  (smooth-scroll-mode t)
+  (global-set-key (kbd "<down>") 'scroll-up-1)
+  (global-set-key (kbd "<up>") 'scroll-down-1)
 #+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp
@@ -611,6 +612,13 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
 We are using Emacs, so we might as well implement as many tools from our workflow into it as possible
 *** Caveats
 Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi) selecting previous commands does not work (for now). I recommend using eshell for light cli work, and using your external terminal emulator of choice for heavier tasks
+** Settings
+Both M-x shell-command and M-x compile execute commands in an inferior shell via call-process.
+To use the login shell we need to set these variables:
+#+BEGIN_SRC emacs-lisp
+  (setq shell-file-name "bash")
+  (setq shell-command-switch "-ic")
+#+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp
   (setq eshell-prompt-regexp "^[^É…\n]*[É…] ")
@@ -630,9 +638,42 @@ Eshell cannot handle ncurses programs and in certain interpreters (Python, GHCi)
   (setq eshell-highlight-prompt nil)
 #+END_SRC
 ** Aliases
+Ask Bash for the list of currently available aliases instead of parsing .bashrc file. Might have errros as it was not made professionally.
 #+BEGIN_SRC emacs-lisp
   (defalias 'open 'find-file-other-window)
   (defalias 'clean 'eshell/clear-scrollback)
+  (require 'eshell)
+
+  (defun eshell-load-bash-aliases ()
+    "Reads bash aliases from Bash and inserts
+      them into the list of eshell aliases."
+    (interactive)
+    (progn
+      (message "Parsing aliases")
+      (shell-command "alias" "bash-aliases" "bash-errors")
+      (switch-to-buffer "bash-aliases")
+      (replace-string "alias " "")
+      (goto-char 1)
+      (replace-string "='" " ")
+      (goto-char 1)
+      (replace-string "'\n" "\n")
+      (goto-char 1)
+      (let ((alias-name) (command-string) (alias-list))
+        (while (not (eobp))
+          (while (not (char-equal (char-after) 32))
+            (forward-char 1))
+          (setq alias-name
+                (buffer-substring-no-properties (line-beginning-position) (point)))
+          (forward-char 1)
+          (setq command-string
+                (buffer-substring-no-properties (point) (line-end-position)))
+          (setq alias-list (cons (list alias-name command-string) alias-list))
+          (forward-line 1))
+        (setq eshell-command-aliases-list alias-list))
+      (if (get-buffer "bash-aliases")(kill-buffer "bash-aliases"))
+      (if (get-buffer "bash-errors")(kill-buffer "bash-errors"))))
+
+  (add-hook 'eshell-mode-hook 'eshell-load-bash-aliases)
 #+END_SRC
 ** Custom functions
 *** Open files as root
@@ -913,9 +954,9 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
+    :diminish t
     :config
-    (add-hook 'java-mode-hook 'flycheck-mode)
-    (add-hook 'c-mode-hook 'flycheck-mode))
+    (add-hook 'prog-mode 'flycheck-mode)
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -994,6 +1035,7 @@ Irony is the company backend for C and C++
 #+BEGIN_SRC emacs-lisp
   (use-package irony
     :defer nil
+    :diminish t
     :ensure t)
 
   (add-hook 'c-mode-hook 'ken_nc/ac-c-headers-init)
@@ -1024,6 +1066,7 @@ Meghanada provides autocompletion when editing Java files. I use it mainly for a
 #+BEGIN_SRC emacs-lisp
   (use-package meghanada
     :defer nil
+    :diminish t
     :ensure t
     :config
     (add-hook 'java-mode-hook
@@ -1039,6 +1082,7 @@ ElispFormat is a mode that format elisp code
 #+BEGIN_SRC emacs-lisp
   (use-package elisp-format
     :defer nil
+    :diminish t
     :ensure t)
 #+END_SRC
 ** Scheme =geiser-mit=
@@ -1048,6 +1092,7 @@ Collection of Emacs major and minor modes that work with scheme
 #+BEGIN_SRC emacs-lisp
   (use-package geiser-mit
     :defer nil
+    :diminish t
     :ensure t
     :config
     (add-hook 'geiser-mode-hook
