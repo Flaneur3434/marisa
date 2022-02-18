@@ -1,12 +1,10 @@
 ;;disable emacs from creating files on system
 (setq make-backup-file nil)
 (setq auto-save-default nil)
+(setq warning-minimum-level :emergency)
 (abbrev-mode -1)
 
 
-;; requirements to be loaded before config.org
-(if (fboundp 'native-compile-async)
-      (native-compile-async "~/.emacs.d/lisp" 'recursively))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
@@ -23,6 +21,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/cape")
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/popup-el")
+(add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
 
 (require 'auto-complete)
 (require 'auto-complete-c-headers)
@@ -36,6 +35,7 @@
 (require 'fzf)
 (require 'google-c-style)
 (require 'go-to-char)
+(require 'good-scroll)
 (require 'iedit)
 (require 'iedit-rect)
 (require 'ken_nc-custom-colors)
@@ -79,8 +79,14 @@
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
-(put 'narrow-to-region 'disabled nil)
+(if (fboundp 'native-compile-async)
+	(progn
+      (native-compile-async "~/.emacs.d/lisp" 'recursively)
+	  (native-compile-async "~/.emacs.d/init.el")
+	  (native-compile-async "~/.emacs.d/early-init.el")
+	  (native-compile-async "~/.emacs.d/config.el")))
 
+(put 'narrow-to-region 'disabled nil)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

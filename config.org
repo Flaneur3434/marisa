@@ -64,9 +64,12 @@ Use absolute line numbers even when buffer is narrowed.
   (setq make-backup-files nil)
   (setq auto-save-default nil)
 #+END_SRC
-** Enable conservative scrolling
+** Enable smooth scrolling and inplace scrolling
+scrolling
 #+BEGIN_SRC emacs-lisp
-  (setq scroll-conservatively 101)
+  (good-scroll-mode 1)
+  (global-set-key (kbd "<down>")  'scroll-up-1)
+  (global-set-key (kbd "<up>")    'scroll-down-1)
 #+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp
@@ -80,6 +83,10 @@ Use absolute line numbers even when buffer is narrowed.
   (setq-default electric-indent-inhibit t)
   (setq-default indent-tabs-mode t)
   (setq backward-delete-char-untabify-method 'nil)
+#+END_SRC
+** Save position
+#+BEGIN_SRC emacs-lisp
+  (save-place-mode 1)
 #+END_SRC
 ** Paragraph Filling
 #+BEGIN_SRC emacs-lisp
@@ -549,11 +556,8 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (push '(alpha . (100 95)) default-frame-alist)
   (push '(cursor-color . "white smoke") default-frame-alist)
   (push '(mouse-color . "white smoke") default-frame-alist)
-  (push '(font . "Source Code Pro") default-frame-alist)
+  (push '(font . "mononoki:size=14") default-frame-alist)
 
-  (set-face-background 'region "dim gray")
-  ;; The value is in 1/10pt, so 100 will give you 10pt
-  (set-face-attribute 'default nil :height 100)
   (setq initial-frame-alist default-frame-alist)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq frame-resize-pixelwise t)
@@ -594,6 +598,8 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
               '(lambda ()
                  (visual-line-mode 1)))
     (setq org-startup-folded t))
+
+  (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
 
   (use-package org-indent-
     :diminish org-indent-mode)
