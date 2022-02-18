@@ -2,7 +2,7 @@
 (setq make-backup-file nil)
 (setq auto-save-default nil)
 (abbrev-mode -1)
-(pixel-scroll-precision-mode)
+
 
 ;; requirements to be loaded before config.org
 (if (fboundp 'native-compile-async)

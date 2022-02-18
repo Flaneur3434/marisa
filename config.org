@@ -543,20 +543,20 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
 #+END_SRC
 ** Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
+  (push '(width . 100) default-frame-alist)
+  (push '(height . 60) default-frame-alist)
+  (push '(cursor-type . 'box) default-frame-alist)
+  (push '(alpha . (100 95)) default-frame-alist)
+  (push '(cursor-color . "white smoke") default-frame-alist)
+  (push '(mouse-color . "white smoke") default-frame-alist)
+  (push '(font . "Source Code Pro") default-frame-alist)
+
+  (set-face-background 'region "dim gray")
+  ;; The value is in 1/10pt, so 100 will give you 10pt
+  (set-face-attribute 'default nil :height 100)
+  (setq initial-frame-alist default-frame-alist)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-
-
-  (set-face-background 'cursor "white smoke")
-  (set-face-background 'mouse "white smoke")
-  (set-face-background 'region  "#666")
-
   (setq frame-resize-pixelwise t)
-  (set-frame-position (selected-frame) 0 0)
-  (set-frame-size (selected-frame) 800 1000 t)
-  ;; The syntax of setting the alpha value of emacs frame
-  ;; (set-frame-parameter (selected-frame) 'alpha '(active . inactive))
-  ;; (set-frame-parameter (selected-frame) 'alpha '(both))
-  (set-frame-parameter (selected-frame) 'alpha '(100 . 99))
 #+END_SRC
 ** Mode line Customization
 #+BEGIN_SRC emacs-lisp
@@ -572,9 +572,6 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
   (defun ken_nc/setup-emacsclient (frame)
     (select-frame frame)
     (load-theme 'xresources t)
-    (set-frame-font "Source Code Pro" nil t)
-    ;; The value is in 1/10pt, so 100 will give you 10pt
-    (set-face-attribute 'default nil :height 100)
     (setq xah-fly-use-control-key nil)
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys t))
@@ -583,9 +580,7 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
       (add-hook 'after-make-frame-functions
                 #'ken_nc/setup-emacsclient)
     (progn
-      (load-theme 'xresources t)
-      (add-to-list 'default-frame-alist '(font . "Source Code Pro"))
-      (set-face-attribute 'default nil :height 100)))
+      (load-theme 'xresources t)))
 #+END_SRC
 * Org mode
 ** Description
