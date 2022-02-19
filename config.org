@@ -499,7 +499,6 @@ The defualt functionality of isearch is to put the cursor after the last charact
 #+END_SRC
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
-
 Save buffer automatically when wgrep-finish-edit
 #+BEGIN_SRC emacs-lisp
   (setq wgrep-auto-save-buffer t)

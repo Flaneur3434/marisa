@@ -36,12 +36,27 @@
   (end-of-line))
 
 
-(defun ken_nc/eshell-clear-buffer ()
+(defun ken_nc/esh-clear-buffer ()
   "Clear terminal."
   (interactive)
+  (require 'esh-mode)
   (let ((inhibit-read-only t))
     (erase-buffer)
     (eshell-send-input)))
+
+(defun ken_nc/async-make (&rest args)
+  "Use `compile' to do background makes."
+  (if (eshell-interactive-output-p)
+      (let ((compilation-process-setup-function
+             (list 'lambda nil
+                   (list 'setq 'process-environment
+                         (list 'quote (eshell-copy-environment))))))
+        (compile (eshell-flatten-and-stringify args))
+        (pop-to-buffer compilation-last-buffer))
+    (throw 'eshell-replace-command
+           (let ((l (eshell-stringify-list (eshell-flatten-list args))))
+             (eshell-parse-command (car l) (cdr l))))))
+(put 'eshell/ec 'eshell-no-numeric-conversions t)
 
 (use-package eshell
   :commands eshell
@@ -58,20 +73,17 @@
 		   eshell-scroll-to-bottom-on-input 'all
 		   eshell-list-files-after-cd t
 		   eshell-aliases-file (concat user-emacs-directory "eshell/alias")
-		   eshell-banner-message "(´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~\n\n"
-		   ;; eshell-banner-message "What would you like to do?\n\n"
-		   )
+		   eshell-banner-message "(´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~\n\n")
 		  ;; Visual commands
 		  (setq eshell-visual-commands '("vi" "screen" "top" "less" "more" "lynx"
 										 "ncftp" "pine" "tin" "trn" "elm" "vim"
-										 "nmtui" "alsamixer" "htop" "el" "elinks"
-										 ))
-		  (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))
+										 "nmtui" "alsamixer" "htop" "el" "elinks"))
+		  (setq eshell-visual-subcommands '(("git" "log" "diff" "show")))))
 
-		  )
-  :bind
-  (("C-r" . ken_nc/esh-history)
-   ("C-l" . ken_nc/eshell-clear-buffer)))
+(add-hook 'eshell-mode-hook
+		  (lambda () (progn
+				  (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
+				  (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history))))
 
 (message "loading init-eshell")
 (provide 'ken_nc-eshell)
