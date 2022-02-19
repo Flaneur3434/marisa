@@ -43,7 +43,6 @@ alias gph git push -u origin HEAD
 alias gpg-retrieve gpg2 --keyserver-options auto-key-retrieve --receive-keys
 alias gpg-check gpg2 --keyserver-options auto-key-retrieve --verify
 alias gpd git push origin --delete
-alias grep
 alias gp grep -i -E
 alias gmerge git merge --edit --stat
 alias gmerg git merge --edit --stat

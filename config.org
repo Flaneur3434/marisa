@@ -646,6 +646,8 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 #+END_SRC
 ** Aliases
 Ask Bash for the list of currently available aliases instead of parsing .bashrc file. Might have errros as it was not made professionally.
+Also to execute external commands, put a '*' infront
+https://www.gnu.org/software/emacs/manual/html_node/eshell/Built_002dins.html
 #+BEGIN_SRC emacs-lisp
   (defalias 'open 'find-file-other-window)
   (defalias 'clean 'eshell/clear-scrollback)
