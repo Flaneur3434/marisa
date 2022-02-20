@@ -12,6 +12,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(region ((t (:extend t :background "dim gray"))))
- '(variable-pitch ((t ("Input Sans Narrow" :height 140))))
- '(fixed-pitch ((t ( "mononoki" :height 140))))
+ '(variable-pitch ((t ("HackGenNerd" :height 140))))
+ '(fixed-pitch ((t ( "Agave" :height 140))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch))))))
