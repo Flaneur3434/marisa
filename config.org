@@ -1056,6 +1056,28 @@ Corfu enhances the default completion in region function with a completion overl
     (setq tab-always-indent 'complete)
     (setq enable-recursive-minibuffers t))
 #+END_SRC
+** Initialize =yasnippet=
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :diminish yas-minor-mode
+    :hook
+    ((c-mode c++-mode java-mode) . yas-minor-mode)
+    :config
+    (yas-reload-all))
+#+END_SRC
+** Initialize =company=
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package company
+  ;;   :ensure t
+  ;;   :diminish (meghanada-mode company-mode irony-mode)
+  ;;   :config
+  ;;   (setq company-idle-delay nil)
+  ;;   (setq company-minimum-prefix-length 5)
+  ;;   (define-key company-active-map (kbd "SPC") #'company-abort)
+  ;;   :hook
+  ;;   ((java-mode c-mode c++-mode) . company-mode))
+#+END_SRC
 ** Cape
 *** Description
 *** Code
@@ -1091,28 +1113,24 @@ Irony is the company backend for C and C++
     :diminish t
     :ensure t)
 
-  (add-hook 'c-mode-hook 'ken_nc/ac-c-headers-init)
+  ;; OpenBSD KNF for C/C++
+  (c-add-style "OpenBSD" openbsd-knf-style)
+
+  (add-hook 'c-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-c-headers)))
+  (add-hook 'c++-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-c-headers)))
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-  (defun ken_nc/ac-c-headers-init ()
-    (add-to-list 'ac-sources 'ac-source-c-headers))
-
-  ;; OpenBSD KNF for C/C++
-  (c-add-style "OpenBSD" openbsd-knf-style)
-  (setq c-default-style '((c-mode . "OpenBSD")))
-
-  ;; In the modeline, show which function you are currently in.
   (add-hook 'c-mode-common-hook
             (lambda ()
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                (which-func-mode 1))))
-
-  (add-hook 'c++-mode-hook 'ken_nc/ac-c-headers-init)
-  (add-hook 'c-mode-common-hook
-            (lambda()
+                (which-func-mode 1))
               (subword-mode)
+              (google-set-c-style)
               (google-make-newline-indent)))
 #+END_SRC
 ** Go
@@ -1126,16 +1144,16 @@ Irony is the company backend for C and C++
 Meghanada provides autocompletion when editing Java files. I use it mainly for autocompletion but thereÅfs a ton of other things it can do, automatic imports, for example.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package meghanada
-    :defer nil
-    :diminish t
-    :ensure t
-    :config
-    (add-hook 'java-mode-hook
-              (lambda ()
-                (meghanada-mode t)))
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn"))
+  ;; (use-package meghanada
+  ;;   :defer nil
+  ;;   :diminish t
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'java-mode-hook
+  ;;             (lambda ()
+  ;;               (meghanada-mode t)))
+  ;;   (setq meghanada-java-path "java")
+  ;;   (setq meghanada-maven-path "mvn"))
 #+END_SRC
 ** Elisp Format
 *** Description
