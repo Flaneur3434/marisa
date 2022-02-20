@@ -30,6 +30,7 @@
 (require 'corfu)
 (require 'ctags-utils)
 (require 'darkroom)
+(require 'deferred)
 (require 'dired-sort)
 (require 'fzf)
 (require 'google-c-style)
@@ -37,11 +38,13 @@
 (require 'good-scroll)
 (require 'iedit)
 (require 'iedit-rect)
+(require 'inertial-scroll)
 (require 'ken_nc-custom-colors)
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
 (require 'mct-customizations)
 (require 'move-text)
+(require 'openbsd-knf-style)
 (require 'package)
 (require 'pcmpl-args)
 (require 'prot-comment)
@@ -89,8 +92,5 @@
 	  (native-compile-async "~/.emacs.d/early-init.el")
 	  (native-compile-async "~/.emacs.d/config.el")))
 
-(put 'narrow-to-region 'disabled nil)
-(custom-set-variables
- '(display-line-numbers-widen t)
- '(package-selected-packages
-   '(flycheck caml caml-mode sml-mode orderless corfu meghanada irony compnay mozc highlight auto-compplete expand-region which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
