@@ -1141,19 +1141,16 @@ Irony is the company backend for C and C++
 #+END_SRC
 ** Java
 *** Description
-Meghanada provides autocompletion when editing Java files. I use it mainly for autocompletion but thereÅfs a ton of other things it can do, automatic imports, for example.
+java-lsp enabled
+Also added google-java-format
 *** Code
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package meghanada
-  ;;   :defer nil
-  ;;   :diminish t
-  ;;   :ensure t
-  ;;   :config
-  ;;   (add-hook 'java-mode-hook
-  ;;             (lambda ()
-  ;;               (meghanada-mode t)))
-  ;;   (setq meghanada-java-path "java")
-  ;;   (setq meghanada-maven-path "mvn"))
+  (defun ken_nc/java-format-on-save ()
+    (when (eq major-mode 'java-mode)
+      (call-interactively 'google-java-format-buffer)))
+
+  (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
+
 #+END_SRC
 ** Elisp Format
 *** Description

@@ -42,3 +42,6 @@ tramp
 TAGS
 eln-cache
 places
+.lsp-session-v1
+eclipse.jdt.ls
+.cache
