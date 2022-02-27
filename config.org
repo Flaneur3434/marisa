@@ -1056,28 +1056,6 @@ Corfu enhances the default completion in region function with a completion overl
     (setq tab-always-indent 'complete)
     (setq enable-recursive-minibuffers t))
 #+END_SRC
-** Initialize =yasnippet=
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :ensure t
-    :diminish yas-minor-mode
-    :hook
-    ((c-mode c++-mode java-mode) . yas-minor-mode)
-    :config
-    (yas-reload-all))
-#+END_SRC
-** Initialize =company=
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package company
-  ;;   :ensure t
-  ;;   :diminish (meghanada-mode company-mode irony-mode)
-  ;;   :config
-  ;;   (setq company-idle-delay nil)
-  ;;   (setq company-minimum-prefix-length 5)
-  ;;   (define-key company-active-map (kbd "SPC") #'company-abort)
-  ;;   :hook
-  ;;   ((java-mode c-mode c++-mode) . company-mode))
-#+END_SRC
 ** Cape
 *** Description
 *** Code
