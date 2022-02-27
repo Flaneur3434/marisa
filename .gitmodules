@@ -4,27 +4,15 @@
 [submodule "lisp/mct"]
 	path = lisp/mct
 	url = https://github.com/protesilaos/mct
-[submodule "lisp/auto-complete-c-headers"]
-	path = lisp/auto-complete-c-headers
-	url = https://github.com/mooz/auto-complete-c-headers
-[submodule "lisp/auto-complete"]
-	path = lisp/auto-complete
-	url = https://github.com/auto-complete/auto-complete
 [submodule "lisp/corfu"]
 	path = lisp/corfu
 	url = https://github.com/minad/corfu
 [submodule "lisp/iedit"]
 	path = lisp/iedit
 	url = https://github.com/victorhge/iedit
-[submodule "lisp/popup-el"]
-	path = lisp/popup-el
-	url = https://github.com/auto-complete/popup-el
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
 	url = https://github.com/GrapeJuiceSoda/xresources-theme
-[submodule "themes/zenburn-emacs"]
-	path = themes/zenburn-emacs
-	url = https://github.com/bbatsov/zenburn-emacs
 [submodule "lisp/good-scroll"]
 	path = lisp/good-scroll
 	url = https://github.com/io12/good-scroll.el
