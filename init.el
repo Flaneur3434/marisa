@@ -4,6 +4,19 @@
 (setq warning-minimum-level :emergency)
 (abbrev-mode -1)
 
+;; Initialize melpa repo
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+			 '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+
+;; Initialize use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
@@ -66,17 +79,6 @@
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
 
-;; Initialize melpa repo
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-			 '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-
-;; Initialize use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
