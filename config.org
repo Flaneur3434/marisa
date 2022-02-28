@@ -1089,7 +1089,9 @@ Irony is the company backend for C and C++
   (use-package irony
     :defer nil
     :diminish t
-    :ensure t)
+    :ensure t
+    :hook
+    (irony-mode-hook . irony-cdb-autosetup-compile-options))
 
   ;; OpenBSD KNF for C/C++
   (c-add-style "OpenBSD" openbsd-knf-style)
