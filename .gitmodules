@@ -12,7 +12,7 @@
 	url = https://github.com/victorhge/iedit
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
-	url = https://github.com/GrapeJuiceSoda/xresources-theme
+	url = https://github.com/Flaneur3434/xresources-theme
 [submodule "lisp/good-scroll"]
 	path = lisp/good-scroll
 	url = https://github.com/io12/good-scroll.el

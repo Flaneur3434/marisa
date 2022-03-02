@@ -1007,7 +1007,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :diminish t
     :hook
     (flycheck-mode . flycheck-irony-setup)
-    ((c-mode c++-mode) . flycheck-mode))
+    ((c-mode c++-mode java) . flycheck-mode))
 
   (defun trivialfis/flycheck ()
     "Configurate flycheck."
