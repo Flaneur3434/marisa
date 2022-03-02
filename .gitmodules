@@ -19,3 +19,12 @@
 [submodule "lisp/pcmpl-args"]
 	path = lisp/pcmpl-args
 	url = https://github.com/JonWaltman/pcmpl-args.el
+[submodule "lisp/aggressive-indent-mode"]
+	path = lisp/aggressive-indent-mode
+	url = https://github.com/Malabarba/aggressive-indent-mode
+[submodule "lisp/company-irony-c-headers"]
+	path = lisp/company-irony-c-headers
+	url = https://github.com/hotpxl/company-irony-c-headers
+[submodule "lisp/company-ctags"]
+	path = lisp/company-ctags
+	url = https://github.com/redguardtoo/company-ctags

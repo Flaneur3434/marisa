@@ -4,7 +4,7 @@
 #+OPTIONS: num:nil
 Emacs - Connect To The Wired Edition
 
-[[./gnumarisa.png]]
+[[./athos_monk_emacs.png]]
 * Introduction
 Based off of Witchmacs(https://github.com/snackon/Witchmacs)
 How to download
@@ -1005,8 +1005,45 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (use-package flycheck
     :ensure t
     :diminish t
+    :hook
+    (flycheck-mode . flycheck-irony-setup)
+    ((c-mode c++-mode) . flycheck-mode))
+
+  (defun trivialfis/flycheck ()
+    "Configurate flycheck."
+    (add-to-list 'display-buffer-alist
+                 `(,(rx bos "*Flycheck errors*" eos)
+                   (display-buffer-reuse-window
+                    display-buffer-in-side-window)
+                   (side            . bottom)
+                   (reusable-frames . visible)
+                   (window-height   . 0.23)))
+    (setq flycheck-display-errors-function
+          #'flycheck-display-error-messages-unless-error-list))
+
+  (add-hook 'flycheck-mode-hook 'trivialfis/flycheck)
+  (setq shell-command-switch "-lc") ;; flycheck doesnt work for some reason
+#+END_SRC
+** Initialize =company=
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :diminish company-mode
     :config
-    (add-hook 'prog-mode 'flycheck-mode))
+    (setq company-idle-delay nil)
+    (setq company-minimum-prefix-length 3)
+    (with-eval-after-load 'company
+      (define-key company-active-map
+                  (kbd "k")
+                  #'company-complete-common-or-cycle)
+      (define-key company-active-map
+                  (kbd "i")
+                  (lambda ()
+                    (interactive)
+                    (company-complete-common-or-cycle -1))))
+    (define-key company-active-map (kbd "SPC") #'company-abort)
+    :hook
+    ((java-mode c-mode c++-mode) . company-mode))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1030,7 +1067,7 @@ Corfu enhances the default completion in region function with a completion overl
       (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
 
-  (add-hook 'prog-mode-hook 'corfu-mode)
+  ;; (add-hook 'prog-mode-hook 'corfu-mode)
   (add-hook 'eshell-mode-hook
             (lambda ()
               (setq-local corfu-quit-at-boundary t
@@ -1055,6 +1092,17 @@ Corfu enhances the default completion in region function with a completion overl
     ;; `completion-at-point' is often bound to M-TAB.
     (setq tab-always-indent 'complete)
     (setq enable-recursive-minibuffers t))
+#+END_SRC
+** Initialize =aggressive-indent-mode=
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+  (add-hook 'c-mode-hook #'aggressive-indent-mode)
+  (add-hook 'java-mode-hook #'aggressive-indent-mode)
+  (add-to-list
+   'aggressive-indent-dont-indent-if
+   '(and (derived-mode-p 'c-mode)
+         (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                             (thing-at-point 'line)))))
 #+END_SRC
 ** Cape
 *** Description
@@ -1089,29 +1137,36 @@ Irony is the company backend for C and C++
   (use-package irony
     :defer nil
     :diminish t
-    :ensure t
-    :hook
-    (irony-mode-hook . irony-cdb-autosetup-compile-options))
+    :ensure t)
 
-  ;; OpenBSD KNF for C/C++
   (c-add-style "OpenBSD" openbsd-knf-style)
 
-  (add-hook 'c-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-c-headers)))
-  (add-hook 'c++-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-c-headers)))
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                (which-func-mode 1))
-              (subword-mode)
-              (google-set-c-style)
-              (google-make-newline-indent)))
+  (defun trivialfis/irony ()
+    "Irony mode configuration."
+    (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
+    (add-to-list 'company-backends 'company-irony)
+    (add-to-list 'company-backends 'company-irony-c-headers)
+    (add-to-list 'company-backends 'company-keywords)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
+    (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
+              (eq major-mode 'c++-mode))
+      (progn
+        (subword-mode)
+        (which-func-mode 1)
+        (irony-mode 1))))
+
+  (defun ken_nc/cc-base ()
+    "Common configuration for c and c++ mode."
+    ;; Company mode
+    (setf company-backends '())
+    (add-to-list 'company-backends 'company-keywords)
+    (with-eval-after-load 'company
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
+    (trivialfis/irony))
+
+  (add-hook 'c++-mode-hook 'ken_nc/cc-base)
+  (add-hook 'c-mode-hook 'ken_nc/cc-base)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1125,12 +1180,21 @@ java-lsp enabled
 Also added google-java-format
 *** Code
 #+BEGIN_SRC emacs-lisp
+  (defun ken_nc/java-base ()
+    "Common configuration for java mode."
+    ;; Company mode
+    (with-eval-after-load 'company
+      (company-ctags-auto-setup)
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
+    (setq company-ctags-ignore-case t)
+    (setq company-ctags-fuzzy-match-p t))
+
   (defun ken_nc/java-format-on-save ()
     (when (eq major-mode 'java-mode)
       (call-interactively 'google-java-format-buffer)))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-
+  (add-hook 'java-mode-hook #'ken_nc/java-base)
 #+END_SRC
 ** Elisp Format
 *** Description

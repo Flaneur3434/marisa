@@ -4075,20 +4075,20 @@ minor modes loaded later may override bindings in this map.")
   "call different jump-to-definition functions depending on what's current major mode."
   (interactive)
   (cond
-   ((string-equal major-mode "java-mode") (meghanada-jump-declaration))
+   ((string-equal major-mode "java-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "c-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "emacs-lisp-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "go-mode") (godef-jump)))
-   ;; more major-mode checking here
+  ;; more major-mode checking here
 
-   ;; if nothing match, do nothing
-   (t nil))
+  ;; if nothing match, do nothing
+  (t nil))
 
 (defun my-jump-back-wrapper ()
   "call different jump-back-definition functions depending on what's current major mode."
   (interactive)
   (cond
-   ((string-equal major-mode "java-mode") (meghanada-back-jump))
+   ((string-equal major-mode "java-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "go-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "c-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "emacs-lisp-mode") (xref-pop-marker-stack))
