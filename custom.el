@@ -11,7 +11,7 @@
  '(display-line-numbers-widen t)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(flycheck-irony company-irony company flycheck caml caml-mode sml-mode orderless corfu irony compnay mozc highlight auto-compplete expand-region which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
+   '(company-irony company caml caml-mode sml-mode orderless corfu irony compnay mozc highlight auto-compplete expand-region which-key use-package undo-tree powerline pfuture page-break-lines magit ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit elisp-format dired-toggle-sudo diminish dashboard crux cfrs beacon auto-package-update async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

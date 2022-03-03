@@ -28,9 +28,8 @@ init () {
 	IFS=$'\n'
 	for item in $package_list; do
 		cd $item
-		echo $item
-		branch_name="$(git --no-pager branch -r | cut -d '/' -f 2 | fzy -p 'Choose a branch: ')"
-		git checkout $branch_name
+		branch_name="$(git --no-pager branch -r | cut -d \/ -f 2 | grep 'main\|master' | head -n 1)"
+		git checkout "$branch_name"
 		cd ../.. # move back to /home/$USER/.emacs.d/
 	done
 }
@@ -45,7 +44,7 @@ USEAGE: update-git-packages.sh [OPTION]
 EOF
 }
 
-my_needed_commands="sregx fzy"
+my_needed_commands="sregx"
 missing_counter=0
 for needed_command in $my_needed_commands; do
   if ! hash "$needed_command" >/dev/null 2>&1; then
@@ -53,9 +52,6 @@ for needed_command in $my_needed_commands; do
 	case "$needed_command" in
 		sregx)
 			echo "Can be installed from this repo: https://github.com/zyedidia/sregx"
-			;;
-		fzy)
-			echo "Can be installed from this repo: https://github.com/jhawthorn/fzy"
 			;;
 	esac
     ((missing_counter++))
@@ -69,8 +65,6 @@ fi
 
 package_list="$(sregx 'x/.*\n/ g/path/ x/[a-z]+\/[[:ascii:]]+\n/p' .gitmodules)"
 
-
-
 if [[ $# != 0 ]]; then
 	while [[ ! $# == 0 ]]
 	do
@@ -82,7 +76,6 @@ if [[ $# != 0 ]]; then
 				help_message
 				;;
 			--update)
-				printf "updating submodules..\n\n\n"
 				update
 				;;
 		esac

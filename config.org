@@ -999,31 +999,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :diminish abbrev-mode)
 #+END_SRC
 * Programming section
-** Initialize =flycheck=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :diminish t
-    :hook
-    (flycheck-mode . flycheck-irony-setup)
-    ((c-mode c++-mode java) . flycheck-mode))
-
-  (defun trivialfis/flycheck ()
-    "Configurate flycheck."
-    (add-to-list 'display-buffer-alist
-                 `(,(rx bos "*Flycheck errors*" eos)
-                   (display-buffer-reuse-window
-                    display-buffer-in-side-window)
-                   (side            . bottom)
-                   (reusable-frames . visible)
-                   (window-height   . 0.23)))
-    (setq flycheck-display-errors-function
-          #'flycheck-display-error-messages-unless-error-list))
-
-  (add-hook 'flycheck-mode-hook 'trivialfis/flycheck)
-  (setq shell-command-switch "-lc") ;; flycheck doesnt work for some reason
-#+END_SRC
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -1042,8 +1017,9 @@ Expand region increases the selected region by semantic units. Just keep pressin
                     (interactive)
                     (company-complete-common-or-cycle -1))))
     (define-key company-active-map (kbd "SPC") #'company-abort)
-    :hook
-    ((java-mode c-mode c++-mode) . company-mode))
+    (add-hook 'java-mode-hook 'company-mode)
+    (add-hook 'c-mode-hook 'company-mode)
+    (add-hook 'c++-mode-hook 'company-mode))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1148,13 +1124,7 @@ Irony is the company backend for C and C++
     (add-to-list 'company-backends 'company-irony-c-headers)
     (add-to-list 'company-backends 'company-keywords)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
-    (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
-              (eq major-mode 'c++-mode))
-      (progn
-        (subword-mode)
-        (which-func-mode 1)
-        (irony-mode 1))))
+    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
 
   (defun ken_nc/cc-base ()
     "Common configuration for c and c++ mode."
@@ -1163,7 +1133,13 @@ Irony is the company backend for C and C++
     (add-to-list 'company-backends 'company-keywords)
     (with-eval-after-load 'company
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (trivialfis/irony))
+    (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
+              (eq major-mode 'c++-mode))
+      (progn
+        (subword-mode)
+        (which-func-mode 1)
+        (irony-mode 1)
+        (trivialfis/irony))))
 
   (add-hook 'c++-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'ken_nc/cc-base)
@@ -1194,6 +1170,7 @@ Also added google-java-format
       (call-interactively 'google-java-format-buffer)))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
+  (add-hook 'java-mode-hook 'google-set-c-style)
   (add-hook 'java-mode-hook #'ken_nc/java-base)
 #+END_SRC
 ** Elisp Format
