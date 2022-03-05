@@ -5,9 +5,9 @@
  ;; If there is more than one, they won't work right.
  '(c-default-style
    '((c-mode . "OpenBSD")
-	 (java-mode . "Google")
+	 (java-mode . "java")
 	 (awk-mode . "awk")
-	 (other . "Google")))
+	 (other . "")))
  '(display-line-numbers-widen t)
  '(lsp-java-theme "")
  '(package-selected-packages
@@ -17,6 +17,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-template-field ((t (:foreground "honeydew"))))
  '(fixed-pitch ((t ("Agave" :height 140))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
  '(region ((t (:extend t :background "dim gray"))))

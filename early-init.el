@@ -15,7 +15,7 @@
 (defun startup/reset-gc ()
   (setq gc-cons-threshold 100000000))
 
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq read-process-output-max (* 2048 2048)) ;; 1mb
 
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)

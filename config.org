@@ -1170,7 +1170,7 @@ Also added google-java-format
       (call-interactively 'google-java-format-buffer)))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-  (add-hook 'java-mode-hook 'google-set-c-style)
+  (add-hook 'java-mode-hook #'google-set-c-style)
   (add-hook 'java-mode-hook #'ken_nc/java-base)
 #+END_SRC
 ** Elisp Format

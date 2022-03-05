@@ -13,9 +13,6 @@
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
 	url = https://github.com/Flaneur3434/xresources-theme
-[submodule "lisp/good-scroll"]
-	path = lisp/good-scroll
-	url = https://github.com/io12/good-scroll.el
 [submodule "lisp/pcmpl-args"]
 	path = lisp/pcmpl-args
 	url = https://github.com/JonWaltman/pcmpl-args.el
