@@ -460,7 +460,8 @@ scrolling
      ;; ("o" . exchange-point-and-mark)
      ("o" . ken_nc/crux-keymap)
      ("p" . query-replace)
-     ("q" . xah-cut-all-or-region)
+     ;; ("q" . xah-cut-all-or-region)
+     ("q" . ken_nc/dumbjump-keymap)
      ("r" . xah-fly-visual-keymap)
      ;; ("s" . save-buffer)
      ("s" . ken_nc/save-buffer-dwim)
@@ -1079,6 +1080,18 @@ Corfu enhances the default completion in region function with a completion overl
    '(and (derived-mode-p 'c-mode)
          (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
                              (thing-at-point 'line)))))
+#+END_SRC
+** Initialize =dumb-jump=
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (xah-fly--define-keys
+   (define-prefix-command 'ken_nc/dumbjump-keymap)
+   '(
+     ("h" . dumb-jump-go-other-window)
+     ("t" . dumb-jump-go-prefer-external-other-window)
+     ("n" . dumb-jump-go-prompt)
+     ("s" . dumb-jump-quick-look)))
 #+END_SRC
 ** Cape
 *** Description
