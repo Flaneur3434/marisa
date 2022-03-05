@@ -1122,7 +1122,6 @@ Irony is the company backend for C and C++
     (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
     (add-to-list 'company-backends 'company-irony)
     (add-to-list 'company-backends 'company-irony-c-headers)
-    (add-to-list 'company-backends 'company-keywords)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
 
@@ -1130,7 +1129,9 @@ Irony is the company backend for C and C++
     "Common configuration for c and c++ mode."
     ;; Company mode
     (setf company-backends '())
-    (add-to-list 'company-backends 'company-keywords)
+    (add-to-list 'company-backends 'company-dabbrev-code)
+    (add-to-list 'company-backends 'company-files)
+    (add-to-list 'company-backends 'company-ispell)
     (with-eval-after-load 'company
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
@@ -1160,7 +1161,11 @@ Also added google-java-format
     "Common configuration for java mode."
     ;; Company mode
     (with-eval-after-load 'company
-      (company-ctags-auto-setup)
+      (setf company-backends '())
+      (add-to-list 'company-backends 'company-ctags)
+      (add-to-list 'company-backends 'company-dabbrev-code)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends 'company-ispell)
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (setq company-ctags-ignore-case t)
     (setq company-ctags-fuzzy-match-p t))
@@ -1170,8 +1175,8 @@ Also added google-java-format
       (call-interactively 'google-java-format-buffer)))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-  (add-hook 'java-mode-hook #'google-set-c-style)
   (add-hook 'java-mode-hook #'ken_nc/java-base)
+  (add-hook 'java-mode-hook #'google-set-c-style)
 #+END_SRC
 ** Elisp Format
 *** Description
