@@ -154,13 +154,14 @@ command. If prefix is given, it uses grep with the --invert-match flag."
   (interactive "p")
   (let
 	  ((search-pattern (read-regexp "Search pattern (regex): "))
-	   (directory-name (read-directory-name "Which directory: ")))
+	   (directory-name (read-directory-name "Which directory: "))
+	   (file-name (read-string "Which file(s): ")))
 	(cond
 	 ((= set-invert 4)
 	  (grep (concat "grep --invert-match " grep-template " " search-pattern " " directory-name file-name)))
 	 (t
 	  (if (executable-find "ag")
-		  (ag-regexp search-pattern directory-name)
+		  (ag/search search-pattern directory-name :file-regex file-name)
 		(let ((file-name (read-string "Which file(s): ")))
 		  (grep (concat "grep " grep-template " " search-pattern " " directory-name file-name))))))))
 
