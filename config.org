@@ -376,7 +376,6 @@ scrolling
      ("b" . darkroom-tentative-mode)
      ("o" . crux-sudo-edit)
      ("e" . crux-delete-file-and-buffer)
-     ("d" . ken_nc/grep-symbol-at-point)
      ("i" . ken_nc/grep-dwim)
      (">" . mpc-next)
      ("<" . mpc-prev)
@@ -447,7 +446,8 @@ scrolling
      ("c" . xah-fly-file-keymap)
      ("d" . beginning-of-buffer)
      ("e" . xah-fly-insert-keymap)
-     ("f" . xah-search-current-word)
+     ;; ("f" . xah-search-current-word)
+     ("f" . ken_nc/grep-symbol-at-point)
      ("g" . xah-close-current-buffer)
      ("h" . xah-fly-describe-keymap)
      ("i" . kill-line)
@@ -987,6 +987,13 @@ Expand region increases the selected region by semantic units. Just keep pressin
            :url "https://192.168.1.115/")))     ; local server URL prefix
   (setq screenshot-default-scheme "local") ; default scheme is "local"
 #+END_SRC
+** Initialize =ag=
+#+BEGIN_SRC emacs-lisp
+  (setq ag-highlight-search t)
+  (setq ag-executable "/usr/bin/ag")
+  (setq ag-reuse-buffers t)
+  (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1085,6 +1092,15 @@ Corfu enhances the default completion in region function with a completion overl
 #+BEGIN_SRC emacs-lisp
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (setq dumb-jump-git-grep-search-args "")
+
+  ;; only force dumb-jump to use ripgrep if it exists on system
+  (when (executable-find "ag")
+    (progn
+      (setq dumb-jump-force-searcher 'ag)
+      (setq dumb-jump-prefer-searcher 'ag)
+      (setq dumb-jump-ag-search-args "")))
+
   (xah-fly--define-keys
    (define-prefix-command 'ken_nc/dumbjump-keymap)
    '(

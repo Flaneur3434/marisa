@@ -34,6 +34,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/company-irony-c-headers")
 (add-to-list 'load-path "~/.emacs.d/lisp/company-ctags")
 
+(require 'ag)
 (require 'aggressive-indent)
 (require 'basic-edit-toolkit)
 (require 'cape)
@@ -73,6 +74,7 @@
 (require 'unfill)
 (require 'wc-mode)
 (require 'wgrep)
+(require 'wgrep-ag)
 
 ;; needs to be last due to it calling interactive functions from other files
 (require 'xah-fly-keys)

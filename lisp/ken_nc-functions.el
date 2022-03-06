@@ -132,6 +132,7 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
   (interactive)
   (cond
    ((string-equal major-mode "grep-mode") (wgrep-finish-edit))
+   ((string-equal major-mode "ag-mode") (wgrep-finish-edit))
    ((string-equal major-mode "occur-edit-mode") (occur-cease-edit))
    ((string-equal major-mode "wdired-mode") (wdired-finish-edit))
    (t (save-buffer))))
@@ -141,56 +142,56 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
   (interactive)
   (cond
    ((string-equal major-mode "grep-mode") (wgrep-change-to-wgrep-mode))
+   ((string-equal major-mode "ag-mode") (wgrep-change-to-wgrep-mode))
    ((string-equal major-mode "occur-mode") (occur-edit-mode))
    ((string-equal major-mode "dired-mode") (dired-toggle-read-only))
    (t nil)))
 
-(defun ken_nc/grep-dwim (&optional set-invert search-pattern file-name)
-  "Runs grep and occur in one command. Default (no prefix) runs regular grep with the arguments of grep --color -inHr --null -e -r. Thats recursive btw.
-If the prefix is 4 (the default number for prefix), it runs grep inverse. The arguments are grep --color -ivnHr --null -e.
-If no file is specified, then run occur."
+(defun ken_nc/grep-dwim (&optional set-invert search-pattern directory-name file-name)
+  "Runs grep or ag (silver searcher) in one command. If ag is found on the
+system, it uses that to grep. If ag is not found, it uses the system grep
+command. If prefix is given, it uses grep with the --invert-match flag."
   (interactive "p")
-  (set (make-local-variable 'search-pattern) (read-regexp "Search pattern (regex): "))
-  (if (y-or-n-p "File")
-	  (progn
-		(set (make-local-variable 'directory-name) (read-directory-name "Which directory: "))
-		(set (make-local-variable 'file-name) (read-string "Which file(s): "))
-		(cond
-		 ((= set-invert 4)
-		  (set (make-local-variable 'command) (concat "grep --color --ignore-case --invert-match --line-number --with-filename --recursive --null --regexp" " " search-pattern " " directory-name file-name)))
-		 (t (set (make-local-variable 'command) (concat "grep --color --ignore-case --line-number --with-filename --recursive --null --regexp" " " search-pattern " " directory-name file-name))))
-		(grep command))
-	(occur search-pattern)))
-
-(global-set-key (kbd "C-c 0") 'ken_nc/delete-surround-char)
-
-(defun ken_nc/mozc-dwim ()
-"If mozc is active turn it off. If mozc is turned off, turn it on."
-  (interactive)
-  (if mozc-mode
-	(mozc-mode nil)
-  (mozc-mode t)))
-
-(defun ken_nc/quit-emacs-dwim ()
-  (interactive)
-  (if (daemonp)
-	  (delete-frame)
-	(kill-emacs)))
+  (let
+	  ((search-pattern (read-regexp "Search pattern (regex): "))
+	   (directory-name (read-directory-name "Which directory: ")))
+	(cond
+	 ((= set-invert 4)
+	  (grep (concat "grep --invert-match " grep-template " " search-pattern " " directory-name file-name)))
+	 (t
+	  (if (executable-find "ag")
+		  (ag-regexp search-pattern directory-name)
+		(let ((file-name (read-string "Which file(s): ")))
+		  (grep (concat "grep " grep-template " " search-pattern " " directory-name file-name))))))))
 
 (defun ken_nc/grep-symbol-at-point (&optional occur-or-grep)
-  "Call 'grep' on symbol at point."
+  "Call 'grep' on symbol at point. Default (no prefix) runs occur.
+If prefix is given, it runs grep with the default command template"
   (interactive "p")
   (push (if (region-active-p)
             (buffer-substring-no-properties
              (region-beginning)
              (region-end))
-          (let ((sym (thing-at-point 'symbol)))
+          (let ((sym (thing-at-point 'word)))
             (when (stringp sym)
               (regexp-quote sym))))
         regexp-history)
   (if (= occur-or-grep 4)
 	  (grep (concat "grep " grep-template " " (grep-read-regexp)))
 	(call-interactively 'occur)))
+
+(defun ken_nc/mozc-dwim ()
+  "If mozc is active turn it off. If mozc is turned off, turn it on."
+  (interactive)
+  (if mozc-mode
+	  (mozc-mode nil)
+	(mozc-mode t)))
+
+(defun ken_nc/quit-emacs-dwim ()
+  (interactive)
+  (if (daemonp)
+	  (delete-frame)
+	(kill-emacs)))
 
 (defun ken_nc/pop-local-mark-ring (&optional global-prefix)
   "Move cursor to last mark position of current buffer. If prefix is given
