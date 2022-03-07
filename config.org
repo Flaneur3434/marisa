@@ -16,6 +16,7 @@ How to download
   # requires fzy (https://github.com/jhawthorn/fzy)
   ./update-git-packages.sh --init
   ./update-git-packages.sh --update
+  # you may need to run package-refresh-contents in emacs also
 #+END_SRC
 * Why would I use this?
 #+BEGIN_QUOTE
