@@ -45,3 +45,4 @@ places
 .lsp-session-v1
 eclipse.jdt.ls
 .cache
+config.el

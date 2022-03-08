@@ -597,6 +597,14 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (add-hook 'prog-mode-hook 'wc-mode)
   (setq wc-modeline-format "[Words: %tw, Lines: %tl]")
 #+END_SRC
+** Garbage Collection on focus-out
+Garbage-collect on focus-out, Emacs should feel snappier overall.
+#+BEGIN_SRC emacs-lisp
+  (add-function :after after-focus-change-function
+    (defun ken_nc/garbage-collect-maybe ()
+      (unless (frame-focus-state)
+        (garbage-collect))))
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -882,15 +890,17 @@ You might find beacon an unnecesary package but I find it very neat. It briefly 
 Highligh rgb and hex values with the color associated with them
 *** Code
 #+BEGIN_SRC emacs-lisp
-   (use-package htmlize
-     :ensure t)
+  (use-package htmlize
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Initialize =mozc=
 *** “ú–{Œê“ü—Í
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package mozc
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Initialize =ido= and =ido-vertical=
 *** Description
@@ -898,6 +908,7 @@ For the longest time I used the default way of switching and killing buffers in 
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package ido
+    :defer t
     :init
     (ido-mode 1)
     :config
@@ -907,6 +918,7 @@ For the longest time I used the default way of switching and killing buffers in 
 
   (use-package ido-vertical-mode
     :ensure t
+    :defer t
     :init
     (ido-vertical-mode 1))
   ; This enables arrow keys to select while in ido mode. If you want to
@@ -951,7 +963,8 @@ A Collection of Ridiculously Useful eXtensions for Emac
 Allow to switch from current user to sudo when browsind `dired' buffers.
 #+BEGIN_SRC emacs-lisp
   (use-package dired-toggle-sudo
-  :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Initialize =magit=
 *** Description
@@ -959,7 +972,8 @@ Git porcelain for Emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Initialize =expand-region=
 *** Description
@@ -975,25 +989,19 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (use-package highlight
     :ensure t)
 #+END_SRC
-** Initialize =screenshot=
-#+BEGIN_SRC emacs-lisp
-  (setq screenshot-schemes
-        '(
-          ("local"
-           :dir "~/Pictures/screenshots/")            ; Image repository directory
-          ("current-directory"          ; No need to modify
-           :dir default-directory)
-          ("local-server"
-           :dir "/volume2/backup/thinkpad_backup/kennc_Pic/screenshots"           ; local server directory
-           :url "https://192.168.1.115/")))     ; local server URL prefix
-  (setq screenshot-default-scheme "local") ; default scheme is "local"
-#+END_SRC
 ** Initialize =ag=
 #+BEGIN_SRC emacs-lisp
   (setq ag-highlight-search t)
   (setq ag-executable "/usr/bin/ag")
   (setq ag-reuse-buffers t)
   (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
+** Initialize =company-ctags=
+#+BEGIN_SRC emacs-lisp
+  (use-package company-ctags
+    :defer t
+    :load-path "lisp/company-ctags"
+    :commands (company-ctags))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
@@ -1012,6 +1020,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
+    :defer t
     :diminish company-mode
     :config
     (setq company-idle-delay nil)
@@ -1025,10 +1034,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
                   (lambda ()
                     (interactive)
                     (company-complete-common-or-cycle -1))))
-    (define-key company-active-map (kbd "SPC") #'company-abort)
-    (add-hook 'java-mode-hook 'company-mode)
-    (add-hook 'c-mode-hook 'company-mode)
-    (add-hook 'c++-mode-hook 'company-mode))
+    (define-key company-active-map (kbd "SPC") #'company-abort))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1141,27 +1147,32 @@ Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package irony
-    :defer nil
-    :diminish t
-    :ensure t)
+    :ensure t
+    :defer t
+    :diminish t)
+
+  (use-package company-irony-c-headers
+    :defer t
+    :load-path "lisp/company-irony-c-headers"
+    :commands (company-irony-c-headers))
 
   (c-add-style "OpenBSD" openbsd-knf-style)
 
   (defun trivialfis/irony ()
     "Irony mode configuration."
     (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
-    (add-to-list 'company-backends 'company-irony)
-    (add-to-list 'company-backends 'company-irony-c-headers)
+    (add-to-list 'company-backends
+                 '(company-irony company-irony-c-headers :with company-dabbrev-code))
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
 
   (defun ken_nc/cc-base ()
     "Common configuration for c and c++ mode."
     ;; Company mode
+    ;; (require 'company-irony-c-headers)
     (setf company-backends '())
-    (add-to-list 'company-backends 'company-dabbrev-code)
-    (add-to-list 'company-backends 'company-files)
     (add-to-list 'company-backends 'company-ispell)
+    (add-to-list 'company-backends 'company-files)
     (with-eval-after-load 'company
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
@@ -1171,9 +1182,10 @@ Irony is the company backend for C and C++
         (which-func-mode 1)
         (irony-mode 1)
         (trivialfis/irony))))
-
   (add-hook 'c++-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'ken_nc/cc-base)
+  (add-hook 'c-mode-hook 'company-mode)
+  (add-hook 'c++-mode-hook 'company-mode)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1192,10 +1204,9 @@ Also added google-java-format
     ;; Company mode
     (with-eval-after-load 'company
       (setf company-backends '())
-      (add-to-list 'company-backends 'company-ctags)
-      (add-to-list 'company-backends 'company-dabbrev-code)
-      (add-to-list 'company-backends 'company-files)
       (add-to-list 'company-backends 'company-ispell)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (setq company-ctags-ignore-case t)
     (setq company-ctags-fuzzy-match-p t))
@@ -1205,18 +1216,32 @@ Also added google-java-format
       (call-interactively 'google-java-format-buffer)))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
+  (add-hook 'java-mode-hook 'company-mode)
   (add-hook 'java-mode-hook #'ken_nc/java-base)
   (add-hook 'java-mode-hook #'google-set-c-style)
 #+END_SRC
-** Elisp Format
+** Elisp
 *** Description
-ElispFormat is a mode that format elisp code
+Company setup for emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package elisp-format
-    :defer nil
-    :diminish t
-    :ensure t)
+  (defun ken_nc/elisp-base ()
+    "Common configuration for elisp mode."
+    ;; Company mode
+    (with-eval-after-load 'company
+      (setf company-backends '())
+      (add-to-list 'company-backends 'company-ispell)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends '(company-capf :with company-dabbrev-code))
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common)))
+
+  ;; Change a few indenting behaviors
+  (put 'add-function 'lisp-indent-function 2)
+  (put 'advice-add 'lisp-indent-function 2)
+  (put 'plist-put 'lisp-indent-function 2)
+
+  (add-hook 'emacs-lisp-mode-hook 'company-mode)
+  (add-hook 'emacs-lisp-mode-hook #'ken_nc/elisp-base)
 #+END_SRC
 ** Scheme =geiser-mit=
 *** Description

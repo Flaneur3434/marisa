@@ -20,4 +20,15 @@
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
 
+(abbrev-mode -1)
+
+(setq
+ warning-minimum-level :emergency
+ auto-save-default nil
+ make-backup-file nil
+ load-prefer-newer t
+ mode-line-format nil
+ package-enable-at-startup nil
+ package-native-compile t)
+
 (provide 'early-init)

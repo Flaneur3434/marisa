@@ -1,9 +1,3 @@
-;;disable emacs from creating files on system
-(setq make-backup-file nil)
-(setq auto-save-default nil)
-(setq warning-minimum-level :emergency)
-(abbrev-mode -1)
-
 ;; Initialize melpa repo
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -31,8 +25,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
 (add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
-(add-to-list 'load-path "~/.emacs.d/lisp/company-irony-c-headers")
-(add-to-list 'load-path "~/.emacs.d/lisp/company-ctags")
 
 (require 'ag)
 (require 'aggressive-indent)
@@ -40,13 +32,10 @@
 (require 'cape)
 (require 'color)
 (require 'corfu)
-(require 'company-ctags)
-(require 'company-irony-c-headers)
 (require 'ctags-utils)
 (require 'darkroom)
 (require 'deferred)
 (require 'dired-sort)
-(require 'fzf)
 (require 'google-c-style)
 (require 'google-java-format)
 (require 'go-to-char)
@@ -68,8 +57,6 @@
 (require 'prot-eshell)
 (require 'prot-simple)
 (require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
-(require 'screenshot)
-(require 'smart-tab)
 (require 'smooth-scroll)
 (require 'unfill)
 (require 'wc-mode)
@@ -100,3 +87,6 @@
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+;; Collect garbage when all else is done
+(garbage-collect)
