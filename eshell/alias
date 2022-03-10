@@ -1,11 +1,11 @@
 alias youtube youtube-mp3-tag-editor
-alias yay paru
+alias yay paru --fm vim
 alias vim-his grep '\''^>'\'' .viminfo | cut -c3- | sed '\''s/~/\/home\/ken_nc\//'\''
 alias tar-gz tar -czvf
+alias syslist systemctl list-unit-files --type=service --no-pager
 alias sudo doas
 alias running_service systemctl list-units --type=service
 alias reset_clock sudo timedatectl set-timezone UTC
-alias pl . 91plumber
 alias pacman pacman --color auto
 alias pSyyu sudo pacman -Syyu
 alias pSyu sudo pacman -Syu
@@ -24,9 +24,11 @@ alias ngp gp -v
 alias mu-up mpc update
 alias mu ncmpcpp
 alias moto ssh ken_nc@192.168.1.35 -p 8022
-alias lt 9 ls -lt
+alias ltm 9 ls -Qt
+alias ltc ls --all --human-readable --literal --time=ctime
+alias lt 9 ls -Qtu
 alias ls ls --color=never
-alias ll 9 ls -l
+alias ll 9 ls -Q
 alias igo basilisk https://online-go.com/overview
 alias iftop sudo iftop -i wlan0
 alias gwc git whatchanged
@@ -43,7 +45,6 @@ alias gph git push -u origin HEAD
 alias gpg-retrieve gpg2 --keyserver-options auto-key-retrieve --receive-keys
 alias gpg-check gpg2 --keyserver-options auto-key-retrieve --verify
 alias gpd git push origin --delete
-alias gp grep -i -E
 alias gmerge git merge --edit --stat
 alias gmerg git merge --edit --stat
 alias glog git log
@@ -67,7 +68,9 @@ alias gaddi git add --interactive
 alias gadd git add -v
 alias ftc_code cd Documents/programming/Freight-Frenzy/TeamCode/src/main/java/org/firstinspires/ftc/teamcode
 alias ftc cd Documents/programming/Freight-Frenzy/
-alias emda emacs --daemon &
+alias ff *find ./ -maxdepth 1 -type f
+alias fd *find ./ -maxdepth 1 -type d
+alias emda systemctl --user restart emacs
 alias em sw emacsclient -c
 alias diskstation ssh ken_nc@192.168.1.115 -p 22
 alias dfc dfc -d
@@ -76,8 +79,10 @@ alias cleanup sudo pacman -Rns $(pacman -Qtdq)
 alias clamscan clamscan -vrz --bell --leave-temps --remove=yes
 alias caprine firejail --noprofile caprine
 alias blog blog.sh
+alias arch-nas ssh ken_nc@192.168.1.36 -p 22
 alias all-img sxiv -p *
 alias acme2 acme-start.sh
-alias UnBind command sudo unmount /home/ken_nc/Documents/diskstation/
-alias Bind sudo mount -t nfs 192.168.1.115:/volume2/backup /home/ken_nc/Documents/diskstation/
+alias UnBind command sudo unmount /home/ken_nc/Documents/bind/
+alias BindD sudo mount -t nfs 192.168.1.115:/volume2/backup /home/ken_nc/Documents/bind/
+alias BindA sudo mount -t nfs 192.168.1.36: /home/ken_nc/Documents/bind/
 alias 9term 9term rc

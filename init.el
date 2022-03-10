@@ -25,6 +25,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
 (add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
+(add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
 (require 'ag)
 (require 'aggressive-indent)
@@ -36,6 +37,7 @@
 (require 'darkroom)
 (require 'deferred)
 (require 'dired-sort)
+(require 'exec-path-from-shell)
 (require 'google-c-style)
 (require 'google-java-format)
 (require 'go-to-char)
@@ -75,18 +77,15 @@
 
 
 ;; Load config.org for init.el configuration
-(org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
-
+;; (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+(load "~/.emacs.d/config.el")
 
 (if (fboundp 'native-compile-async)
 	(progn
       (native-compile-async "~/.emacs.d/lisp" 'recursively)
 	  (native-compile-async "~/.emacs.d/init.el")
-	  (native-compile-async "~/.emacs.d/early-init.el")
-	  (native-compile-async "~/.emacs.d/config.el")))
+	  (native-compile-async "~/.emacs.d/early-init.el")))
+;; 	  (native-compile-async "~/.emacs.d/config.el")))
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
-
-;; Collect garbage when all else is done
-(garbage-collect)

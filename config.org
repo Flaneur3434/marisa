@@ -630,6 +630,9 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
     (load-theme 'xresources t)
     (setq xah-fly-use-control-key nil)
     (xah-fly-keys-set-layout "qwerty")
+    (dolist (var '("BROWSER" "PLAN9"))
+      (add-to-list 'exec-path-from-shell-variables var))
+    (exec-path-from-shell-initialize)
     (xah-fly-keys t))
 
   (if (daemonp)
@@ -669,7 +672,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 #+BEGIN_SRC emacs-lisp
   (setq shell-file-name "bash")
   (setq shell-command-switch "-ic")
-  (setq eshell-prefer-lisp-functions nil)
+  (setq eshell-prefer-lisp-functions t)
 
   ;; Inable corfu-mode in eshell
   (add-hook 'eshell-mode-hook
@@ -696,44 +699,9 @@ Change to use aliases found in login shell. Also disable internal elisp commands
   (setq eshell-highlight-prompt nil)
 #+END_SRC
 ** Aliases
-Ask Bash for the list of currently available aliases instead of parsing .bashrc file. Might have errros as it was not made professionally.
-Also to execute external commands, put a '*' infront
-https://www.gnu.org/software/emacs/manual/html_node/eshell/Built_002dins.html
 #+BEGIN_SRC emacs-lisp
   (defalias 'open 'find-file-other-window)
   (defalias 'clean 'eshell/clear-scrollback)
-  (require 'eshell)
-
-  (defun eshell-load-bash-aliases ()
-    "Reads bash aliases from Bash and inserts
-      them into the list of eshell aliases."
-    (interactive)
-    (progn
-      (message "Parsing aliases")
-      (shell-command "alias" "bash-aliases" "bash-errors")
-      (switch-to-buffer "bash-aliases")
-      (replace-string "alias " "")
-      (goto-char 1)
-      (replace-string "='" " ")
-      (goto-char 1)
-      (replace-string "'\n" "\n")
-      (goto-char 1)
-      (let ((alias-name) (command-string) (alias-list))
-        (while (not (eobp))
-          (while (not (char-equal (char-after) 32))
-            (forward-char 1))
-          (setq alias-name
-                (buffer-substring-no-properties (line-beginning-position) (point)))
-          (forward-char 1)
-          (setq command-string
-                (buffer-substring-no-properties (point) (line-end-position)))
-          (setq alias-list (cons (list alias-name command-string) alias-list))
-          (forward-line 1))
-        (setq eshell-command-aliases-list alias-list))
-      (if (get-buffer "bash-aliases")(kill-buffer "bash-aliases"))
-      (if (get-buffer "bash-errors")(kill-buffer "bash-errors"))))
-
-  (add-hook 'eshell-mode-hook 'eshell-load-bash-aliases)
 #+END_SRC
 ** Custom functions
 *** Open files as root
@@ -1181,7 +1149,9 @@ Irony is the company backend for C and C++
         (subword-mode)
         (which-func-mode 1)
         (irony-mode 1)
+        (openbsd-set-knf-style)
         (trivialfis/irony))))
+
   (add-hook 'c++-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'company-mode)

@@ -188,10 +188,14 @@ If prefix is given, it runs grep with the default command template"
 	  (mozc-mode nil)
 	(mozc-mode t)))
 
-(defun ken_nc/quit-emacs-dwim ()
-  (interactive)
+(defun ken_nc/quit-emacs-dwim (&optional kill-server)
+  (interactive "p")
   (if (daemonp)
-	  (delete-frame)
+	  (cond
+	   ((= kill-server 4) (progn
+							(save-some-buffers)
+							(kill-emacs)))
+	   (t (delete-frame)))
 	(kill-emacs)))
 
 (defun ken_nc/pop-local-mark-ring (&optional global-prefix)
