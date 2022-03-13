@@ -625,21 +625,20 @@ Emacs frame settings that need to started when emacs is in daemon mode.
 These include the frame (window) size, xah-fly-keys settings, and font settings.
 #+BEGIN_SRC emacs-lisp
   (server-start)
-  (defun ken_nc/setup-emacsclient (frame)
-    (select-frame frame)
-    (load-theme 'xresources t)
-    (setq xah-fly-use-control-key nil)
-    (xah-fly-keys-set-layout "qwerty")
-    (dolist (var '("BROWSER" "PLAN9"))
-      (add-to-list 'exec-path-from-shell-variables var))
-    (exec-path-from-shell-initialize)
-    (xah-fly-keys t))
-
   (if (daemonp)
       (add-hook 'after-make-frame-functions
-                #'ken_nc/setup-emacsclient)
-    (progn
-      (load-theme 'xresources t)))
+                (lambda (frame)
+                  (select-frame frame)
+                  (if (display-graphic-p frame)
+                      (load-theme 'xresources t)  ;; daemon graphical
+                    (load-theme 'modus-operandi t)) ;; daemon terminal
+                  (setq xah-fly-use-control-key nil)
+                  (xah-fly-keys-set-layout "qwerty")
+                  (dolist (var '("BROWSER" "PLAN9"))
+                    (add-to-list 'exec-path-from-shell-variables var))
+                  (exec-path-from-shell-initialize)
+                  (xah-fly-keys t)))
+    (load-theme 'xresources t))  ;; regular
 #+END_SRC
 * Org mode
 ** Description
@@ -1124,33 +1123,33 @@ Irony is the company backend for C and C++
     :load-path "lisp/company-irony-c-headers"
     :commands (company-irony-c-headers))
 
-  (c-add-style "OpenBSD" openbsd-knf-style)
-
   (defun trivialfis/irony ()
     "Irony mode configuration."
     (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
     (add-to-list 'company-backends
-                 '(company-irony company-irony-c-headers :with company-dabbrev-code))
+                 '(company-irony company-irony-c-headers))
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
+    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
+    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+    (define-key irony-mode-map [remap completion-at-point]
+                'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol]
+                'irony-completion-at-point-async))
 
   (defun ken_nc/cc-base ()
     "Common configuration for c and c++ mode."
     ;; Company mode
     ;; (require 'company-irony-c-headers)
-    (setf company-backends '())
     (add-to-list 'company-backends 'company-ispell)
     (add-to-list 'company-backends 'company-files)
+    (add-to-list 'company-backends 'company-abbrev)
+    (add-to-list 'company-backends 'company-ctags)
     (with-eval-after-load 'company
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (when (or (eq major-mode 'c-mode)	; Prevent from being loaded by c derived mode
-              (eq major-mode 'c++-mode))
-      (progn
-        (subword-mode)
-        (which-func-mode 1)
-        (irony-mode 1)
-        (openbsd-set-knf-style)
-        (trivialfis/irony))))
+    (which-func-mode 1)
+    (irony-mode 1)
+    (call-interactively 'openbsd-set-knf-style)
+    (trivialfis/irony))
 
   (add-hook 'c++-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'ken_nc/cc-base)
@@ -1173,13 +1172,13 @@ Also added google-java-format
     "Common configuration for java mode."
     ;; Company mode
     (with-eval-after-load 'company
-      (setf company-backends '())
       (add-to-list 'company-backends 'company-ispell)
       (add-to-list 'company-backends 'company-files)
       (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t))
+    (setq company-ctags-fuzzy-match-p t)
+    (which-func-mode 1))
 
   (defun ken_nc/java-format-on-save ()
     (when (eq major-mode 'java-mode)
@@ -1227,4 +1226,14 @@ Collection of Emacs major and minor modes that work with scheme
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
                 (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
+#+END_SRC
+** Highlight changes
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c-mode-common-hook #'highlight-changes-mode)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (when (highlight-changes-mode)
+                (save-restriction
+                  (widen)
+                  (highlight-changes-remove-highlight (point-min) (point-max))))))
 #+END_SRC

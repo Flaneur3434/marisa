@@ -77,8 +77,7 @@
 
 
 ;; Load config.org for init.el configuration
-;; (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
-(load "~/.emacs.d/config.el")
+(org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
 (if (fboundp 'native-compile-async)
 	(progn
