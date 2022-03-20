@@ -605,6 +605,11 @@ Garbage-collect on focus-out, Emacs should feel snappier overall.
       (unless (frame-focus-state)
         (garbage-collect))))
 #+END_SRC
+** Popup window mode
+Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
+#+BEGIN_SRC emacs-lisp
+  (popwin-mode 1)
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -1148,13 +1153,13 @@ Irony is the company backend for C and C++
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (which-func-mode 1)
     (irony-mode 1)
-    (call-interactively 'openbsd-set-knf-style)
     (trivialfis/irony))
 
   (add-hook 'c++-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'ken_nc/cc-base)
   (add-hook 'c-mode-hook 'company-mode)
   (add-hook 'c++-mode-hook 'company-mode)
+  (add-hook 'c-mode-hook 'openbsd-set-knf-style)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp

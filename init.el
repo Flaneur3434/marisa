@@ -24,6 +24,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
 (add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
+(add-to-list 'load-path "~/.emacs.d/lisp/popwin")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
@@ -53,6 +54,7 @@
 (require 'openbsd-knf-style)
 (require 'package)
 (require 'pcmpl-args)
+(require 'popwin)
 (require 'prot-comment)
 (require 'prot-common)
 (require 'prot-diff)

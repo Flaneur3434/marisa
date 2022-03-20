@@ -31,3 +31,6 @@
 [submodule "lisp/exec-path-from-shell"]
 	path = lisp/exec-path-from-shell
 	url = https://github.com/purcell/exec-path-from-shell
+[submodule "lisp/popwin"]
+	path = lisp/popwin
+	url = https://github.com/emacsorphanage/popwin
