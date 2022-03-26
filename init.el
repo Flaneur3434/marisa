@@ -16,6 +16,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
+(add-to-list 'load-path "~/.emacs.d/lisp/ligature")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 (add-to-list 'load-path "~/.emacs.d/lisp/fzf")
@@ -51,6 +52,7 @@
 (require 'ken_nc-custom-colors)
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
+(require 'ligature)
 (require 'mct-customizations)
 (require 'move-text)
 (require 'openbsd-knf-style)

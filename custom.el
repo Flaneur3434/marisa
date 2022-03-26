@@ -19,7 +19,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-template-field ((t (:foreground "honeydew"))))
- '(cursor ((t (:background "gray10" :foreground "white smoke"))))
+ '(cursor ((t (:background "black" :foreground "white"))))
  '(fixed-pitch ((t ("Agave" :height 140))))
  '(highlight-changes ((t (:foreground "dim gray" :weight bold))))
  '(hl-line ((t (:inherit modus-themes-hl-line :extend t :background "honeydew" :distant-foreground "black" :foreground "black"))))
