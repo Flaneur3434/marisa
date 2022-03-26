@@ -609,6 +609,35 @@ Garbage-collect on focus-out, Emacs should feel snappier overall.
 Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
 #+BEGIN_SRC emacs-lisp
   (popwin-mode 1)
+  (push '("*ag search*" :width 0.4 :position right :stick t) popwin:special-display-config)
+  (push '("*Occur*" :stick t) popwin:special-display-config)
+  (push '("*eshell*" :height 0.4 :stick t) popwin:special-display-config)
+  (push "*vc-diff*" popwin:special-display-config)
+  (push "*vc-change-log*" popwin:special-display-config)
+#+END_SRC
+** Persistent undo
+#+BEGIN_SRC emacs-lisp
+  (undohist-initialize)
+#+END_SRC
+** Ligature
+#+BEGIN_SRC emacs-lisp
+  (use-package ligature
+    :load-path "~/.emacs.d/lisp/ligature"
+    :config
+     (ligature-set-ligatures 'prog-mode '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
+                                      "/>" "//" "/*" "*>" "***" "*/" "<-" "<<-" "<=>" "<=" "<|" "<||"
+                                      "<|||" "<|>" "<:" "<>" "<-<" "<<<" "<==" "<<=" "<=<" "<==>" "<-|"
+                                      "<<" "<~>" "<=|" "<~~" "<~" "<$>" "<$" "<+>" "<+" "</>" "</" "<*"
+                                      "<*>" "<->" "<!--" ":>" ":<" ":::" "::" ":?" ":?>" ":=" "::=" "=>>"
+                                      "==>" "=/=" "=!=" "=>" "===" "=:=" "==" "!==" "!!" "!=" ">]" ">:"
+                                      ">>-" ">>=" ">=>" ">>>" ">-" ">=" "&&&" "&&" "|||>" "||>" "|>" "|]"
+                                      "|}" "|=>" "|->" "|=" "||-" "|-" "||=" "||" ".." ".?" ".=" ".-" "..<"
+                                      "..." "+++" "+>" "++" "[||]" "[<" "[|" "{|" "??" "?." "?=" "?:" "##"
+                                      "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
+                                      "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#"))
+    ;; Enables ligature checks globally in all buffers. You can also do it
+    ;; per mode with `ligature-mode'.
+    (global-ligature-mode t))
 #+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
@@ -1187,7 +1216,9 @@ Also added google-java-format
 
   (defun ken_nc/java-format-on-save ()
     (when (eq major-mode 'java-mode)
-      (call-interactively 'google-java-format-buffer)))
+      (let ((prev-pos (point)))
+        (call-interactively 'google-java-format-buffer)
+        (goto-char prev-pos))))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
   (add-hook 'java-mode-hook 'company-mode)

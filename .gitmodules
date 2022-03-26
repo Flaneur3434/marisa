@@ -34,3 +34,9 @@
 [submodule "lisp/popwin"]
 	path = lisp/popwin
 	url = https://github.com/emacsorphanage/popwin
+[submodule "lisp/undohist"]
+	path = lisp/undohist
+	url = https://github.com/emacsorphanage/undohist
+[submodule "lisp/ligature"]
+	path = lisp/ligature
+	url = https://github.com/mickeynp/ligature.el

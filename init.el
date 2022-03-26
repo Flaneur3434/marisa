@@ -25,6 +25,8 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/good-scroll")
 (add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
 (add-to-list 'load-path "~/.emacs.d/lisp/popwin")
+(add-to-list 'load-path "~/.emacs.d/lisp/undohist")
+(add-to-list 'load-path "~/.emacs.d/lisp/ligature")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
@@ -62,6 +64,7 @@
 (require 'prot-simple)
 (require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
 (require 'smooth-scroll)
+(require 'undohist)
 (require 'unfill)
 (require 'wc-mode)
 (require 'wgrep)

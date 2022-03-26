@@ -1,88 +1,88 @@
-alias youtube youtube-mp3-tag-editor
-alias yay paru --fm vim
-alias vim-his grep '\''^>'\'' .viminfo | cut -c3- | sed '\''s/~/\/home\/ken_nc\//'\''
-alias tar-gz tar -czvf
-alias syslist systemctl list-unit-files --type=service --no-pager
-alias sudo doas
-alias running_service systemctl list-units --type=service
-alias reset_clock sudo timedatectl set-timezone UTC
-alias pacman pacman --color auto
-alias pSyyu sudo pacman -Syyu
-alias pSyu sudo pacman -Syu
-alias pSs pacman -Ss
-alias pSi pacman -Si
-alias pScc sudo pacman -Scc
-alias pS sudo pacman -S
-alias pRs sudo pacman -Rs
-alias pRnsc sudo pacman -Rnsc
-alias pQs pacman -Qs
-alias pQmq pacman -Qmq
-alias pQi pacman -Qi
-alias pQdt pacman -Qdt
-alias pD sudo pacman -D
-alias ngp gp -v
-alias mu-up mpc update
-alias mu ncmpcpp
-alias moto ssh ken_nc@192.168.1.35 -p 8022
-alias ltm 9 ls -Qt
-alias ltc ls --all --human-readable --literal --time=ctime
-alias lt 9 ls -Qtu
-alias ls ls --color=never
-alias ll 9 ls -Q
-alias igo basilisk https://online-go.com/overview
-alias iftop sudo iftop -i wlan0
-alias gwc git whatchanged
-alias gtagl git tag --list
-alias gtag git tag --sign
-alias gstat git status
-alias gsta git status
-alias gsho git show --oneline
-alias gsh git show
-alias grh git reset HEAD
-alias gpull git pull
-alias gpm git push -u origin master
-alias gph git push -u origin HEAD
-alias gpg-retrieve gpg2 --keyserver-options auto-key-retrieve --receive-keys
-alias gpg-check gpg2 --keyserver-options auto-key-retrieve --verify
-alias gpd git push origin --delete
-alias gmerge git merge --edit --stat
-alias gmerg git merge --edit --stat
-alias glog git log
-alias glo git log --oneline
-alias gfetch git fetch
-alias gdifs git diff --stat --summary
-alias gdiffss git diff --stat --summary
-alias gdifc git diff --cached
-alias gdif git diff
-alias gcomm git commit -m
-alias gcom git commit
-alias gcl git clone --depth 1
-alias gchb git checkout -b
-alias gch git checkout
-alias gca git commit --amend
-alias gbl git branch --list
-alias gbd git branch -d
-alias gall git add -Av
-alias gaddp git add --patch
-alias gaddi git add --interactive
-alias gadd git add -v
-alias ftc_code cd Documents/programming/Freight-Frenzy/TeamCode/src/main/java/org/firstinspires/ftc/teamcode
-alias ftc cd Documents/programming/Freight-Frenzy/
-alias ff *find ./ -maxdepth 1 -type f
-alias fd *find ./ -maxdepth 1 -type d
-alias emda systemctl --user restart emacs
-alias em sw emacsclient -c
-alias diskstation ssh ken_nc@192.168.1.115 -p 22
-alias dfc dfc -d
-alias clock plan9_clock
-alias cleanup sudo pacman -Rns $(pacman -Qtdq)
-alias clamscan clamscan -vrz --bell --leave-temps --remove=yes
-alias caprine firejail --noprofile caprine
-alias blog blog.sh
-alias arch-nas ssh ken_nc@192.168.1.36 -p 22
-alias all-img sxiv -p *
-alias acme2 acme-start.sh
-alias UnBind command sudo unmount /home/ken_nc/Documents/bind/
-alias BindD sudo mount -t nfs 192.168.1.115:/volume2/backup /home/ken_nc/Documents/bind/
-alias BindA sudo mount -t nfs 192.168.1.36: /home/ken_nc/Documents/bind/
 alias 9term 9term rc
+alias BindA sudo mount -t nfs 192.168.1.36: /home/ken_nc/Documents/bind/
+alias BindD sudo mount -t nfs 192.168.1.115:/volume2/backup /home/ken_nc/Documents/bind/
+alias UnBind command sudo unmount /home/ken_nc/Documents/bind/
+alias acme2 acme-start.sh
+alias all-img sxiv -p *
+alias arch-nas ssh ken_nc@192.168.1.36 -p 22
+alias blog blog.sh
+alias caprine firejail --noprofile caprine
+alias clamscan clamscan -vrz --bell --leave-temps --remove=yes
+alias cleanup sudo pacman -Rns $(pacman -Qtdq)
+alias clock plan9_clock
+alias dfc dfc -d
+alias diskstation ssh ken_nc@192.168.1.115 -p 22
+alias em sw emacsclient -c
+alias emda systemctl --user restart emacs
+alias fd *find ./ -maxdepth 1 -type d
+alias ff *find ./ -maxdepth 1 -type f
+alias ftc cd Documents/programming/Freight-Frenzy/
+alias ftc_code cd Documents/programming/Freight-Frenzy/TeamCode/src/main/java/org/firstinspires/ftc/teamcode
+alias gadd git add -v
+alias gaddi git add --interactive
+alias gaddp git add --patch
+alias gall git add -Av
+alias gbd git branch -d
+alias gbl git branch --list
+alias gca git commit --amend
+alias gch git checkout
+alias gchb git checkout -b
+alias gcl git clone --depth 1
+alias gcom git commit
+alias gcomm git commit -m
+alias gdif git diff
+alias gdifc git diff --cached
+alias gdiffss git diff --stat --summary
+alias gdifs git diff --stat --summary
+alias gfetch git fetch
+alias glo git log --oneline
+alias glog git log
+alias gmerg git merge --edit --stat
+alias gmerge git merge --edit --stat
+alias gpd git push origin --delete
+alias gpg-check gpg2 --keyserver-options auto-key-retrieve --verify
+alias gpg-retrieve gpg2 --keyserver-options auto-key-retrieve --receive-keys
+alias gph git push -u origin HEAD
+alias gpm git push -u origin master
+alias gpull git pull
+alias grh git reset HEAD
+alias gsh git show
+alias gsho git show --oneline
+alias gsta git status
+alias gstat git status
+alias gtag git tag --sign
+alias gtagl git tag --list
+alias gwc git whatchanged
+alias iftop sudo iftop -i wlan0
+alias igo basilisk https://online-go.com/overview
+alias ll 9 ls -Q
+alias ls ls --color=never
+alias lt 9 ls -Qtu
+alias ltc ls --all --human-readable --literal --time=ctime
+alias ltm 9 ls -Qt
+alias moto ssh ken_nc@192.168.1.35 -p 8022
+alias mu ncmpcpp
+alias mu-up mpc update
+alias ngp gp -v
+alias pD sudo pacman -D
+alias pQdt pacman -Qdt
+alias pQi pacman -Qi
+alias pQmq pacman -Qmq
+alias pQs pacman -Qs
+alias pRnsc sudo pacman -Rnsc
+alias pRs sudo pacman -Rs
+alias pS sudo pacman -S
+alias pScc sudo pacman -Scc
+alias pSi pacman -Si
+alias pSs pacman -Ss
+alias pSyu sudo pacman -Syu
+alias pSyyu sudo pacman -Syyu
+alias pacman pacman --color auto
+alias reset_clock sudo timedatectl set-timezone UTC
+alias running_service systemctl list-units --type=service
+alias sudo doas
+alias syslist systemctl list-unit-files --type=service --no-pager
+alias tar-gz tar -czvf
+alias vim-his grep '\''^>'\'' .viminfo | cut -c3- | sed '\''s/~/\/home\/ken_nc\//'\''
+alias yay paru --fm vim
+alias youtube youtube-mp3-tag-editor
