@@ -334,21 +334,6 @@ scrolling
     (load-file "~/.emacs.d/init.el"))
   (global-set-key (kbd "C-c r") 'eval-init-file)
 #+END_SRC
-** ibuffer
-#+BEGIN_SRC emacs-lisp
-  (setq-default ibuffer-saved-filter-groups
-                `(("Default"
-                   ;; In the ibuffer window, group all of the buffers with dired-mode enabled
-                   ("Dired" (mode . dired-mode))
-                   ("Temporary" (name . "\*.*\*"))
-                   )))
-
-  (defun open-ibuffer-and-move ()
-     (interactive)
-     (split-window-below)
-     (ibuffer))
-  (global-set-key (kbd "C-x k") 'open-ibuffer-and-move)
-#+END_SRC
 ** Diff Mode
 #+BEGIN_SRC emacs-lisp
   (setq diff-default-read-only t)
@@ -468,7 +453,8 @@ scrolling
      ;; ("s" . save-buffer)
      ("s" . ken_nc/save-buffer-dwim)
      ("t" . xah-fly-edit-keymap)
-     ("u" . switch-to-buffer)
+     ;; ("u" . switch-to-buffer)
+     ("u" . bufler-switch-buffer)
      ;; v
      ("w" . xah-fly-eval-keymap)
      ;; ("x" . xah-toggle-previous-letter-case)
@@ -637,6 +623,9 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
                                        "\\\\" "://"))
   (add-hook 'prog-mode-hook 'ligature-mode)
 #+END_SRC
+** Bufler
+Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
+It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
