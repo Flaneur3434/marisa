@@ -40,3 +40,6 @@
 [submodule "lisp/ligature"]
 	path = lisp/ligature
 	url = https://github.com/mickeynp/ligature.el
+[submodule "lisp/undo-hl"]
+	path = lisp/undo-hl
+	url = https://github.com/casouri/undo-hl

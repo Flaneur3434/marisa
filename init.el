@@ -28,6 +28,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/popwin")
 (add-to-list 'load-path "~/.emacs.d/lisp/undohist")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
+(add-to-list 'load-path "~/.emacs.d/lisp/undo-hl")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
@@ -67,6 +68,7 @@
 (require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
 (require 'smooth-scroll)
 (require 'undohist)
+(require 'undo-hl)
 (require 'unfill)
 (require 'wc-mode)
 (require 'wgrep)

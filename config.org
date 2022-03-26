@@ -1187,6 +1187,7 @@ Irony is the company backend for C and C++
   (add-hook 'c-mode-hook 'company-mode)
   (add-hook 'c++-mode-hook 'company-mode)
   (add-hook 'c-mode-hook 'openbsd-set-knf-style)
+  (add-hook 'c-mode-hook 'undo-hl-mode)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
