@@ -46,3 +46,6 @@
 [submodule "lisp/wrap-region"]
 	path = lisp/wrap-region
 	url = https://github.com/rejeep/wrap-region.el
+[submodule "lisp/sky-color-clock"]
+	path = lisp/sky-color-clock
+	url = https://github.com/zk-phi/sky-color-clock
