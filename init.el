@@ -18,6 +18,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
+(add-to-list 'load-path "~/.emacs.d/lisp/wrap-region")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 (add-to-list 'load-path "~/.emacs.d/lisp/fzf")
 (add-to-list 'load-path "~/.emacs.d/lisp/corfu")
@@ -73,6 +74,7 @@
 (require 'wc-mode)
 (require 'wgrep)
 (require 'wgrep-ag)
+(require 'wrap-region)
 
 ;; needs to be last due to it calling interactive functions from other files
 (require 'xah-fly-keys)

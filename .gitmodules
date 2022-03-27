@@ -43,3 +43,6 @@
 [submodule "lisp/undo-hl"]
 	path = lisp/undo-hl
 	url = https://github.com/casouri/undo-hl
+[submodule "lisp/wrap-region"]
+	path = lisp/wrap-region
+	url = https://github.com/rejeep/wrap-region.el

@@ -991,6 +991,15 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :load-path "lisp/company-ctags"
     :commands (company-ctags))
 #+END_SRC
+** Initialize =wrap-region=
+Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
+"tagged" markup modes, such as HTML and XML, it wraps with tags.
+#+BEGIN_SRC emacs-lisp
+  (wrap-region-add-wrappers
+   '(("<" ">")
+     ("'" "'")
+     ("/* " " */" "#" (java-mode c-mode css-mode))))
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1176,7 +1185,8 @@ Irony is the company backend for C and C++
   (add-hook 'c-mode-hook 'company-mode)
   (add-hook 'c++-mode-hook 'company-mode)
   (add-hook 'c-mode-hook 'openbsd-set-knf-style)
-  (add-hook 'c-mode-hook 'undo-hl-mode)
+  (add-hook 'c-mode-common-hook 'undo-hl-mode)
+  (add-hook 'c-mode-common-hook 'wrap-region-mode)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
