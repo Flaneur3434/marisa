@@ -62,6 +62,7 @@
 (require 'package)
 (require 'pcmpl-args)
 (require 'popwin)
+(require 'project)
 (require 'prot-comment)
 (require 'prot-common)
 (require 'prot-diff)

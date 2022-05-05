@@ -392,10 +392,12 @@ scrolling
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim)
   (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
-
+  (global-set-key (kbd "C-c f") 'bufler-workspace-focus-buffer)
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
+  (global-set-key [mode-line C-mouse-1] 'tear-off-window)
+  (global-set-key (kbd "C-c x") 'ken_nc/tear-off-window)
 #+END_SRC
 ** xah-fly-keys leader keymap
 #+BEGIN_SRC emacs-lisp
@@ -596,9 +598,11 @@ Garbage-collect on focus-out, Emacs should feel snappier overall.
 Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
 #+BEGIN_SRC emacs-lisp
   (popwin-mode 1)
-  (push '("*ag search*" :width 0.4 :position right :stick t) popwin:special-display-config)
-  (push '("*Occur*" :stick t) popwin:special-display-config)
-  (push '("*eshell*" :height 0.4 :stick t) popwin:special-display-config)
+  (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*eldoc*" :dedicated t :stick t) popwin:special-display-config)
+  (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
   (push "*vc-diff*" popwin:special-display-config)
   (push "*vc-change-log*" popwin:special-display-config)
 #+END_SRC
@@ -657,7 +661,9 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                   (select-frame frame)
                   (if (display-graphic-p frame)
                       (load-theme 'xresources t)  ;; daemon graphical
-                    (load-theme 'modus-operandi t)) ;; daemon terminal
+                    (progn                        ;; daemon terminal
+                      (load-theme 'modus-operandi t)
+                      (xterm-mouse-mode)))
                   (setq xah-fly-use-control-key nil)
                   (xah-fly-keys-set-layout "qwerty")
                   (dolist (var '("BROWSER" "PLAN9"))
@@ -1015,7 +1021,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (setq ag-highlight-search t)
   (setq ag-executable "/usr/bin/ag")
   (setq ag-reuse-buffers t)
-  (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+  ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
 #+END_SRC
 ** Initialize =company-ctags=
 #+BEGIN_SRC emacs-lisp
@@ -1063,14 +1069,21 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
     (setq company-minimum-prefix-length 3)
     (with-eval-after-load 'company
       (define-key company-active-map
-                  (kbd "k")
+                  (kbd "C-n")
                   #'company-complete-common-or-cycle)
       (define-key company-active-map
-                  (kbd "i")
+                  (kbd "C-p")
                   (lambda ()
                     (interactive)
                     (company-complete-common-or-cycle -1))))
     (define-key company-active-map (kbd "SPC") #'company-abort))
+
+  (use-package company-quickhelp
+    :ensure t
+    :defer t
+    :hook (company-mode . company-quickhelp-mode)
+    :config
+    (setq company-quickhelp-delay 1))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1092,7 +1105,7 @@ Corfu enhances the default completion in region function with a completion overl
     "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
     (unless (or (bound-and-true-p mct--active))
       (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
+  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
 
   ;; (add-hook 'prog-mode-hook 'corfu-mode)
   (add-hook 'eshell-mode-hook
@@ -1124,7 +1137,7 @@ Corfu enhances the default completion in region function with a completion overl
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'c-mode-hook #'aggressive-indent-mode)
-  (add-hook 'java-mode-hook #'aggressive-indent-mode)
+  (add-hook 'c++-mode-hook #'aggressive-indent-mode)
   (add-to-list
    'aggressive-indent-dont-indent-if
    '(and (derived-mode-p 'c-mode)
@@ -1151,6 +1164,30 @@ Corfu enhances the default completion in region function with a completion overl
      ("t" . dumb-jump-go-prefer-external-other-window)
      ("n" . dumb-jump-go-prompt)
      ("s" . dumb-jump-quick-look)))
+#+END_SRC
+** Initialize =eglot=
+#+BEGIN_SRC emacs-lisp
+  (use-package eglot
+    :defer t
+    :ensure t
+    :diminish eglot
+    :config
+    (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
+    (define-key eglot-mode-map (kbd "C-c h") 'eldoc))
+#+END_SRC
+** Initialize =yasnippet=
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :ensure t)
+
+  (use-package yasnippet
+    :ensure t
+    :diminish yas
+    :config
+    ;; (setq yas-snippet-dirs
+    ;;       '("~/.emacs.d/snippets"))
+    (yas-reload-all))
 #+END_SRC
 ** Cape
 *** Description
@@ -1219,23 +1256,58 @@ Irony is the company backend for C and C++
     (irony-mode 1)
     (trivialfis/irony))
 
-  (add-hook 'c++-mode-hook 'ken_nc/cc-base)
-  (add-hook 'c-mode-hook 'ken_nc/cc-base)
-  (add-hook 'c-mode-hook 'company-mode)
-  (add-hook 'c++-mode-hook 'company-mode)
-  (add-hook 'c-mode-hook 'openbsd-set-knf-style)
-  (add-hook 'c-mode-common-hook 'undo-hl-mode)
-  (add-hook 'c-mode-common-hook 'wrap-region-mode)
+  (add-hook 'c++-mode-hook #'ken_nc/cc-base)
+  (add-hook 'c-mode-hook #'ken_nc/cc-base)
+  (add-hook 'c-mode-hook #'company-mode)
+  (add-hook 'c++-mode-hook #'company-mode)
+  (add-hook 'c-mode-hook #'yas-minor-mode)
+  (add-hook 'c++-mode-hook #'yas-minor-mode)
+  (add-hook 'c-mode-hook #'openbsd-set-knf-style)
+  (add-hook 'c-mode-common-hook #'undo-hl-mode)
+  (add-hook 'c-mode-common-hook #'wrap-region-mode)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :defer nil
+    :defer t
     :ensure t)
+
+  (defun project-find-go-module (dir)
+    (when-let ((root (locate-dominating-file dir "go.mod")))
+      (cons 'go-module root)))
+
+  (cl-defmethod project-root ((project (head go-module)))
+    (cdr project))
+
+  (defun eglot-format-buffer-on-save ()
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
+  (setq-default eglot-workspace-configuration
+                '((:gopls .
+                          ((staticcheck . t)
+                           (matcher . "CaseSensitive")))))
+
+  (defun ken_nc/go-base ()
+    "Common configuration for go-mode."
+    ;; Company mode
+    (with-eval-after-load 'company
+      (add-to-list 'company-backends 'company-ispell)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
+    (setq company-ctags-ignore-case t)
+    (setq company-ctags-fuzzy-match-p t)
+    (which-func-mode 1))
+
+  (add-hook 'go-mode-hook #'yas-minor-mode)
+  (add-hook 'go-mode-hook #'ken_nc/go-base)
+  (add-hook 'go-mode-hook #'company-mode)
+  (add-hook 'go-mode-hook #'eglot-ensure)
+  (add-hook 'project-find-functions #'project-find-go-module)
+  (add-hook 'go-mode-hook #'eglot-format-buffer-on-save)
 #+END_SRC
 ** Java
 *** Description
-java-lsp enabled
 Also added google-java-format
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1258,9 +1330,11 @@ Also added google-java-format
         (goto-char prev-pos))))
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-  (add-hook 'java-mode-hook 'company-mode)
+  (add-hook 'java-mode-hook #'company-mode)
   (add-hook 'java-mode-hook #'ken_nc/java-base)
   (add-hook 'java-mode-hook #'google-set-c-style)
+  (add-hook 'java-mode-hook #'yas-minor-mode)
+  (add-hook 'java-mode-hook #'eglot-ensure)
 #+END_SRC
 ** Elisp
 *** Description

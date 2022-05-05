@@ -222,4 +222,28 @@ the cutomized version of go-to-char.el I have in this git repo"
 	   ((= direction 4) (go-to-char-backward 1 (read-char "Go to char backward: ")))
 	   (t (go-to-char-forward 1 (read-char "Go to char forward: ")))))))
 
+(defun ken_nc/file-at-point ()
+  "Make a file-at-point function that opens a file in other-window"
+;; basically call ffap-file-at-point (or something else idk) and other-window
+  )
+
+(defadvice ffap-file-at-point (after ffap-file-at-point-after-advice ())
+  (if (string= ad-return-value "/")
+      (setq ad-return-value nil)))
+
+(ad-activate 'ffap-file-at-point)
+;; (ad-deactivate 'ffap-file-at-point)
+
+(bind-key "C-x C-X" #'my/tear-off-window)
+
+(defun ken_nc/tear-off-window ()
+  "Delete the selected window, and create a new frame displaying its buffer."
+  (interactive)
+  (let* ((window (selected-window))
+		 (buf (window-buffer window))
+		 (frame (make-frame)))
+    (select-frame frame)
+    (switch-to-buffer buf)
+    (delete-window window)))
+
 (provide 'ken_nc-functions)

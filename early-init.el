@@ -8,20 +8,9 @@
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
-
-(defun startup/revert-file-name-handler-alist ()
-  (setq file-name-handler-alist startup/file-name-handler-alist))
-
-(defun startup/reset-gc ()
-  (setq gc-cons-threshold 100000000))
-
+(setq file-name-handler-alist startup/file-name-handler-alist)
+(setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 2048 2048)) ;; 1mb
-
-(add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
-(add-hook 'emacs-startup-hook 'startup/reset-gc)
-
-(abbrev-mode -1)
-
 (setq
  warning-minimum-level :emergency
  auto-save-default nil
@@ -30,5 +19,17 @@
  mode-line-format nil
  package-enable-at-startup nil
  package-native-compile t)
+
+(defun maybe-gc ()
+  (let ((original gc-cons-threshold))
+	(setq gc-cons-threshold 8000000)
+	(setq gc-cons-threshold original
+		  gc-timer (run-with-timer 2 nil #'schedule-maybe-gc))))
+
+(defun schedule-maybe-gc ()
+  (setq gc-timer (run-with-idle-timer 2 nil #'maybe-gc)))
+
+(abbrev-mode -1)
+(schedule-maybe-gc)
 
 (provide 'early-init)
