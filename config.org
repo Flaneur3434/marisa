@@ -601,7 +601,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
   (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
   (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
   (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*eldoc*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
   (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
   (push "*vc-diff*" popwin:special-display-config)
   (push "*vc-change-log*" popwin:special-display-config)
@@ -1037,7 +1037,7 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
        (wrap-region-add-wrappers
         '(("<" ">")
           ("'" "'")
-          ("/* " " */" "#" (java-mode c-mode css-mode))))
+          ("/* " " */" "#" (java-mode c-mode css-mode go-mode))))
 #+END_SRC
 ** Initialize =sky-color-clock=
 #+BEGIN_SRC emacs-lisp
@@ -1305,6 +1305,8 @@ Irony is the company backend for C and C++
   (add-hook 'go-mode-hook #'eglot-ensure)
   (add-hook 'project-find-functions #'project-find-go-module)
   (add-hook 'go-mode-hook #'eglot-format-buffer-on-save)
+  (add-hook 'go-mode-hook #'undo-hl-mode)
+  (add-hook 'go-mode-hook #'wrap-region-mode)
 #+END_SRC
 ** Java
 *** Description
