@@ -49,3 +49,6 @@
 [submodule "lisp/sky-color-clock"]
 	path = lisp/sky-color-clock
 	url = https://github.com/zk-phi/sky-color-clock
+[submodule "themes/monochrome-theme"]
+	path = themes/monochrome-theme
+	url = https://github.com/fxn/monochrome-theme.el

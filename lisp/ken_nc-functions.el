@@ -246,4 +246,10 @@ the cutomized version of go-to-char.el I have in this git repo"
     (switch-to-buffer buf)
     (delete-window window)))
 
+;; Suspend emacs terminal
+(defun ken_nc/suspend ()
+  (interactive)
+  (if (not (display-graphic-p))
+	  (suspend-frame)))
+
 (provide 'ken_nc-functions)

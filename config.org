@@ -370,6 +370,8 @@ scrolling
      ("+" . mpc-resume)
      ("m" . ken_nc/mozc-dwim)
      ("h" . strip-regular-expression-string)))
+
+  (global-set-key (kbd "C-z") 'ken_nc/suspend)
   ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
@@ -660,10 +662,13 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                 (lambda (frame)
                   (select-frame frame)
                   (if (display-graphic-p frame)
-                      (load-theme 'xresources t)  ;; daemon graphical
+                      (progn
+                        (load-theme 'xresources t)
+                        (good-scroll-mode nil))  ;; daemon graphical
                     (progn                        ;; daemon terminal
-                      (load-theme 'modus-operandi t)
-                      (xterm-mouse-mode)))
+                      (load-theme 'Witchmacs t)
+                      (xterm-mouse-mode)
+                      (good-scroll-mode -1)))
                   (setq xah-fly-use-control-key nil)
                   (xah-fly-keys-set-layout "qwerty")
                   (dolist (var '("BROWSER" "PLAN9"))
@@ -1185,8 +1190,8 @@ Corfu enhances the default completion in region function with a completion overl
     :ensure t
     :diminish yas
     :config
-    ;; (setq yas-snippet-dirs
-    ;;       '("~/.emacs.d/snippets"))
+    (setq yas-snippet-dirs
+          '("~/.emacs.d/snippets"))
     (yas-reload-all))
 #+END_SRC
 ** Cape

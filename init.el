@@ -13,6 +13,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
