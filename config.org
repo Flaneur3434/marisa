@@ -746,7 +746,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 #+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp
-  (setq eshell-prompt-regexp "^[^ƒÉ\n]*[ƒÉ] ")
+  (setq eshell-prompt-regexp "^[^Î»\n]*[Î»] ")
   (setq eshell-prompt-function
         (lambda nil
           (concat
@@ -757,8 +757,8 @@ Change to use aliases found in login shell. Also disable internal elisp commands
               (propertize "~" 'face `(:foreground "#99CCFF"))
               (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
            (if (= (user-uid) 0)
-               (propertize " ƒ¿ " 'face `(:foreground "#FF6666"))
-             (propertize " ƒÉ " 'face `(:foreground "#A6E22E"))))))
+               (propertize " Î± " 'face `(:foreground "#FF6666"))
+             (propertize " Î» " 'face `(:foreground "#A6E22E"))))))
 
   (setq eshell-highlight-prompt nil)
 #+END_SRC
@@ -927,7 +927,7 @@ Highligh rgb and hex values with the color associated with them
     :defer t)
 #+END_SRC
 ** Initialize =mozc=
-*** “ú–{Œê“ü—Í
+*** æ—¥æœ¬èªžå…¥åŠ›
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package mozc
