@@ -16,17 +16,58 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-flatland-black-theme")
 
+(use-package aggressive-indent
+  :ensure t)
+
+(use-package dash
+  :ensure t)
+
+(use-package dired-toggle-sudo
+  :ensure t)
+
+(use-package exec-path-from-shell
+  :ensure t)
+
+(use-package expand-region
+  :ensure t)
+
+(use-package ido-vertical-mode
+  :ensure t)
+
+(use-package iedit
+  :ensure t)
+
+(use-package mct
+  :ensure t)
+
+(use-package pcmpl-args
+  :ensure t)
+
+(use-package page-break-lines
+  :ensure t)
+
+(use-package popwin
+  :ensure t)
+
+(use-package queue
+  :ensure t)
+
+(use-package s
+  :ensure t)
+
+(use-package undo-tree
+  :ensure t)
+
+(use-package undohist
+  :ensure t)
+
+(use-package which-key
+  :ensure t)
+
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
-(add-to-list 'load-path "~/.emacs.d/lisp/iedit")
-(add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
-(add-to-list 'load-path "~/.emacs.d/lisp/popwin")
-(add-to-list 'load-path "~/.emacs.d/lisp/undohist")
-(add-to-list 'load-path "~/.emacs.d/lisp/undo-hl")
-(add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
-(add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
 (require 'ag)
 (require 'aggressive-indent)
