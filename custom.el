@@ -16,7 +16,7 @@
  '(dumb-jump-selector 'popup)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(bufler f dumb-jump orderless highlight expand-region which-key use-package undo-tree pfuture page-break-lines ido-vertical-mode htmlize ht goto-chg dired-toggle-sudo diminish crux cfrs auto-package-update async))
+   '(aggressive-indent async auto-package-update bind-key crux dash diminish dired-toggle-sudo exec-path-from-shell expand-region highlight htmlize ido-vertical-mode iedit mct page-break-lines pcmpl-args popwin queue s undo-tree undohist use-package which-key))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
