@@ -66,55 +66,6 @@ Use absolute line numbers even when buffer is narrowed.
   (setq make-backup-files nil)
   (setq auto-save-default nil)
 #+END_SRC
-** Enable smooth scrolling and inplace scrolling
-scrolling
-#+BEGIN_SRC emacs-lisp
-  ;; Fully redraw the display before it processes queued input events.
-  (setq redisplay-dont-pause t)
-  ;; Number of lines of continuity to retain when scrolling by full screens
-  (setq next-screen-context-lines 2)
-  ;; only 'jump' when moving this far off the screen
-  (setq scroll-conservatively 10000)
-  ;; Keyboard scroll one line at a time
-  (setq scroll-step 1)
-  ;; Don't accelerate scrolling
-  (setq mouse-wheel-progressive-speed nil)
-  ;; Scroll window under mouse
-  (setq mouse-wheel-follow-mouse t)
-  ;; No (less) lag while scrolling lots.
-  (setq fast-but-imprecise-scrolling t)
-  ;; Cursor move faster
-  (setq auto-window-vscroll nil)
-
-  (good-scroll-mode 1)
-  (setq good-scroll-step 83)
-  (setq good-scroll-render-rate 0.02)
-
-  (inertias-global-minor-mode -1)
-  ;; (setq inertias-global-minor-mode-map
-  ;;       (inertias-define-keymap
-  ;;        '(
-  ;;          ;; Mouse wheel scrolling
-  ;;          ("<wheel-up>"   . inertias-down-wheel)
-  ;;          ("<wheel-down>" . inertias-up-wheel)
-  ;;          ("<mouse-4>"    . inertias-down-wheel)
-  ;;          ("<mouse-5>"    . inertias-up-wheel)
-  ;;          ;; Scroll keys
-  ;;          ("<next>"  . inertias-up)
-  ;;          ("<prior>" . inertias-down)
-  ;;          ("C-v"     . inertias-up)
-  ;;          ("M-v"     . inertias-down))
-  ;;        inertias-prefix-key))
-
-  ;; (setq inertias-initial-velocity 20)
-  ;; (setq inertias-friction 50)
-  ;; (setq inertias-update-time 5)
-  ;; (setq inertias-rest-coef 0.1)
-
-  (smooth-scroll-mode -1)
-  ;; (global-set-key (kbd "<down>") 'scroll-up-1)
-  ;; (global-set-key (kbd "<up>") 'scroll-down-1)
-#+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
@@ -612,23 +563,6 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
 #+BEGIN_SRC emacs-lisp
   (undohist-initialize)
 #+END_SRC
-** Ligature
-#+BEGIN_SRC emacs-lisp
-  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                       "\\\\" "://"))
-  (add-hook 'prog-mode-hook 'ligature-mode)
-#+END_SRC
 ** Bufler
 Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
 It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
@@ -825,112 +759,12 @@ Diminish hides minor modes to prevent cluttering your mode line
   (use-package diminish
     :ensure t)
 #+END_SRC
-** Initialize =dashboard=
-*** Description
-The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :defer nil
-    :ensure t
-    :preface
-    (defun update-config ()
-      "Update Witchmacs to the latest version."
-      (interactive)
-      (let ((dir (expand-file-name user-emacs-directory)))
-        (if (file-exists-p dir)
-            (progn
-              (message "Marisa is updating!")
-              (cd dir)
-              (shell-command "git pull")
-              (message "Update finished. Switch to the messages buffer to see changes and then restart Emacs"))
-          (message "\"%s\" doesn't exist." dir))))
-
-    (defun create-scratch-buffer ()
-      "Create a scratch buffer"
-      (interactive)
-      (switch-to-buffer (get-buffer-create "*scratch*"))
-      (lisp-interaction-mode))
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-items '((recents . 5)))
-    (setq dashboard-banner-logo-title "M A R I S A - Connect To The Wired Edition!")
-    ;; (setq dashboard-startup-banner "~/.emacs.d/lain.png")
-    (setq dashboard-startup-banner "~/.emacs.d/athos_monk_emacs.png")
-    (setq dashboard-center-content t)
-    (setq dashboard-show-shortcuts nil)
-    (setq dashboard-set-init-info t)
-    (setq dashboard-init-info (format "%d packages loaded in %s"
-                                      (length package-activated-list) (emacs-init-time)))
-    (setq dashboard-set-footer nil)
-    (setq dashboard-set-navigator t)
-    (setq dashboard-navigator-buttons
-          `(;; line1
-            ((,nil
-              "Witchmacs on github"
-              "Open Marisa on github"
-              (lambda (&rest _) (browse-url "https://github.com/GrapeJuiceSoda/marisa"))
-              'default)
-             (nil
-              "Witchmacs crash course"
-              "Open Witchmacs' introduction to Emacs"
-              (lambda (&rest _) (find-file "~/.emacs.d/Witcheat.org"))
-              'default)
-             (nil
-              "Update Witchmacs"
-              "Get the latest Witchmacs update. Check out the github commits for changes!"
-              (lambda (&rest _) (update-config))
-              'default)
-             )
-            ;; line 2
-            ((,nil
-              "Open scratch buffer"
-              "Switch to the scratch buffer"
-              (lambda (&rest _) (create-scratch-buffer))
-              'default)
-             (nil
-              "Open config.org"
-              "Open Marisa' configuration file for easy editing"
-              (lambda (&rest _) (find-file "~/.emacs.d/config.org"))
-              'default)))))
-#+END_SRC
-*** Notes
-If you pay close attention to the code in dashboard, you'll  notice that it uses custom functions defined under the :preface use-package block. I wrote all of those functions by looking at other people's Emacs distributions (Mainly [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]]) and then experimenting and adapting them to Witchmacs. If you dig around, you'll find the same things I did - maybe even more!
-*** Historical
-22/05/19: On this day, the main maintainers of the dashboard package have added built-in fuinctionality to display init and package load time, thing that I already had implemented much earlier on my own. I have left here my implementation for historical purposes
-#+BEGIN_SRC emacs-lisp
-  ;(insert (concat
-  ;         (propertize (format "%d packages loaded in %s"
-  ;                             (length package-activated-list) (emacs-init-time))
-  ;                     'face 'font-lock-comment-face)))
-  ;
-  ;(dashboard-center-line)
-#+END_SRC
-** Initialize =beacon=
-*** Description
-You might find beacon an unnecesary package but I find it very neat. It briefly highlights the cursor position when switching to a new window or buffer
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package beacon
-    :ensure t
-    :diminish beacon-mode
-    :init
-    (beacon-mode -1))
-#+END_SRC
 ** Initialize =htmlize=
 *** Description
 Highligh rgb and hex values with the color associated with them
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
-    :ensure t
-    :defer t)
-#+END_SRC
-** Initialize =mozc=
-*** 日本語入力
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package mozc
     :ensure t
     :defer t)
 #+END_SRC
@@ -998,15 +832,6 @@ Allow to switch from current user to sudo when browsind `dired' buffers.
     :ensure t
     :defer t)
 #+END_SRC
-** Initialize =magit=
-*** Description
-Git porcelain for Emacs
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t
-    :defer t)
-#+END_SRC
 ** Initialize =expand-region=
 *** Description
 Expand region increases the selected region by semantic units. Just keep pressing the key until it selects what you want.
@@ -1027,13 +852,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (setq ag-executable "/usr/bin/ag")
   (setq ag-reuse-buffers t)
   ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
-#+END_SRC
-** Initialize =company-ctags=
-#+BEGIN_SRC emacs-lisp
-  (use-package company-ctags
-    :defer t
-    :load-path "lisp/company-ctags"
-    :commands (company-ctags))
 #+END_SRC
 ** Initialize =wrap-region=
 Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
@@ -1063,92 +881,6 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
     :diminish abbrev-mode)
 #+END_SRC
 * Programming section
-** Initialize =company=
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :defer t
-    :diminish company-mode
-    :config
-    (setq company-idle-delay nil)
-    (setq company-minimum-prefix-length 3)
-    (with-eval-after-load 'company
-      (define-key company-active-map
-                  (kbd "C-n")
-                  #'company-complete-common-or-cycle)
-      (define-key company-active-map
-                  (kbd "C-p")
-                  (lambda ()
-                    (interactive)
-                    (company-complete-common-or-cycle -1))))
-    (define-key company-active-map (kbd "SPC") #'company-abort))
-
-  (use-package company-quickhelp
-    :ensure t
-    :defer t
-    :hook (company-mode . company-quickhelp-mode)
-    :config
-    (setq company-quickhelp-delay 1))
-#+END_SRC
-** Initialize =corfu=
-*** Description
-Corfu enhances the default completion in region function with a completion overlay.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (setq corfu-cycle t)
-  (setq corfu-auto t)
-  (setq corfu-quit-no-match t)
-  (setq corfu-quit-at-boundary t)
-  (setq corfu-preview-current t)
-  (setq corfu-preselect-first nil)
-
-  ;; Use TAB for cycling, default is `corfu-complete'.
-  (define-key corfu-map (kbd "TAB")  #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
-
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
-    (unless (or (bound-and-true-p mct--active))
-      (corfu-mode 1)))
-  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
-
-  ;; (add-hook 'prog-mode-hook 'corfu-mode)
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setq-local corfu-quit-at-boundary t
-                          corfu-quit-no-match t
-                          corfu-auto nil)
-              (corfu-mode)))
-
-  (add-to-list 'corfu-auto-commands 'auto-complete)
-
-  ;; A few more useful configurations...
-  (use-package emacs
-    :init
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 3)
-
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-    (setq read-extended-command-predicate
-          #'command-completion-default-include-p)
-
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete)
-    (setq enable-recursive-minibuffers t))
-#+END_SRC
-** Initialize =aggressive-indent-mode=
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'c-mode-hook #'aggressive-indent-mode)
-  (add-hook 'c++-mode-hook #'aggressive-indent-mode)
-  (add-to-list
-   'aggressive-indent-dont-indent-if
-   '(and (derived-mode-p 'c-mode)
-         (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                             (thing-at-point 'line)))))
-#+END_SRC
 ** Initialize =dumb-jump=
 #+BEGIN_SRC emacs-lisp
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
@@ -1169,30 +901,6 @@ Corfu enhances the default completion in region function with a completion overl
      ("t" . dumb-jump-go-prefer-external-other-window)
      ("n" . dumb-jump-go-prompt)
      ("s" . dumb-jump-quick-look)))
-#+END_SRC
-** Initialize =eglot=
-#+BEGIN_SRC emacs-lisp
-  (use-package eglot
-    :defer t
-    :ensure t
-    :diminish eglot
-    :config
-    (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
-    (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
-    (define-key eglot-mode-map (kbd "C-c h") 'eldoc))
-#+END_SRC
-** Initialize =yasnippet=
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet-snippets
-    :ensure t)
-
-  (use-package yasnippet
-    :ensure t
-    :diminish yas
-    :config
-    (setq yas-snippet-dirs
-          '("~/.emacs.d/snippets"))
-    (yas-reload-all))
 #+END_SRC
 ** Cape
 *** Description
@@ -1218,168 +926,6 @@ This package provides an orderless completion style that divides the pattern int
   (use-package orderless
     :init
     (setq completion-styles '(basic flex orderless )))
-#+END_SRC
-** C & C++
-*** Description
-Irony is the company backend for C and C++
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package irony
-    :ensure t
-    :defer t
-    :diminish t)
-
-  (use-package company-irony-c-headers
-    :defer t
-    :load-path "lisp/company-irony-c-headers"
-    :commands (company-irony-c-headers))
-
-  (defun trivialfis/irony ()
-    "Irony mode configuration."
-    (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
-    (add-to-list 'company-backends
-                 '(company-irony company-irony-c-headers))
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
-    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-    (define-key irony-mode-map [remap completion-at-point]
-                'irony-completion-at-point-async)
-    (define-key irony-mode-map [remap complete-symbol]
-                'irony-completion-at-point-async))
-
-  (defun ken_nc/cc-base ()
-    "Common configuration for c and c++ mode."
-    ;; Company mode
-    ;; (require 'company-irony-c-headers)
-    (add-to-list 'company-backends 'company-ispell)
-    (add-to-list 'company-backends 'company-files)
-    (add-to-list 'company-backends 'company-abbrev)
-    (add-to-list 'company-backends 'company-ctags)
-    (with-eval-after-load 'company
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (which-func-mode 1)
-    (irony-mode 1)
-    (trivialfis/irony))
-
-  (add-hook 'c++-mode-hook #'ken_nc/cc-base)
-  (add-hook 'c-mode-hook #'ken_nc/cc-base)
-  (add-hook 'c-mode-hook #'company-mode)
-  (add-hook 'c++-mode-hook #'company-mode)
-  (add-hook 'c-mode-hook #'yas-minor-mode)
-  (add-hook 'c++-mode-hook #'yas-minor-mode)
-  (add-hook 'c-mode-hook #'openbsd-set-knf-style)
-  (add-hook 'c-mode-common-hook #'undo-hl-mode)
-  (add-hook 'c-mode-common-hook #'wrap-region-mode)
-#+END_SRC
-** Go
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :defer t
-    :ensure t)
-
-  (defun project-find-go-module (dir)
-    (when-let ((root (locate-dominating-file dir "go.mod")))
-      (cons 'go-module root)))
-
-  (cl-defmethod project-root ((project (head go-module)))
-    (cdr project))
-
-  (defun eglot-format-buffer-on-save ()
-    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-
-  (setq-default eglot-workspace-configuration
-                '((:gopls .
-                          ((staticcheck . t)
-                           (matcher . "CaseSensitive")))))
-
-  (defun ken_nc/go-base ()
-    "Common configuration for go-mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-func-mode 1))
-
-  (add-hook 'go-mode-hook #'yas-minor-mode)
-  (add-hook 'go-mode-hook #'ken_nc/go-base)
-  (add-hook 'go-mode-hook #'company-mode)
-  (add-hook 'go-mode-hook #'eglot-ensure)
-  (add-hook 'project-find-functions #'project-find-go-module)
-  (add-hook 'go-mode-hook #'eglot-format-buffer-on-save)
-  (add-hook 'go-mode-hook #'undo-hl-mode)
-  (add-hook 'go-mode-hook #'wrap-region-mode)
-#+END_SRC
-** Java
-*** Description
-Also added google-java-format
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (defun ken_nc/java-base ()
-    "Common configuration for java mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-func-mode 1))
-
-  (defun ken_nc/java-format-on-save ()
-    (when (eq major-mode 'java-mode)
-      (let ((prev-pos (point)))
-        (call-interactively 'google-java-format-buffer)
-        (goto-char prev-pos))))
-
-  (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-  (add-hook 'java-mode-hook #'company-mode)
-  (add-hook 'java-mode-hook #'ken_nc/java-base)
-  (add-hook 'java-mode-hook #'google-set-c-style)
-  (add-hook 'java-mode-hook #'yas-minor-mode)
-  (add-hook 'java-mode-hook #'eglot-ensure)
-#+END_SRC
-** Elisp
-*** Description
-Company setup for emacs
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (defun ken_nc/elisp-base ()
-    "Common configuration for elisp mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (setf company-backends '())
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-capf :with company-dabbrev-code))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common)))
-
-  ;; Change a few indenting behaviors
-  (put 'add-function 'lisp-indent-function 2)
-  (put 'advice-add 'lisp-indent-function 2)
-  (put 'plist-put 'lisp-indent-function 2)
-
-  (add-hook 'emacs-lisp-mode-hook 'company-mode)
-  (add-hook 'emacs-lisp-mode-hook #'ken_nc/elisp-base)
-#+END_SRC
-** Scheme =geiser-mit=
-*** Description
-Collection of Emacs major and minor modes that work with scheme
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package geiser-mit
-    :defer nil
-    :diminish t
-    :ensure t
-    :config
-    (add-hook 'geiser-mode-hook
-              (lambda ()
-                (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
-                (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
 #+END_SRC
 ** Highlight changes
 #+BEGIN_SRC emacs-lisp
