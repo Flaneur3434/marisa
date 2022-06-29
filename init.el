@@ -19,7 +19,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
-(add-to-list 'load-path "~/.emacs.d/lisp/wrap-region")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/pcmpl-args")
@@ -27,7 +26,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/undohist")
 (add-to-list 'load-path "~/.emacs.d/lisp/undo-hl")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
-(add-to-list 'load-path "~/.emacs.d/lisp/sky-color-clock")
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
 
 (require 'ag)
@@ -61,14 +59,11 @@
 (require 'prot-eshell)
 (require 'prot-simple)
 (require 'rect-extension)				; TODO 2022-02-09: Add keybinds and functions
-(require 'sky-color-clock)
 (require 'undohist)
-(require 'undo-hl)
 (require 'unfill)
 (require 'wc-mode)
 (require 'wgrep)
 (require 'wgrep-ag)
-(require 'wrap-region)
 
 ;; needs to be last due to it calling interactive functions from other files
 (require 'xah-fly-keys)
