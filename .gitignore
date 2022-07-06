@@ -10,7 +10,7 @@
 
 eshell/history
 eshell/lastdir
-undohist/
+undohist-cache/
 network-security.data
 .python-environments
 irony

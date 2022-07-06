@@ -35,9 +35,13 @@
 ;;; Code:
 (require 'cl-lib) ;; cl-letf, cl-defun
 (require 'dired) ;; dired-sort-inhibit
-(require 'dash)
-(require 's)
 (require 'find-dired) ;; find-dired-filter
+
+(require 'use-package)
+(use-package dash
+  :ensure t)
+(use-package s
+  :ensure t)
 
 (defgroup ag nil
   "A front-end for ag - The Silver Searcher."

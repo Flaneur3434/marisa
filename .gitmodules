@@ -34,9 +34,6 @@
 [submodule "lisp/popwin"]
 	path = lisp/popwin
 	url = https://github.com/emacsorphanage/popwin
-[submodule "lisp/undohist"]
-	path = lisp/undohist
-	url = https://github.com/emacsorphanage/undohist
 [submodule "lisp/ligature"]
 	path = lisp/ligature
 	url = https://github.com/mickeynp/ligature.el
@@ -52,3 +49,6 @@
 [submodule "themes/monochrome-theme"]
 	path = themes/monochrome-theme
 	url = https://github.com/fxn/monochrome-theme.el
+[submodule "lisp/undohist"]
+	path = lisp/undohist
+	url = https://github.com/Flaneur3434/undohist

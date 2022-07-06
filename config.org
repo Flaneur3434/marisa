@@ -147,6 +147,8 @@ scrolling
                               (?\( . ?\))
                               (?\[ . ?\])
                               (?\" . ?\")
+                              (?\' . ?\')
+                              (?\< . ?\>)
                               ))
   (electric-pair-mode t)
 #+END_SRC
@@ -632,6 +634,10 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
 ** Bufler
 Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
 It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
+#+BEGIN_SRC emacs-lisp
+  (use-package 'bufler
+    :ensure t)
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -651,7 +657,7 @@ It also provides a workspace mode which allows frames to focus on buffers in cer
 Emacs frame settings that need to started when emacs is in daemon mode.
 These include the frame (window) size, xah-fly-keys settings, and font settings.
 #+BEGIN_SRC emacs-lisp
-  (defun load-theme--disable-old-theme(theme &rest args)
+  (defun load-theme--disable-old-theme (theme &rest args)
     "Disable current theme before loading new one."
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
@@ -1065,30 +1071,30 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
 * Programming section
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :defer t
-    :diminish company-mode
-    :config
-    (setq company-idle-delay nil)
-    (setq company-minimum-prefix-length 3)
-    (with-eval-after-load 'company
-      (define-key company-active-map
-                  (kbd "C-n")
-                  #'company-complete-common-or-cycle)
-      (define-key company-active-map
-                  (kbd "C-p")
-                  (lambda ()
-                    (interactive)
-                    (company-complete-common-or-cycle -1))))
-    (define-key company-active-map (kbd "SPC") #'company-abort))
+    (use-package company
+      :ensure t
+      :defer t
+      :diminish company-mode
+      :config
+      (setq company-idle-delay nil)
+      (setq company-minimum-prefix-length 3)
+      (with-eval-after-load 'company
+        (define-key company-active-map
+                    (kbd "C-n")
+                    #'company-complete-common-or-cycle)
+        (define-key company-active-map
+                    (kbd "C-p")
+                    (lambda ()
+                      (interactive)
+                      (company-complete-common-or-cycle -1))))
+      (define-key company-active-map (kbd "SPC") #'company-abort))
 
-  (use-package company-quickhelp
-    :ensure t
-    :defer t
-    :hook (company-mode . company-quickhelp-mode)
-    :config
-    (setq company-quickhelp-delay 1))
+    (use-package company-quickhelp
+      :ensure t
+      :defer t
+      :hook (company-mode . company-quickhelp-mode)
+      :config
+      (setq company-quickhelp-delay 1))
 #+END_SRC
 ** Initialize =corfu=
 *** Description
@@ -1217,6 +1223,7 @@ This package provides an orderless completion style that divides the pattern int
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :init
+    :ensure t
     (setq completion-styles '(basic flex orderless )))
 #+END_SRC
 ** C & C++
