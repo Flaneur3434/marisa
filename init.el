@@ -20,7 +20,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 
-(require 'ag)
 (require 'basic-edit-toolkit)
 (require 'color)
 (require 'ctags-utils)
@@ -33,7 +32,6 @@
 (require 'ken_nc-custom-colors)
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
-(require 'mct-customizations)
 (require 'move-text)
 (require 'openbsd-knf-style)
 (require 'package)

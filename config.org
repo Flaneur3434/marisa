@@ -546,20 +546,6 @@ Garbage-collect on focus-out, Emacs should feel snappier overall.
 #+END_SRC
 ** Popup window mode
 Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
-#+BEGIN_SRC emacs-lisp
-  (popwin-mode 1)
-  (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
-  (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
-  (push "*vc-diff*" popwin:special-display-config)
-  (push "*vc-change-log*" popwin:special-display-config)
-#+END_SRC
-** Persistent undo
-#+BEGIN_SRC emacs-lisp
-  (undohist-initialize)
-#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -837,6 +823,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+END_SRC
 ** Initialize =ag=
 #+BEGIN_SRC emacs-lisp
+  (require 'ag)
   (setq ag-highlight-search t)
   (setq ag-executable "/usr/bin/ag")
   (setq ag-reuse-buffers t)
@@ -878,8 +865,9 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+END_SRC
 ** Initialize =mct=
 #+BEGIN_SRC emacs-lisp
-(use-package mct
-  :ensure t)
+  (use-package mct
+    :ensure t)
+  (require 'mct-customizations)
 #+END_SRC
 ** Initialize =pcmpl-args=
 #+BEGIN_SRC emacs-lisp
@@ -894,7 +882,16 @@ Expand region increases the selected region by semantic units. Just keep pressin
 ** Initialize =popwin=
 #+BEGIN_SRC emacs-lisp
 (use-package popwin
-  :ensure t)
+  :ensure t
+  :config
+  (popwin-mode 1)
+  (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
+  (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
+  (push "*vc-diff*" popwin:special-display-config)
+  (push "*vc-change-log*" popwin:special-display-config))
 #+END_SRC
 ** Initialize =queue=
 #+BEGIN_SRC emacs-lisp
@@ -909,7 +906,9 @@ Expand region increases the selected region by semantic units. Just keep pressin
 ** Initialize =undohist=
 #+BEGIN_SRC emacs-lisp
 (use-package undohist
-  :ensure t)
+  :ensure t
+  :config
+  (undohist-initialize))
 #+END_SRC
 ** Initialize =which-key=
 #+BEGIN_SRC emacs-lisp
