@@ -821,14 +821,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (use-package highlight
     :ensure t)
 #+END_SRC
-** Initialize =ag=
-#+BEGIN_SRC emacs-lisp
-  (require 'ag)
-  (setq ag-highlight-search t)
-  (setq ag-executable "/usr/bin/ag")
-  (setq ag-reuse-buffers t)
-  ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
-#+END_SRC
 ** Initialize =aggressive-indent=
 #+BEGIN_SRC emacs-lisp
 (use-package aggressive-indent
@@ -914,6 +906,14 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
   :ensure t)
+#+END_SRC
+** Initialize =ag=
+#+BEGIN_SRC emacs-lisp
+  (require 'ag)
+  (setq ag-highlight-search t)
+  (setq ag-executable "/usr/bin/ag")
+  (setq ag-reuse-buffers t)
+  ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
