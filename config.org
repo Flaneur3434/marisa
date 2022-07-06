@@ -11,12 +11,7 @@ How to download
 #+BEGIN_SRC bash
   git clone https://github.com/GrapeJuiceSoda/marisa .emacs.d
   cd .emacs.d
-  git submodule update --init
-  # requires sregx (https://github.com/zyedidia/sregx)
-  # requires fzy (https://github.com/jhawthorn/fzy)
-  ./update-git-packages.sh --init
-  ./update-git-packages.sh --update
-  # you may need to run package-refresh-contents in emacs also
+  git checkout minimal
 #+END_SRC
 * Why would I use this?
 #+BEGIN_QUOTE
@@ -54,6 +49,7 @@ Use absolute line numbers even when buffer is narrowed.
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
   (menu-bar-mode -1)
+  (scroll-bar-mode -1)
   (blink-cursor-mode 0)
 #+END_SRC
 ** Enable copypasting outside of Emacs
@@ -86,10 +82,6 @@ Use absolute line numbers even when buffer is narrowed.
 #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 80)
 #+END_SRC
-** Enable prettify symbols mode
-#+BEGIN_SRC emacs-lisp
-  (global-prettify-symbols-mode t)
-#+END_SRC
 ** Enable bracket pair-matching
 #+BEGIN_SRC emacs-lisp
   (setq electric-pair-pairs '(
@@ -97,6 +89,8 @@ Use absolute line numbers even when buffer is narrowed.
                               (?\( . ?\))
                               (?\[ . ?\])
                               (?\" . ?\")
+                              (?\' . ?\')
+                              (?\< . ?\>)
                               ))
   (electric-pair-mode t)
 #+END_SRC
@@ -184,92 +178,6 @@ Use absolute line numbers even when buffer is narrowed.
        )
     )
   #+END_SRC
-*** Create a new window and open dired there
-#+BEGIN_SRC emacs-lisp
-    (defun my-display-buffer-below (buffer alist)
-    "Doc-string."
-      (let (
-          (window
-            (cond
-              ((get-buffer-window buffer (selected-frame)))
-              ((window-in-direction 'below))
-              (t
-                (split-window (selected-window) nil 'below)))))
-        (window--display-buffer buffer window 'window alist display-buffer-mark-dedicated)
-        window))
-
-    (defun my-display-buffer-above (buffer alist)
-    "Doc-string."
-      (let (
-          (window
-            (cond
-              ((get-buffer-window buffer (selected-frame)))
-              ((window-in-direction 'above))
-              (t
-                (split-window (selected-window) nil 'above)))))
-        (window--display-buffer buffer window 'window alist display-buffer-mark-dedicated)
-        window))
-
-    (defun my-display-buffer-left (buffer alist)
-    "Doc-string."
-      (let (
-          (window
-            (cond
-              ((get-buffer-window buffer (selected-frame)))
-              ((window-in-direction 'left))
-              (t
-                (split-window (selected-window) nil 'left)))))
-        (window--display-buffer buffer window 'window alist display-buffer-mark-dedicated)
-        window))
-
-    (defun my-display-buffer-right (buffer alist)
-    "Doc-string."
-      (let (
-          (window
-            (cond
-              ((get-buffer-window buffer (selected-frame)))
-              ((window-in-direction 'right))
-              (t
-                (split-window (selected-window) nil 'right)))))
-        (window--display-buffer buffer window 'window alist display-buffer-mark-dedicated)
-        window))
-
-    (defun dired-display-above ()
-    "Doc-string."
-    (interactive)
-      (let* (
-          (file-or-dir (dired-get-file-for-visit))
-          (buffer (find-file-noselect file-or-dir)))
-        (my-display-buffer-above buffer nil)))
-
-    (defun dired-display-below ()
-    "Doc-string."
-    (interactive)
-      (let* (
-          (file-or-dir (dired-get-file-for-visit))
-          (buffer (find-file-noselect file-or-dir)))
-        (my-display-buffer-below buffer nil)))
-
-    (defun dired-display-left ()
-    "Doc-string."
-    (interactive)
-      (let* (
-          (file-or-dir (dired-get-file-for-visit))
-          (buffer (find-file-noselect file-or-dir)))
-        (my-display-buffer-left buffer nil)))
-
-    (defun dired-display-right ()
-    "Doc-string."
-    (interactive)
-      (let* (
-          (file-or-dir (dired-get-file-for-visit))
-          (buffer (find-file-noselect file-or-dir)))
-        (my-display-buffer-right buffer nil)))
-  (define-key dired-mode-map (kbd "C-x i") 'dired-display-above)
-  (define-key dired-mode-map (kbd "C-x k") 'dired-display-below)
-  (define-key dired-mode-map (kbd "C-x j") 'dired-display-left)
-  (define-key dired-mode-map (kbd "C-x l") 'dired-display-right)
-#+END_SRC
 *** Deleting dired buffer
 **** Look under ibuffer
 ** Quickly access config.org and eval init.el
@@ -558,14 +466,13 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
   (push '(alpha-background . 100) default-frame-alist)
 
   (setq initial-frame-alist default-frame-alist)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq frame-resize-pixelwise t)
 #+END_SRC
 * Emacs Daemon
 Emacs frame settings that need to started when emacs is in daemon mode.
 These include the frame (window) size, xah-fly-keys settings, and font settings.
 #+BEGIN_SRC emacs-lisp
-  (defun load-theme--disable-old-theme(theme &rest args)
+  (defun load-theme--disable-old-theme (theme &rest args)
     "Disable current theme before loading new one."
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
@@ -575,17 +482,13 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (select-frame frame)
-                  (load-theme 'Witchmacs t))))
-
-  ;; whether or not daemon do these
-  (xah-fly-keys t)
-  (setq xah-fly-use-control-key nil)
-  (xah-fly-keys-set-layout "qwerty")
-
-  (unless (display-graphic-p (selected-frame))
-    (xterm-mouse-mode))
-
-
+                  (load-theme 'Witchmacs t)
+                  (xah-fly-keys t)
+                  (setq xah-fly-use-control-key nil)
+                  (xah-fly-keys-set-layout "qwerty")
+                  (unless (display-graphic-p (selected-frame))
+                    (xterm-mouse-mode))))
+    (load-theme 'Witchmacs t))
 #+END_SRC
 * Emacs Modeline
 #+BEGIN_SRC emacs-lisp
@@ -646,12 +549,6 @@ Change to use aliases found in login shell. Also disable internal elisp commands
   (setq shell-file-name "bash")
   (setq shell-command-switch "-ic")
   (setq eshell-prefer-lisp-functions t)
-
-  ;; Inable corfu-mode in eshell
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setq-local corfu-auto nil)
-              (corfu-mode)))
 #+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp

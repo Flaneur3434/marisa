@@ -11,10 +11,6 @@
   (package-install 'use-package))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/emacs-flatland-black-theme")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
@@ -62,11 +58,11 @@
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
-(if (fboundp 'native-compile-async)
-	(progn
-      (native-compile-async "~/.emacs.d/lisp" 'recursively)
-	  (native-compile-async "~/.emacs.d/init.el")
-	  (native-compile-async "~/.emacs.d/early-init.el")))
+;;(if (fboundp 'native-compile-async)
+;;	(progn
+;;      (native-compile-async "~/.emacs.d/lisp" 'recursively)
+;;	  (native-compile-async "~/.emacs.d/init.el")
+;;	  (native-compile-async "~/.emacs.d/early-init.el")))
 ;; 	  (native-compile-async "~/.emacs.d/config.el")))
 
 (setq custom-file "~/.emacs.d/custom.el")
