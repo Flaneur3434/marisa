@@ -321,7 +321,7 @@ Use absolute line numbers even when buffer is narrowed.
      ("m" . ken_nc/mozc-dwim)
      ("h" . strip-regular-expression-string)))
 
-  (global-set-key (kbd "C-z") 'ken_nc/suspend)
+  (global-set-key (kbd "C-z") #'ken_nc/suspend)
   ;;  TODO 2022-01-11: Add crux-open-with
 #+END_SRC
 ** Prot Function keybinds
@@ -344,7 +344,6 @@ Use absolute line numbers even when buffer is narrowed.
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim)
   (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
-  (global-set-key (kbd "C-c f") 'bufler-workspace-focus-buffer)
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
@@ -407,8 +406,7 @@ Use absolute line numbers even when buffer is narrowed.
      ;; ("s" . save-buffer)
      ("s" . ken_nc/save-buffer-dwim)
      ("t" . xah-fly-edit-keymap)
-     ;; ("u" . switch-to-buffer)
-     ("u" . bufler-switch-buffer)
+     ("u" . switch-to-buffer)
      ;; v
      ("w" . xah-fly-eval-keymap)
      ;; ("x" . xah-toggle-previous-letter-case)
@@ -562,9 +560,6 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
 #+BEGIN_SRC emacs-lisp
   (undohist-initialize)
 #+END_SRC
-** Bufler
-Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
-It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -594,21 +589,17 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (select-frame frame)
-                  (if (display-graphic-p frame)
-                      (progn
-                        (load-theme 'Witchmacs t)
-                        (good-scroll-mode nil))  ;; daemon graphical
-                    (progn                        ;; daemon terminal
-                      (load-theme 'Witchmacs t)
-                      (xterm-mouse-mode)
-                      (good-scroll-mode -1)))
-                  (setq xah-fly-use-control-key nil)
-                  (xah-fly-keys-set-layout "qwerty")
-                  (dolist (var '("BROWSER" "PLAN9"))
-                    (add-to-list 'exec-path-from-shell-variables var))
-                  (exec-path-from-shell-initialize)
-                  (xah-fly-keys t)))
-    (load-theme 'Witchmacs t))  ;; regular
+                  (load-theme 'Witchmacs t))))
+
+  ;; whether or not daemon do these
+  (xah-fly-keys t)
+  (setq xah-fly-use-control-key nil)
+  (xah-fly-keys-set-layout "qwerty")
+
+  (unless (display-graphic-p (selected-frame))
+    (xterm-mouse-mode))
+
+
 #+END_SRC
 * Emacs Modeline
 #+BEGIN_SRC emacs-lisp
@@ -635,8 +626,7 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
               mode-line-modes
               mode-line-misc-info
               mode-line-end-spaces
-              (mode-line-fill 'mode-line 10)
-              '(:eval (sky-color-clock))))
+              (mode-line-fill 'mode-line 10)))
   #+END_SRC
 * Org mode
 ** Description
@@ -851,6 +841,80 @@ Expand region increases the selected region by semantic units. Just keep pressin
   (setq ag-executable "/usr/bin/ag")
   (setq ag-reuse-buffers t)
   ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+#+END_SRC
+** Initialize =aggressive-indent=
+#+BEGIN_SRC emacs-lisp
+(use-package aggressive-indent
+  :ensure t)
+#+END_SRC
+** Initialize =dash=
+#+BEGIN_SRC emacs-lisp
+(use-package dash
+  :ensure t)
+#+END_SRC
+** Initialize =dired-toggle-sudo=
+#+BEGIN_SRC emacs-lisp
+(use-package dired-toggle-sudo
+  :ensure t)
+#+END_SRC
+** Initialize =exec-path-from-shell=
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+	:ensure t
+	:config
+	(dolist (var '("BROWSER" "PLAN9"))
+	  (add-to-list 'exec-path-from-shell-variables var))
+	(exec-path-from-shell-initialize))
+#+END_SRC
+** Initialize =expand-region=
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :ensure t)
+#+END_SRC
+** Initialize =iedit=
+#+BEGIN_SRC emacs-lisp
+(use-package iedit
+  :ensure t)
+#+END_SRC
+** Initialize =mct=
+#+BEGIN_SRC emacs-lisp
+(use-package mct
+  :ensure t)
+#+END_SRC
+** Initialize =pcmpl-args=
+#+BEGIN_SRC emacs-lisp
+(use-package pcmpl-args
+  :ensure t)
+#+END_SRC
+** Initialize =page-break-lines=
+#+BEGIN_SRC emacs-lisp
+(use-package page-break-lines
+  :ensure t)
+#+END_SRC
+** Initialize =popwin=
+#+BEGIN_SRC emacs-lisp
+(use-package popwin
+  :ensure t)
+#+END_SRC
+** Initialize =queue=
+#+BEGIN_SRC emacs-lisp
+(use-package queue
+  :ensure t)
+#+END_SRC
+** Initialize =s=
+#+BEGIN_SRC emacs-lisp
+(use-package s
+  :ensure t)
+#+END_SRC
+** Initialize =undohist=
+#+BEGIN_SRC emacs-lisp
+(use-package undohist
+  :ensure t)
+#+END_SRC
+** Initialize =which-key=
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
