@@ -148,7 +148,6 @@ scrolling
                               (?\[ . ?\])
                               (?\" . ?\")
                               (?\' . ?\')
-                              (?\< . ?\>)
                               ))
   (electric-pair-mode t)
 #+END_SRC
@@ -635,7 +634,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
 Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
 It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
 #+BEGIN_SRC emacs-lisp
-  (use-package 'bufler
+  (use-package bufler
     :ensure t)
 #+END_SRC
 * Emacs Frame Customization
@@ -1149,6 +1148,7 @@ Corfu enhances the default completion in region function with a completion overl
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'c-mode-hook #'aggressive-indent-mode)
   (add-hook 'c++-mode-hook #'aggressive-indent-mode)
+  (add-hook 'python-mode-hook #'aggressive-indent-mode)
   (add-to-list
    'aggressive-indent-dont-indent-if
    '(and (derived-mode-p 'c-mode)
@@ -1224,7 +1224,8 @@ This package provides an orderless completion style that divides the pattern int
   (use-package orderless
     :init
     :ensure t
-    (setq completion-styles '(basic flex orderless )))
+    :custom
+    (completion-styles '(basic flex orderless )))
 #+END_SRC
 ** C & C++
 *** Description
@@ -1264,7 +1265,7 @@ Irony is the company backend for C and C++
     (add-to-list 'company-backends 'company-ctags)
     (with-eval-after-load 'company
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (which-func-mode 1)
+    (which-function-mode 1)
     (irony-mode 1)
     (trivialfis/irony))
 
@@ -1309,7 +1310,7 @@ Irony is the company backend for C and C++
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (setq company-ctags-ignore-case t)
     (setq company-ctags-fuzzy-match-p t)
-    (which-func-mode 1))
+    (which-function-mode 1))
 
   (add-hook 'go-mode-hook #'yas-minor-mode)
   (add-hook 'go-mode-hook #'ken_nc/go-base)
@@ -1335,7 +1336,7 @@ Also added google-java-format
       (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (setq company-ctags-ignore-case t)
     (setq company-ctags-fuzzy-match-p t)
-    (which-func-mode 1))
+    (which-function-mode 1))
 
   (defun ken_nc/java-format-on-save ()
     (when (eq major-mode 'java-mode)
@@ -1349,6 +1350,63 @@ Also added google-java-format
   (add-hook 'java-mode-hook #'google-set-c-style)
   (add-hook 'java-mode-hook #'yas-minor-mode)
   (add-hook 'java-mode-hook #'eglot-ensure)
+#+END_SRC
+** Python
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv
+    :ensure t
+    :init
+    (setenv "~/.venvs/")
+    :config
+    ;; (pyvenv-mode t)
+    (setq pyvenv-post-activate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+
+    (setq pyvenv-post-deactivate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter "python3.10")))))
+
+  (use-package blacken
+    :ensure t
+    :init
+    (setq-default blacken-allow-p36 t)
+    (setq-default blacken-fast-unsafe t)
+    (setq-default blacken-line-length 80)
+    (setq-default blacken-skip-string-normalization t))
+
+  (defun ken_nc/python-format-on-save ()
+    (when (eq major-mode 'python-mode)
+      (let ((prev-pos (point)))
+        (call-interactively 'blacken-buffer)
+        (goto-char prev-pos))))
+
+  (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
+
+  (defun ken_nc/python-base ()
+    "Common configuration for python-mode."
+    ;; Company mode
+    (with-eval-after-load 'company
+      (add-to-list 'company-backends 'company-ispell)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
+    (setq company-ctags-ignore-case t)
+    (setq company-ctags-fuzzy-match-p t)
+    (which-function-mode 1))
+
+  (use-package python-mode
+    :ensure t
+    :custom
+    (python-shell-interpreter "python3"))
+
+  (add-hook 'python-mode-hook #'pyvenv-mode)
+  (add-hook 'python-mode-hook #'flycheck-mode)
+  (add-hook 'python-mode-hook #'company-mode)
+  (add-hook 'python-mode-hook #'blacken-mode)
+  (add-hook 'python-mode-hook #'yas-minor-mode)
+  (add-hook 'python-mode-hook #'eglot-ensure)
+  (add-hook 'python-mode-hook #'ken_nc/python-base)
 #+END_SRC
 ** Elisp
 *** Description
