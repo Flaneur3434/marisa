@@ -1055,6 +1055,15 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
   (setq sky-color-clock-format "%H:%M")
   (setq sky-color-clock-enable-emoji-icon nil)
 #+END_SRC
+** Initialize =eyebrowse=
+*** Description
+Eyebrowse is a global minor mode for Emacs that allows you to manage your window
+configurations in a simple manner, just like tiling window managers like i3wm
+with their workspaces do.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (eyebrowse-mode t)
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1353,6 +1362,7 @@ Also added google-java-format
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
+  ;; Probably need to install abunch of pip packages
   (use-package pyvenv
     :ensure t
     :init

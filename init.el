@@ -34,6 +34,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
 (add-to-list 'load-path "~/.emacs.d/lisp/sky-color-clock")
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
+(add-to-list 'load-path "~/.emacs.d/lisp/eyebrowse/")
 
 (require 'ag)
 (require 'aggressive-indent)
@@ -46,6 +47,7 @@
 (require 'deferred)
 (require 'dired-sort)
 (require 'exec-path-from-shell)
+(require 'eyebrowse)
 (require 'google-c-style)
 (require 'google-java-format)
 (require 'go-to-char)
