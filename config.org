@@ -147,7 +147,6 @@ scrolling
                               (?\( . ?\))
                               (?\[ . ?\])
                               (?\" . ?\")
-                              (?\' . ?\')
                               ))
   (electric-pair-mode t)
 #+END_SRC
@@ -1452,7 +1451,7 @@ Collection of Emacs major and minor modes that work with scheme
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package geiser-mit
-    :defer nil
+    :defer t
     :diminish t
     :ensure t
     :config
@@ -1460,6 +1459,46 @@ Collection of Emacs major and minor modes that work with scheme
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
                 (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
+#+END_SRC
+** Ocaml
+*** Description
+Help editing OCaml code, to highlight important parts of the code, to run an OCaml REPL
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (defun ken_nc/ocaml-base ()
+    "Common configuration for ocaml-mode."
+    ;; Company mode
+    (with-eval-after-load 'company
+      (add-to-list 'company-backends 'company-ispell)
+      (add-to-list 'company-backends 'company-files)
+      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
+      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
+    (setq company-ctags-ignore-case t)
+    (setq company-ctags-fuzzy-match-p t)
+    (which-function-mode 1))
+
+  (use-package tuareg
+    :defer t
+    :diminish t
+    :ensure t
+    :bind
+    (:map tuareg-mode-map
+          ("<M-;>" . tuareg-comment-dwim))
+    :hook
+    (tuareg-mode . company-mode)
+    (tuareg-mode . eglot-ensure)
+    (tuareg-mode . undo-hl-mode)
+    (tuareg-mode . wrap-region-mode)
+    (tuareg-mode . ken_nc/ocaml-base)
+    :config
+    (setq tuareg-comment-show-paren t)
+    (setq tuareg-highlight-all-operators t)
+    (add-hook 'tuareg-mode-hook
+              (lambda()
+                (setq-local comment-style 'multi-line)
+                (setq-local comment-continue "   ")
+                (when (functionp 'prettify-symbols-mode)
+                  (prettify-symbols-mode)))))
 #+END_SRC
 ** Highlight changes
 #+BEGIN_SRC emacs-lisp
@@ -1470,4 +1509,11 @@ Collection of Emacs major and minor modes that work with scheme
                 (save-restriction
                   (widen)
                   (highlight-changes-remove-highlight (point-min) (point-max))))))
+#+END_SRC
+** Comment (mode?)
+#+BEGIN_SRC emacs-lisp
+  (defun ken_nc/automatic-commenting ()
+    (setq-local comment-auto-fill-only-comments t)
+    (setq-local auto-fill-mode t))
+  (add-hook 'prog-mode-hook 'ken_nc/automatic-commenting)
 #+END_SRC

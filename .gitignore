@@ -10,6 +10,7 @@
 
 eshell/history
 eshell/lastdir
+eshell/alias
 undohist-cache/
 network-security.data
 .python-environments

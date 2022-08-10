@@ -101,7 +101,7 @@
 
 ;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
 ;; rather than every time `eshell-mode' is enabled.
-(add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
+;; (add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
 
 (message "loading init-eshell")
 (provide 'ken_nc-eshell)
