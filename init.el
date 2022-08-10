@@ -101,7 +101,6 @@
       (native-compile-async "~/.emacs.d/lisp" 'recursively)
 	  (native-compile-async "~/.emacs.d/init.el")
 	  (native-compile-async "~/.emacs.d/early-init.el")))
-;; 	  (native-compile-async "~/.emacs.d/config.el")))
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)

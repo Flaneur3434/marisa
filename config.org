@@ -798,6 +798,10 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 
   (global-set-key (kbd "<s-C-return>") 'eshell)
 #+END_SRC
+*** Parse Bash History
+#+BEGIN_SRC emacs-lisp
+  (ken_nc/parse-bash-history)
+#+END_SRC
 * Use-package section
 ** Initialize =auto-package-update=
 *** Description
@@ -1018,7 +1022,8 @@ Expand region increases the selected region by semantic units. Just keep pressin
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
-    :ensure t)
+    :ensure t
+    :bind ("<mouse-2>" . er/expand-region))
 #+END_SRC
 ** Initialize =highlight=
 *** Code

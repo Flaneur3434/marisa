@@ -234,8 +234,6 @@ the cutomized version of go-to-char.el I have in this git repo"
 (ad-activate 'ffap-file-at-point)
 ;; (ad-deactivate 'ffap-file-at-point)
 
-(bind-key "C-x C-X" #'my/tear-off-window)
-
 (defun ken_nc/tear-off-window ()
   "Delete the selected window, and create a new frame displaying its buffer."
   (interactive)
@@ -245,6 +243,8 @@ the cutomized version of go-to-char.el I have in this git repo"
     (select-frame frame)
     (switch-to-buffer buf)
     (delete-window window)))
+
+(bind-key "C-x C-X" #'ken_nc/tear-off-window)
 
 ;; Suspend emacs terminal
 (defun ken_nc/suspend ()
