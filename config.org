@@ -831,7 +831,13 @@ Diminish hides minor modes to prevent cluttering your mode line
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
-    :ensure t)
+    :ensure t
+    :config
+    ;; loaded at early-init so i have to add this here
+    (diminish 'gcmh-mode)
+    (diminish 'xah-fly-keys)
+    (diminish 'buffer-face-mode)
+    (diminish 'visual-line-mode))
 #+END_SRC
 ** Initialize =dashboard=
 *** Description
