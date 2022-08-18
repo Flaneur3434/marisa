@@ -667,8 +667,8 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                   (select-frame frame)
                   (if (display-graphic-p frame)
                       (progn
-                        (load-theme 'xresources t)
-                        (good-scroll-mode nil))  ;; daemon graphical
+                        (load-theme 'modus-vivendi t)
+                        (good-scroll-mode 1))  ;; daemon graphical
                     (progn                        ;; daemon terminal
                       (load-theme 'Witchmacs t)
                       (xterm-mouse-mode)
@@ -679,7 +679,7 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                     (add-to-list 'exec-path-from-shell-variables var))
                   (exec-path-from-shell-initialize)
                   (xah-fly-keys t)))
-    (load-theme 'xresources t))  ;; regular
+    (load-theme 'modus-operandi t))  ;; regular
 #+END_SRC
 * Emacs Modeline
 #+BEGIN_SRC emacs-lisp
@@ -1067,6 +1067,23 @@ with their workspaces do.
 *** Code
 #+BEGIN_SRC emacs-lisp
   (eyebrowse-mode t)
+#+END_SRC
+** Initialize =pulsar=
+*** Description
+Pulse highlight line on demand or after running select functions
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package pulsar
+    :ensure t
+    :diminish pulsar-mode
+    :hook
+    (next-error-hook . pulsar-pulse-line)
+    :config
+    (pulsar-global-mode 1)
+    (setq pulsar-pulse t)
+    (setq pulsar-delay 0.05)
+    (setq pulsar-iterations 10)
+    (setq pulsar-face 'pulsar-cyan))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
