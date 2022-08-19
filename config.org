@@ -835,7 +835,7 @@ Diminish hides minor modes to prevent cluttering your mode line
     :config
     ;; loaded at early-init so i have to add this here
     (diminish 'gcmh-mode)
-    (diminish 'xah-fly-keys)
+    (diminish 'xah-fly-keys-mode)
     (diminish 'buffer-face-mode)
     (diminish 'visual-line-mode))
 #+END_SRC
@@ -1084,12 +1084,20 @@ Pulse highlight line on demand or after running select functions
     :diminish pulsar-mode
     :hook
     (next-error-hook . pulsar-pulse-line)
-    :config
+    (find-file-hook . pulsar-pulse-line)
+    :init
     (pulsar-global-mode 1)
-    (setq pulsar-pulse t)
-    (setq pulsar-delay 0.05)
-    (setq pulsar-iterations 10)
-    (setq pulsar-face 'pulsar-cyan))
+    (setq pulsar-pulse-on-window-change t
+          pulsar-pulse t
+          pulsar-delay 0.05
+          pulsar-iterations 10
+          pulsar-face 'pulsar-cyan
+          pulsar-pulse-functions
+          '(recenter-top-bottom
+            move-to-window-line-top-bottom
+            scroll-up-command
+            goto-line
+            scroll-down-command)))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code

@@ -7,8 +7,8 @@
    '((c-mode . "OpenBSD")
 	 (java-mode . "java")
 	 (awk-mode . "awk")))
- '(company-quickhelp-color-background "azure")
- '(company-quickhelp-color-foreground "black")
+ '(company-quickhelp-color-background "black")
+ '(company-quickhelp-color-foreground "white")
  '(custom-enabled-themes nil)
  '(custom-safe-themes
    '("cab317d0125d7aab145bc7ee03a1e16804d5abdfa2aa8738198ac30dc5f7b569" "39dd7106e6387e0c45dfce8ed44351078f6acd29a345d8b22e7b8e54ac25bac4" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" "9f6c33886ec2ef02f95e367f8f4f0177ecca36bf4d5d76ef2bbec59b2584bbcf" default))
