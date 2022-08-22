@@ -20,8 +20,4 @@
  package-enable-at-startup nil
  package-native-compile t)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/gcmh")
-(require 'gcmh)
-(gcmh-mode 1)
-
 (provide 'early-init)

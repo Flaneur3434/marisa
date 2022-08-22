@@ -60,6 +60,10 @@ Use absolute line numbers even when buffer is narrowed.
 ** Enable copypasting outside of Emacs
 #+BEGIN_SRC emacs-lisp
   (setq x-select-enable-clipboard t)
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  ;; Selecting sets primary clipboard.
+  (setq select-enable-primary t)
 #+END_SRC
 ** Disable automatic creation of backup files
 #+BEGIN_SRC emacs-lisp
@@ -71,6 +75,8 @@ scrolling
 #+BEGIN_SRC emacs-lisp
   ;; Fully redraw the display before it processes queued input events.
   (setq redisplay-dont-pause t)
+  ;; The text on the screen should always be fontified, no delay
+  (setq jit-lock-defer-time 0)
   ;; Number of lines of continuity to retain when scrolling by full screens
   (setq next-screen-context-lines 2)
   ;; only 'jump' when moving this far off the screen
@@ -588,14 +594,6 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (add-hook 'prog-mode-hook 'wc-mode)
   (setq wc-modeline-format "[Words: %tw, Lines: %tl]")
 #+END_SRC
-** Garbage Collection on focus-out
-Garbage-collect on focus-out, Emacs should feel snappier overall.
-#+BEGIN_SRC emacs-lisp
-  (add-function :after after-focus-change-function
-    (defun ken_nc/garbage-collect-maybe ()
-      (unless (frame-focus-state)
-        (garbage-collect))))
-#+END_SRC
 ** Popup window mode
 Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
 #+BEGIN_SRC emacs-lisp
@@ -636,6 +634,25 @@ It also provides a workspace mode which allows frames to focus on buffers in cer
   (use-package bufler
     :ensure t)
 #+END_SRC
+** Garbage Collection on focus-out
+Garbage-collect on focus-out, Emacs should feel snappier overall.
+Deprecated cause I am using GCMH
+#+BEGIN_SRC emacs-lisp
+  ;; (add-function :after after-focus-change-function
+  ;;   (defun ken_nc/garbage-collect-maybe ()
+  ;;     (unless (frame-focus-state)
+  ;;       (garbage-collect))))
+#+END_SRC
+** Garbage Collection Magic Hack
+#+BEGIN_SRC emacs-lisp
+  (use-package gcmh
+    :ensure t
+    :diminish gcmh-mode
+    :init
+    (gcmh-mode 1)
+    :custom
+    (gcmh-verbose t))
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -673,12 +690,8 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                       (load-theme 'Witchmacs t)
                       (xterm-mouse-mode)
                       (good-scroll-mode -1)))
-                  (setq xah-fly-use-control-key nil)
-                  (xah-fly-keys-set-layout "qwerty")
-                  (dolist (var '("BROWSER" "PLAN9"))
-                    (add-to-list 'exec-path-from-shell-variables var))
-                  (exec-path-from-shell-initialize)
-                  (xah-fly-keys t)))
+                  (xah-fly-keys t)
+                  (gcmh-mode -1)))
     (load-theme 'modus-operandi t))  ;; regular
 #+END_SRC
 * Emacs Modeline
@@ -747,6 +760,11 @@ Change to use aliases found in login shell. Also disable internal elisp commands
             (lambda ()
               (setq-local corfu-auto nil)
               (corfu-mode)))
+
+  ;; add environment variables to emacs environment
+  (dolist (var '("BROWSER" "PLAN9"))
+    (add-to-list 'exec-path-from-shell-variables var))
+  (exec-path-from-shell-initialize)
 #+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp
@@ -799,7 +817,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 #+END_SRC
 *** Parse Bash History
 #+BEGIN_SRC emacs-lisp
-  (ken_nc/parse-bash-history)
+  ;; (ken_nc/parse-bash-history)
 #+END_SRC
 * Use-package section
 ** Initialize =auto-package-update=
@@ -1087,6 +1105,7 @@ Pulse highlight line on demand or after running select functions
     (find-file-hook . pulsar-pulse-line)
     :init
     (pulsar-global-mode 1)
+    :config
     (setq pulsar-pulse-on-window-change t
           pulsar-pulse t
           pulsar-delay 0.05
@@ -1240,9 +1259,9 @@ Corfu enhances the default completion in region function with a completion overl
     :ensure t
     :diminish yas
     :config
+    (yas-reload-all)
     (setq yas-snippet-dirs
-          '("~/.emacs.d/snippets"))
-    (yas-reload-all))
+          '("~/.emacs.d/snippets")))
 #+END_SRC
 ** Cape
 *** Description
@@ -1266,7 +1285,6 @@ This package provides an orderless completion style that divides the pattern int
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
-    :init
     :ensure t
     :custom
     (completion-styles '(basic flex orderless )))
@@ -1414,7 +1432,7 @@ Also added google-java-format
 
   (use-package blacken
     :ensure t
-    :init
+    :config
     (setq-default blacken-allow-p36 t)
     (setq-default blacken-fast-unsafe t)
     (setq-default blacken-line-length 80)
@@ -1509,9 +1527,9 @@ Help editing OCaml code, to highlight important parts of the code, to run an OCa
     (which-function-mode 1))
 
   (use-package tuareg
+    :ensure t
     :defer t
     :diminish t
-    :ensure t
     :bind
     (:map tuareg-mode-map
           ("<M-;>" . tuareg-comment-dwim))
