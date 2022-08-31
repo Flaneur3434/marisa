@@ -208,23 +208,27 @@ will cycle all positions in `mark-ring'."
    ((= global-prefix 4) (pop-global-mark))
    (t (set-mark-command t))))
 
-(defun ken_nc/go-to-char (&optional direction)
+(defun ken_nc/go-to-char ()
   "Move cursor to the position of char. If called repeatedly, revert to
 character by character mode. Default is to search by word. This method requires
 the cutomized version of go-to-char.el I have in this git repo"
-  (interactive "p")
+  (interactive)
   (if (eq last-command 'ken_nc/go-to-char)
-	  (cond
-	   ((= (cdr ken_nc/goto-char-hist) 4) (go-to-char-backward 1 (car ken_nc/goto-char-hist)))
-	   (t (go-to-char-forward 1 (car ken_nc/goto-char-hist))))
-	(progn
-	  (cond
-	   ((= direction 4) (go-to-char-backward 1 (read-char "Go to char backward: ")))
-	   (t (go-to-char-forward 1 (read-char "Go to char forward: ")))))))
+	  (go-to-char-forward 1 (car ken_nc/goto-char-hist))
+	(go-to-char-forward 1 (read-char "Go to char forward: "))))
+
+(defun ken_nc/go-to-char-backwards ()
+  "Move cursor to the position of char backwards. If called repeatedly, revert to
+character by character mode. Default is to search by word. This method requires
+the cutomized version of go-to-char.el I have in this git repo"
+  (interactive)
+  (if (eq last-command 'ken_nc/go-to-char-backwards)
+	  (go-to-char-backward 1 (car ken_nc/goto-char-hist))
+	(go-to-char-backward 1 (read-char "Go to char backward: "))))
 
 (defun ken_nc/file-at-point ()
   "Make a file-at-point function that opens a file in other-window"
-;; basically call ffap-file-at-point (or something else idk) and other-window
+  ;; basically call ffap-file-at-point (or something else idk) and other-window
   )
 
 (defadvice ffap-file-at-point (after ffap-file-at-point-after-advice ())

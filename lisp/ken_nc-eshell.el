@@ -90,14 +90,13 @@
 	(setq eshell-visual-commands '("vi" "screen" "top" "less" "more" "lynx"
 								   "ncftp" "pine" "tin" "trn" "elm" "vim"
 								   "nmtui" "alsamixer" "htop" "el" "elinks"))
-	(setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
-  :bind (:map eshell-mode-map
-			  ("<mouse-3>" . xah-open-file-at-cursor)))
+	(setq eshell-visual-subcommands '(("git" "log" "diff" "show")))))
 
 (add-hook 'eshell-mode-hook
 		  (lambda () (progn
-				  (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
-				  (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history))))
+					   (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
+					   (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history)
+					   (define-key eshell-mode-map (kbd "<mouse-3>") 'xah-open-file-at-cursor))))
 
 ;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
 ;; rather than every time `eshell-mode' is enabled.

@@ -3641,12 +3641,14 @@ minor modes loaded later may override bindings in this map.")
    ("s" . xah-end-of-line-or-block)
    ("t" . next-line)
    ;; ("u" . xah-fly-insert-mode-activate)
-   ("u" . ken_nc/go-to-char)
-   ("v" . xah-forward-right-bracket)
+   ;; ("u" . ken_nc/go-to-char)
+   ;; ("v" . xah-forward-right-bracket)
+   ("v" . ken_nc/go-to-char-backwards)
    ("w" . xah-next-window-or-frame)
    ("x" . xah-toggle-letter-case)
    ("y" . set-mark-command)
-   ("z" . xah-goto-matching-bracket)))
+   ;; ("z" . xah-goto-matching-bracket)
+   ("z" . ken_nc/go-to-char)))
 
 ;; HHH___________________________________________________________________
 ;; set control meta, etc keys

@@ -144,7 +144,7 @@ scrolling
 #+END_SRC
 ** Enable prettify symbols mode
 #+BEGIN_SRC emacs-lisp
-  (global-prettify-symbols-mode t)
+  (global-prettify-symbols-mode -1)
 #+END_SRC
 ** Enable bracket pair-matching
 #+BEGIN_SRC emacs-lisp
@@ -707,20 +707,24 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                 'face face))
 
   (setq-default mode-line-format
-        (list "%e"
-              mode-line-front-space
-              mode-line-mule-info
-              mode-line-client
-              mode-line-modified
-              mode-line-remote
-              mode-line-frame-identification
-              mode-line-buffer-identification
-              mode-line-position
-              mode-line-modes
-              mode-line-misc-info
-              mode-line-end-spaces
-              (mode-line-fill 'mode-line 10)
-              '(:eval (sky-color-clock))))
+                (list "%e"
+                      mode-line-front-space
+                      mode-line-mule-info
+                      mode-line-client
+                      mode-line-modified
+                      mode-line-remote
+                      mode-line-frame-identification
+                      mode-line-buffer-identification
+                      mode-line-position
+                      mode-line-modes
+                      mode-line-misc-info
+                      mode-line-end-spaces
+                      (mode-line-fill 'mode-line 10)
+                      '(:eval (sky-color-clock))
+                      ;;'(:eval (propertize "[☰]" 'local-map (make-mode-line-mouse-map 'mouse-1 'menu-bar-open)))
+                      ))
+
+
   #+END_SRC
 * Org mode
 ** Description
@@ -1545,9 +1549,10 @@ Help editing OCaml code, to highlight important parts of the code, to run an OCa
     (add-hook 'tuareg-mode-hook
               (lambda()
                 (setq-local comment-style 'multi-line)
-                (setq-local comment-continue "   ")
-                (when (functionp 'prettify-symbols-mode)
-                  (prettify-symbols-mode)))))
+                (setq-local comment-continue "   "))))
+
+  ;; (when (functionp 'prettify-symbols-mode)
+  ;;   (prettify-symbols-mode))
 #+END_SRC
 ** Highlight changes
 #+BEGIN_SRC emacs-lisp
