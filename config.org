@@ -1264,8 +1264,7 @@ This package provides an orderless completion style that divides the pattern int
 
   (use-package orderless
     :ensure t
-    :after vertico
-    :config
+    :init
     ;; (dolist (styles '(substring orderless flex basic)) (add-to-list 'completion-styles styles))
     (setq completion-styles '(substring orderless flex basic))
     :custom
