@@ -7,7 +7,7 @@
 *.tex
 *.elc
 
-
+history
 eshell/history
 eshell/lastdir
 eshell/alias

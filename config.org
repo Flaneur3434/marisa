@@ -180,13 +180,15 @@ scrolling
 #+END_SRC
 ** Completion and Minibuffer settings
 #+BEGIN_SRC emacs-lisp
-  (setq read-file-name-completion-ignore-case t)
-  (setq completion-ignore-case t)
-  (setq read-buffer-completion-ignore-case t)
-  (setq read-file-name-completion-ignore-case t)
-  (setq completion-show-inline-help nil)
-  (setq completions-detailed t)
-  (setq resize-mini-windows t)
+  (setq read-file-name-completion-ignore-case t
+        completion-ignore-case t
+        read-buffer-completion-ignore-case t
+        read-file-name-completion-ignore-case t
+        completion-show-inline-help nil
+        completions-detailed t
+        resize-mini-windows t
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion))))
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1)
   (setq minibuffer-prompt-properties
@@ -363,7 +365,7 @@ scrolling
   (xah-fly--define-keys
    (define-prefix-command 'ken_nc/crux-keymap)
    '(
-     ("u" . crux-recentf-find-file)
+     ("u" . consult-recent-file)
      ("p" . crux-rename-file-and-buffer)
      ("q" . crux-transpose-windows)
      ("b" . darkroom-tentative-mode)
@@ -400,7 +402,6 @@ scrolling
   (global-set-key (kbd "C-c z") 'remember)
   (global-set-key (kbd "C-c q") 'ken_nc/quit-emacs-dwim)
   (global-set-key (kbd "C-c t") 'ken_nc/create-tags)
-  (global-set-key (kbd "C-c f") 'bufler-workspace-focus-buffer)
   (global-set-key (kbd "M-i") 'move-text-up)
   (global-set-key (kbd "M-k") 'move-text-down)
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
@@ -464,7 +465,7 @@ scrolling
      ("s" . ken_nc/save-buffer-dwim)
      ("t" . xah-fly-edit-keymap)
      ;; ("u" . switch-to-buffer)
-     ("u" . bufler-switch-buffer)
+     ("u" . consult-buffer)
      ;; v
      ("w" . xah-fly-eval-keymap)
      ;; ("x" . xah-toggle-previous-letter-case)
@@ -557,7 +558,6 @@ Default grep flags
 Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
   (setq tab-always-indent 'complete)
-  (add-to-list 'completion-styles 'initial t)
 #+END_SRC
 ** Setup mouse click to highlight matching words
 #+BEGIN_SRC emacs-lisp
@@ -626,13 +626,6 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
                                        "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                        "\\\\" "://"))
   (add-hook 'prog-mode-hook 'ligature-mode)
-#+END_SRC
-** Bufler
-Bufler is like a butler for your buffers, presenting them to you in an organized way based on your instructions. The instructions are written as grouping rules in a simple language, allowing you to customize the way buffers are grouped. The default rules are designed to be generally useful, so you don't have to write your own.
-It also provides a workspace mode which allows frames to focus on buffers in certain groups. Since the groups are created automatically, the workspaces are created dynamically, rather than requiring you to put buffers in workspaces manually.
-#+BEGIN_SRC emacs-lisp
-  (use-package bufler
-    :ensure t)
 #+END_SRC
 ** Garbage Collection on focus-out
 Garbage-collect on focus-out, Emacs should feel snappier overall.
@@ -1122,6 +1115,167 @@ Pulse highlight line on demand or after running select functions
             goto-line
             scroll-down-command)))
 #+END_SRC
+** Initialize =corfu=
+*** Description
+Corfu enhances the default completion in region function with a completion overlay.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (setq corfu-cycle t)
+  (setq corfu-auto t)
+  (setq corfu-quit-no-match t)
+  (setq corfu-quit-at-boundary t)
+  (setq corfu-preview-current t)
+  (setq corfu-preselect-first nil)
+
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  (define-key corfu-map (kbd "TAB")  #'corfu-next)
+  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
+
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
+    (unless (or (bound-and-true-p mct--active))
+      (corfu-mode 1)))
+  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
+
+  ;; (add-hook 'prog-mode-hook 'corfu-mode)
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setq-local corfu-quit-at-boundary t
+                          corfu-quit-no-match t
+                          corfu-auto nil)
+              (corfu-mode)))
+
+  (add-to-list 'corfu-auto-commands 'auto-complete)
+
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 5)
+
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+    (setq read-extended-command-predicate
+          #'command-completion-default-include-p)
+
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete)
+    (setq enable-recursive-minibuffers t))
+#+END_SRC
+** Initialize =vertico=
+*** Description
+Vertico provides a performant and minimalistic vertical completion UI based on
+the default completion system. The main focus of Vertico is to provide a UI
+which behaves correctly under all circumstances.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
+
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode 1)
+    (vertico-mouse-mode 1)
+    (vertico-multiform-mode 1)
+    :bind
+    (:map vertico-map
+          ("TAB" . minibuffer-complete)
+          ("M-v" . vertico-multiform-vertical)
+          ("M-g" . vertico-multiform-grid)
+          ("M-f" . vertico-multiform-flat)
+          ("M-r" . vertico-multiform-reverse)
+          ("M-u" . vertico-multiform-unobtrusive))
+    :custom
+    (vertico-scroll-margin 0)
+    (vertico-count 20)
+    (vertico-resize t)
+    (vertico-cycle t)
+    :config
+    (setq vertico-multiform-commands
+          '((consult-line buffer)
+            (consult-imenu reverse buffer)
+            (consult-recent-file flat)
+            (consult-buffer reverse)
+            (execute-extended-command flat)))
+    (setq vertico-multiform-categories
+          '((file buffer grid)
+            (imenu (:not indexed mouse))
+            (consult-grep buffer)
+            (symbol (vertico-sort-function . vertico-sort-alpha)))))
+#+END_SRC
+** Initialize =cape=
+*** Description
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+
+  ;; Shell completion
+  ;; Silence the pcomplete capf, no errors or messages!
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+  ;; Ensure that pcomplete does not write to the buffer
+  ;; and behaves as a pure `completion-at-point-function'.
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+#+END_SRC
+** Initialize =consult=
+*** Description
+Consult provides practical commands based on the Emacs completion function
+completing-read.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :ensure t)
+
+  (use-package consult-yasnippet
+    :ensure t
+    :defer t
+    :after consult)
+
+  (use-package consult-ag
+    :ensure t
+    :defer t
+    :after consult)
+#+END_SRC
+** Initialize =embark=
+** Initialize =orderless=
+*** Description
+This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (defun flex-if-twiddle (pattern _index _total)
+    (when (string-suffix-p "~" pattern)
+      `(orderless-flex . ,(substring pattern 0 -1))))
+
+  (defun first-initialism (pattern index _total)
+    (if (= index 0) 'orderless-initialism))
+
+  (defun without-if-bang (pattern _index _total)
+    (cond
+     ((equal "!" pattern)
+      '(orderless-literal . ""))
+     ((string-prefix-p "!" pattern)
+      `(orderless-without-literal . ,(substring pattern 1)))))
+
+  (use-package orderless
+    :ensure t
+    :after vertico
+    :config
+    ;; (dolist (styles '(substring orderless flex basic)) (add-to-list 'completion-styles styles))
+    (setq completion-styles '(substring orderless flex basic))
+    :custom
+    (orderless-matching-styles '(orderless-flex
+                                 orderless-prefixes
+                                 orderless-literal))
+    (orderless-style-dispatchers '(first-initialism
+                                   flex-if-twiddle
+                                   without-if-bang)))
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1161,54 +1315,6 @@ Pulse highlight line on demand or after running select functions
       :hook (company-mode . company-quickhelp-mode)
       :config
       (setq company-quickhelp-delay 1))
-#+END_SRC
-** Initialize =corfu=
-*** Description
-Corfu enhances the default completion in region function with a completion overlay.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (setq corfu-cycle t)
-  (setq corfu-auto t)
-  (setq corfu-quit-no-match t)
-  (setq corfu-quit-at-boundary t)
-  (setq corfu-preview-current t)
-  (setq corfu-preselect-first nil)
-
-  ;; Use TAB for cycling, default is `corfu-complete'.
-  (define-key corfu-map (kbd "TAB")  #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
-
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
-    (unless (or (bound-and-true-p mct--active))
-      (corfu-mode 1)))
-  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
-
-  ;; (add-hook 'prog-mode-hook 'corfu-mode)
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setq-local corfu-quit-at-boundary t
-                          corfu-quit-no-match t
-                          corfu-auto nil)
-              (corfu-mode)))
-
-  (add-to-list 'corfu-auto-commands 'auto-complete)
-
-  ;; A few more useful configurations...
-  (use-package emacs
-    :init
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 3)
-
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-    (setq read-extended-command-predicate
-          #'command-completion-default-include-p)
-
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete)
-    (setq enable-recursive-minibuffers t))
 #+END_SRC
 ** Initialize =aggressive-indent-mode=
 #+BEGIN_SRC emacs-lisp
@@ -1266,32 +1372,6 @@ Corfu enhances the default completion in region function with a completion overl
     (yas-reload-all)
     (setq yas-snippet-dirs
           '("~/.emacs.d/snippets")))
-#+END_SRC
-** Cape
-*** Description
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
-
-  ;; Shell completion
-  ;; Silence the pcomplete capf, no errors or messages!
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-  ;; Ensure that pcomplete does not write to the buffer
-  ;; and behaves as a pure `completion-at-point-function'.
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
-#+END_SRC
-** Orderless
-*** Description
-This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package orderless
-    :ensure t
-    :custom
-    (completion-styles '(basic flex orderless )))
 #+END_SRC
 ** C & C++
 *** Description
