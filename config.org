@@ -537,6 +537,10 @@ The defualt functionality of isearch is to put the cursor after the last charact
     (when (and isearch-forward isearch-other-end)
       (goto-char isearch-other-end)))
   (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
+
+  (setq search-whitespace-regexp ".*")
+  (setq isearch-lax-whitespace t)
+  (setq isearch-regexp-lax-whitespace nil)
 #+END_SRC
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
@@ -1193,19 +1197,45 @@ which behaves correctly under all circumstances.
     (vertico-scroll-margin 0)
     (vertico-count 20)
     (vertico-resize t)
-    (vertico-cycle t)
+    (vertico-cycle t))
+
+  (use-package vertico-multiform
+    :commands vertico-multiform-mode
+    :after vertico
+    :init
+    (vertico-multiform-mode 1)
     :config
-    (setq vertico-multiform-commands
-          '((consult-line buffer)
-            (consult-imenu reverse buffer)
-            (consult-recent-file flat)
-            (consult-buffer reverse)
-            (execute-extended-command flat)))
     (setq vertico-multiform-categories
-          '((file buffer grid)
-            (imenu (:not indexed mouse))
+          '((file grid reverse)
+            (project-file grid reverse)
+            (imenu buffer)
+            (consult-location buffer)
             (consult-grep buffer)
-            (symbol (vertico-sort-function . vertico-sort-alpha)))))
+            (minor-mode reverse)
+            (xref-location reverse)
+            (history reverse)
+            (url reverse)
+            (consult-compile-error reverse)
+            (buffer flat (vertico-cycle . t))
+            (t flat)))
+
+    (setq vertico-multiform-commands
+          '((dired-goto-file unobtrusive)
+            (load-theme grid reverse)
+            (execute-extended-command unobtrusive)
+            (dired-goto-file flat)
+            (consult-project-buffer flat)
+            (consult-dir-maybe reverse)
+            (consult-dir reverse)
+            (consult-flymake reverse)
+            (consult-history reverse)
+            (consult-recent-file flat)
+            (consult-completion-in-region reverse)
+            (consult-recoll)
+            (completion-at-point reverse)
+            (consult-org-heading reverse)
+            (consult-dff unobtrusive)
+            (xref-find-definitions reverse))))
 #+END_SRC
 ** Initialize =cape=
 *** Description
