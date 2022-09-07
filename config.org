@@ -93,7 +93,7 @@ scrolling
   (setq auto-window-vscroll nil)
 
   (good-scroll-mode 1)
-  (setq good-scroll-step 83)
+  (setq good-scroll-step 103)
   (setq good-scroll-render-rate 0.02)
 
   (inertias-global-minor-mode -1)
@@ -561,7 +561,7 @@ Default grep flags
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
 #+BEGIN_SRC emacs-lisp
-  (setq tab-always-indent 'complete)
+  (setq-local tab-always-indent 'complete)
 #+END_SRC
 ** Setup mouse click to highlight matching words
 #+BEGIN_SRC emacs-lisp
@@ -1164,7 +1164,7 @@ Corfu enhances the default completion in region function with a completion overl
 
     ;; Enable indentation+completion using the TAB key.
     ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete)
+    (setq tab-always-indent nil)
     (setq enable-recursive-minibuffers t))
 #+END_SRC
 ** Initialize =vertico=
@@ -1320,30 +1320,29 @@ This package provides an orderless completion style that divides the pattern int
 * Programming section
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure t
-      :defer t
-      :diminish company-mode
-      :config
-      (setq company-idle-delay nil)
-      (setq company-minimum-prefix-length 3)
-      (with-eval-after-load 'company
-        (define-key company-active-map
-                    (kbd "C-n")
-                    #'company-complete-common-or-cycle)
-        (define-key company-active-map
-                    (kbd "C-p")
-                    (lambda ()
-                      (interactive)
-                      (company-complete-common-or-cycle -1))))
-      (define-key company-active-map (kbd "SPC") #'company-abort))
+  (use-package company
+    :ensure t
+    :diminish company-mode
+    :bind
+    (:map company-mode-map
+          ("TAB" . company-indent-or-complete-common)
+          :map company-active-map
+          ("C-n" . company-select-next)
+          ("C-p" . company-select-previous)
+          ("SPC" . company-abort))
+    :config
+    (setq company-idle-delay nil
+          company-minimum-prefix-length 3
+          company-ctags-ignore-case t
+          company-ctags-fuzzy-match-p t
+          company-backends '(company-files company-capf company-ctags company-abbrev)))
 
-    (use-package company-quickhelp
-      :ensure t
-      :defer t
-      :hook (company-mode . company-quickhelp-mode)
-      :config
-      (setq company-quickhelp-delay 1))
+  (use-package company-quickhelp
+    :ensure t
+    :after company
+    :hook (company-mode . company-quickhelp-mode)
+    :config
+    (setq company-quickhelp-delay 1))
 #+END_SRC
 ** Initialize =aggressive-indent-mode=
 #+BEGIN_SRC emacs-lisp
@@ -1410,21 +1409,26 @@ Irony is the company backend for C and C++
   (use-package irony
     :ensure t
     :defer t
-    :diminish t)
+    :diminish t
+    :hook
+    (irony-mode . irony-eldoc)
+    (irony-mode . irony-cdb-autosetup-compile-options)
+    (irony-mode . company-irony-setup-begin-commands)
+    (irony-mode . company-mode)
+    (irony-mode . yas-minor-mode)
+    (irony-mode . openbsd-set-knf-style)
+    (irony-mode . undo-hl-mode)
+    (irony-mode . wrap-region-mode))
 
   (use-package company-irony-c-headers
     :defer t
     :load-path "lisp/company-irony-c-headers"
-    :commands (company-irony-c-headers))
+    :commands company-irony-c-headers)
 
   (defun trivialfis/irony ()
     "Irony mode configuration."
-    (add-hook 'irony-mode-hook 'irony-eldoc) ; NOTE 2022-03-01: this is nil
     (add-to-list 'company-backends
-                 '(company-irony company-irony-c-headers))
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
-    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+                 '(company-irony company-irony-c-headers :seperate) t)
     (define-key irony-mode-map [remap completion-at-point]
                 'irony-completion-at-point-async)
     (define-key irony-mode-map [remap complete-symbol]
@@ -1432,33 +1436,27 @@ Irony is the company backend for C and C++
 
   (defun ken_nc/cc-base ()
     "Common configuration for c and c++ mode."
-    ;; Company mode
-    ;; (require 'company-irony-c-headers)
-    (add-to-list 'company-backends 'company-ispell)
-    (add-to-list 'company-backends 'company-files)
-    (add-to-list 'company-backends 'company-abbrev)
-    (add-to-list 'company-backends 'company-ctags)
-    (with-eval-after-load 'company
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
     (which-function-mode 1)
     (irony-mode 1)
     (trivialfis/irony))
 
   (add-hook 'c++-mode-hook #'ken_nc/cc-base)
   (add-hook 'c-mode-hook #'ken_nc/cc-base)
-  (add-hook 'c-mode-hook #'company-mode)
-  (add-hook 'c++-mode-hook #'company-mode)
-  (add-hook 'c-mode-hook #'yas-minor-mode)
-  (add-hook 'c++-mode-hook #'yas-minor-mode)
-  (add-hook 'c-mode-hook #'openbsd-set-knf-style)
-  (add-hook 'c-mode-common-hook #'undo-hl-mode)
-  (add-hook 'c-mode-common-hook #'wrap-region-mode)
+
+  (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :defer t
-    :ensure t)
+    :ensure t
+    :hook
+    (go-mode . yas-minor-mode)
+    (go-mode . company-mode)
+    (go-mode . eglot-ensure)
+    (go-mode . eglot-format-buffer-on-save)
+    (go-mode . undo-hl-mode)
+    (go-mode . wrap-region-mode))
 
   (defun project-find-go-module (dir)
     (when-let ((root (locate-dominating-file dir "go.mod")))
@@ -1475,44 +1473,13 @@ Irony is the company backend for C and C++
                           ((staticcheck . t)
                            (matcher . "CaseSensitive")))))
 
-  (defun ken_nc/go-base ()
-    "Common configuration for go-mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-function-mode 1))
-
-  (add-hook 'go-mode-hook #'yas-minor-mode)
-  (add-hook 'go-mode-hook #'ken_nc/go-base)
-  (add-hook 'go-mode-hook #'company-mode)
-  (add-hook 'go-mode-hook #'eglot-ensure)
   (add-hook 'project-find-functions #'project-find-go-module)
-  (add-hook 'go-mode-hook #'eglot-format-buffer-on-save)
-  (add-hook 'go-mode-hook #'undo-hl-mode)
-  (add-hook 'go-mode-hook #'wrap-region-mode)
 #+END_SRC
 ** Java
 *** Description
 Also added google-java-format
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (defun ken_nc/java-base ()
-    "Common configuration for java mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-function-mode 1))
-
   (defun ken_nc/java-format-on-save ()
     (when (eq major-mode 'java-mode)
       (let ((prev-pos (point)))
@@ -1521,7 +1488,6 @@ Also added google-java-format
 
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
   (add-hook 'java-mode-hook #'company-mode)
-  (add-hook 'java-mode-hook #'ken_nc/java-base)
   (add-hook 'java-mode-hook #'google-set-c-style)
   (add-hook 'java-mode-hook #'yas-minor-mode)
   (add-hook 'java-mode-hook #'eglot-ensure)
@@ -1559,30 +1525,17 @@ Also added google-java-format
 
   (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
 
-  (defun ken_nc/python-base ()
-    "Common configuration for python-mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-function-mode 1))
-
   (use-package python-mode
     :ensure t
     :custom
-    (python-shell-interpreter "python3"))
-
-  (add-hook 'python-mode-hook #'pyvenv-mode)
-  (add-hook 'python-mode-hook #'flycheck-mode)
-  (add-hook 'python-mode-hook #'company-mode)
-  (add-hook 'python-mode-hook #'blacken-mode)
-  (add-hook 'python-mode-hook #'yas-minor-mode)
-  (add-hook 'python-mode-hook #'eglot-ensure)
-  (add-hook 'python-mode-hook #'ken_nc/python-base)
+    (python-shell-interpreter "python3")
+    :hook
+    (python-mode . pyvenv-mode)
+    (python-mode . flycheck-mode)
+    (python-mode . company-mode)
+    (python-mode . blacken-mode)
+    (python-mode . yas-minor-mode)
+    (python-mode . eglot-ensure))
 #+END_SRC
 ** Elisp
 *** Description
@@ -1627,18 +1580,6 @@ Collection of Emacs major and minor modes that work with scheme
 Help editing OCaml code, to highlight important parts of the code, to run an OCaml REPL
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (defun ken_nc/ocaml-base ()
-    "Common configuration for ocaml-mode."
-    ;; Company mode
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-ispell)
-      (add-to-list 'company-backends 'company-files)
-      (add-to-list 'company-backends '(company-dabbrev-code company-ctags :seperate))
-      (local-set-key (kbd "<tab>") #'company-indent-or-complete-common))
-    (setq company-ctags-ignore-case t)
-    (setq company-ctags-fuzzy-match-p t)
-    (which-function-mode 1))
-
   (use-package tuareg
     :ensure t
     :defer t
@@ -1651,7 +1592,6 @@ Help editing OCaml code, to highlight important parts of the code, to run an OCa
     (tuareg-mode . eglot-ensure)
     (tuareg-mode . undo-hl-mode)
     (tuareg-mode . wrap-region-mode)
-    (tuareg-mode . ken_nc/ocaml-base)
     :config
     (setq tuareg-comment-show-paren t)
     (setq tuareg-highlight-all-operators t)
