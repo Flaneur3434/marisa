@@ -1,21 +1,12 @@
-[submodule "lisp/cape"]
-	path = lisp/cape
-	url = https://github.com/minad/cape
 [submodule "lisp/mct"]
 	path = lisp/mct
 	url = https://github.com/protesilaos/mct
-[submodule "lisp/corfu"]
-	path = lisp/corfu
-	url = https://github.com/minad/corfu
 [submodule "lisp/iedit"]
 	path = lisp/iedit
 	url = https://github.com/victorhge/iedit
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
 	url = https://github.com/Flaneur3434/xresources-theme
-[submodule "lisp/pcmpl-args"]
-	path = lisp/pcmpl-args
-	url = https://github.com/JonWaltman/pcmpl-args.el
 [submodule "lisp/aggressive-indent-mode"]
 	path = lisp/aggressive-indent-mode
 	url = https://github.com/Malabarba/aggressive-indent-mode

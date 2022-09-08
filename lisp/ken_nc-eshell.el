@@ -71,6 +71,8 @@
 
 (use-package eshell
   :commands eshell
+  :hook
+  (eshell-mode . company-mode)
   :init
   (progn
 	(setq

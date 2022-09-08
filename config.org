@@ -756,12 +756,6 @@ Change to use aliases found in login shell. Also disable internal elisp commands
   (setq shell-command-switch "-ic")
   (setq eshell-prefer-lisp-functions t)
 
-  ;; Inable corfu-mode in eshell
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setq-local corfu-auto nil)
-              (corfu-mode)))
-
   ;; add environment variables to emacs environment
   (dolist (var '("BROWSER" "PLAN9"))
     (add-to-list 'exec-path-from-shell-variables var))
@@ -1119,54 +1113,6 @@ Pulse highlight line on demand or after running select functions
             goto-line
             scroll-down-command)))
 #+END_SRC
-** Initialize =corfu=
-*** Description
-Corfu enhances the default completion in region function with a completion overlay.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (setq corfu-cycle t)
-  (setq corfu-auto t)
-  (setq corfu-quit-no-match t)
-  (setq corfu-quit-at-boundary t)
-  (setq corfu-preview-current t)
-  (setq corfu-preselect-first nil)
-
-  ;; Use TAB for cycling, default is `corfu-complete'.
-  (define-key corfu-map (kbd "TAB")  #'corfu-next)
-  (define-key corfu-map (kbd "S-TAB") #'corfu-previous)
-
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer only if Vertico or MCT is not active."
-    (unless (or (bound-and-true-p mct--active))
-      (corfu-mode 1)))
-  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer 1)
-
-  ;; (add-hook 'prog-mode-hook 'corfu-mode)
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (setq-local corfu-quit-at-boundary t
-                          corfu-quit-no-match t
-                          corfu-auto nil)
-              (corfu-mode)))
-
-  (add-to-list 'corfu-auto-commands 'auto-complete)
-
-  ;; A few more useful configurations...
-  (use-package emacs
-    :init
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 5)
-
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-    (setq read-extended-command-predicate
-          #'command-completion-default-include-p)
-
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent nil)
-    (setq enable-recursive-minibuffers t))
-#+END_SRC
 ** Initialize =vertico=
 *** Description
 Vertico provides a performant and minimalistic vertical completion UI based on
@@ -1236,15 +1182,34 @@ which behaves correctly under all circumstances.
             (consult-org-heading reverse)
             (consult-dff unobtrusive)
             (xref-find-definitions reverse))))
+
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 5)
+
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    (setq read-extended-command-predicate
+          #'command-completion-default-include-p)
+
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete)
+    (setq enable-recursive-minibuffers t))
+
 #+END_SRC
 ** Initialize =cape=
 *** Description
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (use-package cape
+    :ensure t
+    :init
+    (add-to-list 'completion-at-point-functions #'cape-file)
+    (add-to-list 'completion-at-point-functions #'cape-keyword)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-symbol))
 
   ;; Shell completion
   ;; Silence the pcomplete capf, no errors or messages!
@@ -1322,10 +1287,11 @@ This package provides an orderless completion style that divides the pattern int
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
+    :demand t
     :diminish company-mode
     :bind
     (:map company-mode-map
-          ("TAB" . company-indent-or-complete-common)
+          ("<tab>" . company-indent-or-complete-common)
           :map company-active-map
           ("C-n" . company-select-next)
           ("C-p" . company-select-previous)
@@ -1335,7 +1301,10 @@ This package provides an orderless completion style that divides the pattern int
           company-minimum-prefix-length 3
           company-ctags-ignore-case t
           company-ctags-fuzzy-match-p t
-          company-backends '(company-files company-capf company-ctags company-abbrev)))
+          company-dabbrev-downcase nil
+          company-dabbrev-other-buffers nil
+          company-dabbrev-ignore-case nil
+          company-backends '((company-capf :with company-yasnippet) (company-ctags :with company-dabbrev) company-files)))
 
   (use-package company-quickhelp
     :ensure t
@@ -1619,4 +1588,9 @@ Help editing OCaml code, to highlight important parts of the code, to run an OCa
     (setq-local comment-auto-fill-only-comments t)
     (setq-local auto-fill-mode t))
   (add-hook 'prog-mode-hook 'ken_nc/automatic-commenting)
+#+END_SRC
+** pcmpl-args
+#+BEGIN_SRC emacs-lisp
+  (use-package pcmpl-args
+    :ensure t)
 #+END_SRC
