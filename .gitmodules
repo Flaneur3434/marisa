@@ -1,6 +1,3 @@
-[submodule "lisp/mct"]
-	path = lisp/mct
-	url = https://github.com/protesilaos/mct
 [submodule "lisp/iedit"]
 	path = lisp/iedit
 	url = https://github.com/victorhge/iedit
@@ -10,9 +7,6 @@
 [submodule "lisp/aggressive-indent-mode"]
 	path = lisp/aggressive-indent-mode
 	url = https://github.com/Malabarba/aggressive-indent-mode
-[submodule "lisp/company-irony-c-headers"]
-	path = lisp/company-irony-c-headers
-	url = https://github.com/hotpxl/company-irony-c-headers
 [submodule "lisp/company-ctags"]
 	path = lisp/company-ctags
 	url = https://github.com/redguardtoo/company-ctags
