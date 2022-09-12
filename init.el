@@ -74,6 +74,12 @@
 (require 'wgrep-ag)
 (require 'wrap-region)
 
+;; Minor Mode Settings
+(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
+
+;; Load config.org for init.el configuration
+(org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+
 ;; needs to be last due to it calling interactive functions from other files
 (require 'xah-fly-keys)
 
@@ -81,12 +87,21 @@
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
 
-;; Minor Mode Settings
-(global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
-
-
-;; Load config.org for init.el configuration
-(org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (if (display-graphic-p frame)
+                    (progn
+                      (load-theme 'modus-vivendi t)
+                      (good-scroll-mode 1))  ;; daemon graphical
+                  (progn                        ;; daemon terminal
+                    (load-theme 'Witchmacs t)
+                    (xterm-mouse-mode)
+                    (good-scroll-mode -1)))
+                (xah-fly-keys t)
+                (gcmh-mode -1)))
+  (load-theme 'modus-operandi t))  ;; regular
 
 (if (fboundp 'native-compile-async)
 	(progn

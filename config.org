@@ -33,14 +33,27 @@ After all, Emacs works best when it's customized to your own liking!
 * QoL section
 Minor quality-of-life modifications for a more pleasant Emacs experience
 ** Enable line numbers
-Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview or ansi-term) so I utilize the approach of only enabling it on some major modes rather than globally
+*** Use relative line number
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  (add-hook 'text-mode-hook 'display-line-numbers-mode)
+
+  (global-display-line-numbers-mode)
 #+END_SRC
-Use absolute line numbers even when buffer is narrowed.
+*** Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview
+or ansi-term) so I utilize the approach of only enabling it on some major modes
+rather than globally
 #+BEGIN_SRC emacs-lisp
-  (customize-set-variable 'display-line-numbers-widen t)
+  (add-hook 'prog-mode-hook (lambda ()
+                              (progn
+                                (display-line-numbers-mode)
+                                (setq display-line-numbers 'relative))))
+  (add-hook 'text-mode-hook (lambda ()
+                              (progn
+                                (display-line-numbers-mode)
+                                (setq display-line-numbers 'relative))))
+#+END_SRC
+*** Use absolute line numbers even when buffer is narrowed.
+#+BEGIN_SRC emacs-lisp
+  ;; (customize-set-variable 'display-line-numbers-widen t)
 #+END_SRC
 ** Show parent parentheses
 #+BEGIN_SRC emacs-lisp
@@ -350,52 +363,10 @@ scrolling
   (setq diff-refine nil)
   (setq diff-font-lock-prettify nil)
   (setq diff-font-lock-syntax 'hunk-also)
-
-  (xah-fly--define-keys
-   (define-prefix-command 'ken_nc/dired-keymap)
-   '(
-     ("o" . dired-sort-size)
-     ("." . dired-sort-extension)
-     ("j" . dired-sort-ctime)
-     ("u" . dired-sort-utime)
-     ("p" . dired-sort-name)))
 #+END_SRC
-** Crux keybinds
+** Suspend Emacs
 #+BEGIN_SRC emacs-lisp
-  (xah-fly--define-keys
-   (define-prefix-command 'ken_nc/crux-keymap)
-   '(
-     ("u" . consult-recent-file)
-     ("p" . crux-rename-file-and-buffer)
-     ("q" . crux-transpose-windows)
-     ("b" . darkroom-tentative-mode)
-     ("o" . crux-sudo-edit)
-     ("e" . crux-delete-file-and-buffer)
-     ("i" . ken_nc/grep-dwim)
-     (">" . mpc-next)
-     ("<" . mpc-prev)
-     ("]" . mpc-pause)
-     ("+" . mpc-resume)
-     ("m" . ken_nc/mozc-dwim)
-     ("h" . strip-regular-expression-string)))
-
   (global-set-key (kbd "C-z") 'ken_nc/suspend)
-  ;;  TODO 2022-01-11: Add crux-open-with
-#+END_SRC
-** Prot Function keybinds
-#+BEGIN_SRC emacs-lisp
-  (xah-fly--define-keys
-   (define-prefix-command 'ken_nc/prot-keymap)
-   '(
-     ("n" . prot-simple-narrow-dwim)
-     ("j" . prot-comment-timestamp-keyword)
-     ("u" . prot-simple-delete-pair-dwim)
-     ("e" . prot-diff-buffer-dwim)))
-  ;;  TODO 2022-01-07: Add / Change MCT keybinds
-  ;;  TODO 2022-01-07: Add prot-text.el keybindings
-  ;;  TODO 2022-01-07: Add prot-comment.el keybindings
-  ;;  TODO 2022-01-07: Add prot-spell.el keybindings
-  ;;  TODO 2022-01-11: Add prot-eshell keybinds (cd history, redirect to buffer)
 #+END_SRC
 ** General Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -407,74 +378,6 @@ scrolling
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
   (global-set-key [mode-line C-mouse-1] 'tear-off-window)
   (global-set-key (kbd "C-c x") 'ken_nc/tear-off-window)
-#+END_SRC
-** xah-fly-keys leader keymap
-#+BEGIN_SRC emacs-lisp
-  (xah-fly--define-keys
-   (define-prefix-command 'xah-fly-leader-key-map)
-   '(
-     ("SPC" . xah-fly-insert-mode-activate)
-     ("DEL" . xah-fly-insert-mode-activate)
-     ("RET" . xah-fly-M-x)
-     ("TAB" . xah-fly--tab-key-map)
-     ("." . xah-fly-highlight-keymap)
-     ("'" . xah-fill-or-unfill)
-     ("," . xah-fly-comma-keymap)
-     ("-" . xah-show-formfeed-as-line)
-     ;; /
-     ;; ;
-     ;; =
-     ;; [
-     ("\\" . toggle-input-method)
-     ;; `
-
-     ;; 1
-     ;; 2
-     ("3" . delete-window)
-     ("4" . split-window-right)
-     ("5" . balance-windows)
-     ("6" . xah-upcase-sentence)
-     ;; 7
-     ;; 8
-     ("9" . ispell-word)
-     ;; 0
-
-     ("a" . mark-whole-buffer)
-     ("b" . end-of-buffer)
-     ("c" . xah-fly-file-keymap)
-     ("d" . beginning-of-buffer)
-     ("e" . xah-fly-insert-keymap)
-     ;; ("f" . xah-search-current-word)
-     ("f" . ken_nc/grep-symbol-at-point)
-     ("g" . xah-close-current-buffer)
-     ("h" . xah-fly-describe-keymap)
-     ("i" . kill-line)
-     ("j" . xah-copy-all-or-region)
-     ("k" . xah-fly-tag-keymap)
-     ;; ("l" . recenter-top-bottom)
-     ("l" . ken_nc/prot-keymap)
-     ("m" . dired-jump)
-     ("n" . xah-fly-buffer-keymap)
-     ;; ("o" . exchange-point-and-mark)
-     ("o" . ken_nc/crux-keymap)
-     ("p" . query-replace)
-     ;; ("q" . xah-cut-all-or-region)
-     ("q" . ken_nc/dumbjump-keymap)
-     ("r" . xah-fly-visual-keymap)
-     ;; ("s" . save-buffer)
-     ("s" . ken_nc/save-buffer-dwim)
-     ("t" . xah-fly-edit-keymap)
-     ;; ("u" . switch-to-buffer)
-     ("u" . consult-buffer)
-     ;; v
-     ("w" . xah-fly-eval-keymap)
-     ;; ("x" . xah-toggle-previous-letter-case)
-     ("x" . ken_nc/pop-local-mark-ring)
-     ;; ("y" . xah-show-kill-ring)
-     ("y" . ken_nc/dired-keymap)
-     ;; z
-     ;;
-     ))
 #+END_SRC
 ** CSS color coding
 #+BEGIN_SRC emacs-lisp
@@ -650,6 +553,20 @@ Deprecated cause I am using GCMH
     :custom
     (gcmh-verbose t))
 #+END_SRC
+** Hungry-delete
+*** Description
+Using hungry-delete, one hit of delete-key eats the following white spaces and
+new lines, or just delete one character. One hit of backspace-key eats the
+preceding white spaces, or just delete one character.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-hungry-delete
+    :ensure t
+    :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+           ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+           ([remap delete-char] . smart-hungry-delete-forward-char))
+    :init (smart-hungry-delete-add-default-hooks))
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -675,21 +592,6 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 
   (server-start)
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (select-frame frame)
-                  (if (display-graphic-p frame)
-                      (progn
-                        (load-theme 'modus-vivendi t)
-                        (good-scroll-mode 1))  ;; daemon graphical
-                    (progn                        ;; daemon terminal
-                      (load-theme 'Witchmacs t)
-                      (xterm-mouse-mode)
-                      (good-scroll-mode -1)))
-                  (xah-fly-keys t)
-                  (gcmh-mode -1)))
-    (load-theme 'modus-operandi t))  ;; regular
 #+END_SRC
 * Emacs Modeline
 #+BEGIN_SRC emacs-lisp
@@ -1112,6 +1014,15 @@ Pulse highlight line on demand or after running select functions
             goto-line
             scroll-down-command)))
 #+END_SRC
+** Initialize =Vertigo=
+*** Description
+Vertigo.el is a port of the vim vertigo plugin and gives commands for jumping up
+and down by lines using the home row.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package vertigo
+    :ensure t)
+#+END_SRC
 ** Initialize =vertico=
 *** Description
 Vertico provides a performant and minimalistic vertical completion UI based on
@@ -1336,14 +1247,6 @@ This package provides an orderless completion style that divides the pattern int
       (setq dumb-jump-force-searcher 'ag)
       (setq dumb-jump-prefer-searcher 'ag)
       (setq dumb-jump-ag-search-args "")))
-
-  (xah-fly--define-keys
-   (define-prefix-command 'ken_nc/dumbjump-keymap)
-   '(
-     ("h" . dumb-jump-go-other-window)
-     ("t" . dumb-jump-go-prefer-external-other-window)
-     ("n" . dumb-jump-go-prompt)
-     ("s" . dumb-jump-quick-look)))
 #+END_SRC
 ** Initialize =eglot=
 #+BEGIN_SRC emacs-lisp

@@ -17,7 +17,7 @@
  '(dumb-jump-selector 'popup)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(flycheck pcmpl-args consult-ag consult-yasnippet vertico pulsar tuareg blacken pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml caml-mode sml-mode orderless corfu compnay mozc highlight auto-compplete expand-region which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit dired-toggle-sudo crux cfrs beacon auto-package-update async))
+   '(vertigo smart-hungry-delete flycheck pcmpl-args consult-ag consult-yasnippet vertico pulsar tuareg blacken pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml caml-mode sml-mode orderless corfu compnay mozc highlight auto-compplete expand-region which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit dired-toggle-sudo crux cfrs beacon auto-package-update async))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

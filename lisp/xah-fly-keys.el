@@ -547,7 +547,7 @@ Version 2017-07-02"
             (xah-delete-backward-bracket-text)
           (xah-delete-backward-bracket-pair))))
      (t
-      (delete-char -1)))))
+      (call-interactively 'smart-hungry-delete-backward-char)))))
 
 (defun xah-delete-backward-bracket-text ()
   "Delete the matching brackets/quotes to the left of cursor, including the inner text.
@@ -3617,7 +3617,6 @@ minor modes loaded later may override bindings in this map.")
    ;; ("d" . xah-beginning-of-line-or-block)
    ("d" . ken_nc/smarter-move-beginning-of-line)
    ("e" . xah-delete-backward-char-or-bracket-text)
-   ;; ("e" . delete-forward-char)
    ("f" . undo)
    ;;("g" . backward-word)
    ("g" . ken_nc/backward-word)
@@ -4013,8 +4012,9 @@ minor modes loaded later may override bindings in this map.")
    ("c" . goto-char)
    ("d" . mark-defun)
    ("e" . list-matching-lines)
-   ("f" . goto-line )
-   ;; g
+   ;; ("f" . goto-line )
+   ("f" . vertigo-visual-jump-down)
+   ("g" . vertigo-visual-jump-up)
    ;; ("h" . xah-close-current-buffer )
    ("i" . delete-non-matching-lines)
    ("j" . copy-to-register)
@@ -4034,7 +4034,7 @@ minor modes loaded later may override bindings in this map.")
    ;; x
    ("y" . delete-duplicate-lines)
    ;; z
-))
+   ))
 
 (xah-fly--define-keys
  (define-prefix-command 'xah-fly-eval-keymap)
@@ -4096,6 +4096,79 @@ minor modes loaded later may override bindings in this map.")
    ;; if nothing match, do nothing
    (t nil)))
 
+(xah-fly--define-keys
+ (define-prefix-command 'ken_nc/dumbjump-keymap)
+ '(
+   ("h" . dumb-jump-go-other-window)
+   ("t" . dumb-jump-go-prefer-external-other-window)
+   ("n" . dumb-jump-go-prompt)
+   ("s" . dumb-jump-quick-look)))
+
+(xah-fly--define-keys
+ (define-prefix-command 'xah-fly-leader-key-map)
+ '(
+   ("SPC" . xah-fly-insert-mode-activate)
+   ("DEL" . xah-fly-insert-mode-activate)
+   ("RET" . xah-fly-M-x)
+   ("TAB" . xah-fly--tab-key-map)
+   ("." . xah-fly-highlight-keymap)
+   ("'" . xah-fill-or-unfill)
+   ("," . xah-fly-comma-keymap)
+   ("-" . xah-show-formfeed-as-line)
+   ;; /
+   ;; ;
+   ;; =
+   ;; [
+   ("\\" . toggle-input-method)
+   ;; `
+
+   ;; 1
+   ;; 2
+   ("3" . delete-window)
+   ("4" . split-window-right)
+   ("5" . balance-windows)
+   ("6" . xah-upcase-sentence)
+   ;; 7
+   ;; 8
+   ("9" . ispell-word)
+   ;; 0
+
+   ("a" . mark-whole-buffer)
+   ("b" . end-of-buffer)
+   ("c" . xah-fly-file-keymap)
+   ("d" . beginning-of-buffer)
+   ("e" . xah-fly-insert-keymap)
+   ;; ("f" . xah-search-current-word)
+   ("f" . ken_nc/grep-symbol-at-point)
+   ("g" . xah-close-current-buffer)
+   ("h" . xah-fly-describe-keymap)
+   ("i" . kill-line)
+   ("j" . xah-copy-all-or-region)
+   ("k" . xah-fly-tag-keymap)
+   ;; ("l" . recenter-top-bottom)
+   ("l" . ken_nc/prot-keymap)
+   ("m" . dired-jump)
+   ("n" . xah-fly-buffer-keymap)
+   ;; ("o" . exchange-point-and-mark)
+   ("o" . ken_nc/crux-keymap)
+   ("p" . query-replace)
+   ;; ("q" . xah-cut-all-or-region)
+   ("q" . ken_nc/dumbjump-keymap)
+   ("r" . xah-fly-visual-keymap)
+   ;; ("s" . save-buffer)
+   ("s" . ken_nc/save-buffer-dwim)
+   ("t" . xah-fly-edit-keymap)
+   ;; ("u" . switch-to-buffer)
+   ("u" . consult-buffer)
+   ;; v
+   ("w" . xah-fly-eval-keymap)
+   ;; ("x" . xah-toggle-previous-letter-case)
+   ("x" . ken_nc/pop-local-mark-ring)
+   ;; ("y" . xah-show-kill-ring)
+   ("y" . ken_nc/dired-keymap)
+   ;; z
+   ;;
+   ))
 
 ;; HHH___________________________________________________________________
 ;; Movement key integrations with built-in Emacs packages
@@ -4238,6 +4311,51 @@ minor modes loaded later may override bindings in this map.")
 ;;    ("u" . vc-revert)
 ;;    ("v" . vc-next-action)
 ;;    ("~" . vc-revision-other-window)))
+
+;; Crux Keymap
+(xah-fly--define-keys
+ (define-prefix-command 'ken_nc/crux-keymap)
+ '(
+   ("u" . consult-recent-file)
+   ("p" . crux-rename-file-and-buffer)
+   ("q" . crux-transpose-windows)
+   ("b" . darkroom-tentative-mode)
+   ("o" . crux-sudo-edit)
+   ("e" . crux-delete-file-and-buffer)
+   ("i" . ken_nc/grep-dwim)
+   (">" . mpc-next)
+   ("<" . mpc-prev)
+   ("]" . mpc-pause)
+   ("+" . mpc-resume)
+   ("m" . ken_nc/mozc-dwim)
+   ("h" . strip-regular-expression-string)))
+;;  TODO 2022-01-11: Add crux-open-with
+
+
+;; Diff Keymap___________________________________________________________________
+(xah-fly--define-keys
+ (define-prefix-command 'ken_nc/dired-keymap)
+ '(
+   ("o" . dired-sort-size)
+   ("." . dired-sort-extension)
+   ("j" . dired-sort-ctime)
+   ("u" . dired-sort-utime)
+   ("p" . dired-sort-name)))
+
+;; Prot Keymap___________________________________________________________________
+
+(xah-fly--define-keys
+ (define-prefix-command 'ken_nc/prot-keymap)
+ '(
+   ("n" . prot-simple-narrow-dwim)
+   ("j" . prot-comment-timestamp-keyword)
+   ("u" . prot-simple-delete-pair-dwim)
+   ("e" . prot-diff-buffer-dwim)))
+;;  TODO 2022-01-07: Add / Change MCT keybinds
+;;  TODO 2022-01-07: Add prot-text.el keybindings
+;;  TODO 2022-01-07: Add prot-comment.el keybindings
+;;  TODO 2022-01-07: Add prot-spell.el keybindings
+;;  TODO 2022-01-11: Add prot-eshell keybinds (cd history, redirect to buffer)
 
 ;; HHH___________________________________________________________________
 
