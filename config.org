@@ -653,7 +653,7 @@ Deprecated cause I am using GCMH
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
-  (push '(height . 60) default-frame-alist)
+  (push '(height . 50) default-frame-alist)
   (push '(cursor-type . 'box) default-frame-alist)
   (push '(alpha . (100 95)) default-frame-alist)
   (push '(cursor-color . "white smoke") default-frame-alist)
@@ -720,7 +720,6 @@ These include the frame (window) size, xah-fly-keys settings, and font settings.
                       '(:eval (sky-color-clock))
                       ;;'(:eval (propertize "[☰]" 'local-map (make-mode-line-mouse-map 'mouse-1 'menu-bar-open)))
                       ))
-
 
   #+END_SRC
 * Org mode
@@ -1152,8 +1151,8 @@ which behaves correctly under all circumstances.
     (vertico-multiform-mode 1)
     :config
     (setq vertico-multiform-categories
-          '((file grid reverse)
-            (project-file grid reverse)
+          '((file reverse)
+            (project-file reverse)
             (imenu buffer)
             (consult-location buffer)
             (consult-grep buffer)
@@ -1167,7 +1166,7 @@ which behaves correctly under all circumstances.
 
     (setq vertico-multiform-commands
           '((dired-goto-file unobtrusive)
-            (load-theme grid reverse)
+            (load-theme reverse)
             (execute-extended-command unobtrusive)
             (dired-goto-file flat)
             (consult-project-buffer flat)
@@ -1370,49 +1369,33 @@ This package provides an orderless completion style that divides the pattern int
     (setq yas-snippet-dirs
           '("~/.emacs.d/snippets")))
 #+END_SRC
+** Initialize =flycheck=
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t)
+#+END_SRC
 ** C & C++
 *** Description
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package irony
-    :ensure t
-    :defer t
-    :diminish t
-    :hook
-    (irony-mode . irony-eldoc)
-    (irony-mode . irony-cdb-autosetup-compile-options)
-    (irony-mode . company-irony-setup-begin-commands)
-    (irony-mode . company-mode)
-    (irony-mode . yas-minor-mode)
-    (irony-mode . openbsd-set-knf-style)
-    (irony-mode . undo-hl-mode)
-    (irony-mode . wrap-region-mode))
+  (add-hook 'c-mode-hook #'company-mode)
+  (add-hook 'c-mode-hook #'eglot-ensure)
+  (add-hook 'c-mode-hook #'yas-minor-mode)
+  (add-hook 'c-mode-hook #'undo-hl-mode)
+  (add-hook 'c-mode-hook #'wrap-region-mode)
+  (add-hook 'c-mode-hook #'openbsd-set-knf-style)
+  (add-hook 'c-mode-hook #'which-function-mode)
+  (add-hook 'c-mode-hook #'flycheck-mode)
 
-  (use-package company-irony-c-headers
-    :defer t
-    :load-path "lisp/company-irony-c-headers"
-    :commands company-irony-c-headers)
-
-  (defun trivialfis/irony ()
-    "Irony mode configuration."
-    (add-to-list 'company-backends
-                 '(company-irony company-irony-c-headers :seperate) t)
-    (define-key irony-mode-map [remap completion-at-point]
-                'irony-completion-at-point-async)
-    (define-key irony-mode-map [remap complete-symbol]
-                'irony-completion-at-point-async))
-
-  (defun ken_nc/cc-base ()
-    "Common configuration for c and c++ mode."
-    (which-function-mode 1)
-    (irony-mode 1)
-    (trivialfis/irony))
-
-  (add-hook 'c++-mode-hook #'ken_nc/cc-base)
-  (add-hook 'c-mode-hook #'ken_nc/cc-base)
-
-  (add-hook 'flycheck-mode-hook 'flycheck-irony-setup)
+  (add-hook 'c++-mode-hook #'company-mode)
+  (add-hook 'c++-mode-hook #'eglot-ensure)
+  (add-hook 'c++-mode-hook #'yas-minor-mode)
+  (add-hook 'c++-mode-hook #'undo-hl-mode)
+  (add-hook 'c++-mode-hook #'wrap-region-mode)
+  (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
+  (add-hook 'c++-mode-hook #'which-function-mode)
+  (add-hook 'c++-mode-hook #'flycheck-mode)
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp

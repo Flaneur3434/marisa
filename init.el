@@ -16,7 +16,6 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
-;; (add-to-list 'load-path "~/.emacs.d/lisp/mct")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wrap-region")
@@ -54,7 +53,6 @@
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
 (require 'ligature)
-;; (require 'mct-customizations)
 (require 'move-text)
 (require 'openbsd-knf-style)
 (require 'package)

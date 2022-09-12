@@ -519,11 +519,8 @@ Version 2019-12-02 2021-07-03"
 
 (defun xah-delete-backward-char-or-bracket-text ()
   "Delete backward 1 character, but if it is a \"quote\" or bracket ()[]{}【】「」 etc, delete bracket and the inner text, push the deleted text to `kill-ring'.
-
 What char is considered bracket or quote is determined by current syntax table.
-
 If `universal-argument' is called first, do not delete inner text.
-
 URL `http://ergoemacs.org/emacs/emacs_delete_backward_char_or_bracket_text.html'
 Version 2017-07-02"
   (interactive)
@@ -2393,12 +2390,11 @@ Version 2017-09-22 2020-09-08"
   "Delete trailing whitespace, and replace repeated blank lines to just 1.
 Only space and tab is considered whitespace here.
 Works on whole buffer or selection, respects `narrow-to-region'.
-
-URL `http://ergoemacs.org/emacs/elisp_compact_empty_lines.html'
-Version 2017-09-22 2021-08-27"
+URL `http://xahlee.info/emacs/emacs/elisp_compact_empty_lines.html'
+Version: 2017-09-22 2021-08-27 2022-08-06"
   (interactive)
   (let ($begin $end)
-    (if (use-region-p)
+    (if (region-active-p)
         (setq $begin (region-beginning) $end (region-end))
       (setq $begin (point-min) $end (point-max)))
     (save-excursion
@@ -2409,7 +2405,8 @@ Version 2017-09-22 2021-08-27"
         (goto-char (point-min))
         (while (re-search-forward "\n\n\n+" nil 1) (replace-match "\n\n"))
         (goto-char (point-max))
-        (while (eq (char-before) ? ) (delete-char -1))))))
+        (while (eq (char-before) 32) (delete-char -1)))))
+  (message "%s done" real-this-command))
 
 (defun xah-make-backup ()
   "Make a backup copy of current file or dired marked files.
