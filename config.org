@@ -35,7 +35,6 @@ Minor quality-of-life modifications for a more pleasant Emacs experience
 ** Enable line numbers
 *** Use relative line number
 #+BEGIN_SRC emacs-lisp
-
   (global-display-line-numbers-mode)
 #+END_SRC
 *** Emacs breaks certain modes when it has line-numbers-mode enabled, (like docview
@@ -45,15 +44,15 @@ rather than globally
   (add-hook 'prog-mode-hook (lambda ()
                               (progn
                                 (display-line-numbers-mode)
-                                (setq display-line-numbers 'relative))))
+                                (setq display-line-numbers t))))
   (add-hook 'text-mode-hook (lambda ()
                               (progn
                                 (display-line-numbers-mode)
-                                (setq display-line-numbers 'relative))))
+                                (setq display-line-numbers t))))
 #+END_SRC
 *** Use absolute line numbers even when buffer is narrowed.
 #+BEGIN_SRC emacs-lisp
-  ;; (customize-set-variable 'display-line-numbers-widen t)
+  (customize-set-variable 'display-line-numbers-widen t)
 #+END_SRC
 ** Show parent parentheses
 #+BEGIN_SRC emacs-lisp
@@ -196,12 +195,11 @@ scrolling
   (setq read-file-name-completion-ignore-case t
         completion-ignore-case t
         read-buffer-completion-ignore-case t
-        read-file-name-completion-ignore-case t
         completion-show-inline-help nil
         completions-detailed t
         resize-mini-windows t
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
+        completion-category-overrides '((file (styles partial-completion flex))))
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1)
   (setq minibuffer-prompt-properties
@@ -1014,7 +1012,7 @@ Pulse highlight line on demand or after running select functions
             goto-line
             scroll-down-command)))
 #+END_SRC
-** Initialize =Vertigo=
+** Initialize =vertigo=
 *** Description
 Vertigo.el is a port of the vim vertigo plugin and gives commands for jumping up
 and down by lines using the home row.
@@ -1030,83 +1028,86 @@ the default completion system. The main focus of Vertico is to provide a UI
 which behaves correctly under all circumstances.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  ;; Persist history over Emacs restarts. Vertico sorts by history position.
-  (use-package savehist
-    :init
-    (savehist-mode))
+      ;; Persist history over Emacs restarts. Vertico sorts by history position.
+      (use-package savehist
+        :init
+        (savehist-mode))
 
-  (use-package vertico
-    :ensure t
-    :init
-    (vertico-mode 1)
-    (vertico-mouse-mode 1)
-    (vertico-multiform-mode 1)
-    :bind
-    (:map vertico-map
-          ("TAB" . minibuffer-complete)
-          ("M-v" . vertico-multiform-vertical)
-          ("M-g" . vertico-multiform-grid)
-          ("M-f" . vertico-multiform-flat)
-          ("M-r" . vertico-multiform-reverse)
-          ("M-u" . vertico-multiform-unobtrusive))
-    :custom
-    (vertico-scroll-margin 0)
-    (vertico-count 20)
-    (vertico-resize t)
-    (vertico-cycle t))
+      (use-package vertico
+        :ensure t
+        :init
+        (vertico-mode 1)
+        (vertico-mouse-mode 1)
+        (vertico-multiform-mode 1)
+        :bind
+        (:map vertico-map
+              ("TAB" . minibuffer-complete)
+              ("M-v" . vertico-multiform-vertical)
+              ("M-g" . vertico-multiform-grid)
+              ("M-f" . vertico-multiform-flat)
+              ("M-r" . vertico-multiform-reverse)
+              ("M-u" . vertico-multiform-unobtrusive)
+              ("M-q" . vertico-quick-insert)
+              ("C-q" . vertico-quick-exit)
+              ("?" . minibuffer-completion-help)
+              ("M-RET" . minibuffer-force-complete-and-exit))
+        :custom
+        (vertico-scroll-margin 0)
+        (vertico-count 20)
+        (vertico-resize t)
+        (vertico-cycle t))
 
-  (use-package vertico-multiform
-    :commands vertico-multiform-mode
-    :after vertico
-    :init
-    (vertico-multiform-mode 1)
-    :config
-    (setq vertico-multiform-categories
-          '((file reverse)
-            (project-file reverse)
-            (imenu buffer)
-            (consult-location buffer)
-            (consult-grep buffer)
-            (minor-mode reverse)
-            (xref-location reverse)
-            (history reverse)
-            (url reverse)
-            (consult-compile-error reverse)
-            (buffer flat (vertico-cycle . t))
-            (t flat)))
+      (use-package vertico-multiform
+        :commands vertico-multiform-mode
+        :after vertico
+        :init
+        (vertico-multiform-mode 1)
+        :config
+        (setq vertico-multiform-categories
+              '((file reverse)
+                (project-file reverse)
+                (consult-location buffer)
+                (consult-grep buffer)
+                (xref-location reverse)
+                (history reverse)
+                (consult-compile-error reverse)))
 
-    (setq vertico-multiform-commands
-          '((dired-goto-file unobtrusive)
-            (load-theme reverse)
-            (execute-extended-command unobtrusive)
-            (dired-goto-file flat)
-            (consult-project-buffer flat)
-            (consult-dir-maybe reverse)
-            (consult-dir reverse)
-            (consult-flymake reverse)
-            (consult-history reverse)
-            (consult-recent-file flat)
-            (consult-completion-in-region reverse)
-            (consult-recoll)
-            (completion-at-point reverse)
-            (consult-org-heading reverse)
-            (consult-dff unobtrusive)
-            (xref-find-definitions reverse))))
+        (setq vertico-multiform-commands
+              '((load-theme reverse)
+                ;; (execute-extended-command unobtrusive)
+                (consult-history reverse)
+                (consult-recent-file reverse))))
 
-  ;; A few more useful configurations...
-  (use-package emacs
-    :init
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 5)
+      ;; A few more useful configurations...
+      (use-package emacs
+        :init
+        ;; Add prompt indicator to `completing-read-multiple'.
+        ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+        (defun crm-indicator (args)
+          (cons (format "[CRM%s] %s"
+                        (replace-regexp-in-string
+                         "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                         crm-separator)
+                        (car args))
+                (cdr args)))
+        (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    (setq read-extended-command-predicate
-          #'command-completion-default-include-p)
+        ;; Do not allow the cursor in the minibuffer prompt
+        (setq minibuffer-prompt-properties
+              '(read-only t cursor-intangible t face minibuffer-prompt))
+        (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete)
-    (setq enable-recursive-minibuffers t))
+        ;; TAB cycle if there are only few candidates
+        (setq completion-cycle-threshold 5)
+
+        ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+        (setq read-extended-command-predicate
+              #'command-completion-default-include-p)
+
+        ;; Enable indentation+completion using the TAB key.
+        ;; `completion-at-point' is often bound to M-TAB.
+        (setq tab-always-indent 'complete)
+        (setq enable-recursive-minibuffers t))
 
 #+END_SRC
 ** Initialize =cape=
@@ -1135,7 +1136,9 @@ completing-read.
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package consult
-    :ensure t)
+    :ensure t
+    :custom
+    (consult-async-min-input 3))
 
   (use-package consult-yasnippet
     :ensure t
@@ -1173,6 +1176,7 @@ This package provides an orderless completion style that divides the pattern int
     ;; (dolist (styles '(substring orderless flex basic)) (add-to-list 'completion-styles styles))
     (setq completion-styles '(substring orderless flex basic))
     :custom
+    (orderless-component-separator "[ &]")
     (orderless-matching-styles '(orderless-flex
                                  orderless-prefixes
                                  orderless-literal))
@@ -1195,6 +1199,10 @@ This package provides an orderless completion style that divides the pattern int
 * Programming section
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
+  (defun just-one-face (fn &rest args)
+    (let ((orderless-match-faces [completions-common-part]))
+      (apply fn args)))
+
   (use-package company
     :ensure t
     :demand t
@@ -1214,7 +1222,8 @@ This package provides an orderless completion style that divides the pattern int
           company-dabbrev-downcase nil
           company-dabbrev-other-buffers nil
           company-dabbrev-ignore-case nil
-          company-backends '((company-capf :with company-yasnippet) (company-ctags :with company-dabbrev) company-files)))
+          company-backends '(company-capf (company-ctags :with company-dabbrev) company-files))
+    (advice-add 'company-capf--candidates :around #'just-one-face))
 
   (use-package company-quickhelp
     :ensure t
@@ -1228,7 +1237,6 @@ This package provides an orderless completion style that divides the pattern int
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'c-mode-hook #'aggressive-indent-mode)
   (add-hook 'c++-mode-hook #'aggressive-indent-mode)
-  (add-hook 'python-mode-hook #'aggressive-indent-mode)
   (add-to-list
    'aggressive-indent-dont-indent-if
    '(and (derived-mode-p 'c-mode)
@@ -1255,6 +1263,7 @@ This package provides an orderless completion style that divides the pattern int
     :ensure t
     :diminish eglot
     :config
+    (setq eglot-autoshutdown t)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
     (define-key eglot-mode-map (kbd "C-c h") 'eldoc))
@@ -1369,7 +1378,7 @@ Also added google-java-format
     :config
     (setq-default blacken-allow-p36 t)
     (setq-default blacken-fast-unsafe t)
-    (setq-default blacken-line-length 80)
+    (setq-default blacken-line-length 120)
     (setq-default blacken-skip-string-normalization t))
 
   (defun ken_nc/python-format-on-save ()
@@ -1420,15 +1429,18 @@ Company setup for emacs
 Collection of Emacs major and minor modes that work with scheme
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package geiser-mit
+  (use-package geiser-guile
     :defer t
     :diminish t
     :ensure t
+    :hook
+    (geiser-mode . company-mode)
     :config
     (add-hook 'geiser-mode-hook
               (lambda ()
                 (local-set-key (kbd "C-c C-b") 'geiser-eval-buffer-and-go)
-                (local-set-key (kbd "C-x C-e") 'geiser-eval-region-and-go))))
+                (local-set-key (kbd "C-x C-e") 'geiser-eval-definition)
+                (local-set-key (kbd "C-x C-w") 'geiser-eval-definition-go))))
 #+END_SRC
 ** Ocaml
 *** Description

@@ -11,13 +11,13 @@
  '(company-quickhelp-color-foreground "white")
  '(custom-enabled-themes nil)
  '(custom-safe-themes
-   '("cab317d0125d7aab145bc7ee03a1e16804d5abdfa2aa8738198ac30dc5f7b569" "39dd7106e6387e0c45dfce8ed44351078f6acd29a345d8b22e7b8e54ac25bac4" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" "9f6c33886ec2ef02f95e367f8f4f0177ecca36bf4d5d76ef2bbec59b2584bbcf" default))
+   '("4dcf06273c9f5f0e01cea95e5f71c3b6ee506f192d75ffda639d737964e2e14e" "cab317d0125d7aab145bc7ee03a1e16804d5abdfa2aa8738198ac30dc5f7b569" "39dd7106e6387e0c45dfce8ed44351078f6acd29a345d8b22e7b8e54ac25bac4" "acb636fb88d15c6dd4432e7f197600a67a48fd35b54e82ea435d7cd52620c96d" "9f6c33886ec2ef02f95e367f8f4f0177ecca36bf4d5d76ef2bbec59b2584bbcf" default))
  '(dirvish-cache-dir "/home/ken_nc/.emacs.d/dirvish-cache/")
  '(display-line-numbers-widen t)
  '(dumb-jump-selector 'popup)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(vertigo smart-hungry-delete flycheck pcmpl-args consult-ag consult-yasnippet vertico pulsar tuareg blacken pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml caml-mode sml-mode orderless corfu compnay mozc highlight auto-compplete expand-region which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode geiser-mit dired-toggle-sudo crux cfrs beacon auto-package-update async))
+   '(geiser-guile vertigo smart-hungry-delete pcmpl-args consult-ag consult-yasnippet vertico pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode dired-toggle-sudo cfrs beacon auto-package-update))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

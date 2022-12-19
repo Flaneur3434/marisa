@@ -14,6 +14,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/xresources-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tokyo-theme.el")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
@@ -93,7 +94,7 @@
                 (select-frame frame)
                 (if (display-graphic-p frame)
                     (progn
-                      (load-theme 'modus-vivendi t)
+                      (load-theme 'xresources t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
                     (load-theme 'Witchmacs t)

@@ -9,8 +9,7 @@
 (defvar startup/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 (setq file-name-handler-alist startup/file-name-handler-alist)
-(setq gc-cons-threshold 200000000)
-(setq read-process-output-max (* 2048 2048)) ;; 1mb
+(setq read-process-output-max (* 4096 4096)) ;; 1mb
 (setq
  warning-minimum-level :emergency
  auto-save-default nil

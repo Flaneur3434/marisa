@@ -48,3 +48,4 @@ places
 eclipse.jdt.ls
 .cache
 config.el
+session*

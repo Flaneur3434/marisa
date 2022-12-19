@@ -98,18 +98,18 @@
 
 ;; the following standard keys with Control are supported:
 
- ;; 【Ctrl+tab】 'xah-next-user-buffer
- ;; 【Ctrl+shift+tab】 'xah-previous-user-buffer
- ;; 【Ctrl+v】 paste
- ;; 【Ctrl+w】 close
- ;; 【Ctrl+z】 undo
- ;; 【Ctrl+n】 new
- ;; 【Ctrl+o】 open
- ;; 【Ctrl+s】 save
- ;; 【Ctrl+shift+s】 save as
- ;; 【Ctrl+shift+t】 open last closed
- ;; 【Ctrl++】 'text-scale-increase
- ;; 【Ctrl+-】 'text-scale-decrease
+;; 【Ctrl+tab】 'xah-next-user-buffer
+;; 【Ctrl+shift+tab】 'xah-previous-user-buffer
+;; 【Ctrl+v】 paste
+;; 【Ctrl+w】 close
+;; 【Ctrl+z】 undo
+;; 【Ctrl+n】 new
+;; 【Ctrl+o】 open
+;; 【Ctrl+s】 save
+;; 【Ctrl+shift+s】 save as
+;; 【Ctrl+shift+t】 open last closed
+;; 【Ctrl++】 'text-scale-increase
+;; 【Ctrl+-】 'text-scale-decrease
 
 ;; To disable both Control and Meta shortcut keys, add the following lines to you init.el before (require 'xah-fly-keys):
 ;; (setq xah-fly-use-control-key nil)
@@ -238,7 +238,7 @@ Version 2018-06-04 2021-03-16"
   "List of left bracket chars.")
 
 (progn
-;; make xah-left-brackets based on xah-brackets
+  ;; make xah-left-brackets based on xah-brackets
   (setq xah-left-brackets '())
   (dotimes ($x (- (length xah-brackets) 1))
     (when (= (% $x 2) 0)
@@ -841,32 +841,32 @@ Version 2017-01-11 2021-03-30"
          (setq $p2 (point)))
        (list $p1 $p2))))
   (let (
-         ($strPairs [
-                     [" A " " a "]
-                     [" An " " an "]
-                     [" And " " and "]
-                     [" At " " at "]
-                     [" As " " as "]
-                     [" By " " by "]
-                     [" Be " " be "]
-                     [" Into " " into "]
-                     [" In " " in "]
-                     [" Is " " is "]
-                     [" It " " it "]
-                     [" For " " for "]
-                     [" Of " " of "]
-                     [" Or " " or "]
-                     [" On " " on "]
-                     [" Via " " via "]
-                     [" The " " the "]
-                     [" That " " that "]
-                     [" To " " to "]
-                     [" Vs " " vs "]
-                     [" With " " with "]
-                     [" From " " from "]
-                     ["'S " "'s "]
-                     ["'T " "'t "]
-                     ]))
+        ($strPairs [
+                    [" A " " a "]
+                    [" An " " an "]
+                    [" And " " and "]
+                    [" At " " at "]
+                    [" As " " as "]
+                    [" By " " by "]
+                    [" Be " " be "]
+                    [" Into " " into "]
+                    [" In " " in "]
+                    [" Is " " is "]
+                    [" It " " it "]
+                    [" For " " for "]
+                    [" Of " " of "]
+                    [" Or " " or "]
+                    [" On " " on "]
+                    [" Via " " via "]
+                    [" The " " the "]
+                    [" That " " that "]
+                    [" To " " to "]
+                    [" Vs " " vs "]
+                    [" With " " with "]
+                    [" From " " from "]
+                    ["'S " "'s "]
+                    ["'T " "'t "]
+                    ]))
     (save-excursion
       (save-restriction
         (narrow-to-region Begin End)
@@ -889,11 +889,11 @@ URL `http://ergoemacs.org/emacs/emacs_shrink_whitespace.html'
 Version 2018-04-02"
   (interactive)
   (let ($p3 $p4)
-          (skip-chars-backward "\n")
-          (setq $p3 (point))
-          (skip-chars-forward "\n")
-          (setq $p4 (point))
-          (delete-region $p3 $p4)))
+    (skip-chars-backward "\n")
+    (setq $p3 (point))
+    (skip-chars-forward "\n")
+    (setq $p4 (point))
+    (delete-region $p3 $p4)))
 
 (defun xah-fly-delete-spaces ()
   "Delete space, tab, IDEOGRAPHIC SPACE (U+3000) around cursor.
@@ -1328,11 +1328,11 @@ Version 2017-01-11"
        (list (region-beginning) (region-end))
      (list (line-beginning-position) (line-end-position))))
   (save-excursion
-      (save-restriction
-        (narrow-to-region Begin End)
-        (goto-char (point-min))
-        (while (search-forward "\"" nil t)
-          (replace-match "\\\"" t t)))))
+    (save-restriction
+      (narrow-to-region Begin End)
+      (goto-char (point-min))
+      (while (search-forward "\"" nil t)
+        (replace-match "\\\"" t t)))))
 
 (defun xah-unescape-quotes (Begin End)
   "Replace  「\\\"」 by 「\"」 in current line or selection.
@@ -1503,7 +1503,7 @@ Version 2017-01-23"
   (interactive)
   (let ($p1 $p2)
     (if (use-region-p)
-         (setq $p1 (region-beginning) $p2 (region-end))
+        (setq $p1 (region-beginning) $p2 (region-end))
       (setq $p1 (line-beginning-position) $p2 (line-end-position)))
     (copy-to-register ?1 $p1 $p2)
     (message "Copied to register 1: 「%s」." (buffer-substring-no-properties $p1 $p2))))
@@ -1518,7 +1518,7 @@ Version 2015-12-08 2020-09-08"
   (interactive)
   (let ($p1 $p2)
     (if (use-region-p)
-         (setq $p1 (region-beginning) $p2 (region-end))
+        (setq $p1 (region-beginning) $p2 (region-end))
       (setq $p1 (line-beginning-position) $p2 (line-end-position)))
     (append-to-register ?1 $p1 $p2)
     (with-temp-buffer (insert "\n")
@@ -1856,9 +1856,9 @@ Version 2017-11-01 2021-03-19"
   (if (region-active-p)
       (if visual-line-mode
           (let (($p1 (point)))
-                (end-of-visual-line 1)
-                (when (eq $p1 (point))
-                  (end-of-visual-line 2)))
+            (end-of-visual-line 1)
+            (when (eq $p1 (point))
+              (end-of-visual-line 2)))
         (progn
           (forward-line 1)
           (end-of-line)))
@@ -2552,8 +2552,8 @@ Version 2020-02-13 2021-01-18"
       (shell-command (format "open -a Visual\\ Studio\\ Code.app %s" (shell-quote-argument $path))))
      ((string-equal system-type "windows-nt")
       ;; 2021-01-18 problem: if gnu findutils is installed, it installs a code.exe program, same name as vscode's executable. and usually in path before vscode.
-;; vs code is usually at home dir
-;; "C:\Users\joe\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd"
+	  ;; vs code is usually at home dir
+	  ;; "C:\Users\joe\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd"
       ;; the following is attemp to work around
       ;; (shell-command
       ;;  (format
@@ -3515,9 +3515,9 @@ Version 2020-04-18"
        ,@(mapcar
           (lambda ($pair)
             `(define-key
-               ,$keymap-name
-               (kbd (,(if Direct-q #'identity #'xah-fly--key-char) ,(car $pair)))
-               ,(list 'quote (cdr $pair))))
+              ,$keymap-name
+              (kbd (,(if Direct-q #'identity #'xah-fly--key-char) ,(car $pair)))
+              ,(list 'quote (cdr $pair))))
           (cadr Key-cmd-alist)))))
 
 ;; HHH___________________________________________________________________
@@ -3611,8 +3611,10 @@ minor modes loaded later may override bindings in this map.")
    ("9" . er/expand-region)
    ("0" . xah-pop-local-mark-ring)
 
-   ("a" . xah-fly-M-x)
+   ;; ("a" . xah-fly-M-x)
+   ("a" . execute-extended-command)
    ("b" . isearch-forward)
+   ;; ("b" . consult-line)
    ("c" . previous-line)
    ;; ("d" . xah-beginning-of-line-or-block)
    ("d" . ken_nc/smarter-move-beginning-of-line)
@@ -3900,7 +3902,8 @@ minor modes loaded later may override bindings in this map.")
    ("g" . info-lookup-symbol)
    ("h" . describe-function)
    ("i" . info)
-   ("j" . man)
+   ;; ("j" . man)
+   ("j" . consult-man)
    ("k" . describe-key)
    ("l" . view-lossage)
    ("m" . xah-describe-major-mode)
@@ -4013,9 +4016,10 @@ minor modes loaded later may override bindings in this map.")
    ("d" . mark-defun)
    ("e" . list-matching-lines)
    ;; ("f" . goto-line )
-   ("f" . vertigo-visual-jump-down)
-   ("g" . vertigo-visual-jump-up)
-   ;; ("h" . xah-close-current-buffer )
+   ("f" . consult-goto-line )
+   ;; ("f" . vertigo-visual-jump-down)
+   ;; ("g" . vertigo-visual-jump-up)
+   ("h" . xah-close-current-buffer )
    ("i" . delete-non-matching-lines)
    ("j" . copy-to-register)
    ("k" . insert-register)
@@ -4076,12 +4080,14 @@ minor modes loaded later may override bindings in this map.")
   (cond
    ((string-equal major-mode "java-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "c-mode") (xref-find-definitions (thing-at-point 'symbol)))
+   ((string-equal major-mode "python-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "emacs-lisp-mode") (xref-find-definitions (thing-at-point 'symbol)))
-   ((string-equal major-mode "go-mode") (godef-jump (point))))
-  ;; more major-mode checking here
+   ((string-equal major-mode "go-mode") (godef-jump (point)))
+   ((string-equal major-mode "geiser-mode") (geiser-edit-symbol-at-point (point)))
+   ;; more major-mode checking here
 
-  ;; if nothing match, do nothing
-  (t nil))
+   ;; if nothing match, do nothing
+   (t nil)))
 
 (defun my-jump-back-wrapper ()
   "call different jump-back-definition functions depending on what's current major mode."
@@ -4090,7 +4096,10 @@ minor modes loaded later may override bindings in this map.")
    ((string-equal major-mode "java-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "go-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "c-mode") (xref-pop-marker-stack))
+   ((string-equal major-mode "python-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "emacs-lisp-mode") (xref-pop-marker-stack))
+   ((string-equal major-mode "go-mode") (xref-pop-marker-stack))
+   ((string-equal major-mode "geiser-mode") (geiser-pop-symbol-stack))
    ;; more major-mode checking here
 
    ;; if nothing match, do nothing
