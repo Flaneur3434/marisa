@@ -15,9 +15,10 @@
  '(dirvish-cache-dir "/home/ken_nc/.emacs.d/dirvish-cache/")
  '(display-line-numbers-widen t)
  '(dumb-jump-selector 'popup)
+ '(ido-everywhere nil)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(geiser-guile vertigo smart-hungry-delete pcmpl-args consult-ag consult-yasnippet vertico pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode dired-toggle-sudo cfrs beacon auto-package-update))
+   '(marginalia geiser-guile vertigo smart-hungry-delete pcmpl-args consult-ag consult-yasnippet vertico pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode dired-toggle-sudo cfrs beacon auto-package-update))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

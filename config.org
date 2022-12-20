@@ -867,22 +867,24 @@ For the longest time I used the default way of switching and killing buffers in 
 #+BEGIN_SRC emacs-lisp
   (use-package ido
     :defer t
-    :init
-    (ido-mode 1)
+    ;; :init (ido-mode 1)
     :config
     (setq ido-enable-flex-matching nil)
-    (setq ido-create-new-buffer 'always)
-    (setq ido-everywhere t))
+    (setq ido-create-new-buffer 'prompt)
+    (setq ido-everywhere nil))
 
   (use-package ido-vertical-mode
     :ensure t
     :defer t
+    :after ido
     :init
-    (ido-vertical-mode 1))
-  ; This enables arrow keys to select while in ido mode. If you want to
-  ; instead use the default Emacs keybindings, change it to
-  ; "'C-n-and-C-p-only"
-  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
+    (ido-vertical-mode 1)
+    :custom
+    ;; This enables arrow keys to select while in ido mode. If you want to
+    ;; instead use the default Emacs keybindings, change it to
+    ;; "'C-n-and-C-p-only"
+    (ido-vertical-define-keys 'C-n-C-p-up-and-down))
+
 #+END_SRC
 ** Initialize =async=
 *** Description
@@ -1028,87 +1030,99 @@ the default completion system. The main focus of Vertico is to provide a UI
 which behaves correctly under all circumstances.
 *** Code
 #+BEGIN_SRC emacs-lisp
-      ;; Persist history over Emacs restarts. Vertico sorts by history position.
-      (use-package savehist
-        :init
-        (savehist-mode))
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
 
-      (use-package vertico
-        :ensure t
-        :init
-        (vertico-mode 1)
-        (vertico-mouse-mode 1)
-        (vertico-multiform-mode 1)
-        :bind
-        (:map vertico-map
-              ("TAB" . minibuffer-complete)
-              ("M-v" . vertico-multiform-vertical)
-              ("M-g" . vertico-multiform-grid)
-              ("M-f" . vertico-multiform-flat)
-              ("M-r" . vertico-multiform-reverse)
-              ("M-u" . vertico-multiform-unobtrusive)
-              ("M-q" . vertico-quick-insert)
-              ("C-q" . vertico-quick-exit)
-              ("?" . minibuffer-completion-help)
-              ("M-RET" . minibuffer-force-complete-and-exit))
-        :custom
-        (vertico-scroll-margin 0)
-        (vertico-count 20)
-        (vertico-resize t)
-        (vertico-cycle t))
+  (use-package vertico
+    :ensure t
+    :after minibuffer
+    :init (vertico-mode 1)
+    :bind
+    (:map vertico-map
+          ("TAB" . minibuffer-complete)
+          ("M-v" . vertico-multiform-vertical)
+          ("M-g" . vertico-multiform-grid)
+          ("M-f" . vertico-multiform-flat)
+          ("M-r" . vertico-multiform-reverse)
+          ("M-u" . vertico-multiform-unobtrusive)
+          ("M-q" . vertico-quick-insert)
+          ("C-q" . vertico-quick-exit)
+          ("?" . minibuffer-completion-help)
+          ("M-RET" . minibuffer-force-complete-and-exit))
+    :custom
+    (vertico-scroll-margin 0)
+    (vertico-count 20)
+    (vertico-resize t)
+    (vertico-cycle t)
+    :config
+    (consult-customize
+     consult-line
+     :add-history (seq-some #'thing-at-point '(region symbol)))
+    (defalias 'consult-line-thing-at-point 'consult-line)
 
-      (use-package vertico-multiform
-        :commands vertico-multiform-mode
-        :after vertico
-        :init
-        (vertico-multiform-mode 1)
-        :config
-        (setq vertico-multiform-categories
-              '((file reverse)
-                (project-file reverse)
-                (consult-location buffer)
-                (consult-grep buffer)
-                (xref-location reverse)
-                (history reverse)
-                (consult-compile-error reverse)))
+    (consult-customize
+     consult-line-thing-at-point
+     :initial (thing-at-point 'symbol)))
 
-        (setq vertico-multiform-commands
-              '((load-theme reverse)
-                ;; (execute-extended-command unobtrusive)
-                (consult-history reverse)
-                (consult-recent-file reverse))))
+  (use-package vertico-multiform
+    :commands vertico-multiform-mode
+    :after vertico
+    :init
+    (vertico-multiform-mode 1)
+    :config
+    (setq vertico-multiform-commands
+          '((load-theme reverse)
+            (consult-history reverse mouse)
+            (consult-flycheck mouse)
+            (consult-recent-file reverse mouse)))
 
-      ;; A few more useful configurations...
-      (use-package emacs
-        :init
-        ;; Add prompt indicator to `completing-read-multiple'.
-        ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-        (defun crm-indicator (args)
-          (cons (format "[CRM%s] %s"
-                        (replace-regexp-in-string
-                         "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                         crm-separator)
-                        (car args))
-                (cdr args)))
-        (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+    (setq vertico-multiform-categories
+          '((file reverse mouse)
+            (project-file grid reverse)
+            (location buffer)
+            (grep buffer)
+            (buffer flat (vertico-cycle . t))
+            (xref-location reverse)
+            (history reverse mouse)
+            (consult-compile-error reverse))))
 
-        ;; Do not allow the cursor in the minibuffer prompt
-        (setq minibuffer-prompt-properties
-              '(read-only t cursor-intangible t face minibuffer-prompt))
-        (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (use-package vertico-buffer
+    :after vertico
+    :config
+    (setq vertico-buffer-display-action 'display-buffer-reuse-window))
 
-        ;; TAB cycle if there are only few candidates
-        (setq completion-cycle-threshold 5)
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; Add prompt indicator to `completing-read-multiple'.
+    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+    (defun crm-indicator (args)
+      (cons (format "[CRM%s] %s"
+                    (replace-regexp-in-string
+                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                     crm-separator)
+                    (car args))
+            (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-        ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-        (setq read-extended-command-predicate
-              #'command-completion-default-include-p)
+    ;; Do not allow the cursor in the minibuffer prompt
+    (setq minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-        ;; Enable indentation+completion using the TAB key.
-        ;; `completion-at-point' is often bound to M-TAB.
-        (setq tab-always-indent 'complete)
-        (setq enable-recursive-minibuffers t))
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 5)
 
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    (setq read-extended-command-predicate
+          #'command-completion-default-include-p)
+
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete)
+    (setq enable-recursive-minibuffers t))
 #+END_SRC
 ** Initialize =cape=
 *** Description
@@ -1150,7 +1164,27 @@ completing-read.
     :defer t
     :after consult)
 #+END_SRC
-** Initialize =embark=
+** Initialize =marginalia=
+*** Description
+This package provides marginalia-mode which adds marginalia to the minibuffer
+completions. Marginalia are marks or annotations placed at the margin of the
+page of a book or in this case helpful colorful annotations placed at the margin
+of the minibuffer for your completion candidates.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    ;; Either bind `marginalia-cycle' globally or only in the minibuffer
+    :bind (("M-A" . marginalia-cycle)
+           :map minibuffer-local-map
+           ("M-A" . marginalia-cycle))
+
+    ;; The :init configuration is always executed (Not lazy!)
+    :init
+
+    ;; Must be in the :init section of use-package such that the mode gets
+    ;; enabled right away. Note that this forces loading the package.
+    (marginalia-mode))
+    #+END_SRC
 ** Initialize =orderless=
 *** Description
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
@@ -1182,8 +1216,26 @@ This package provides an orderless completion style that divides the pattern int
                                  orderless-literal))
     (orderless-style-dispatchers '(first-initialism
                                    flex-if-twiddle
-                                   without-if-bang)))
-#+END_SRC
+                                   without-if-bang))
+    :config
+    (defun consult--orderless-regexp-compiler (input type &rest _config)
+      (setq input (orderless-pattern-compiler input))
+      (cons
+       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+       (lambda (str) (orderless--highlight input str))))
+
+    ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
+    ;; (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
+
+    ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
+    (defun consult--with-orderless (&rest args)
+      (minibuffer-with-setup-hook
+          (lambda ()
+            (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+        (apply args)))
+    (advice-add #'consult-ripgrep :around #'consult--with-orderless)
+    (advice-add #'consult-ag :around #'consult--with-orderless))
+      #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
