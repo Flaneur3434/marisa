@@ -40,3 +40,9 @@
 [submodule "themes/tokyo-theme.el"]
 	path = themes/tokyo-theme.el
 	url = https://github.com/rawleyfowler/tokyo-theme.el/
+[submodule "themes/nothing.el"]
+	path = themes/nothing.el
+	url = https://github.com/jaredgorski/nothing.el
+[submodule "themes/almost-mono-themes"]
+	path = themes/almost-mono-themes
+	url = https://github.com/cryon/almost-mono-themes

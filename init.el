@@ -15,6 +15,8 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/monochrome-theme")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tokyo-theme.el")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/nothing.el")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/almost-mono-themes")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")

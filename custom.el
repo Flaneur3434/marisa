@@ -18,7 +18,7 @@
  '(ido-everywhere nil)
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(marginalia geiser-guile vertigo smart-hungry-delete pcmpl-args consult-ag consult-yasnippet vertico pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony company caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg go-mode dired-toggle-sudo cfrs beacon auto-package-update))
+   '(geiser-guile vertigo smart-hungry-delete pcmpl-args consult-ag consult-yasnippet pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key undo-tree powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg dired-toggle-sudo cfrs beacon auto-package-update))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -29,9 +29,7 @@
  '(cursor ((t nil)))
  '(fixed-pitch ((t ("Agave" :height 140))))
  '(highlight-changes ((t (:foreground "dim gray" :weight bold))))
- '(hl-line ((t (:extend nil :background "gray21"))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- '(region ((t (:extend t :background "dim gray" :distant-foreground "floral white" :foreground "floral white"))))
  '(undo-hl-delete ((t (:background "coral2"))))
  '(undo-hl-insert ((t (:background "olive drab"))))
  '(variable-pitch ((t ("HackGenNerd" :height 140)))))

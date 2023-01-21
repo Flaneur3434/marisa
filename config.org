@@ -94,7 +94,9 @@ scrolling
   ;; only 'jump' when moving this far off the screen
   (setq scroll-conservatively 10000)
   ;; Keyboard scroll one line at a time
-  (setq scroll-step 1)
+  (setq scroll-step 1
+        mouse-wheel-follow-mouse t
+        mouse-wheel-progressive-speed nil)
   ;; Don't accelerate scrolling
   (setq mouse-wheel-progressive-speed nil)
   ;; Scroll window under mouse
@@ -571,8 +573,8 @@ preceding white spaces, or just delete one character.
   (push '(height . 50) default-frame-alist)
   (push '(cursor-type . 'box) default-frame-alist)
   (push '(alpha . (100 95)) default-frame-alist)
-  (push '(cursor-color . "white smoke") default-frame-alist)
-  (push '(mouse-color . "white smoke") default-frame-alist)
+  ;; (push '(cursor-color . "white smoke") default-frame-alist)
+  ;; (push '(mouse-color . "white smoke") default-frame-alist)
   (push '(font . "Caskaydia Cove:size=14") default-frame-alist)
   (push '(alpha-background . 100) default-frame-alist)
 
@@ -1037,7 +1039,7 @@ which behaves correctly under all circumstances.
 
   (use-package vertico
     :ensure t
-    :after minibuffer
+    :after minibuffer consult
     :init (vertico-mode 1)
     :bind
     (:map vertico-map
@@ -1314,6 +1316,19 @@ This package provides an orderless completion style that divides the pattern int
     :defer t
     :ensure t
     :diminish eglot
+    :custom
+    (eglot-autoshutdown t)
+    (eglot-extend-to-xref t)
+    :init
+    ;; (add-to-list 'eglot-server-programs
+    ;;              '(c-mode c++-mode
+    ;;                       . ("clangd"
+    ;;                          "-j=4"
+    ;;                          "--malloc-trim"
+    ;;                          "--log=error"
+    ;;                          "--clang-tidy"
+    ;;                          "--completion-style=bundled"
+    ;;                          "--pch-storage=memory")))
     :config
     (setq eglot-autoshutdown t)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
