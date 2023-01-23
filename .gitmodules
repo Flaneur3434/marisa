@@ -43,6 +43,3 @@
 [submodule "themes/nothing.el"]
 	path = themes/nothing.el
 	url = https://github.com/jaredgorski/nothing.el
-[submodule "themes/almost-mono-themes"]
-	path = themes/almost-mono-themes
-	url = https://github.com/cryon/almost-mono-themes

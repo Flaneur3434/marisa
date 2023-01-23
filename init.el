@@ -32,8 +32,9 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/undo-hl")
 (add-to-list 'load-path "~/.emacs.d/lisp/aggressive-indent-mode")
 (add-to-list 'load-path "~/.emacs.d/lisp/sky-color-clock")
-(add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell/")
-(add-to-list 'load-path "~/.emacs.d/lisp/eyebrowse/")
+(add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell")
+(add-to-list 'load-path "~/.emacs.d/lisp/eyebrowse")
+(add-to-list 'load-path "~/.emacs.d/lisp/almost-mono-themes")
 
 (require 'ag)
 (require 'aggressive-indent)
@@ -96,10 +97,10 @@
                 (select-frame frame)
                 (if (display-graphic-p frame)
                     (progn
-                      (load-theme 'xresources t)
+                      (load-theme 'nothing t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
-                    (load-theme 'Witchmacs t)
+                    (load-theme 'xresources t)
                     (xterm-mouse-mode)
                     (good-scroll-mode -1)))
                 (xah-fly-keys t)

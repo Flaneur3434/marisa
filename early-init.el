@@ -19,4 +19,6 @@
  package-enable-at-startup nil
  package-native-compile t)
 
+(server-start)
+
 (provide 'early-init)

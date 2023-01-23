@@ -582,16 +582,12 @@ preceding white spaces, or just delete one character.
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq frame-resize-pixelwise t)
 #+END_SRC
-* Emacs Daemon
-Emacs frame settings that need to started when emacs is in daemon mode.
-These include the frame (window) size, xah-fly-keys settings, and font settings.
+* Emacs Theme Hack
 #+BEGIN_SRC emacs-lisp
   (defun load-theme--disable-old-theme (theme &rest args)
     "Disable current theme before loading new one."
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
-
-  (server-start)
 #+END_SRC
 * Emacs Modeline
 #+BEGIN_SRC emacs-lisp
