@@ -969,6 +969,8 @@ Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
        (wrap-region-add-wrappers
         '(("<" ">")
           ("'" "'")
+          ("[" "]")
+          ("{" "}")
           ("/* " " */" "#" (java-mode c-mode css-mode go-mode))))
 #+END_SRC
 ** Initialize =sky-color-clock=
@@ -1463,6 +1465,18 @@ Also added google-java-format
     (python-mode . blacken-mode)
     (python-mode . yas-minor-mode)
     (python-mode . eglot-ensure))
+#+END_SRC
+** Json
+#+BEGIN_SRC emacs-lisp
+  (defun my-json-pretty-print-on-save ()
+    (when (string= (file-name-extension buffer-file-name) "json")
+      (add-hook 'before-save-hook
+                (lambda ()
+                  (json-pretty-print-buffer)
+                  (untabify (point-min) (point-max)))
+                nil t)))
+
+  (add-hook 'after-init-hook #'my-json-pretty-print-on-save)
 #+END_SRC
 ** Elisp
 *** Description
