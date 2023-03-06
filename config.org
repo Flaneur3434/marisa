@@ -68,6 +68,8 @@ rather than globally
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (blink-cursor-mode 0)
+  ;; enable pulsing animations
+  (setq pulse-flag t)
 #+END_SRC
 ** Enable copypasting outside of Emacs
 #+BEGIN_SRC emacs-lisp
@@ -970,6 +972,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
+    :diminish projectile-mode
     :init
     (projectile-mode +1))
 #+END_SRC
@@ -1015,7 +1018,7 @@ Pulse highlight line on demand or after running select functions
     :config
     (setq pulsar-pulse-on-window-change t
           pulsar-pulse t
-          pulsar-delay 0.05
+          pulsar-delay 0.055
           pulsar-iterations 10
           pulsar-face 'pulsar-cyan
           pulsar-pulse-functions

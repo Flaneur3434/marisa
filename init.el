@@ -97,7 +97,7 @@
                 (select-frame frame)
                 (if (display-graphic-p frame)
                     (progn
-                      (load-theme 'nothing t)
+                      (load-theme 'tokyo t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
                     (load-theme 'xresources t)
@@ -105,7 +105,7 @@
                     (good-scroll-mode -1)))
                 (xah-fly-keys t)
                 (gcmh-mode -1)))
-  (load-theme 'modus-operandi t))  ;; regular
+  (load-theme 'modus-vivendi t))  ;; regular
 
 (if (fboundp 'native-compile-async)
 	(progn
