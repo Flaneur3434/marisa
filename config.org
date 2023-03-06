@@ -567,6 +567,10 @@ preceding white spaces, or just delete one character.
            ([remap delete-char] . smart-hungry-delete-forward-char))
     :init (smart-hungry-delete-add-default-hooks))
 #+END_SRC
+** Disable flymake
+#+BEGIN_SRC emacs-lisp
+  (flymake-mode-off)
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 100) default-frame-alist)
@@ -962,6 +966,13 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :load-path "lisp/company-ctags"
     :commands (company-ctags))
 #+END_SRC
+** Initialize =projectile=
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :init
+    (projectile-mode +1))
+#+END_SRC
 ** Initialize =wrap-region=
 Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
 "tagged" markup modes, such as HTML and XML, it wraps with tags.
@@ -1173,6 +1184,7 @@ of the minibuffer for your completion candidates.
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
+    :ensure t
     ;; Either bind `marginalia-cycle' globally or only in the minibuffer
     :bind (("M-A" . marginalia-cycle)
            :map minibuffer-local-map
@@ -1317,17 +1329,23 @@ This package provides an orderless completion style that divides the pattern int
     :custom
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
-    :init
-    ;; (add-to-list 'eglot-server-programs
-    ;;              '(c-mode c++-mode
-    ;;                       . ("clangd"
-    ;;                          "-j=4"
-    ;;                          "--malloc-trim"
-    ;;                          "--log=error"
-    ;;                          "--clang-tidy"
-    ;;                          "--completion-style=bundled"
-    ;;                          "--pch-storage=memory")))
     :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '((c-mode c++-mode)
+                     . ("clangd"
+                        "-j=8"
+                        "--all-scopes-completion"
+                        "--log=info"
+                        "--malloc-trim"
+                        "--background-index"
+                        "--clang-tidy"
+                        "--query-driver=/usr/bin/g++,/usr/bin/clang++"
+                        "--completion-style=bundled"
+                        "--suggest-missing-includes"
+                        "--pch-storage=memory"
+                        "--header-insertion=iwyu"
+                        "--header-insertion-decorators=0"))))
     (setq eglot-autoshutdown t)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
@@ -1373,6 +1391,8 @@ Irony is the company backend for C and C++
   (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
   (add-hook 'c++-mode-hook #'which-function-mode)
   (add-hook 'c++-mode-hook #'flycheck-mode)
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++20")))
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++20")))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1468,15 +1488,13 @@ Also added google-java-format
 #+END_SRC
 ** Json
 #+BEGIN_SRC emacs-lisp
-  (defun my-json-pretty-print-on-save ()
+  (defun ken_nc/json-pretty-print-on-save ()
     (when (string= (file-name-extension buffer-file-name) "json")
-      (add-hook 'before-save-hook
-                (lambda ()
-                  (json-pretty-print-buffer)
-                  (untabify (point-min) (point-max)))
-                nil t)))
+      (progn
+        (json-pretty-print-buffer-ordered)
+        (untabify (point-min) (point-max)))))
 
-  (add-hook 'after-init-hook #'my-json-pretty-print-on-save)
+  (add-hook 'before-save-hook #'ken_nc/json-pretty-print-on-save)
 #+END_SRC
 ** Elisp
 *** Description
