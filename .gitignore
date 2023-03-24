@@ -49,3 +49,4 @@ eclipse.jdt.ls
 .cache
 config.el
 session*
+projects

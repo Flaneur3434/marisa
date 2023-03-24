@@ -97,10 +97,10 @@
                 (select-frame frame)
                 (if (display-graphic-p frame)
                     (progn
-                      (load-theme 'tokyo t)
+                      (load-theme 'xresources t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
-                    (load-theme 'xresources t)
+                    (load-theme 'flatland-black t)
                     (xterm-mouse-mode)
                     (good-scroll-mode -1)))
                 (xah-fly-keys t)

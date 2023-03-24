@@ -74,35 +74,34 @@
   :hook
   (eshell-mode . company-mode)
   :init
-  (progn
-	(setq
-	 eshell-highlight-prompt nil
-	 eshell-buffer-shorthand t
-	 eshell-history-size 5000
-	 ;; auto truncate after 12k lines
-	 eshell-buffer-maximum-lines 12000
-	 eshell-hist-ignoredups t
-	 eshell-error-if-no-glob t
-	 eshell-glob-case-insensitive t
-	 eshell-scroll-to-bottom-on-input 'all
-	 eshell-list-files-after-cd t
-	 eshell-aliases-file (concat user-emacs-directory "eshell/alias")
-	 eshell-banner-message "(´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~\n\n")
-	;; Visual commands
-	(setq eshell-visual-commands '("vi" "screen" "top" "less" "more" "lynx"
-								   "ncftp" "pine" "tin" "trn" "elm" "vim"
-								   "nmtui" "alsamixer" "htop" "el" "elinks"))
-	(setq eshell-visual-subcommands '(("git" "log" "diff" "show")))))
+  (add-hook 'eshell-mode-hook
+			(lambda () (progn
+						 (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
+						 (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history)
+						 (define-key eshell-mode-map (kbd "<mouse-3>") 'xah-open-file-at-cursor))))
+  :custom
+  (eshell-highlight-prompt nil)
+  (eshell-buffer-shorthand t)
+  (eshell-history-size 5000)
+  ;; auto truncate after 12k lines
+  (eshell-buffer-maximum-lines 12000)
+  (eshell-hist-ignoredups t)
+  (eshell-error-if-no-glob t)
+  (eshell-glob-case-insensitive t)
 
-(add-hook 'eshell-mode-hook
-		  (lambda () (progn
-					   (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
-					   (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history)
-					   (define-key eshell-mode-map (kbd "<mouse-3>") 'xah-open-file-at-cursor))))
+  (eshell-scroll-to-bottom-on-input 'all)
+  ;; (eshell-list-files-after-cd t)
+  (eshell-aliases-file (concat user-emacs-directory "eshell/alias"))
+  (eshell-banner-message "(´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~\n\n")
+  :config
+  (setq eshell-visual-commands '("vi" "screen" "top" "less" "more" "lynx"
+								 "ncftp" "pine" "tin" "trn" "elm" "vim"
+								 "nmtui" "alsamixer" "htop" "el" "elinks"))
+  (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
 
 ;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
 ;; rather than every time `eshell-mode' is enabled.
-;; (add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
+;; (add-hook 'eshell-alias-load-hook 'ken_nc/parse-bash-history)
 
 (message "loading init-eshell")
 (provide 'ken_nc-eshell)

@@ -435,17 +435,20 @@ Others remote file editing packages use FTP to connect to the remote host and to
 The defualt functionality of isearch is to put the cursor after the last character searched. Thats bad usability. Changed so that the cusor is moved to the beginning of the match searched.
 #+BEGIN_SRC emacs-lisp
   (defun my-goto-match-beginning ()
-      (when (and isearch-forward isearch-other-end (not isearch-mode-end-hook-quit))
-        (goto-char isearch-other-end)))
+    (when (and isearch-forward isearch-other-end (not isearch-mode-end-hook-quit))
+      (goto-char isearch-other-end)))
+
   (defadvice isearch-exit (after my-goto-match-beginning activate)
     "Go to beginning of match."
     (when (and isearch-forward isearch-other-end)
       (goto-char isearch-other-end)))
   (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
 
-  (setq search-whitespace-regexp ".*")
-  (setq isearch-lax-whitespace t)
-  (setq isearch-regexp-lax-whitespace nil)
+  (setq search-whitespace-regexp ".*"
+        isearch-lax-whitespace t
+        isearch-regexp-lax-whitespace nil
+        isearch-lazy-highight t
+        isearch-lazy-count t)
 #+END_SRC
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
@@ -508,6 +511,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
 #+BEGIN_SRC emacs-lisp
   (popwin-mode 1)
   (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
+  (push '("*xref*" :dedicated t :stick t) popwin:special-display-config)
   (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
   (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
   (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
@@ -575,13 +579,13 @@ preceding white spaces, or just delete one character.
 #+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
-  (push '(width . 100) default-frame-alist)
-  (push '(height . 50) default-frame-alist)
+  (push '(width . 110) default-frame-alist)
+  (push '(height . 42) default-frame-alist)
   (push '(cursor-type . 'box) default-frame-alist)
   (push '(alpha . (100 95)) default-frame-alist)
   ;; (push '(cursor-color . "white smoke") default-frame-alist)
   ;; (push '(mouse-color . "white smoke") default-frame-alist)
-  (push '(font . "Caskaydia Cove:size=14") default-frame-alist)
+  (push '(font . "Comic Code Ligatures:size=15") default-frame-alist)
   (push '(alpha-background . 100) default-frame-alist)
 
   (setq initial-frame-alist default-frame-alist)
@@ -1337,7 +1341,9 @@ This package provides an orderless completion style that divides the pattern int
       (add-to-list 'eglot-server-programs
                    '((c-mode c++-mode)
                      . ("clangd"
+                        "--enable-config"
                         "-j=8"
+                        "--function-arg-placeholders=false"
                         "--all-scopes-completion"
                         "--log=info"
                         "--malloc-trim"
@@ -1353,6 +1359,9 @@ This package provides an orderless completion style that divides the pattern int
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
     (define-key eglot-mode-map (kbd "C-c h") 'eldoc))
+
+  ;; disable eldoc
+  (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
 #+END_SRC
 ** Initialize =yasnippet=
 #+BEGIN_SRC emacs-lisp
