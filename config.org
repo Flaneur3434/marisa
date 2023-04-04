@@ -87,55 +87,46 @@ rather than globally
 ** Enable smooth scrolling and inplace scrolling
 scrolling
 #+BEGIN_SRC emacs-lisp
-  ;; Fully redraw the display before it processes queued input events.
-  (setq redisplay-dont-pause t)
-  ;; The text on the screen should always be fontified, no delay
-  (setq jit-lock-defer-time 0)
-  ;; Number of lines of continuity to retain when scrolling by full screens
-  (setq next-screen-context-lines 2)
-  ;; only 'jump' when moving this far off the screen
-  (setq scroll-conservatively 10000)
-  ;; Keyboard scroll one line at a time
-  (setq scroll-step 1
-        mouse-wheel-follow-mouse t
-        mouse-wheel-progressive-speed nil)
-  ;; Don't accelerate scrolling
-  (setq mouse-wheel-progressive-speed nil)
-  ;; Scroll window under mouse
-  (setq mouse-wheel-follow-mouse t)
-  ;; No (less) lag while scrolling lots.
-  (setq fast-but-imprecise-scrolling t)
-  ;; Cursor move faster
-  (setq auto-window-vscroll nil)
+   ;; Cut down on the number of line scans emacs does
+   (setq bidi-paragraph-direction 'left-to-right
+         bidi-inhibit-bpa t)
+   ;; Fully redraw the display before it processes queued input events.
+   (setq redisplay-dont-pause t)
+   ;; The text on the screen should always be fontified, no delay
+   (setq jit-lock-defer-time 0)
+   ;; Number of lines of continuity to retain when scrolling by full screens
+   (setq next-screen-context-lines 2)
+   ;; only 'jump' when moving this far off the screen
+   (setq scroll-conservatively 10000)
+   ;; Keyboard scroll one line at a time
+   (setq scroll-step 1
+         mouse-wheel-follow-mouse t
+         mouse-wheel-progressive-speed nil)
+   ;; Don't accelerate scrolling
+   (setq mouse-wheel-progressive-speed nil)
+   ;; Scroll window under mouse
+   (setq mouse-wheel-follow-mouse t)
+   ;; No (less) lag while scrolling lots.
+   (setq fast-but-imprecise-scrolling t)
+   ;; Cursor move faster
+   (setq auto-window-vscroll nil)
 
-  (good-scroll-mode 1)
-  (setq good-scroll-step 103)
-  (setq good-scroll-render-rate 0.02)
+   ;; pixel scroll settings
+   (setq-default scroll-conservatively 10000)
+   (setq-default scroll-margin 5)
 
-  (inertias-global-minor-mode -1)
-  ;; (setq inertias-global-minor-mode-map
-  ;;       (inertias-define-keymap
-  ;;        '(
-  ;;          ;; Mouse wheel scrolling
-  ;;          ("<wheel-up>"   . inertias-down-wheel)
-  ;;          ("<wheel-down>" . inertias-up-wheel)
-  ;;          ("<mouse-4>"    . inertias-down-wheel)
-  ;;          ("<mouse-5>"    . inertias-up-wheel)
-  ;;          ;; Scroll keys
-  ;;          ("<next>"  . inertias-up)
-  ;;          ("<prior>" . inertias-down)
-  ;;          ("C-v"     . inertias-up)
-  ;;          ("M-v"     . inertias-down))
-  ;;        inertias-prefix-key))
+   (pixel-scroll-precision-mode t)
+   (setq pixel-scroll-precision-use-momentum t)
+   (setq pixel-scroll-precision-interpolate-mice t)
+   (setq pixel-scroll-precision-large-scroll-height 10.0)
+   (setq pixel-scroll-precision-interpolate-page t)
 
-  ;; (setq inertias-initial-velocity 20)
-  ;; (setq inertias-friction 50)
-  ;; (setq inertias-update-time 5)
-  ;; (setq inertias-rest-coef 0.1)
+   ;; (good-scroll-mode 1)
+   ;; (setq good-scroll-step 103)
+   ;; (setq good-scroll-render-rate 0.02)
 
-  (smooth-scroll-mode -1)
-  ;; (global-set-key (kbd "<down>") 'scroll-up-1)
-  ;; (global-set-key (kbd "<up>") 'scroll-down-1)
+   ;; (global-set-key [next] #'good-scroll-up-full-screen)
+   ;; (global-set-key [prior] #'good-scroll-down-full-screen)
 #+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp

@@ -10,9 +10,6 @@
 [submodule "lisp/company-ctags"]
 	path = lisp/company-ctags
 	url = https://github.com/redguardtoo/company-ctags
-[submodule "lisp/good-scroll"]
-	path = lisp/good-scroll
-	url = https://github.com/io12/good-scroll.el
 [submodule "lisp/exec-path-from-shell"]
 	path = lisp/exec-path-from-shell
 	url = https://github.com/purcell/exec-path-from-shell
