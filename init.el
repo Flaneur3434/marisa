@@ -17,6 +17,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tokyo-theme.el")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/nothing.el")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/almost-mono-themes")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/acme-emacs-theme")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
@@ -34,6 +35,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/exec-path-from-shell")
 (add-to-list 'load-path "~/.emacs.d/lisp/eyebrowse")
 (add-to-list 'load-path "~/.emacs.d/lisp/almost-mono-themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/good-scroll.el")
 
 (require 'ag)
 (require 'aggressive-indent)
@@ -45,6 +47,7 @@
 (require 'dired-sort)
 (require 'exec-path-from-shell)
 (require 'eyebrowse)
+(require 'good-scroll)
 (require 'google-c-style)
 (require 'google-java-format)
 (require 'go-to-char)
@@ -93,7 +96,8 @@
                 (select-frame frame)
                 (if (display-graphic-p frame)
                     (progn
-                      (load-theme 'xresources t)
+                      ;; (load-theme 'xresources t)
+					  (load-theme 'almost-mono-black t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
                     (load-theme 'flatland-black t)

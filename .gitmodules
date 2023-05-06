@@ -40,3 +40,9 @@
 [submodule "themes/nothing.el"]
 	path = themes/nothing.el
 	url = https://github.com/jaredgorski/nothing.el
+[submodule "lisp/good-scroll.el"]
+	path = lisp/good-scroll.el
+	url = https://github.com/io12/good-scroll.el
+[submodule "themes/acme-emacs-theme"]
+	path = themes/acme-emacs-theme
+	url = https://github.com/ianyepan/acme-emacs-theme

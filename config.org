@@ -87,46 +87,46 @@ rather than globally
 ** Enable smooth scrolling and inplace scrolling
 scrolling
 #+BEGIN_SRC emacs-lisp
-   ;; Cut down on the number of line scans emacs does
-   (setq bidi-paragraph-direction 'left-to-right
-         bidi-inhibit-bpa t)
-   ;; Fully redraw the display before it processes queued input events.
-   (setq redisplay-dont-pause t)
-   ;; The text on the screen should always be fontified, no delay
-   (setq jit-lock-defer-time 0)
-   ;; Number of lines of continuity to retain when scrolling by full screens
-   (setq next-screen-context-lines 2)
-   ;; only 'jump' when moving this far off the screen
-   (setq scroll-conservatively 10000)
-   ;; Keyboard scroll one line at a time
-   (setq scroll-step 1
-         mouse-wheel-follow-mouse t
-         mouse-wheel-progressive-speed nil)
-   ;; Don't accelerate scrolling
-   (setq mouse-wheel-progressive-speed nil)
-   ;; Scroll window under mouse
-   (setq mouse-wheel-follow-mouse t)
-   ;; No (less) lag while scrolling lots.
-   (setq fast-but-imprecise-scrolling t)
-   ;; Cursor move faster
-   (setq auto-window-vscroll nil)
+  ;; Cut down on the number of line scans emacs does
+  (setq bidi-paragraph-direction 'left-to-right
+        bidi-inhibit-bpa t)
+  ;; Fully redraw the display before it processes queued input events.
+  (setq redisplay-dont-pause t)
+  ;; The text on the screen should always be fontified, no delay
+  (setq jit-lock-defer-time 0)
+  ;; Number of lines of continuity to retain when scrolling by full screens
+  (setq next-screen-context-lines 2)
+  ;; only 'jump' when moving this far off the screen
+  (setq scroll-conservatively 10000)
+  ;; Keyboard scroll one line at a time
+  (setq scroll-step 1
+        mouse-wheel-follow-mouse t
+        mouse-wheel-progressive-speed nil)
+  ;; Don't accelerate scrolling
+  (setq mouse-wheel-progressive-speed nil)
+  ;; Scroll window under mouse
+  (setq mouse-wheel-follow-mouse t)
+  ;; No (less) lag while scrolling lots.
+  (setq fast-but-imprecise-scrolling t)
+  ;; Cursor move faster
+  (setq auto-window-vscroll nil)
 
-   ;; pixel scroll settings
-   (setq-default scroll-conservatively 10000)
-   (setq-default scroll-margin 5)
+  ;; pixel scroll settings
+  ;; (setq-default scroll-conservatively 10000)
+  ;; (setq-default scroll-margin 5)
 
-   (pixel-scroll-precision-mode t)
-   (setq pixel-scroll-precision-use-momentum t)
-   (setq pixel-scroll-precision-interpolate-mice t)
-   (setq pixel-scroll-precision-large-scroll-height 10.0)
-   (setq pixel-scroll-precision-interpolate-page t)
+  ;; (pixel-scroll-precision-mode t)
+  ;; (setq pixel-scroll-precision-use-momentum t)
+  ;; (setq pixel-scroll-precision-interpolate-mice t)
+  ;; (setq pixel-scroll-precision-large-scroll-height 10.0)
+  ;; (setq pixel-scroll-precision-interpolate-page t)
 
-   ;; (good-scroll-mode 1)
-   ;; (setq good-scroll-step 103)
-   ;; (setq good-scroll-render-rate 0.02)
+  (good-scroll-mode 1)
+  (setq good-scroll-step 103)
+  (setq good-scroll-render-rate 0.02)
 
-   ;; (global-set-key [next] #'good-scroll-up-full-screen)
-   ;; (global-set-key [prior] #'good-scroll-down-full-screen)
+  (global-set-key [next] #'good-scroll-up-full-screen)
+  (global-set-key [prior] #'good-scroll-down-full-screen)
 #+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp
@@ -169,7 +169,7 @@ scrolling
 #+END_SRC
 ** Highlight current line
 #+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode t)
+  ;; (global-hl-line-mode t)
 #+END_SRC
 ** Defer loading most packages for quicker startup times
 #+BEGIN_SRC emacs-lisp
@@ -421,6 +421,7 @@ You can also edit files in sudo mode with crux-edit-sudo
 Others remote file editing packages use FTP to connect to the remote host and to transfer the files, TRAMP uses a remote shell connection (rlogin, telnet, ssh).
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
+  (add-to-list 'tramp-remote-path "$HOME/.local/bin/")
 #+END_SRC
 ** Isearch functionality
 The defualt functionality of isearch is to put the cursor after the last character searched. Thats bad usability. Changed so that the cusor is moved to the beginning of the match searched.
@@ -651,7 +652,7 @@ Both M-x shell-command and M-x compile execute commands in an inferior shell via
 Change to use aliases found in login shell. Also disable internal elisp commands.
 #+BEGIN_SRC emacs-lisp
   (setq shell-file-name "bash")
-  (setq shell-command-switch "-ic")
+  ;; (setq shell-command-switch "-ic")
   (setq eshell-prefer-lisp-functions t)
 
   ;; add environment variables to emacs environment
@@ -781,7 +782,8 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
     (setq dashboard-items '((recents . 5)))
     (setq dashboard-banner-logo-title "M A R I S A - Connect To The Wired Edition!")
     ;; (setq dashboard-startup-banner "~/.emacs.d/lain.png")
-    (setq dashboard-startup-banner "~/.emacs.d/athos_monk_emacs.png")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/athos_monk_emacs.png")
+    (setq dashboard-startup-banner "~/.emacs.d/xemacs_color.svg")
     (setq dashboard-center-content t)
     (setq dashboard-show-shortcuts nil)
     (setq dashboard-set-init-info t)
@@ -1246,6 +1248,38 @@ This package provides an orderless completion style that divides the pattern int
     (advice-add #'consult-ripgrep :around #'consult--with-orderless)
     (advice-add #'consult-ag :around #'consult--with-orderless))
       #+END_SRC
+** Initialize =fussy=
+*** Description
+This is a package to provide a completion-style to Emacs that is able to
+leverage flx as well as various other fuzzy matching scoring packages to provide
+intelligent scoring and sorting.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package fussy
+    :ensure t
+    :config
+    (push 'fussy completion-styles)
+    (setq
+     ;; For example, project-find-file uses 'project-files which uses
+     ;; substring completion by default. Set to nil to make sure it's using
+     ;; flx.
+     completion-category-defaults nil
+     completion-category-overrides nil
+     fussy-filter-fn 'fussy-filter-orderless-flex)
+
+    (with-eval-after-load 'eglot
+      (add-to-list 'completion-category-overrides
+                   '(eglot (styles fussy basic)))))
+
+  (use-package hotfuzz
+    :ensure t
+    :after fussy
+    :config
+    (setq fussy-score-fn 'fussy-hotfuzz-score))
+
+  ;; For cache functionality.
+  (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
@@ -1259,6 +1293,27 @@ This package provides an orderless completion style that divides the pattern int
     :diminish abbrev-mode)
 #+END_SRC
 * Programming section
+** Initialize =emacs=
+*** Description
+Some emacs settings that are useful for completions
+*** Code
+#+BEGIN_SRC emacs-lisp
+  ;; A few more useful configurations...
+  (use-package emacs
+    :init
+    ;; TAB cycle if there are only few candidates
+    (setq completion-cycle-threshold 5)
+
+    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+    (setq read-extended-command-predicate
+          #'command-completion-default-include-p)
+
+    ;; Enable indentation+completion using the TAB key.
+    ;; `completion-at-point' is often bound to M-TAB.
+    (setq tab-always-indent 'complete)
+    (setq enable-recursive-minibuffers t))
+#+END_SRC
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
   (defun just-one-face (fn &rest args)
@@ -1285,7 +1340,27 @@ This package provides an orderless completion style that divides the pattern int
           company-dabbrev-other-buffers nil
           company-dabbrev-ignore-case nil
           company-backends '(company-capf (company-ctags :with company-dabbrev) company-files))
-    (advice-add 'company-capf--candidates :around #'just-one-face))
+    (advice-add 'company-capf--candidates :around #'just-one-face)
+
+    (defun bb-company-capf (f &rest args)
+      "Manage `completion-styles'."
+      (if (length< company-prefix 2)
+          (let ((completion-styles (remq 'fussy completion-styles)))
+            (apply f args))
+        (let ((fussy-max-candidate-limit 5000)
+              (fussy-default-regex-fn 'fussy-pattern-first-letter)
+              (fussy-prefer-prefix nil))
+          (apply f args))))
+
+    (defun bb-company-transformers (f &rest args)
+      "Manage `company-transformers'."
+      (if (length< company-prefix 2)
+          (apply f args)
+        (let ((company-transformers '(fussy-company-sort-by-completion-score)))
+          (apply f args))))
+    (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
+    (advice-add 'company--transform-candidates :around 'bb-company-transformers)
+    (advice-add 'company-capf :around 'bb-company-capf))
 
   (use-package company-quickhelp
     :ensure t
@@ -1327,6 +1402,7 @@ This package provides an orderless completion style that divides the pattern int
     :custom
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
+    (eglot-sync-connect 0)
     :config
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
