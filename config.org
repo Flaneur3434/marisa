@@ -1218,10 +1218,8 @@ This package provides an orderless completion style that divides the pattern int
 
   (use-package orderless
     :ensure t
-    :init
-    ;; (dolist (styles '(substring orderless flex basic)) (add-to-list 'completion-styles styles))
-    (setq completion-styles '(substring orderless flex basic))
     :custom
+    (completion-styles '(substring orderless flex basic))
     (orderless-component-separator "[ &]")
     (orderless-matching-styles '(orderless-flex
                                  orderless-prefixes
@@ -1237,17 +1235,18 @@ This package provides an orderless completion style that divides the pattern int
        (lambda (str) (orderless--highlight input str))))
 
     ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
-    ;; (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
+    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
     ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
-    (defun consult--with-orderless (&rest args)
-      (minibuffer-with-setup-hook
-          (lambda ()
-            (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-        (apply args)))
-    (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-    (advice-add #'consult-ag :around #'consult--with-orderless))
-      #+END_SRC
+    ;; (defun consult--with-orderless (&rest args)
+    ;;   (minibuffer-with-setup-hook
+    ;;       (lambda ()
+    ;;         (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+    ;;     (apply args)))
+    ;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
+    ;; (advice-add #'consult-ag :around #'consult--with-orderless))
+    )
+    #+END_SRC
 ** Initialize =fussy=
 *** Description
 This is a package to provide a completion-style to Emacs that is able to
@@ -1257,6 +1256,7 @@ intelligent scoring and sorting.
 #+BEGIN_SRC emacs-lisp
   (use-package fussy
     :ensure t
+    :after company
     :config
     (push 'fussy completion-styles)
     (setq
@@ -1269,7 +1269,27 @@ intelligent scoring and sorting.
 
     (with-eval-after-load 'eglot
       (add-to-list 'completion-category-overrides
-                   '(eglot (styles fussy basic)))))
+                   '(eglot (styles fussy basic))))
+    (defun bb-company-capf (f &rest args)
+      "Manage `completion-styles'."
+      (if (length< company-prefix 2)
+          (let ((completion-styles (remq 'fussy completion-styles)))
+            (apply f args))
+        (let ((fussy-max-candidate-limit 5000)
+              (fussy-default-regex-fn 'fussy-pattern-first-letter)
+              (fussy-prefer-prefix nil))
+          (apply f args))))
+
+    (defun bb-company-transformers (f &rest args)
+      "Manage `company-transformers'."
+      (if (length< company-prefix 2)
+          (apply f args)
+        (let ((company-transformers '(fussy-company-sort-by-completion-score)))
+          (apply f args))))
+
+    (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
+    (advice-add 'company--transform-candidates :around 'bb-company-transformers)
+    (advice-add 'company-capf :around 'bb-company-capf))
 
   (use-package hotfuzz
     :ensure t
@@ -1278,7 +1298,7 @@ intelligent scoring and sorting.
     (setq fussy-score-fn 'fussy-hotfuzz-score))
 
   ;; For cache functionality.
-  (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
+  ;; (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
@@ -1340,27 +1360,7 @@ Some emacs settings that are useful for completions
           company-dabbrev-other-buffers nil
           company-dabbrev-ignore-case nil
           company-backends '(company-capf (company-ctags :with company-dabbrev) company-files))
-    (advice-add 'company-capf--candidates :around #'just-one-face)
-
-    (defun bb-company-capf (f &rest args)
-      "Manage `completion-styles'."
-      (if (length< company-prefix 2)
-          (let ((completion-styles (remq 'fussy completion-styles)))
-            (apply f args))
-        (let ((fussy-max-candidate-limit 5000)
-              (fussy-default-regex-fn 'fussy-pattern-first-letter)
-              (fussy-prefer-prefix nil))
-          (apply f args))))
-
-    (defun bb-company-transformers (f &rest args)
-      "Manage `company-transformers'."
-      (if (length< company-prefix 2)
-          (apply f args)
-        (let ((company-transformers '(fussy-company-sort-by-completion-score)))
-          (apply f args))))
-    (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
-    (advice-add 'company--transform-candidates :around 'bb-company-transformers)
-    (advice-add 'company-capf :around 'bb-company-capf))
+    (advice-add 'company-capf--candidates :around #'just-one-face))
 
   (use-package company-quickhelp
     :ensure t
