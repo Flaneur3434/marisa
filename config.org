@@ -1219,11 +1219,15 @@ This package provides an orderless completion style that divides the pattern int
   (use-package orderless
     :ensure t
     :custom
-    (completion-styles '(substring orderless flex basic))
+    (completion-category-overrides
+     '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
+                     orderless))))
     (orderless-component-separator "[ &]")
-    (orderless-matching-styles '(orderless-flex
+    (orderless-matching-styles '(orderless-literal
+                                 orderless-flex
                                  orderless-prefixes
-                                 orderless-literal))
+                                 orderless-initialism
+                                 orderless-regex))
     (orderless-style-dispatchers '(first-initialism
                                    flex-if-twiddle
                                    without-if-bang))
@@ -1256,9 +1260,9 @@ intelligent scoring and sorting.
 #+BEGIN_SRC emacs-lisp
   (use-package fussy
     :ensure t
-    :after company
+    :init
+    (setq completion-styles '(hotfuzz substring fussy basic))
     :config
-    (push 'fussy completion-styles)
     (setq
      ;; For example, project-find-file uses 'project-files which uses
      ;; substring completion by default. Set to nil to make sure it's using
@@ -1270,6 +1274,7 @@ intelligent scoring and sorting.
     (with-eval-after-load 'eglot
       (add-to-list 'completion-category-overrides
                    '(eglot (styles fussy basic))))
+
     (defun bb-company-capf (f &rest args)
       "Manage `completion-styles'."
       (if (length< company-prefix 2)
@@ -1293,12 +1298,8 @@ intelligent scoring and sorting.
 
   (use-package hotfuzz
     :ensure t
-    :after fussy
     :config
     (setq fussy-score-fn 'fussy-hotfuzz-score))
-
-  ;; For cache functionality.
-  ;; (advice-add 'company-auto-begin :before 'fussy-wipe-cache)
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
