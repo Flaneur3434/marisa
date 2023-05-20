@@ -173,7 +173,8 @@ scrolling
 #+END_SRC
 ** Defer loading most packages for quicker startup times
 #+BEGIN_SRC emacs-lisp
- (setq use-package-always-defer t)
+  ;; (setq use-package-always-defer t)
+  (setq use-package-verbose t)
 #+END_SRC
 ** Default encoding
 #+BEGIN_SRC emacs-lisp
@@ -695,7 +696,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
        (find-file-noselect
         (concat "/sudo::" qual-filename)))))
 #+END_SRC
-*** Super - Control - RET to open eshell
+*** Control - Shift - RET to open eshell
 #+BEGIN_SRC emacs-lisp
   (defun eshell-other-window ()
     "Create or visit an eshell buffer."
@@ -707,7 +708,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
           (eshell))
       (switch-to-buffer-other-window "*eshell*")))
 
-  (global-set-key (kbd "<s-C-return>") 'eshell)
+  (global-set-key (kbd "<C-S-return>") 'eshell)
 #+END_SRC
 *** Parse Bash History
 #+BEGIN_SRC emacs-lisp
@@ -1162,17 +1163,16 @@ completing-read.
 #+BEGIN_SRC emacs-lisp
   (use-package consult
     :ensure t
+    :init
     :custom
     (consult-async-min-input 3))
 
   (use-package consult-yasnippet
     :ensure t
-    :defer t
     :after consult)
 
   (use-package consult-ag
     :ensure t
-    :defer t
     :after consult)
 #+END_SRC
 ** Initialize =marginalia=
@@ -1202,55 +1202,11 @@ of the minibuffer for your completion candidates.
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (defun flex-if-twiddle (pattern _index _total)
-    (when (string-suffix-p "~" pattern)
-      `(orderless-flex . ,(substring pattern 0 -1))))
-
-  (defun first-initialism (pattern index _total)
-    (if (= index 0) 'orderless-initialism))
-
-  (defun without-if-bang (pattern _index _total)
-    (cond
-     ((equal "!" pattern)
-      '(orderless-literal . ""))
-     ((string-prefix-p "!" pattern)
-      `(orderless-without-literal . ,(substring pattern 1)))))
-
   (use-package orderless
     :ensure t
-    :custom
-    (completion-category-overrides
-     '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
-                     orderless))))
-    (orderless-component-separator "[ &]")
-    (orderless-matching-styles '(orderless-literal
-                                 orderless-flex
-                                 orderless-prefixes
-                                 orderless-initialism
-                                 orderless-regex))
-    (orderless-style-dispatchers '(first-initialism
-                                   flex-if-twiddle
-                                   without-if-bang))
     :config
-    (defun consult--orderless-regexp-compiler (input type &rest _config)
-      (setq input (orderless-pattern-compiler input))
-      (cons
-       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-       (lambda (str) (orderless--highlight input str))))
-
-    ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
-    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
-
-    ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
-    ;; (defun consult--with-orderless (&rest args)
-    ;;   (minibuffer-with-setup-hook
-    ;;       (lambda ()
-    ;;         (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-    ;;     (apply args)))
-    ;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-    ;; (advice-add #'consult-ag :around #'consult--with-orderless))
-    )
-    #+END_SRC
+    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler))
+#+END_SRC
 ** Initialize =fussy=
 *** Description
 This is a package to provide a completion-style to Emacs that is able to
@@ -1258,10 +1214,16 @@ leverage flx as well as various other fuzzy matching scoring packages to provide
 intelligent scoring and sorting.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package fussy
+
+  (use-package hotfuzz
     :ensure t
     :init
-    (setq completion-styles '(hotfuzz substring fussy basic))
+    :config
+    (setq fussy-score-fn 'fussy-hotfuzz-score))
+
+  (use-package fussy
+    :ensure t
+    :after hotfuzz
     :config
     (setq
      ;; For example, project-find-file uses 'project-files which uses
@@ -1296,10 +1258,6 @@ intelligent scoring and sorting.
     (advice-add 'company--transform-candidates :around 'bb-company-transformers)
     (advice-add 'company-capf :around 'bb-company-capf))
 
-  (use-package hotfuzz
-    :ensure t
-    :config
-    (setq fussy-score-fn 'fussy-hotfuzz-score))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
@@ -1333,8 +1291,10 @@ Some emacs settings that are useful for completions
     ;; Enable indentation+completion using the TAB key.
     ;; `completion-at-point' is often bound to M-TAB.
     (setq tab-always-indent 'complete)
-    (setq enable-recursive-minibuffers t))
-#+END_SRC
+    (setq enable-recursive-minibuffers t)
+    :config
+    (setq completion-styles '(hotfuzz orderless substring fussy basic)))
+        #+END_SRC
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
   (defun just-one-face (fn &rest args)
@@ -1344,7 +1304,6 @@ Some emacs settings that are useful for completions
   (use-package company
     :ensure t
     :demand t
-    :diminish company-mode
     :bind
     (:map company-mode-map
           ("<tab>" . company-indent-or-complete-common)
@@ -1462,6 +1421,8 @@ Irony is the company backend for C and C++
   (add-hook 'c-mode-hook #'openbsd-set-knf-style)
   (add-hook 'c-mode-hook #'which-function-mode)
   (add-hook 'c-mode-hook #'flycheck-mode)
+  (add-hook 'c-mode-hook (lambda () (setq flycheck-gcc-language-standard "gnu17")))
+  (add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "gnu17")))
 
   (add-hook 'c++-mode-hook #'company-mode)
   (add-hook 'c++-mode-hook #'eglot-ensure)

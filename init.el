@@ -102,7 +102,10 @@
                   (progn                        ;; daemon terminal
                     (load-theme 'flatland-black t)
                     (xterm-mouse-mode)
-                    (good-scroll-mode -1)))
+                    (good-scroll-mode -1)
+					(setq mouse-wheel-scroll-amount '(0.7)
+						  mouse-wheel-progressive-speed nil
+						  ring-bell-function 'ignore)))
                 (xah-fly-keys t)
                 (gcmh-mode -1)))
   (load-theme 'modus-vivendi t))  ;; regular
