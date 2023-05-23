@@ -442,6 +442,13 @@ The defualt functionality of isearch is to put the cursor after the last charact
         isearch-regexp-lax-whitespace nil
         isearch-lazy-highight t
         isearch-lazy-count t)
+
+  (define-key isearch-mode-map (kbd "C-s") 'consult-line)
+
+  ;; Display last searched string in minibuffer prompt
+  ;; (add-hook 'isearch-mode-hook (lambda () (interactive)
+  ;;                                (setq isearch-message (concat isearch-message "[ " (car search-ring) " ] "))
+  ;;                                (isearch-search-and-update)))
 #+END_SRC
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
@@ -721,7 +728,6 @@ Auto-package-update automatically updates and removes old packages
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package auto-package-update
-    :defer nil
     :ensure t
     :config
     (setq auto-package-update-delete-old-versions t)
@@ -758,7 +764,6 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
-    :defer nil
     :ensure t
     :preface
     (defun update-config ()
@@ -934,8 +939,7 @@ Git porcelain for Emacs
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t
-    :defer t)
+    :ensure t)
 #+END_SRC
 ** Initialize =expand-region=
 *** Description
@@ -962,7 +966,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
 ** Initialize =company-ctags=
 #+BEGIN_SRC emacs-lisp
   (use-package company-ctags
-    :defer t
     :load-path "lisp/company-ctags"
     :commands (company-ctags))
 #+END_SRC
@@ -1356,7 +1359,6 @@ Some emacs settings that are useful for completions
 ** Initialize =eglot=
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
-    :defer t
     :ensure t
     :diminish eglot
     :custom
@@ -1413,12 +1415,34 @@ Some emacs settings that are useful for completions
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
+  (use-package clang-format+
+    :ensure t
+    :hook
+    (c-mode . clang-format+-mode)
+    (c++-mode . clang-format+-mode)
+    :custom
+    (clang-format+-context 'buffer)
+    :config
+    ;; Fix clang-format (and clang-format+ mode) in tramp mode.
+    (defun tramp-aware-clang-format (orig-fun start end &optional style assume-file-name)
+      "If the file being edited is remote, use the .clang-format file in the
+local HOME directory because the clang that gets run by the formatter is
+not the remote executable, its the local one"
+      (unless assume-file-name
+        (setq assume-file-name
+              (if (file-remote-p buffer-file-name)
+                  (concat (getenv "HOME") "/" (file-name-nondirectory buffer-file-name))
+                buffer-file-name)))
+      (apply orig-fun (list start end style assume-file-name)))
+    (advice-add 'clang-format-region :around #'tramp-aware-clang-format))
+
+  (add-hook 'c-mode-hook (lambda () (setq-default tab-width 4)))
   (add-hook 'c-mode-hook #'company-mode)
   (add-hook 'c-mode-hook #'eglot-ensure)
   (add-hook 'c-mode-hook #'yas-minor-mode)
   (add-hook 'c-mode-hook #'undo-hl-mode)
   (add-hook 'c-mode-hook #'wrap-region-mode)
-  (add-hook 'c-mode-hook #'openbsd-set-knf-style)
+  ;; (add-hook 'c-mode-hook #'openbsd-set-knf-style)
   (add-hook 'c-mode-hook #'which-function-mode)
   (add-hook 'c-mode-hook #'flycheck-mode)
   (add-hook 'c-mode-hook (lambda () (setq flycheck-gcc-language-standard "gnu17")))
@@ -1429,7 +1453,7 @@ Irony is the company backend for C and C++
   (add-hook 'c++-mode-hook #'yas-minor-mode)
   (add-hook 'c++-mode-hook #'undo-hl-mode)
   (add-hook 'c++-mode-hook #'wrap-region-mode)
-  (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
+  ;; (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
   (add-hook 'c++-mode-hook #'which-function-mode)
   (add-hook 'c++-mode-hook #'flycheck-mode)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++20")))
@@ -1484,48 +1508,48 @@ Also added google-java-format
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
-  ;; Probably need to install abunch of pip packages
-  (use-package pyvenv
-    :ensure t
-    :init
-    (setenv "~/.venvs/")
-    :config
-    ;; (pyvenv-mode t)
-    (setq pyvenv-post-activate-hooks
-          (list (lambda ()
-                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+    ;; Probably need to install abunch of pip packages
+    (use-package pyvenv
+      :ensure t
+      :init
+      (setenv "~/.venvs/")
+      :config
+      ;; (pyvenv-mode t)
+      (setq pyvenv-post-activate-hooks
+            (list (lambda ()
+                    (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
 
-    (setq pyvenv-post-deactivate-hooks
-          (list (lambda ()
-                  (setq python-shell-interpreter "python3.10")))))
+      (setq pyvenv-post-deactivate-hooks
+            (list (lambda ()
+                    (setq python-shell-interpreter "python3.10")))))
 
-  (use-package blacken
-    :ensure t
-    :config
-    (setq-default blacken-allow-p36 t)
-    (setq-default blacken-fast-unsafe t)
-    (setq-default blacken-line-length 120)
-    (setq-default blacken-skip-string-normalization t))
+    (use-package blacken
+      :ensure t
+      :config
+      (setq-default blacken-allow-p36 t)
+      (setq-default blacken-fast-unsafe t)
+      (setq-default blacken-line-length 120)
+      (setq-default blacken-skip-string-normalization t))
 
-  (defun ken_nc/python-format-on-save ()
-    (when (eq major-mode 'python-mode)
-      (let ((prev-pos (point)))
-        (call-interactively 'blacken-buffer)
-        (goto-char prev-pos))))
+    (defun ken_nc/python-format-on-save ()
+      (when (eq major-mode 'python-mode)
+        (let ((prev-pos (point)))
+          (call-interactively 'blacken-buffer)
+          (goto-char prev-pos))))
 
-  (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
+    (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
 
-  (use-package python-mode
-    :ensure t
-    :custom
-    (python-shell-interpreter "python3")
-    :hook
-    (python-mode . pyvenv-mode)
-    (python-mode . flycheck-mode)
-    (python-mode . company-mode)
-    (python-mode . blacken-mode)
-    (python-mode . yas-minor-mode)
-    (python-mode . eglot-ensure))
+    (use-package python-mode
+      :ensure t
+      :custom
+      (python-shell-interpreter "python3")
+      :hook
+      (python-mode . pyvenv-mode)
+      (python-mode . flycheck-mode)
+      (python-mode . company-mode)
+      (python-mode . blacken-mode)
+      (python-mode . yas-minor-mode)
+      (python-mode . eglot-ensure))
 #+END_SRC
 ** Json
 #+BEGIN_SRC emacs-lisp
