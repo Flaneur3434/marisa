@@ -566,12 +566,10 @@ new lines, or just delete one character. One hit of backspace-key eats the
 preceding white spaces, or just delete one character.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package smart-hungry-delete
+  (use-package hungry-delete
     :ensure t
-    :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
-           ([remap delete-backward-char] . smart-hungry-delete-backward-char)
-           ([remap delete-char] . smart-hungry-delete-forward-char))
-    :init (smart-hungry-delete-add-default-hooks))
+    :custom
+    (hungry-delete-join-reluctantly t))
 #+END_SRC
 ** Disable flymake
 #+BEGIN_SRC emacs-lisp
@@ -908,7 +906,7 @@ Utilize asynchronous processes whenever possible
 #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
     :ensure t
-    :diminish (page-break-lines-mode visual-line-mode))
+    :diminish (page-break-lines-mode . visual-line-mode))
 #+END_SRC
 ** Initialize =undo-tree=
 *** Code
@@ -1048,7 +1046,13 @@ which behaves correctly under all circumstances.
   ;; Persist history over Emacs restarts. Vertico sorts by history position.
   (use-package savehist
     :init
-    (savehist-mode))
+    (savehist-mode)
+    :config
+    (add-to-list 'savehist-additional-variables 'command-history)
+    (setq
+     history-delete-duplicates t
+     history-length t
+     savehist-file "~/.emacs.d/history"))
 
   (use-package vertico
     :ensure t
@@ -1207,8 +1211,69 @@ This package provides an orderless completion style that divides the pattern int
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :ensure t
+    :after consult
     :config
-    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler))
+
+    (defun +orderless--consult-suffix ()
+      "Regexp which matches the end of string with Consult tofu support."
+      (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
+          (format "[%c-%c]*$"
+                  consult--tofu-char
+                  (+ consult--tofu-char consult--tofu-range -1))
+        "$"))
+
+    ;; Recognizes the following patterns:
+    ;; * .ext (file extension)
+    ;; * regexp$ (regexp matching at end)
+    (defun +orderless-consult-dispatch (word _index _total)
+      (cond
+       ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+       ((string-suffix-p "$" word)
+        `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
+       ;; File extensions
+       ((and (or minibuffer-completing-file-name
+                 (derived-mode-p 'eshell-mode))
+             (string-match-p "\\`\\.." word))
+        `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
+
+    (orderless-define-completion-style +orderless-with-initialism
+      (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
+
+    (defun consult--orderless-regexp-compiler (input type &rest _config)
+      (setq input (orderless-pattern-compiler input))
+      (cons
+       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+       (lambda (str) (orderless--highlight input str))))
+
+    (setq orderless-style-dispatchers (list #'+orderless-consult-dispatch
+                                            #'orderless-affix-dispatch))
+
+    (defun consult--with-orderless (&rest args)
+      (minibuffer-with-setup-hook
+          (lambda ()
+            (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+        (apply args)))
+    (advice-add #'consult-ripgrep :around #'consult--with-orderless)
+
+    (setq consult--grep-regexp-type 'pcre
+          orderless-component-separator #'orderless-escapable-split-on-space
+          completion-category-defaults nil
+          completion-category-overrides nil)
+
+    (add-to-list 'completion-category-overrides
+                 '(file (styles partial-completion))))
+#+END_SRC
+** Initialize =affe=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package affe
+    :ensure t
+    :config
+    (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+      (setq input (orderless-pattern-compiler input))
+      (cons input (apply-partially #'orderless--highlight input)))
+    (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 #+END_SRC
 ** Initialize =fussy=
 *** Description
@@ -1232,8 +1297,7 @@ intelligent scoring and sorting.
      ;; For example, project-find-file uses 'project-files which uses
      ;; substring completion by default. Set to nil to make sure it's using
      ;; flx.
-     completion-category-defaults nil
-     completion-category-overrides nil
+
      fussy-filter-fn 'fussy-filter-orderless-flex)
 
     (with-eval-after-load 'eglot
@@ -1360,7 +1424,7 @@ Some emacs settings that are useful for completions
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
     :ensure t
-    :diminish eglot
+    :diminish eglot-mode
     :custom
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
@@ -1399,7 +1463,7 @@ Some emacs settings that are useful for completions
 
   (use-package yasnippet
     :ensure t
-    :diminish yas
+    :diminish yasnippet-mode
     :config
     (yas-reload-all)
     (setq yas-snippet-dirs
@@ -1408,7 +1472,8 @@ Some emacs settings that are useful for completions
 ** Initialize =flycheck=
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t)
+    :ensure t
+    :diminish flycheck-mode)
 #+END_SRC
 ** C & C++
 *** Description
@@ -1591,7 +1656,6 @@ Collection of Emacs major and minor modes that work with scheme
 #+BEGIN_SRC emacs-lisp
   (use-package geiser-guile
     :defer t
-    :diminish t
     :ensure t
     :hook
     (geiser-mode . company-mode)
@@ -1610,7 +1674,6 @@ Help editing OCaml code, to highlight important parts of the code, to run an OCa
   (use-package tuareg
     :ensure t
     :defer t
-    :diminish t
     :bind
     (:map tuareg-mode-map
           ("<M-;>" . tuareg-comment-dwim))
