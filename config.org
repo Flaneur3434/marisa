@@ -464,7 +464,7 @@ Default grep flags
 #+BEGIN_SRC emacs-lisp
   (grep-apply-setting
    'grep-template
-   "--color --ignore-case --line-number --with-filename --recursive --null --regexp")
+   "--color --ignore-case --line-number --with-filename --recursive --null --perl-regexp --regexp")
 #+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
@@ -518,6 +518,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
   (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
   (push "*vc-diff*" popwin:special-display-config)
   (push "*vc-change-log*" popwin:special-display-config)
+  (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
 #+END_SRC
 ** Persistent undo
 #+BEGIN_SRC emacs-lisp
@@ -1027,6 +1028,15 @@ Pulse highlight line on demand or after running select functions
             goto-line
             scroll-down-command)))
 #+END_SRC
+** Initialize =diff-hl=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package diff-hl
+    :ensure t
+    :diminish diff-hl-mode
+    :init
+    (global-diff-hl-mode))
+#+END_SRC
 ** Initialize =vertigo=
 *** Description
 Vertigo.el is a port of the vim vertigo plugin and gives commands for jumping up
@@ -1213,49 +1223,6 @@ This package provides an orderless completion style that divides the pattern int
     :ensure t
     :after consult
     :config
-
-    (defun +orderless--consult-suffix ()
-      "Regexp which matches the end of string with Consult tofu support."
-      (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
-          (format "[%c-%c]*$"
-                  consult--tofu-char
-                  (+ consult--tofu-char consult--tofu-range -1))
-        "$"))
-
-    ;; Recognizes the following patterns:
-    ;; * .ext (file extension)
-    ;; * regexp$ (regexp matching at end)
-    (defun +orderless-consult-dispatch (word _index _total)
-      (cond
-       ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
-       ((string-suffix-p "$" word)
-        `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
-       ;; File extensions
-       ((and (or minibuffer-completing-file-name
-                 (derived-mode-p 'eshell-mode))
-             (string-match-p "\\`\\.." word))
-        `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
-
-    (orderless-define-completion-style +orderless-with-initialism
-      (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
-
-
-    (defun consult--orderless-regexp-compiler (input type &rest _config)
-      (setq input (orderless-pattern-compiler input))
-      (cons
-       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-       (lambda (str) (orderless--highlight input str))))
-
-    (setq orderless-style-dispatchers (list #'+orderless-consult-dispatch
-                                            #'orderless-affix-dispatch))
-
-    (defun consult--with-orderless (&rest args)
-      (minibuffer-with-setup-hook
-          (lambda ()
-            (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-        (apply args)))
-    (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-
     (setq consult--grep-regexp-type 'pcre
           orderless-component-separator #'orderless-escapable-split-on-space
           completion-category-defaults nil
@@ -1263,6 +1230,7 @@ This package provides an orderless completion style that divides the pattern int
 
     (add-to-list 'completion-category-overrides
                  '(file (styles partial-completion))))
+
 #+END_SRC
 ** Initialize =affe=
 *** Code

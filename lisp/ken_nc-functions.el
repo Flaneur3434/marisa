@@ -147,6 +147,18 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
    ((string-equal major-mode "dired-mode") (dired-toggle-read-only))
    (t nil)))
 
+(cl-defun ken_nc/convert-to-orderless-regex (pattern &key (ag nil))
+  "Converts a space-separated sequence of words to a regular expression."
+  (if (string-match-p " " pattern)
+	  (let* ((pattern-list (split-string pattern))
+			 (converted-pattern
+			  (mapcar (lambda (word) (if ag
+										 (format "(?:%s)" word)
+									   (format "\\(?:%s\\)" word)))
+					  pattern-list)))
+		(string-join converted-pattern ".*"))
+	pattern))
+
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern directory-name file-name)
   "Runs grep or ag (silver searcher) in one command. If ag is found on the
 system, it uses that to grep. If ag is not found, it uses the system grep
@@ -158,12 +170,12 @@ command. If prefix is given, it uses grep with the --invert-match flag."
 	   (file-name (read-string "Which file(s): ")))
 	(cond
 	 ((= set-invert 4)
-	  (grep (concat "grep --invert-match " grep-template " " search-pattern " " directory-name file-name)))
+	  (grep (concat "grep --invert-match " grep-template " " (ken_nc/convert-to-orderless-regex search-pattern) " " directory-name file-name)))
 	 (t
 	  (if (executable-find "ag")
-		  (ag/search search-pattern directory-name :file-regex file-name)
+		  (ag/search (ken_nc/convert-to-orderless-regex search-pattern :ag t) directory-name :regexp (lambda (w) (not (string-match-p " " w))) :file-regex file-name)
 		(let ((file-name (read-string "Which file(s): ")))
-		  (grep (concat "grep " grep-template " " search-pattern " " directory-name file-name))))))))
+		  (grep (concat "grep " grep-template " " (ken_nc/convert-to-orderless-regex search-pattern) " " directory-name file-name))))))))
 
 (defun ken_nc/grep-symbol-at-point (&optional occur-or-grep)
   "Call 'grep' on symbol at point. Default (no prefix) runs occur.
