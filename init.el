@@ -97,10 +97,8 @@
                 (if (display-graphic-p frame)
                     (progn
                       ;; (load-theme 'xresources t)
-					  (load-theme 'almost-mono-black t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
-                    (load-theme 'flatland-black t)
                     (xterm-mouse-mode)
                     (good-scroll-mode -1)
 					(setq mouse-wheel-scroll-amount '(0.7)
@@ -108,7 +106,7 @@
 						  ring-bell-function 'ignore)))
                 (xah-fly-keys t)
                 (gcmh-mode -1)))
-  (load-theme 'modus-vivendi t))  ;; regular
+  (load-theme 'almost-mono-black t))  ;; regular
 
 (if (fboundp 'native-compile-async)
 	(progn

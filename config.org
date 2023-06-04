@@ -4,6 +4,10 @@
 #+OPTIONS: num:nil
 Emacs - Connect To The Wired Edition
 
+#+BEGIN_SRC emacs-lisp
+  ;; -*- lexical-binding: t -*-
+#+END_SRC
+
 [[./athos_monk_emacs.png]]
 * Introduction
 Based off of Witchmacs(https://github.com/snackon/Witchmacs)
@@ -519,6 +523,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
   (push "*vc-diff*" popwin:special-display-config)
   (push "*vc-change-log*" popwin:special-display-config)
   (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
+  (push '("Embark Collect:.*" :regexp t :stick t) popwin:special-display-config)
 #+END_SRC
 ** Persistent undo
 #+BEGIN_SRC emacs-lisp
@@ -907,7 +912,7 @@ Utilize asynchronous processes whenever possible
 #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
     :ensure t
-    :diminish (page-break-lines-mode . visual-line-mode))
+    :diminish page-break-lines-mode visual-line-mode)
 #+END_SRC
 ** Initialize =undo-tree=
 *** Code
@@ -1036,6 +1041,31 @@ Pulse highlight line on demand or after running select functions
     :diminish diff-hl-mode
     :init
     (global-diff-hl-mode))
+#+END_SRC
+** Initialize =embark=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package embark
+    :ensure t
+    :bind
+    (("C-c a" . embark-act))
+    :config
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none))))
+    (setq embark-indicators
+          '(embark-minimal-indicator
+            embark-highlight-indicator
+            embark-isearch-highlight-indicator)
+          prefix-help-command #'embark-prefix-help-command
+          embark-prompter #'embark-completing-read-prompter))
+
+  (use-package embark-consult
+    :ensure t
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 ** Initialize =vertigo=
 *** Description
@@ -1182,6 +1212,7 @@ completing-read.
     :ensure t
     :init
     :custom
+    (consult--grep-regexp-type 'pcre)
     (consult-async-min-input 3))
 
   (use-package consult-yasnippet
@@ -1221,9 +1252,16 @@ This package provides an orderless completion style that divides the pattern int
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :ensure t
-    :after consult
+    :demand t
     :config
-    (setq consult--grep-regexp-type 'pcre
+    (defun consult--orderless-regexp-compiler (input type &rest _config)
+      (setq input (orderless-pattern-compiler input))
+      (cons
+       (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+       (lambda (str) (orderless--highlight input str))))
+
+    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler
+          consult--grep-regexp-type 'pcre
           orderless-component-separator #'orderless-escapable-split-on-space
           completion-category-defaults nil
           completion-category-overrides nil)

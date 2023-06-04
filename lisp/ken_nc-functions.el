@@ -1,4 +1,6 @@
 ;; ken_nc functions______________________________________________________
+(require 'cl-lib)
+
 
 (defun ken_nc/dwim-open-line ()
   "Create a new line above or below the current line depending on position of cursor.
@@ -147,17 +149,26 @@ In defualt emacs behavior, this would be C-u C-x C-x (which calls exchange-point
    ((string-equal major-mode "dired-mode") (dired-toggle-read-only))
    (t nil)))
 
-(cl-defun ken_nc/convert-to-orderless-regex (pattern &key (ag nil))
-  "Converts a space-separated sequence of words to a regular expression."
-  (if (string-match-p " " pattern)
-	  (let* ((pattern-list (split-string pattern))
-			 (converted-pattern
-			  (mapcar (lambda (word) (if ag
-										 (format "(?:%s)" word)
-									   (format "\\(?:%s\\)" word)))
-					  pattern-list)))
-		(string-join converted-pattern ".*"))
-	pattern))
+(defun ken_nc/perm (list)
+  "Generate all permutations of a list."
+  (cond ((null list) nil)
+        ((null (cdr list)) (list list))
+        (t (apply #'append
+                  (mapcar (lambda (element)
+                            (mapcar (lambda (l) (cons element l))
+                                    (ken_nc/perm (remove element list))))
+                          list)))))
+
+(cl-defun ken_nc/convert-to-orderless-regex (patterns &key (ag nil))
+  "Generates a regular expression string with all permutations of the words."
+  (let* ((pattern-list (split-string patterns))
+		 (converted-words (mapcar (lambda (p) (if ag
+												  (format "(?:%s)" p)
+												(format "\\(?:%s\\)" p)))
+								  pattern-list))
+		 (permutations (ken_nc/perm converted-words))
+		 (converted-perms (mapcar (lambda (p) (string-join p ".*")) permutations)))
+	(string-join converted-perms "|")))
 
 (defun ken_nc/grep-dwim (&optional set-invert search-pattern directory-name file-name)
   "Runs grep or ag (silver searcher) in one command. If ag is found on the
@@ -173,9 +184,31 @@ command. If prefix is given, it uses grep with the --invert-match flag."
 	  (grep (concat "grep --invert-match " grep-template " " (ken_nc/convert-to-orderless-regex search-pattern) " " directory-name file-name)))
 	 (t
 	  (if (executable-find "ag")
-		  (ag/search (ken_nc/convert-to-orderless-regex search-pattern :ag t) directory-name :regexp (lambda (w) (not (string-match-p " " w))) :file-regex file-name)
+		  (ag/search (ken_nc/convert-to-orderless-regex search-pattern :ag t) directory-name :regexp t :file-regex file-name)
 		(let ((file-name (read-string "Which file(s): ")))
 		  (grep (concat "grep " grep-template " " (ken_nc/convert-to-orderless-regex search-pattern) " " directory-name file-name))))))))
+
+(defun ken_nc/consult-ripgrep (&optional set-invert)
+  "Call `consult-ripgrep' in specific directory"
+  (interactive "p")
+  (when	(equal set-invert nil) (setq set-invert 0))
+  (let* ((directory-name (read-directory-name "Which directory: "))
+		 (invert-p (when (= set-invert 4)
+					 "--invert"))
+		 (consult-ripgrep-args (concat
+								"rg "
+								"--null "
+								"--line-buffered "
+								"--color=never "
+								"--max-columns=1000 "
+								"--path-separator / "
+								"--smart-case "
+								"--no-heading "
+								"--with-filename "
+								"--line-number "
+								"--search-zip "
+								invert-p)))
+	(consult-ripgrep directory-name)))
 
 (defun ken_nc/grep-symbol-at-point (&optional occur-or-grep)
   "Call 'grep' on symbol at point. Default (no prefix) runs occur.
