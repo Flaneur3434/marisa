@@ -178,6 +178,7 @@ scrolling
 ** Defer loading most packages for quicker startup times
 #+BEGIN_SRC emacs-lisp
   ;; (setq use-package-always-defer t)
+  (setq use-package-always-demand t)
   (setq use-package-verbose t)
 #+END_SRC
 ** Default encoding
@@ -458,17 +459,16 @@ The defualt functionality of isearch is to put the cursor after the last charact
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
 Save buffer automatically when wgrep-finish-edit
 #+BEGIN_SRC emacs-lisp
-  (setq wgrep-auto-save-buffer t)
-#+END_SRC
-Change the default key binding to switch to wgrep
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-q") 'ken_nc/edit-buffer-dwim)
-#+END_SRC
-Default grep flags
-#+BEGIN_SRC emacs-lisp
-  (grep-apply-setting
-   'grep-template
-   "--color --ignore-case --line-number --with-filename --recursive --null --perl-regexp --regexp")
+  (use-package wgrep
+    :ensure t
+    :custom
+    (wgrep-auto-save-buffer t)
+    :config
+    ;; Change the default key binding to switch to wgrep
+    (global-set-key (kbd "C-q") 'ken_nc/edit-buffer-dwim)
+    (grep-apply-setting
+     'grep-template
+     "--color --ignore-case --line-number --with-filename --recursive --null --perl-regexp --regexp"))
 #+END_SRC
 ** Emacs default completion for elisp
 Emacs has its own built-in functionality which enables TAB completion for elisp
@@ -523,6 +523,7 @@ Popwin is a popup window manager for Emacs which makes you free from the hell of
   (push "*vc-diff*" popwin:special-display-config)
   (push "*vc-change-log*" popwin:special-display-config)
   (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
+  (push '("magit-revision:.*" :regexp t :stick t) popwin:special-display-config)
   (push '("Embark Collect:.*" :regexp t :stick t) popwin:special-display-config)
 #+END_SRC
 ** Persistent undo
@@ -559,7 +560,7 @@ Deprecated cause I am using GCMH
 #+BEGIN_SRC emacs-lisp
   (use-package gcmh
     :ensure t
-    :diminish gcmh-mode
+    :diminish
     :init
     (gcmh-mode 1)
     :custom
@@ -579,7 +580,9 @@ preceding white spaces, or just delete one character.
 #+END_SRC
 ** Disable flymake
 #+BEGIN_SRC emacs-lisp
-  (flymake-mode-off)
+  (remove-hook 'c-mode 'flymake-mode t)
+  (remove-hook 'c++-mode 'flymake-mode t)
+  (remove-hook 'python-mode 'flymake-mode t)
 #+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
@@ -649,7 +652,7 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
     (setq org-startup-folded t))
 
   (use-package org-indent-
-    :diminish org-indent-mode)
+    :diminish)
 
   (set-face-attribute 'org-block nil
                       :background "#0a0a0a")
@@ -745,6 +748,7 @@ Incredibly useful package; if you are in the middle of a command and don't know 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
+    :diminish
     :init
     (which-key-mode))
 #+END_SRC
@@ -754,13 +758,7 @@ Diminish hides minor modes to prevent cluttering your mode line
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
-    :ensure t
-    :config
-    ;; loaded at early-init so i have to add this here
-    (diminish 'gcmh-mode)
-    (diminish 'xah-fly-keys-mode)
-    (diminish 'buffer-face-mode)
-    (diminish 'visual-line-mode))
+    :ensure t)
 #+END_SRC
 ** Initialize =dashboard=
 *** Description
@@ -850,7 +848,7 @@ You might find beacon an unnecesary package but I find it very neat. It briefly 
 #+BEGIN_SRC emacs-lisp
   (use-package beacon
     :ensure t
-    :diminish beacon-mode
+    :diminish
     :init
     (beacon-mode -1))
 #+END_SRC
@@ -919,7 +917,7 @@ Utilize asynchronous processes whenever possible
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
-    :diminish undo-tree-mode)
+    :diminish)
 #+END_SRC
 ** Initialize =crux=
 *** Description
@@ -952,7 +950,8 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
     :ensure t
-    :bind ("<mouse-2>" . er/expand-region))
+    ;; :bind ("<mouse-2>" . er/expand-region)
+    )
 #+END_SRC
 ** Initialize =highlight=
 *** Code
@@ -977,7 +976,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
-    :diminish projectile-mode
+    :diminish
     :init
     (projectile-mode +1))
 #+END_SRC
@@ -1014,7 +1013,7 @@ Pulse highlight line on demand or after running select functions
 #+BEGIN_SRC emacs-lisp
   (use-package pulsar
     :ensure t
-    :diminish pulsar-mode
+    :diminish
     :hook
     (next-error-hook . pulsar-pulse-line)
     (find-file-hook . pulsar-pulse-line)
@@ -1038,9 +1037,24 @@ Pulse highlight line on demand or after running select functions
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
     :ensure t
-    :diminish diff-hl-mode
+    :diminish
     :init
     (global-diff-hl-mode))
+#+END_SRC
+** Initialize =git timemachine=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine
+    :ensure t
+    :defer t
+    :bind
+    (:map git-timemachine-mode-map
+          ("j" . git-timemachine-show-previous-revision)
+          ("l". git-timemachine-show-next-revision))
+    :hook
+    (git-timemachine-mode . xah-fly-mode-toggle)
+    :custom
+    (git-timemachine-show-minibuffer-details t))
 #+END_SRC
 ** Initialize =embark=
 *** Code
@@ -1048,13 +1062,14 @@ Pulse highlight line on demand or after running select functions
   (use-package embark
     :ensure t
     :bind
-    (("C-c a" . embark-act))
+    (("C-c a" . embark-export))
     :config
     ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                    nil
                    (window-parameters (mode-line-format . none))))
+
     (setq embark-indicators
           '(embark-minimal-indicator
             embark-highlight-indicator
@@ -1332,17 +1347,55 @@ intelligent scoring and sorting.
     (advice-add 'company-capf :around 'bb-company-capf))
 
 #+END_SRC
+** Initialize =color identifiers=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package color-identifiers-mode
+    :ensure t
+    :diminish
+    :custom
+    (color-identifiers:recoloring-delay 1)
+    :config
+    (defun myfunc-color-identifiers-mode-hook ()
+      (let ((faces '(font-lock-comment-face font-lock-comment-delimiter-face font-lock-constant-face font-lock-type-face font-lock-function-name-face font-lock-variable-name-face font-lock-keyword-face font-lock-string-face font-lock-builtin-face font-lock-preprocessor-face font-lock-warning-face font-lock-doc-face font-lock-negation-char-face font-lock-regexp-grouping-construct font-lock-regexp-grouping-backslash)))
+        (dolist (face faces)
+          (face-remap-add-relative face '(:inherit default))))
+      (face-remap-add-relative 'font-lock-keyword-face '((:weight bold)))
+      (face-remap-add-relative 'font-lock-comment-face '((:slant italic)))
+      (face-remap-add-relative 'font-lock-builtin-face '((:weight bold)))
+      (face-remap-add-relative 'font-lock-preprocessor-face '((:weight bold)))
+      (face-remap-add-relative 'font-lock-function-name-face '((:slant italic)))
+      (face-remap-add-relative 'font-lock-string-face '((:slant italic)))
+      (face-remap-add-relative 'font-lock-constant-face '((:weight bold))))
+    :hook
+    (c-mode . color-identifiers-mode)
+    (color-identifiers-mode . myfunc-color-identifiers-mode-hook))
+#+END_SRC
+** Initialize =symbol overlay=
+*** Code
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package symbol-overlay
+  ;;   :ensure t
+  ;;   :bind
+  ;;   (:map symbol-overlay-map
+  ;;         ("<right>". symbol-overlay-jump-forward)
+  ;;         ("<left>" . symbol-overlay-jump-backward)
+  ;;         ("<mouse-3>" . symbol-overlay-put)
+  ;;         ("<mouse-2>" . symbol-overlay-remove))
+  ;;   :hook
+  ;;   (prog-mode . symbol-overlay-mode))
+#+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
-    :diminish eldoc-mode)
+    :diminish)
 #+END_SRC
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package abbrev
-    :diminish abbrev-mode)
+    :diminish)
 #+END_SRC
 * Programming section
 ** Initialize =emacs=
@@ -1377,6 +1430,7 @@ Some emacs settings that are useful for completions
   (use-package company
     :ensure t
     :demand t
+    :diminish
     :bind
     (:map company-mode-map
           ("<tab>" . company-indent-or-complete-common)
@@ -1469,7 +1523,7 @@ Some emacs settings that are useful for completions
 
   (use-package yasnippet
     :ensure t
-    :diminish yasnippet-mode
+    :diminish
     :config
     (yas-reload-all)
     (setq yas-snippet-dirs
@@ -1478,8 +1532,7 @@ Some emacs settings that are useful for completions
 ** Initialize =flycheck=
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
-    :diminish flycheck-mode)
+    :ensure t)
 #+END_SRC
 ** C & C++
 *** Description
@@ -1579,48 +1632,48 @@ Also added google-java-format
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
-    ;; Probably need to install abunch of pip packages
-    (use-package pyvenv
-      :ensure t
-      :init
-      (setenv "~/.venvs/")
-      :config
-      ;; (pyvenv-mode t)
-      (setq pyvenv-post-activate-hooks
-            (list (lambda ()
-                    (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+  ;; Probably need to install abunch of pip packages
+  (use-package pyvenv
+    :ensure t
+    :init
+    (setenv "~/.venvs/")
+    :config
+    ;; (pyvenv-mode t)
+    (setq pyvenv-post-activate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
 
-      (setq pyvenv-post-deactivate-hooks
-            (list (lambda ()
-                    (setq python-shell-interpreter "python3.10")))))
+    (setq pyvenv-post-deactivate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter "python3.10")))))
 
-    (use-package blacken
-      :ensure t
-      :config
-      (setq-default blacken-allow-p36 t)
-      (setq-default blacken-fast-unsafe t)
-      (setq-default blacken-line-length 120)
-      (setq-default blacken-skip-string-normalization t))
+  (use-package blacken
+    :ensure t
+    :config
+    (setq-default blacken-allow-p36 t)
+    (setq-default blacken-fast-unsafe t)
+    (setq-default blacken-line-length 120)
+    (setq-default blacken-skip-string-normalization t))
 
-    (defun ken_nc/python-format-on-save ()
-      (when (eq major-mode 'python-mode)
-        (let ((prev-pos (point)))
-          (call-interactively 'blacken-buffer)
-          (goto-char prev-pos))))
+  (defun ken_nc/python-format-on-save ()
+    (when (eq major-mode 'python-mode)
+      (let ((prev-pos (point)))
+        (call-interactively 'blacken-buffer)
+        (goto-char prev-pos))))
 
-    (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
+  ;; (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
 
-    (use-package python-mode
-      :ensure t
-      :custom
-      (python-shell-interpreter "python3")
-      :hook
-      (python-mode . pyvenv-mode)
-      (python-mode . flycheck-mode)
-      (python-mode . company-mode)
-      (python-mode . blacken-mode)
-      (python-mode . yas-minor-mode)
-      (python-mode . eglot-ensure))
+  (use-package python-mode
+    :ensure t
+    :custom
+    (python-shell-interpreter "python3")
+    :hook
+    (python-mode . pyvenv-mode)
+    (python-mode . flycheck-mode)
+    (python-mode . company-mode)
+    (python-mode . blacken-mode)
+    (python-mode . yas-minor-mode)
+    (python-mode . eglot-ensure))
 #+END_SRC
 ** Json
 #+BEGIN_SRC emacs-lisp

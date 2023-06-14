@@ -4363,7 +4363,8 @@ minor modes loaded later may override bindings in this map.")
    ("n" . prot-simple-narrow-dwim)
    ("j" . prot-comment-timestamp-keyword)
    ("u" . prot-simple-delete-pair-dwim)
-   ("e" . prot-diff-buffer-dwim)))
+   ("e" . prot-diff-buffer-dwim)
+   ("r" . git-timemachine-toggle)))
 ;;  TODO 2022-01-07: Add / Change MCT keybinds
 ;;  TODO 2022-01-07: Add prot-text.el keybindings
 ;;  TODO 2022-01-07: Add prot-comment.el keybindings

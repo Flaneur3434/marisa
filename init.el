@@ -23,7 +23,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/ligature")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/wrap-region")
-(add-to-list 'load-path "~/.emacs.d/lisp/wgrep")
 (add-to-list 'load-path "~/.emacs.d/lisp/fzf")
 (add-to-list 'load-path "~/.emacs.d/lisp/iedit")
 (add-to-list 'load-path "~/.emacs.d/lisp/popwin")
@@ -73,8 +72,6 @@
 (require 'undo-hl)
 (require 'unfill)
 (require 'wc-mode)
-(require 'wgrep)
-(require 'wgrep-ag)
 (require 'wrap-region)
 
 ;; Minor Mode Settings
@@ -97,6 +94,7 @@
                 (if (display-graphic-p frame)
                     (progn
                       ;; (load-theme 'xresources t)
+					  (load-theme 'almost-mono-black t)
                       (good-scroll-mode 1))  ;; daemon graphical
                   (progn                        ;; daemon terminal
                     (xterm-mouse-mode)
