@@ -1260,6 +1260,16 @@ of the minibuffer for your completion candidates.
     ;; enabled right away. Note that this forces loading the package.
     (marginalia-mode))
     #+END_SRC
+** Initialize =smart-hungry-delete=
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-hungry-delete
+    :ensure t
+    :bind (:map prog-mode-map
+                ([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+                ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+                ([remap delete-char] . smart-hungry-delete-forward-char))
+    :init (smart-hungry-delete-add-default-hooks))
+#+END_SRC
 ** Initialize =orderless=
 *** Description
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
