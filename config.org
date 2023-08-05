@@ -116,21 +116,24 @@ scrolling
   (setq auto-window-vscroll nil)
 
   ;; pixel scroll settings
-  ;; (setq-default scroll-conservatively 10000)
-  ;; (setq-default scroll-margin 5)
+  (setq-default scroll-conservatively 10000)
+  (setq-default scroll-margin 5)
 
-  ;; (pixel-scroll-precision-mode t)
+  (pixel-scroll-precision-mode t)
   ;; (setq pixel-scroll-precision-use-momentum t)
   ;; (setq pixel-scroll-precision-interpolate-mice t)
   ;; (setq pixel-scroll-precision-large-scroll-height 10.0)
   ;; (setq pixel-scroll-precision-interpolate-page t)
+  (global-set-key [next] #'pixel-interpolate-up)
+  (global-set-key [prior] #'pixel-interpolate-down)
 
-  (good-scroll-mode 1)
-  (setq good-scroll-step 103)
-  (setq good-scroll-render-rate 0.02)
 
-  (global-set-key [next] #'good-scroll-up-full-screen)
-  (global-set-key [prior] #'good-scroll-down-full-screen)
+  ;; (good-scroll-mode 1)
+  ;; (setq good-scroll-step 103)
+  ;; (setq good-scroll-render-rate 0.02)
+
+  ;; (global-set-key [next] #'good-scroll-up-full-screen)
+  ;; (global-set-key [prior] #'good-scroll-down-full-screen)
 #+END_SRC
 ** Disable ring-bell
 #+BEGIN_SRC emacs-lisp
@@ -510,42 +513,9 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
   (add-hook 'prog-mode-hook 'wc-mode)
   (setq wc-modeline-format "[Words: %tw, Lines: %tl]")
 #+END_SRC
-** Popup window mode
-Popwin is a popup window manager for Emacs which makes you free from the hell of annoying buffers such like *Help*, *Completions*, *compilation*, and etc.
-#+BEGIN_SRC emacs-lisp
-  (popwin-mode 1)
-  (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*xref*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
-  (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
-  (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
-  (push "*vc-diff*" popwin:special-display-config)
-  (push "*vc-change-log*" popwin:special-display-config)
-  (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
-  (push '("magit-revision:.*" :regexp t :stick t) popwin:special-display-config)
-  (push '("Embark Collect:.*" :regexp t :stick t) popwin:special-display-config)
-#+END_SRC
-** Persistent undo
-#+BEGIN_SRC emacs-lisp
-  (undohist-initialize)
-#+END_SRC
 ** Ligature
 #+BEGIN_SRC emacs-lisp
-  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                       "\\\\" "://"))
-  (add-hook 'prog-mode-hook 'ligature-mode)
+
 #+END_SRC
 ** Garbage Collection on focus-out
 Garbage-collect on focus-out, Emacs should feel snappier overall.
@@ -669,11 +639,6 @@ Change to use aliases found in login shell. Also disable internal elisp commands
   (setq shell-file-name "bash")
   ;; (setq shell-command-switch "-ic")
   (setq eshell-prefer-lisp-functions t)
-
-  ;; add environment variables to emacs environment
-  (dolist (var '("BROWSER" "PLAN9"))
-    (add-to-list 'exec-path-from-shell-variables var))
-  (exec-path-from-shell-initialize)
 #+END_SRC
 ** Prompt
 #+BEGIN_SRC emacs-lisp
@@ -961,10 +926,37 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+END_SRC
 ** Initialize =ag=
 #+BEGIN_SRC emacs-lisp
-  (setq ag-highlight-search t)
-  (setq ag-executable "/usr/bin/ag")
-  (setq ag-reuse-buffers t)
-  ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+  (use-package ag
+    :ensure t
+    :config
+    (setq ag-highlight-search t)
+    (setq ag-executable "/usr/bin/ag")
+    (setq ag-reuse-buffers t)
+    ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode))
+
+    (use-package ag-wgrep
+      :ensure t)
+#+END_SRC
+** Initialize =ligature=
+#+BEGIN_SRC emacs-lisp
+  (use-package ligature
+    :ensure t
+    :hook
+    (prog-mode . ligature-mode)
+    :config
+    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://")))
 #+END_SRC
 ** Initialize =company-ctags=
 #+BEGIN_SRC emacs-lisp
@@ -980,31 +972,11 @@ Expand region increases the selected region by semantic units. Just keep pressin
     :init
     (projectile-mode +1))
 #+END_SRC
-** Initialize =wrap-region=
-Wrap Region is a minor mode for Emacs that wraps a region with punctuations. For
-"tagged" markup modes, such as HTML and XML, it wraps with tags.
-#+BEGIN_SRC emacs-lisp
-       (wrap-region-add-wrappers
-        '(("<" ">")
-          ("'" "'")
-          ("[" "]")
-          ("{" "}")
-          ("/* " " */" "#" (java-mode c-mode css-mode go-mode))))
-#+END_SRC
 ** Initialize =sky-color-clock=
 #+BEGIN_SRC emacs-lisp
   (sky-color-clock-initialize 38)  ;; california
   (setq sky-color-clock-format "%H:%M")
   (setq sky-color-clock-enable-emoji-icon nil)
-#+END_SRC
-** Initialize =eyebrowse=
-*** Description
-Eyebrowse is a global minor mode for Emacs that allows you to manage your window
-configurations in a simple manner, just like tiling window managers like i3wm
-with their workspaces do.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (eyebrowse-mode t)
 #+END_SRC
 ** Initialize =pulsar=
 *** Description
@@ -1216,6 +1188,60 @@ which behaves correctly under all circumstances.
   ;; Ensure that pcomplete does not write to the buffer
   ;; and behaves as a pure `completion-at-point-function'.
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+#+END_SRC
+** Initialize =iedit=
+#+BEGIN_SRC emacs-lisp
+  (use-package iedit
+    :ensure t
+    :init)
+#+END_SRC
+** Initialize =undohist=
+#+BEGIN_SRC emacs-lisp
+  (use-package undohist
+    :ensure t
+    :init
+    (undohist-initialize))
+#+END_SRC
+** Initialize =popwin=
+#+BEGIN_SRC emacs-lisp
+  (use-package popwin
+    :ensure t
+    :init
+    (popwin-mode 1)
+    :config
+    (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
+    (push '("*xref*" :dedicated t :stick t) popwin:special-display-config)
+    (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
+    (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
+    (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
+    (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
+    (push "*vc-diff*" popwin:special-display-config)
+    (push "*vc-change-log*" popwin:special-display-config)
+    (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
+    (push '("magit-revision:.*" :regexp t :stick t) popwin:special-display-config)
+    (push '("Embark Collect:.*" :regexp t :stick t) popwin:special-display-config))
+#+END_SRC
+** Initialize =wrap-region=
+#+BEGIN_SRC emacs-lisp
+  (use-package wrap-region
+    :ensure t
+    :config
+    (wrap-region-add-wrappers
+     '(("<" ">")
+       ("'" "'")
+       ("[" "]")
+       ("{" "}")
+       ("/* " " */" "#" (java-mode c-mode css-mode go-mode)))))
+#+END_SRC
+** Initialize =exec-path-from-shell=
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    ;; add environment variables to emacs environment
+    (dolist (var '("BROWSER" "PLAN9"))
+      (add-to-list 'exec-path-from-shell-variables var))
+    (exec-path-from-shell-initialize))
 #+END_SRC
 ** Initialize =consult=
 *** Description
@@ -1468,14 +1494,17 @@ Some emacs settings that are useful for completions
 #+END_SRC
 ** Initialize =aggressive-indent-mode=
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'c-mode-hook #'aggressive-indent-mode)
-  (add-hook 'c++-mode-hook #'aggressive-indent-mode)
-  (add-to-list
-   'aggressive-indent-dont-indent-if
-   '(and (derived-mode-p 'c-mode)
-         (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                             (thing-at-point 'line)))))
+  (use-package aggressive-indent
+    :ensure t
+    :config
+    (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+    (add-hook 'c-mode-hook #'aggressive-indent-mode)
+    (add-hook 'c++-mode-hook #'aggressive-indent-mode)
+    (add-to-list
+     'aggressive-indent-dont-indent-if
+     '(and (derived-mode-p 'c-mode)
+           (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                               (thing-at-point 'line))))))
 #+END_SRC
 ** Initialize =dumb-jump=
 #+BEGIN_SRC emacs-lisp
