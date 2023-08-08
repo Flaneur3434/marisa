@@ -71,18 +71,14 @@
               (lambda (frame)
                 (select-frame frame)
                 (if (display-graphic-p frame)
-                    (progn
-                      ;; (load-theme 'xresources t)
-					  (load-theme 'almost-mono-black t)
-                      (good-scroll-mode 1))  ;; daemon graphical
-                  (progn                        ;; daemon terminal
-                    (xterm-mouse-mode)
-                    (good-scroll-mode -1)
+                    (load-theme 'xresources t)
+                  (progn
+					(xterm-mouse-mode)
 					(setq mouse-wheel-scroll-amount '(0.7)
 						  mouse-wheel-progressive-speed nil
 						  ring-bell-function 'ignore)))
-                (xah-fly-keys t)
-                (gcmh-mode -1)))
+				(xah-fly-keys t)
+				(gcmh-mode -1)))
   (load-theme 'almost-mono-black t))  ;; regular
 
 (if (fboundp 'native-compile-async)
