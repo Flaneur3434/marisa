@@ -50,3 +50,4 @@ eclipse.jdt.ls
 config.el
 session*
 projects
+undohist/

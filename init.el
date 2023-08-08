@@ -38,7 +38,6 @@
 (require 'ken_nc-custom-colors)
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
-(require 'ligature)
 (require 'move-text)
 (require 'openbsd-knf-style)
 (require 'package)

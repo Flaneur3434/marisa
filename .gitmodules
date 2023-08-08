@@ -1,48 +1,24 @@
-[submodule "lisp/iedit"]
-	path = lisp/iedit
-	url = https://github.com/victorhge/iedit
 [submodule "themes/xresources-theme"]
 	path = themes/xresources-theme
 	url = https://github.com/Flaneur3434/xresources-theme
-[submodule "lisp/aggressive-indent-mode"]
-	path = lisp/aggressive-indent-mode
-	url = https://github.com/Malabarba/aggressive-indent-mode
 [submodule "lisp/company-ctags"]
 	path = lisp/company-ctags
 	url = https://github.com/redguardtoo/company-ctags
-[submodule "lisp/exec-path-from-shell"]
-	path = lisp/exec-path-from-shell
-	url = https://github.com/purcell/exec-path-from-shell
-[submodule "lisp/popwin"]
-	path = lisp/popwin
-	url = https://github.com/emacsorphanage/popwin
-[submodule "lisp/ligature"]
-	path = lisp/ligature
-	url = https://github.com/mickeynp/ligature.el
 [submodule "lisp/undo-hl"]
 	path = lisp/undo-hl
 	url = https://github.com/casouri/undo-hl
-[submodule "lisp/wrap-region"]
-	path = lisp/wrap-region
-	url = https://github.com/rejeep/wrap-region.el
 [submodule "lisp/sky-color-clock"]
 	path = lisp/sky-color-clock
 	url = https://github.com/zk-phi/sky-color-clock
 [submodule "themes/monochrome-theme"]
 	path = themes/monochrome-theme
 	url = https://github.com/fxn/monochrome-theme.el
-[submodule "lisp/undohist"]
-	path = lisp/undohist
-	url = https://github.com/Flaneur3434/undohist
 [submodule "themes/tokyo-theme.el"]
 	path = themes/tokyo-theme.el
 	url = https://github.com/rawleyfowler/tokyo-theme.el/
 [submodule "themes/nothing.el"]
 	path = themes/nothing.el
 	url = https://github.com/jaredgorski/nothing.el
-[submodule "lisp/good-scroll.el"]
-	path = lisp/good-scroll.el
-	url = https://github.com/io12/good-scroll.el
 [submodule "themes/acme-emacs-theme"]
 	path = themes/acme-emacs-theme
 	url = https://github.com/ianyepan/acme-emacs-theme

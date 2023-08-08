@@ -932,10 +932,8 @@ Expand region increases the selected region by semantic units. Just keep pressin
     (setq ag-highlight-search t)
     (setq ag-executable "/usr/bin/ag")
     (setq ag-reuse-buffers t)
-    ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode))
-
-    (use-package ag-wgrep
-      :ensure t)
+    ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
+    )
 #+END_SRC
 ** Initialize =ligature=
 #+BEGIN_SRC emacs-lisp
