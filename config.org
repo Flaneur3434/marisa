@@ -530,7 +530,7 @@ Deprecated cause I am using GCMH
 #+BEGIN_SRC emacs-lisp
   (use-package gcmh
     :ensure t
-    :diminish
+    :blackout t
     :init
     (gcmh-mode 1)
     :custom
@@ -622,7 +622,7 @@ One of the main selling points of Emacs! no Emacs distribution is complete witho
     (setq org-startup-folded t))
 
   (use-package org-indent-
-    :diminish)
+    :blackout t)
 
   (set-face-attribute 'org-block nil
                       :background "#0a0a0a")
@@ -713,7 +713,7 @@ Incredibly useful package; if you are in the middle of a command and don't know 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
-    :diminish
+    :blackout t
     :init
     (which-key-mode))
 #+END_SRC
@@ -813,7 +813,7 @@ You might find beacon an unnecesary package but I find it very neat. It briefly 
 #+BEGIN_SRC emacs-lisp
   (use-package beacon
     :ensure t
-    :diminish
+    :blackout t
     :init
     (beacon-mode -1))
 #+END_SRC
@@ -875,14 +875,14 @@ Utilize asynchronous processes whenever possible
 #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
     :ensure t
-    :diminish page-break-lines-mode visual-line-mode)
+    :blackout t)
 #+END_SRC
 ** Initialize =undo-tree=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
-    :diminish)
+    :blackout t)
 #+END_SRC
 ** Initialize =crux=
 *** Description
@@ -935,6 +935,53 @@ Expand region increases the selected region by semantic units. Just keep pressin
     ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
     )
 #+END_SRC
+** Initialize =blackout=
+*** Description
+Blackout is a package which allows you to hide or customize the display of major and minor modes in the mode line.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package blackout
+    :ensure t
+    :config
+    (with-eval-after-load 'xah-fly-keys
+      (blackout 'xah-fly-keys))
+    (with-eval-after-load 'xah-fly-keys
+      (blackout 'undo-hl-mode))
+    (blackout 'highlight-changes-mode)
+    (blackout 'auto-revert-mode)
+    (blackout 'buffer-face-mode)
+    (blackout 'flymake-mode)
+    (blackout 'visual-line-mode))
+#+END_SRC
+** Initialize =dimmer=
+*** Description
+This package provides a minor mode that indicates which buffer is currently active by dimming the faces in the other buffers. It does this nondestructively, and computes the dimmed faces dynamically such that your overall color scheme is shown in a muted form without requiring you to define what is a "dim" version of every face.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package dimmer
+    :ensure t
+    :blackout t
+    :custom
+    (dimmer-fraction 0.4)
+    :config
+    (dimmer-mode t)
+    (dimmer-configure-magit)
+    (dimmer-configure-which-key)
+    (dimmer-configure-company-box))
+#+END_SRC
+** Initialize =zoom=
+*** Description
+This minor mode takes care of managing the window sizes by enforcing a fixed and automatic balanced layout where the currently selected window is resized according to zoom-size which can be an absolute value in lines/columns, a ratio between the selected window and frame size or even a custom callback.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package zoom
+    :ensure t
+    :blackout t
+    :custom
+    (zoom-mode t)
+    (zoom-size '(0.618 . 0.618))
+    (zoom-ignored-major-modes '(dired-mode magit-mode)))
+#+END_SRC
 ** Initialize =ligature=
 #+BEGIN_SRC emacs-lisp
   (use-package ligature
@@ -966,7 +1013,7 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
-    :diminish
+    :blackout t
     :init
     (projectile-mode +1))
 #+END_SRC
@@ -983,7 +1030,7 @@ Pulse highlight line on demand or after running select functions
 #+BEGIN_SRC emacs-lisp
   (use-package pulsar
     :ensure t
-    :diminish
+    :blackout t
     :hook
     (next-error-hook . pulsar-pulse-line)
     (find-file-hook . pulsar-pulse-line)
@@ -1007,7 +1054,7 @@ Pulse highlight line on demand or after running select functions
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
     :ensure t
-    :diminish
+    :blackout t
     :init
     (global-diff-hl-mode))
 #+END_SRC
@@ -1223,6 +1270,7 @@ which behaves correctly under all circumstances.
 #+BEGIN_SRC emacs-lisp
   (use-package wrap-region
     :ensure t
+    :blackout t
     :config
     (wrap-region-add-wrappers
      '(("<" ">")
@@ -1386,7 +1434,7 @@ intelligent scoring and sorting.
 #+BEGIN_SRC emacs-lisp
   (use-package color-identifiers-mode
     :ensure t
-    :diminish
+    :blackout t
     :custom
     (color-identifiers:recoloring-delay 1)
     :config
@@ -1423,13 +1471,13 @@ intelligent scoring and sorting.
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
-    :diminish)
+    :blackout t)
 #+END_SRC
 ** Built-in entry: =abbrev=
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package abbrev
-    :diminish)
+    :blackout t)
 #+END_SRC
 * Programming section
 ** Initialize =emacs=
@@ -1454,7 +1502,7 @@ Some emacs settings that are useful for completions
     (setq enable-recursive-minibuffers t)
     :config
     (setq completion-styles '(hotfuzz orderless substring fussy basic)))
-        #+END_SRC
+#+END_SRC
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp
   (defun just-one-face (fn &rest args)
@@ -1464,7 +1512,7 @@ Some emacs settings that are useful for completions
   (use-package company
     :ensure t
     :demand t
-    :diminish
+    :blackout t
     :bind
     (:map company-mode-map
           ("<tab>" . company-indent-or-complete-common)
@@ -1521,7 +1569,7 @@ Some emacs settings that are useful for completions
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
     :ensure t
-    :diminish eglot-mode
+    :blackout t
     :custom
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
@@ -1560,7 +1608,7 @@ Some emacs settings that are useful for completions
 
   (use-package yasnippet
     :ensure t
-    :diminish
+    :blackout t
     :config
     (yas-reload-all)
     (setq yas-snippet-dirs
@@ -1569,7 +1617,8 @@ Some emacs settings that are useful for completions
 ** Initialize =flycheck=
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t)
+    :ensure t
+    :blackout t)
 #+END_SRC
 ** C & C++
 *** Description
@@ -1578,6 +1627,7 @@ Irony is the company backend for C and C++
 #+BEGIN_SRC emacs-lisp
   (use-package clang-format+
     :ensure t
+    :blackout t
     :hook
     (c-mode . clang-format+-mode)
     (c++-mode . clang-format+-mode)
@@ -1587,8 +1637,8 @@ Irony is the company backend for C and C++
     ;; Fix clang-format (and clang-format+ mode) in tramp mode.
     (defun tramp-aware-clang-format (orig-fun start end &optional style assume-file-name)
       "If the file being edited is remote, use the .clang-format file in the
-local HOME directory because the clang that gets run by the formatter is
-not the remote executable, its the local one"
+  local HOME directory because the clang that gets run by the formatter is
+  not the remote executable, its the local one"
       (unless assume-file-name
         (setq assume-file-name
               (if (file-remote-p buffer-file-name)
