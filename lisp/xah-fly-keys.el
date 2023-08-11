@@ -2255,11 +2255,20 @@ Version 2020-04-09 2021-02-24"
   (interactive)
   (command-execute
    (cond
+
     ((and (boundp 'xah-fly-M-x-command) xah-fly-M-x-command) xah-fly-M-x-command )
-    ((fboundp 'smex) 'smex)
-    ((fboundp 'helm-M-x) 'helm-M-x)
-    ((fboundp 'counsel-M-x) 'counsel-M-x)
-    (t 'execute-extended-command))
+	((fboundp 'counsel-M-x) 'counsel-M-x)
+	((fboundp 'helm-M-x) 'helm-M-x)
+	(t 'execute-extended-command))
+   nil
+   nil
+   :special))
+
+(defun ken_nc/M-x ()
+  (interactive)
+  (unless (bound-and-true-p amx-mode) (amx-mode t))
+  (command-execute
+   'amx
    nil
    nil
    :special))
@@ -3612,7 +3621,8 @@ minor modes loaded later may override bindings in this map.")
    ("0" . xah-pop-local-mark-ring)
 
    ;; ("a" . xah-fly-M-x)
-   ("a" . execute-extended-command)
+   ;; ("a" . execute-extended-command)
+   ("a" . ken_nc/M-x)
    ("b" . isearch-forward)
    ;; ("b" . consult-line)
    ("c" . previous-line)

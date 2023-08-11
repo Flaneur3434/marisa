@@ -892,6 +892,18 @@ A Collection of Ridiculously Useful eXtensions for Emac
   (use-package crux
     :ensure t)
 #+END_SRC
+** Initialize =amx=
+*** Description
+Amx is an alternative interface for M-x in Emacs. It provides several
+enhancements over the ordinary execute-extended-command, such as prioritizing
+your most-used commands in the completion list and showing keyboard shortcuts,
+and it supports several completion systems for selecting commands, such as ido
+and ivy.
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package amx
+    :ensure t)
+#+END_SRC
 ** Initialize =dired-toggle-sudo=
 *** Code
 Allow to switch from current user to sudo when browsind `dired' buffers.
@@ -980,7 +992,7 @@ This minor mode takes care of managing the window sizes by enforcing a fixed and
     :custom
     (zoom-mode t)
     (zoom-size '(0.618 . 0.618))
-    (zoom-ignored-major-modes '(dired-mode magit-mode)))
+    (zoom-ignored-major-modes '(dired-mode magit-mode eshell-mode)))
 #+END_SRC
 ** Initialize =ligature=
 #+BEGIN_SRC emacs-lisp
@@ -1034,20 +1046,16 @@ Pulse highlight line on demand or after running select functions
     :hook
     (next-error-hook . pulsar-pulse-line)
     (find-file-hook . pulsar-pulse-line)
+    (consult-after-jump-hook . pulsar-recenter-top)
+    (consult-after-jump-hook . pulsar-reveal-entry)
     :init
     (pulsar-global-mode 1)
-    :config
-    (setq pulsar-pulse-on-window-change t
-          pulsar-pulse t
-          pulsar-delay 0.055
-          pulsar-iterations 10
-          pulsar-face 'pulsar-cyan
-          pulsar-pulse-functions
-          '(recenter-top-bottom
-            move-to-window-line-top-bottom
-            scroll-up-command
-            goto-line
-            scroll-down-command)))
+    :custom
+    (pulsar-pulse-on-window-change t)
+    (pulsar-pulse t)
+    (pulsar-delay 0.055)
+    (pulsar-iterations 10)
+    (pulsar-face 'pulsar-cyan))
 #+END_SRC
 ** Initialize =diff-hl=
 *** Code
