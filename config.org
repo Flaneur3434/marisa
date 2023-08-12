@@ -458,6 +458,14 @@ The defualt functionality of isearch is to put the cursor after the last charact
   ;;                                (setq isearch-message (concat isearch-message "[ " (car search-ring) " ] "))
   ;;                                (isearch-search-and-update)))
 #+END_SRC
+** Recentf mode
+#+BEGIN_SRC emacs-lisp
+  (use-package recentf
+    :init
+    (recentf-mode 1)
+    :hook
+    (buffer-list-update-hook . recentf-track-opened-file))
+#+END_SRC
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
 Save buffer automatically when wgrep-finish-edit
@@ -877,13 +885,6 @@ Utilize asynchronous processes whenever possible
     :ensure t
     :blackout t)
 #+END_SRC
-** Initialize =undo-tree=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :ensure t
-    :blackout t)
-#+END_SRC
 ** Initialize =crux=
 *** Description
 A Collection of Ridiculously Useful eXtensions for Emac
@@ -940,12 +941,12 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package ag
     :ensure t
+    :hook
+    ;; (ag-mode-hook . next-error-follow-minor-mode)
     :config
     (setq ag-highlight-search t)
     (setq ag-executable "/usr/bin/ag")
-    (setq ag-reuse-buffers t)
-    ;; (add-hook 'ag-mode-hook 'next-error-follow-minor-mode)
-    )
+    (setq ag-reuse-buffers t))
 #+END_SRC
 ** Initialize =blackout=
 *** Description
@@ -1027,7 +1028,11 @@ This minor mode takes care of managing the window sizes by enforcing a fixed and
     :ensure t
     :blackout t
     :init
-    (projectile-mode +1))
+    (projectile-mode 1)
+    :custom
+    (projectile-indexing-method 'alien)
+    (projectile-enable-caching t)
+    (projectile-completion-system 'default))
 #+END_SRC
 ** Initialize =sky-color-clock=
 #+BEGIN_SRC emacs-lisp
@@ -1106,15 +1111,6 @@ Pulse highlight line on demand or after running select functions
     :ensure t
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
-#+END_SRC
-** Initialize =vertigo=
-*** Description
-Vertigo.el is a port of the vim vertigo plugin and gives commands for jumping up
-and down by lines using the home row.
-*** Code
-#+BEGIN_SRC emacs-lisp
-  (use-package vertigo
-    :ensure t)
 #+END_SRC
 ** Initialize =vertico=
 *** Description
@@ -1270,8 +1266,7 @@ which behaves correctly under all circumstances.
     (push '(compilation-mode :noselect t :tail t) popwin:special-display-config)
     (push "*vc-diff*" popwin:special-display-config)
     (push "*vc-change-log*" popwin:special-display-config)
-    (push '("magit-diff:.*" :regexp t :stick t) popwin:special-display-config)
-    (push '("magit-revision:.*" :regexp t :stick t) popwin:special-display-config)
+    (push '("magit.*" :regexp t :stick t) popwin:special-display-config)
     (push '("Embark Collect:.*" :regexp t :stick t) popwin:special-display-config))
 #+END_SRC
 ** Initialize =wrap-region=
@@ -1376,6 +1371,8 @@ This package provides an orderless completion style that divides the pattern int
 
 #+END_SRC
 ** Initialize =affe=
+*** Description
+Fuzzy matching for find-file
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package affe
@@ -1391,9 +1388,10 @@ This package provides an orderless completion style that divides the pattern int
 This is a package to provide a completion-style to Emacs that is able to
 leverage flx as well as various other fuzzy matching scoring packages to provide
 intelligent scoring and sorting.
+
+Fuzzy matching for company eglot completion
 *** Code
 #+BEGIN_SRC emacs-lisp
-
   (use-package hotfuzz
     :ensure t
     :init
@@ -1438,6 +1436,8 @@ intelligent scoring and sorting.
 
 #+END_SRC
 ** Initialize =color identifiers=
+*** Description
+Color Identifiers is a minor mode for Emacs that highlights each source code identifier uniquely based on its name
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package color-identifiers-mode
@@ -1460,20 +1460,6 @@ intelligent scoring and sorting.
     :hook
     (c-mode . color-identifiers-mode)
     (color-identifiers-mode . myfunc-color-identifiers-mode-hook))
-#+END_SRC
-** Initialize =symbol overlay=
-*** Code
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package symbol-overlay
-  ;;   :ensure t
-  ;;   :bind
-  ;;   (:map symbol-overlay-map
-  ;;         ("<right>". symbol-overlay-jump-forward)
-  ;;         ("<left>" . symbol-overlay-jump-backward)
-  ;;         ("<mouse-3>" . symbol-overlay-put)
-  ;;         ("<mouse-2>" . symbol-overlay-remove))
-  ;;   :hook
-  ;;   (prog-mode . symbol-overlay-mode))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
@@ -1536,7 +1522,8 @@ Some emacs settings that are useful for completions
           company-dabbrev-downcase nil
           company-dabbrev-other-buffers nil
           company-dabbrev-ignore-case nil
-          company-backends '(company-capf (company-ctags :with company-dabbrev) company-files))
+          completion-ignore-case t
+          company-backends '((company-capf :with company-yasnippet :with company-files) (company-ctags)))
     (advice-add 'company-capf--candidates :around #'just-one-face))
 
   (use-package company-quickhelp
@@ -1617,8 +1604,12 @@ Some emacs settings that are useful for completions
   (use-package yasnippet
     :ensure t
     :blackout t
-    :config
+    :hook
+    (prog-mode-hook . yas-minor-mode)
+    :init
+    (yas-global-mode t)
     (yas-reload-all)
+    :config
     (setq yas-snippet-dirs
           '("~/.emacs.d/snippets")))
 #+END_SRC
@@ -1658,7 +1649,6 @@ Irony is the company backend for C and C++
   (add-hook 'c-mode-hook (lambda () (setq-default tab-width 4)))
   (add-hook 'c-mode-hook #'company-mode)
   (add-hook 'c-mode-hook #'eglot-ensure)
-  (add-hook 'c-mode-hook #'yas-minor-mode)
   (add-hook 'c-mode-hook #'undo-hl-mode)
   (add-hook 'c-mode-hook #'wrap-region-mode)
   ;; (add-hook 'c-mode-hook #'openbsd-set-knf-style)
@@ -1669,7 +1659,6 @@ Irony is the company backend for C and C++
 
   (add-hook 'c++-mode-hook #'company-mode)
   (add-hook 'c++-mode-hook #'eglot-ensure)
-  (add-hook 'c++-mode-hook #'yas-minor-mode)
   (add-hook 'c++-mode-hook #'undo-hl-mode)
   (add-hook 'c++-mode-hook #'wrap-region-mode)
   ;; (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
@@ -1684,7 +1673,6 @@ Irony is the company backend for C and C++
     :defer t
     :ensure t
     :hook
-    (go-mode . yas-minor-mode)
     (go-mode . company-mode)
     (go-mode . eglot-ensure)
     (go-mode . eglot-format-buffer-on-save)
@@ -1722,7 +1710,6 @@ Also added google-java-format
   (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
   (add-hook 'java-mode-hook #'company-mode)
   (add-hook 'java-mode-hook #'google-set-c-style)
-  (add-hook 'java-mode-hook #'yas-minor-mode)
   (add-hook 'java-mode-hook #'eglot-ensure)
 #+END_SRC
 ** Python
@@ -1767,7 +1754,6 @@ Also added google-java-format
     (python-mode . flycheck-mode)
     (python-mode . company-mode)
     (python-mode . blacken-mode)
-    (python-mode . yas-minor-mode)
     (python-mode . eglot-ensure))
 #+END_SRC
 ** Json

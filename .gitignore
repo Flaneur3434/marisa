@@ -52,3 +52,5 @@ config.el
 session*
 projects
 undohist/
+projectile.cache
+.yas-compiled-snippets.el

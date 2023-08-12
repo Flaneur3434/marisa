@@ -71,7 +71,7 @@
               (lambda (frame)
                 (select-frame frame)
                 (if (display-graphic-p frame)
-                    (load-theme 'xresources t)
+                    (load-theme 'modus-vivendi t)
                   (progn
 					(xterm-mouse-mode)
 					(setq mouse-wheel-scroll-amount '(0.7)
