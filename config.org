@@ -558,9 +558,10 @@ preceding white spaces, or just delete one character.
 #+END_SRC
 ** Disable flymake
 #+BEGIN_SRC emacs-lisp
-  (remove-hook 'c-mode 'flymake-mode t)
-  (remove-hook 'c++-mode 'flymake-mode t)
-  (remove-hook 'python-mode 'flymake-mode t)
+  (flymake-mode-off)
+  (remove-hook 'c-mode-hook 'flymake-mode t)
+  (remove-hook 'c++-mode-hook 'flymake-mode t)
+  (remove-hook 'python-mode-hook 'flymake-mode t)
 #+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
@@ -941,8 +942,6 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+BEGIN_SRC emacs-lisp
   (use-package ag
     :ensure t
-    :hook
-    ;; (ag-mode-hook . next-error-follow-minor-mode)
     :config
     (setq ag-highlight-search t)
     (setq ag-executable "/usr/bin/ag")
@@ -1569,16 +1568,19 @@ Some emacs settings that are useful for completions
 #+END_SRC
 ** Initialize =dumb-jump=
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
-  (setq dumb-jump-git-grep-search-args "")
-
-  ;; only force dumb-jump to use ripgrep if it exists on system
-  (when (executable-find "ag")
-    (progn
-      (setq dumb-jump-force-searcher 'ag)
-      (setq dumb-jump-prefer-searcher 'ag)
-      (setq dumb-jump-ag-search-args "")))
+  (use-package dumb-jump
+    :ensure t
+    :custom
+    (xref-show-definitions-function #'xref-show-definitions-completing-read)
+    (dumb-jump-git-grep-search-args "")
+    :config
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+    ;; only force dumb-jump to use ripgrep if it exists on system
+    (when (executable-find "rg")
+      (progn
+        (setq dumb-jump-force-searcher 'rg)
+        (setq dumb-jump-prefer-searcher 'rg)
+        (setq dumb-jump-ag-search-args ""))))
 #+END_SRC
 ** Initialize =eglot=
 #+BEGIN_SRC emacs-lisp
