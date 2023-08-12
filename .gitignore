@@ -54,3 +54,4 @@ projects
 undohist/
 projectile.cache
 .yas-compiled-snippets.el
+tree-sitter/

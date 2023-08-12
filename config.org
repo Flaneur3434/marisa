@@ -1473,6 +1473,26 @@ Color Identifiers is a minor mode for Emacs that highlights each source code ide
   (use-package abbrev
     :blackout t)
 #+END_SRC
+** Built-in entry: =tree-sitter=
+#+BEGIN_SRC emacs-lisp
+  (setq treesit-language-source-alist
+        '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (c "https://github.com/tree-sitter/tree-sitter-c")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (java "https://github.com/tree-sitter/tree-sitter-java")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (make "https://github.com/alemuller/tree-sitter-make")
+          (cmake "https://github.com/uyha/tree-sitter-cmake")))
+
+  (customize-set-variable 'treesit-font-lock-level 4)
+#+END_SRC
 * Programming section
 ** Initialize =emacs=
 *** Description
@@ -1636,8 +1656,8 @@ Irony is the company backend for C and C++
     ;; Fix clang-format (and clang-format+ mode) in tramp mode.
     (defun tramp-aware-clang-format (orig-fun start end &optional style assume-file-name)
       "If the file being edited is remote, use the .clang-format file in the
-  local HOME directory because the clang that gets run by the formatter is
-  not the remote executable, its the local one"
+          local HOME directory because the clang that gets run by the formatter is
+          not the remote executable, its the local one"
       (unless assume-file-name
         (setq assume-file-name
               (if (file-remote-p buffer-file-name)
@@ -1646,26 +1666,34 @@ Irony is the company backend for C and C++
       (apply orig-fun (list start end style assume-file-name)))
     (advice-add 'clang-format-region :around #'tramp-aware-clang-format))
 
-  (add-hook 'c-mode-hook (lambda () (setq-default tab-width 4)))
-  (add-hook 'c-mode-hook #'company-mode)
-  (add-hook 'c-mode-hook #'eglot-ensure)
-  (add-hook 'c-mode-hook #'undo-hl-mode)
-  (add-hook 'c-mode-hook #'wrap-region-mode)
-  ;; (add-hook 'c-mode-hook #'openbsd-set-knf-style)
-  (add-hook 'c-mode-hook #'which-function-mode)
-  (add-hook 'c-mode-hook #'flycheck-mode)
-  (add-hook 'c-mode-hook (lambda () (setq flycheck-gcc-language-standard "gnu17")))
-  (add-hook 'c-mode-hook (lambda () (setq flycheck-clang-language-standard "gnu17")))
+  (defun c-mode-variables ()
+    (setq-local tab-width 4)
+    (setq-local flycheck-gcc-language-standard "gnu17")
+    (setq-local flycheck-clang-language-standard "gnu17"))
 
-  (add-hook 'c++-mode-hook #'company-mode)
-  (add-hook 'c++-mode-hook #'eglot-ensure)
-  (add-hook 'c++-mode-hook #'undo-hl-mode)
-  (add-hook 'c++-mode-hook #'wrap-region-mode)
-  ;; (add-hook 'c++-mode-hook #'openbsd-set-knf-style)
-  (add-hook 'c++-mode-hook #'which-function-mode)
-  (add-hook 'c++-mode-hook #'flycheck-mode)
-  (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++20")))
-  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++20")))
+  (defun c++-mode-variables ()
+    (setq-local flycheck-gcc-language-standard "c++20")
+    (setq-local flycheck-clang-language-standard "c++20"))
+
+  (use-package cc-mode
+    :hook
+    (c-mode . company-mode)
+    (c-mode . eglot-ensure)
+    (c-mode . undo-hl-mode)
+    (c-mode . wrap-region-mode)
+    ;; (add 'c-mode-hook . openbsd-set-knf-style)
+    (c-mode . which-function-mode)
+    (c-mode . flycheck-mode)
+    (c-mode . c-mode-variables)
+
+    (c++-mode . company-mode)
+    (c++-mode . eglot-ensure)
+    (c++-mode . undo-hl-mode)
+    (c++-mode . wrap-region-mode)
+    ;; (add-hook 'c++-mode-hook . openbsd-set-knf-style)
+    (c++-mode . which-function-mode)
+    (c++-mode . flycheck-mode)
+    (c++-mode . c++-mode-variables))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
@@ -1707,10 +1735,13 @@ Also added google-java-format
         (call-interactively 'google-java-format-buffer)
         (goto-char prev-pos))))
 
-  (add-hook 'before-save-hook #'ken_nc/java-format-on-save)
-  (add-hook 'java-mode-hook #'company-mode)
-  (add-hook 'java-mode-hook #'google-set-c-style)
-  (add-hook 'java-mode-hook #'eglot-ensure)
+
+  (use-package java-mode
+    :hook
+    (before-save-hook . ken_nc/java-format-on-save)
+    (java-mode-hook . company-mode)
+    (java-mode-hook . google-set-c-style)
+    (java-mode-hook . eglot-ensure))
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
