@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform(InIt beg, InIt end, OutIt beg, UnOp unop) -> OutIt
+# key: tfm
+# --
+std::transform(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:output})}, [](auto ${6:const& }elem) { ${7:return elem + 1;} });$0

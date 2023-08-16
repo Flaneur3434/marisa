@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: count(InIt beg, InIt end, const T &value) -> InIt::difference_type
+# key: cnt
+# --
+${1:auto ${2:n} = }std::count(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:val});$0

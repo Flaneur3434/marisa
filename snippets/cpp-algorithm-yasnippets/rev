@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: reverse(BidIt beg, BidIt end) -> void
+# key: rev
+# --
+std::reverse(${1:std::begin(${2:container})}, ${3:std::end($2)});$0

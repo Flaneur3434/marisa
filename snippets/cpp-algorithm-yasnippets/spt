@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: stable_partition(BidIt beg, BidIt end, UnPred p) -> BidIt
+# key: spt
+# --
+${1:auto ${2:pos} = }std::stable_partition(${3:std::begin(${4:container})}, ${5:std::end($4)}, [](auto ${6:const& }elem) { ${7:return elem <= 42;} });$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: copy_if(InIt beg, InIt end, OutIt d_beg[, UnPred p]) -> OutIt
+# key: cpi
+# --
+std::copy_if(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:container2})}, ${6:[](auto ${7:const& }elem) { ${8:return elem == 42;} }});$0

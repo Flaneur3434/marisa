@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: compare_3way(T const& a, const U& b) -> category
+# key: cp3
+# --
+${1:auto ${2:category} = }std::compare_3way(${3:a}, ${4:b});$0

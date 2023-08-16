@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: search_n(FwdIt beg, FwdIt end, Size cnt, T const& val[, BinPred p]) -> FwdIt
+# key: srn
+# --
+${1:auto ${2:pos} = }std::search_n(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:n}, ${7:elem}${8:, ${9:[](auto ${10:const& }lhs, auto $10rhs) { ${11:return lhs == rhs;} }}});
+if ($2 != $5) {
+  $0
+}

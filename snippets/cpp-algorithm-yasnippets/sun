@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: set_union(InIt1 beg1, InIt1 end1, InIt2 beg2, InIt2 end2, OutIt d_beg[, Cmp cmp]) -> OutIt
+# key: sun
+# --
+${1:auto ${2:end} = }std::set_union(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container2})}, ${8:std::end($7)}, ${9:std::begin(${10:output})}${11:, ${12:[](auto ${13:const& }lhs, auto $13rhs) { ${14:return lhs < rhs;} }}});$0

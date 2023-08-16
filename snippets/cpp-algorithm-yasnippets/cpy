@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: copy(InIt beg, InIt end, OutIt d_beg) -> OutIt
+# key: cpy
+# --
+std::copy(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:container2})});$0

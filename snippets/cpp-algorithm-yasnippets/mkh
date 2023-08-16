@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: make_heap(RndIt beg, RndIt end[, Cmp cmp]) -> void
+# key: mkh
+# --
+std::make_heap(${1:std::begin(${2:container})}, ${3:std::end($2)}${4:, ${5:[](auto ${6:const& }lhs, auto $6rhs) { ${7:return lhs < rhs;} }}});$0

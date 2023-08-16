@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: adjacent_find(FwdIt beg, FwdIt end, BinPred p) -> FwdIt
+# key: ajf
+# --
+${1:auto ${2:pos} = }std::adjacent_find(${3:std::begin(${4:container})}, ${5:std::end($4)}${6:, [](auto ${7:const& }lhs, auto $7rhs) { ${8:return lhs == rhs;} }});
+if (pos != $5) {
+    $9
+}
+$0

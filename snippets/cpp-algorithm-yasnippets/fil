@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fill(FwdIt beg, FwdIt end, T const& value) -> void
+# key: fil
+# --
+std::fill(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:elem});$0

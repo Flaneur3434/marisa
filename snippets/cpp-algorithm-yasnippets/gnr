@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: generate(FwdIt beg, FwdIt end, Gen g) -> void
+# key: gnr
+# --
+std::generate(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:[]() { $5 }});$0

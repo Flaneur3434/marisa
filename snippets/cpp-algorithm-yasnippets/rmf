@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: remove_copy_if(InIt beg, InIt end, OutIt d_beg, UnPred p) -> OutIt
+# key: rmf
+# --
+${1:auto ${2:end} = }std::remove_copy_if(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}, [](auto ${8:const& }elem) { ${9:return elem == 42;} });$0

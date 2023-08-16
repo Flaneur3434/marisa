@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: iota(FwdIt beg, FwdIt end, T val) -> void
+# key: ita
+# --
+std::iota(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:n});$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: iter_swap(FwdIt1 a, FwdIt2 b) -> void
+# key: isw
+# --
+std::iter_swap(${1:iter1}, ${3:iter2});$0

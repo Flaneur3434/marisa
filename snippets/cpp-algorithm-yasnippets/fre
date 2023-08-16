@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: for_each(InIt beg, InIt end, UnFn f) -> UnFn
+# key: fre
+# --
+std::for_each(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:[](auto ${5:const&} elem) { $6 }});$0

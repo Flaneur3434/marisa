@@ -81,6 +81,26 @@ With argument ARG, do this that many times."
   (interactive "p")
   (ken_nc/delete-word (- arg)))
 
+(defun ken_nc/beginning-of-line-or-block ()
+  "Move cursor to beginning of code or comment or line"
+  (interactive)
+  (cond ((equal (point) (line-beginning-position))
+		 (re-search-backward "\n[\t ]*" nil 1))
+		((and (mwim-code-beginning)
+			  (<= (point) (mwim-code-beginning)))
+		 (move-beginning-of-line 1))
+		(t (mwim-beginning))))
+
+(defun ken_nc/end-of-line-or-block ()
+  "Move cursor to end of code or comment or line"
+  (interactive)
+  (cond ((equal (point) (line-end-position))
+		 (re-search-forward "\n[\t ]*" nil 1))
+		((and (mwim-line-comment-beginning)
+			  (>= (point) (mwim-line-comment-beginning)))
+		 (move-end-of-line 1))
+		(t (mwim-end))))
+
 ;; NOTE 2022-01-05: this is a copy of crux-move-beginning-of-line
 (defun ken_nc/smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.

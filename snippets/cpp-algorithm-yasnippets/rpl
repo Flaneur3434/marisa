@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: replace(FwdIt beg, FwdIt end, T const& old, T const& new) -> void
+# key: rpl
+# --
+std::replace(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:elem}, ${5:replacement});$0

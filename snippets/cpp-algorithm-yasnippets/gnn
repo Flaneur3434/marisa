@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: generate_n(OutIt beg, Size cnt, Gen g) -> OutIt
+# key: gnn
+# --
+std::generate_n(${1:std::begin(${2:container})}, ${3:n}, ${4:[]() { $5 }});$0

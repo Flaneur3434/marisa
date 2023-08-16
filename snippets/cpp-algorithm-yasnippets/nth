@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: nth_element(RndIt beg, RndIt nth, RndIt end[, Cmp cmp]) -> void
+# key: nth
+# --
+std::nth_element(${1:std::begin(${2:container})}, ${3:std::begin($2) + ${4:n}}, ${5:std::end($2)}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs < rhs;} }}});$0

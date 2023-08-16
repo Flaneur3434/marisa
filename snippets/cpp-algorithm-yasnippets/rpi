@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: replace_if(FwdIt beg, FwdIt end, UnPred p, T const& new) -> void
+# key: rpi
+# --
+std::replace_if(${1:std::begin(${2:container})}, ${3:std::end($2)}, [](auto ${4:const& }elem) { ${5:return elem == 42;} }, ${6:replacement});$0

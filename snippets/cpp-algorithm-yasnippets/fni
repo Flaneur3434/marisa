@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: find_if(InIt beg, InIt end, UnPred p) -> InIt
+# key: fni
+# --
+${1:auto ${2:pos} = }std::find_if(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:[](auto ${7:const& }elem) { ${8:return elem == 42;} }});
+if (pos != $5) {
+  $0
+}

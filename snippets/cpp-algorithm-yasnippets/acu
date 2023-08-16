@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: accumulate(InIt beg, InIt end, T init[, BinOp op]) -> T
+# key: acu
+# --
+${1:auto ${2:sum} = }std::accumulate(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:init}${7:, ${8:[](auto ${9:const& }acc, auto $9elem) { ${10:return acc + elem;} }}});$0

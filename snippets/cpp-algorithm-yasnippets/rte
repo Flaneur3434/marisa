@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rotate(FwdIt beg, FwdIt n_beg, FwdIt end) -> FwdIt
+# Key: rte
+# --
+${1:auto ${2:end} = }std::rotate(${3:std::begin(${4:container})}, ${5:pivot}, ${6:std::end($4)});$0

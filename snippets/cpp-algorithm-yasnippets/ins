@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: inclusive_scan(InIt beg, InIt end, OutIt d_beg, BinOp binop, T init) -> OutIt
+# key: ins
+# --
+${1:auto ${2:pos} = }std::inclusive_scan(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container})}${8:, ${9:[](auto ${10:const& }lhs, auto $10rhs) { ${11:return lhs + rhs;} }}${12:, ${13:init}}});$0

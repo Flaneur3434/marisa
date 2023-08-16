@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: is_heap(RndIt beg, RndIt end[, Cmp cmp]) -> bool
+# key: ihp
+# --
+${1:auto ${2:heap} = }std::is_heap(${3:std::begin(${4:container})}, ${5:std::end($4)}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9: return lhs < rhs; }}}});$0

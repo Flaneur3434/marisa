@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fill_n(OutIt beg, Size cnt, T const& value) -> OutIt
+# key: fln
+# --
+std::fill_n(${1:std::begin(${2:container})}, ${3:n}, ${4:elem});$0

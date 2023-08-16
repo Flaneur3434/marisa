@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform_reduce(InIt1 beg1, ItIt1 end1, ItIt2 beg2, T init[, BinOp1 binop1, BinOp2 binop2]) -> T
+# key: trd
+# --
+${1:auto ${2:v} = }std::transform_reduce(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container2})}, ${8:init}${9:, ${10:[](auto const& lhs, auto const& rhs) { ${11:return lhs + rhs;} }}, ${12:[](auto ${13:const& }lhs, auto $13rhs) { ${14:return lhs * rhs;} }}});$0

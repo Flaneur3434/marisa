@@ -18,6 +18,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/nothing.el")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/almost-mono-themes")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/acme-emacs-theme")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/naysayer-theme.el")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/lisp/prot-lisp")
@@ -25,6 +26,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/undo-hl")
 (add-to-list 'load-path "~/.emacs.d/lisp/sky-color-clock")
 (add-to-list 'load-path "~/.emacs.d/lisp/almost-mono-themes")
+(add-to-list 'load-path "~/.emacs.d/lisp/mwim.el")
 
 (require 'basic-edit-toolkit)
 (require 'color)
@@ -39,6 +41,7 @@
 (require 'ken_nc-eshell)
 (require 'ken_nc-functions)
 (require 'move-text)
+(require 'mwim)
 (require 'openbsd-knf-style)
 (require 'package)
 (require 'project)
@@ -52,6 +55,7 @@
 (require 'undo-hl)
 (require 'unfill)
 (require 'wc-mode)
+(require 'xterm-cursor-changer)
 
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
@@ -66,20 +70,23 @@
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (select-frame frame)
-                (if (display-graphic-p frame)
-                    (load-theme 'modus-vivendi t)
-                  (progn
-					(xterm-mouse-mode)
-					(setq mouse-wheel-scroll-amount '(0.7)
-						  mouse-wheel-progressive-speed nil
-						  ring-bell-function 'ignore)))
-				(xah-fly-keys t)
-				(gcmh-mode -1)))
-  (load-theme 'almost-mono-black t))  ;; regular
+(when (daemonp)
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+			  (load-theme 'naysayer t)
+			  (select-frame frame)
+			  (xah-fly-keys t)
+			  (gcmh-mode -1))))
+
+(when (not (display-graphic-p))
+  (progn
+	;; (add-hook 'after-make-frame-functions
+	;; 		  (lambda (frame)
+	;; 			(load-theme 'xresources t)))
+	(xterm-mouse-mode t)
+	(setq mouse-wheel-scroll-amount '(0.1)
+		  mouse-wheel-progressive-speed nil
+		  ring-bell-function 'ignore)))
 
 (if (fboundp 'native-compile-async)
 	(progn

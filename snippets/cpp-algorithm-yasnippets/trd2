@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform_reduce(InIt beg, InIt end, T init, BinOp binop, UnOp unop) -> T
+# key: trd
+# --
+${1:auto ${2:v} = }std::transform_reduce(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:init}, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs + rhs;} }}, ${10:[](auto ${11:const& }elem) { ${12:return elem;} }});$0

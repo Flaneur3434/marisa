@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: merge(InIt1 beg1, InIt1 end1, InIt2 beg2, InIt2 end2, OutIt d_beg[, Cmp cmp]) -> OutIt
+# key: mrg
+# --
+std::merge(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:container2})}, ${6:std::end($5)}, ${7:std::begin(${8:output})}${9:, ${10:[](auto ${11:const& }lhs, auto $11rhs) { ${12:return lhs < rhs;} }}});$0

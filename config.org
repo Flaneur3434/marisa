@@ -596,7 +596,6 @@ preceding white spaces, or just delete one character.
     (propertize " "
                 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
                 'face face))
-
   (setq-default mode-line-format
                 (list "%e"
                       mode-line-front-space
@@ -606,15 +605,14 @@ preceding white spaces, or just delete one character.
                       mode-line-remote
                       mode-line-frame-identification
                       mode-line-buffer-identification
+                      mode-line-front-space
                       mode-line-position
+                      mode-line-front-space
                       mode-line-modes
                       mode-line-misc-info
                       mode-line-end-spaces
                       (mode-line-fill 'mode-line 10)
-                      '(:eval (sky-color-clock))
-                      ;;'(:eval (propertize "[☰]" 'local-map (make-mode-line-mouse-map 'mouse-1 'menu-bar-open)))
-                      ))
-
+                      '(:eval (sky-color-clock))))
   #+END_SRC
 * Org mode
 ** Description
@@ -1297,20 +1295,22 @@ Consult provides practical commands based on the Emacs completion function
 completing-read.
 *** Code
 #+BEGIN_SRC emacs-lisp
-  (use-package consult
-    :ensure t
-    :init
-    :custom
-    (consult--grep-regexp-type 'pcre)
-    (consult-async-min-input 3))
+    (use-package consult
+      :ensure t
+      :init
+      :custom
+      (consult--grep-regexp-type 'pcre)
+      (consult-async-min-input 3)
+      (xref-show-xrefs-function #'consult-xref)
+      (xref-show-definitions-function #'consult-xref))
 
-  (use-package consult-yasnippet
-    :ensure t
-    :after consult)
+    (use-package consult-yasnippet
+      :ensure t
+      :after consult)
 
-  (use-package consult-ag
-    :ensure t
-    :after consult)
+    (use-package consult-ag
+      :ensure t
+      :after consult)
 #+END_SRC
 ** Initialize =marginalia=
 *** Description
@@ -1529,6 +1529,7 @@ Some emacs settings that are useful for completions
     :bind
     (:map company-mode-map
           ("<tab>" . company-indent-or-complete-common)
+          ("TAB" . company-indent-or-complete-common)
           :map company-active-map
           ("C-n" . company-select-next)
           ("C-p" . company-select-previous)
@@ -1571,7 +1572,6 @@ Some emacs settings that are useful for completions
   (use-package dumb-jump
     :ensure t
     :custom
-    (xref-show-definitions-function #'xref-show-definitions-completing-read)
     (dumb-jump-git-grep-search-args "")
     :config
     (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
@@ -1625,7 +1625,7 @@ Some emacs settings that are useful for completions
 
   (use-package yasnippet
     :ensure t
-    :blackout t
+    ;; :blackout yas-minor-mode
     :hook
     (prog-mode-hook . yas-minor-mode)
     :init

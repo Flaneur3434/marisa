@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: swap(T& a, T& b) -> void
+# key: swp
+# --
+${1:std::}swap(${2:a}, ${3:b});$0

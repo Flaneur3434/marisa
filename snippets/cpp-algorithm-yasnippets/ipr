@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: is_permutation(FwdIt1 beg1, FwdIt1 end1, FwdIt2 beg2[, BinPred p]) -> bool
+# key: ipr
+# --
+${1:auto ${2:perm} = }std::is_permutation(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container2})}${8:, ${9:[](auto ${10:const& }lhs, auto $10rhs) { ${11:return lhs == rhs;} }}});$0

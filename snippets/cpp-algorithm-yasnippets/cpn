@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: copy_n(InIt beg, Size cnt, OutIt res) -> OutIt
+# key: cpn
+# --
+std::copy_n(${1:std::begin(${2:container})}, ${3:n}, ${4:std::begin(${5:container2})});$0

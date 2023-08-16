@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: stable_sort(RndIt beg, RndIt end[, Cmp cmp]) -> void
+# key: sts
+# --
+std::stable_sort(${1:std::begin(${2:container})}, ${3:std::end($2)}${4:, ${5:[](auto ${6:const& }lhs, auto $6rhs) { ${7:return lhs < rhs;} }}});$0

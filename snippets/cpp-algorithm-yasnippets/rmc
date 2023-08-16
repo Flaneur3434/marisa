@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: remove_copy(InIt beg, InIt end, OutIt d_beg, T const& val) -> OutIt
+# key: rmc
+# --
+${1:auto ${2:end} = }std::remove_copy(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}, ${8:elem});$0

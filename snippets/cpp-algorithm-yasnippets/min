@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: min(T const& a, T const& b, Cmp cmp) -> T const&
+# key: min
+# --
+${1:auto ${2:elem} = }std::min(${3:a}, ${4:b}${5:, ${6:[](auto ${7:const& }lhs, auto $7rhs) { ${8:return lhs < rhs;} }}});$0

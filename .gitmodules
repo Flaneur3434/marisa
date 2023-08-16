@@ -22,3 +22,9 @@
 [submodule "themes/acme-emacs-theme"]
 	path = themes/acme-emacs-theme
 	url = https://github.com/ianyepan/acme-emacs-theme
+[submodule "themes/naysayer-theme.el"]
+	path = themes/naysayer-theme.el
+	url = https://github.com/nickav/naysayer-theme.el
+[submodule "lisp/mwim.el"]
+	path = lisp/mwim.el
+	url = https://github.com/alezost/mwim.el

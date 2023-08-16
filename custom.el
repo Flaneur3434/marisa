@@ -27,6 +27,7 @@
  ;; If there is more than one, they won't work right.
  '(company-template-field ((t (:foreground "honeydew"))))
  '(cursor ((t (:background "steel blue"))))
+ '(eglot-mode-line ((t (:weight normal))))
  '(fixed-pitch ((t ("Agave" :height 140))))
  '(flymake-error ((t (:underline (:color foreground-color :style wave)))))
  '(flymake-warning ((t (:underline t))))

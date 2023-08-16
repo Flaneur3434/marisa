@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: partition_point(FwdIt beg, FwdIt end, UnPred p) -> FwdIt
+# key: ppt
+# --
+${1:auto ${2:pos} = }std::partition_point(${3:std::begin(${4:container})}, ${5:std::end($4)}, [](auto ${6:const& }elem) { ${7:return elem <= 42;} });
+if ($2 != $5) {
+  $0
+}

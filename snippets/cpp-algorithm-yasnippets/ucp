@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: unique_copy(InIt beg, InIt end, OutIt d_beg[, BinPred p]) -> OutIt
+# key: ucp
+# --
+std::unique_copy(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:output})}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs == rhs;} }}});$0

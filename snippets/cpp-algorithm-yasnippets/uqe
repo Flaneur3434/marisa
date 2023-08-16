@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: unique(FwdIt beg, FwdIt end, BinPred p) -> FwdIt
+# key: uqe
+# --
+${1:auto ${2:pos} = }std::unique(${3:std::begin(${4:container})}, ${5:std::end($4)}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs == rhs;} }}});$0

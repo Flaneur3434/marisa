@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: uninitialized_fill(FwdIt beg, FwdIt end, T const& val) -> FwdIt
+# key: uifl
+# --
+${1:auto ${2:end} = }std::uninitialized_fill_n(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:elem});$0

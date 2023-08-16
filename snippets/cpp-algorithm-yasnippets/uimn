@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: uninitialized_move_n(InIt beg, Size cnt, FwdIt d_beg) -> std::pair<InIt, FwdIt>
+# key: uimn
+# --
+${1:auto ${2:ends} = }std::uninitialized_move_n(${3:std::begin(${4:container})}, ${5:n}, ${6:std::begin(${7:output})});$0

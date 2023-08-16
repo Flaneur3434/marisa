@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform(InIt beg1, InIt end1, InIt beg2, OutIt beg, BinOp binop) -> OutIt
+# key: tfm
+# --
+std::transform(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:container2})}, ${6:std::begin(${7:output})}, [](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs + rhs;} });$0

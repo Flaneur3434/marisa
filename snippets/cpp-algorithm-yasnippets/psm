@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: partial_sum(InIt beg, InIt end, OutIt d_beg[, BinOp op]) -> OutIt
+# key: psm
+# --
+${1:auto ${2:end} = }std::partial_sum(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}${8:, ${9:[](auto ${10:const& }lhs, auto $10rhs}) { ${11:return lhs + rhs}; }}});$0

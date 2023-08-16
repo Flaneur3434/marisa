@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: uninitialized_move(InIt beg, InIt end, FwdIt d_beg) -> FwdIt
+# key: uimv
+# --
+${1:auto ${2:end} = }std::uninitialized_move(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})});$0

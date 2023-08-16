@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: find(InIt beg, InIt end, T const& value) -> InIt
+# key: fnd
+# --
+${1:auto ${2:pos} = }std::find(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:elem});
+if (pos != $5) {
+  $0
+}

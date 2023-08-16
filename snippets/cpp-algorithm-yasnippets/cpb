@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: copy_backward(BidIt1 beg, BidIt1 end, BidIt2 d_end) -> BidIt2
+# key: cpb
+# --
+std::copy_backward(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::end(${5:container2})});$0

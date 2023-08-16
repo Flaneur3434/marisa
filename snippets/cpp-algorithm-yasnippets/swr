@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: swap_ranges(FwdIt1 beg1, FwdIt1 end1, FwdIt2 beg2) -> FwdIt2
+# key: swr
+# --
+std::swap_ranges(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::begin(${5:container2})});$0

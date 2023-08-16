@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: for_each_n(InIt beg, Size n, UnFn f) -> InIt
+# key: frn
+# --
+std::for_each_n(${1:std::begin(${2:container})}, ${3:n}, ${4:[](${5:auto ${6:const& }elem}) { $5 }});$0

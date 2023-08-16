@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: inner_product(InIt1 beg1, InIt1 end1, InIt2 beg2, T val[, BinOp1 op1, BinOp2 op2]) -> T
+# key: ipd
+# --
+${1:auto ${2:val} = }std::inner_product(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container2})}, ${8:init}${9:, ${10:[](auto ${11:const& }lhs, auto $11rhs) { ${12:return lhs + rhs;} }}, ${13:[](auto ${14:const& }lhs, auto $14rhs) { ${15:return lhs * rhs;} }}});$0

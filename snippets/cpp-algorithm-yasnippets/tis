@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform_inclusive_scan(InIt beg, InIt end, OutIt d_beg, BinOp binop, UnOp unop[, T init]) -> OutIt
+# key: tis
+# --
+${1:auto ${2:end} = }std::transform_inclusive_scan(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}, ${8:[](auto ${9:const& }lhs, auto $9rhs) { ${10:return lhs + rhs;} }}, ${11:[](auto ${12:const& }elem) { ${13:return elem;} }}${14:, ${15:init}});$0

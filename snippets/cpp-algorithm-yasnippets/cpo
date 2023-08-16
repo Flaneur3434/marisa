@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: copy to ostream_iterator
+# key: cpo
+# --
+std::copy(${1:std::begin(${2:container})}, ${3:std::end($2)}, std::ostream_iterator<typename std::iterator_traits<decltype($1)>::value_type>{std::cout, "$4"});$0

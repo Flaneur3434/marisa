@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lexicographical_compare(InIt1 beg1, InIt1 end1, InIt2 beg2, InIt2 end2[, Cmp cmp]) -> bool
+# key: lxc
+# --
+${1:auto ${2:isless} = }std::lexicographical_compare(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:container2})}, ${8:std::end($7)}${9:, ${10:[](auto ${11:const& }lhs, auto $11rhs) { ${12:return lhs < rhs;} }}});$0

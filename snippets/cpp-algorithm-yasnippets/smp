@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sample(PopulationIter beg, PopulationIter end, SampleIter out, Dist n, UniformRandomBitGen&& g) -> SampleIter
+# key: smp
+# --
+${1:auto ${2:end} = }std::sample(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}, ${8:n}, ${9:std::mt19937{std::random_device{}()}});$0

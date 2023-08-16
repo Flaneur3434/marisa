@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: partial_sort(RndIt beg, RndIt middle, RndIt end[, Cmp cmp]) -> void
+# key: pst
+# --
+std::partial_sort(${1:std::begin(${2:container})}, ${3:std::begin($2) + ${4:n}}, ${5:std::end($2)}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs < rhs;} }}});$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: shuffle(RndIt beg, RndIt end, URBG&& g) -> void
+# key: shf
+# --
+std::shuffle(${1:std::begin(${2:container})}, ${3:std::end($2)}, ${4:std::mt19937{std::random_device{}()}});$0

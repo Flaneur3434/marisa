@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: reduce(InIt beg, InIt end[, T init[, BinaryOp binop]]) -> T
+# key: rdc
+# --
+${1:auto ${2:v} = }std::reduce(${3:std::begin(${4:container})}, ${5:std::end($4)}${6:, ${7:init}${8:, ${9:[](auto ${10:const& }val, auto $10acc) { ${11:return val + acc;} }}}});$0

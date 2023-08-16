@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: max_element(FwdIt beg, FwdIt end[, Cmp cmp]) -> FwdIt
+# key: mxe
+# --
+${1:auto ${2:pos} = }std::max_element(${3:std::begin(${4:container})}, ${5:std::end($4)}${6:, ${7:[](auto ${8:const& }lhs, auto $8rhs) { ${9:return lhs < rhs;} }}});
+if ($2 != $5) {
+   $0
+}

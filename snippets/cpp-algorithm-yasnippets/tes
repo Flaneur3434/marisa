@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transform_exclusive_scan(InIt beg, InIt end, OutIt d_beg, T init, BinOp binop, UnaryOperation unary_op) -> OutIt
+# key: tes
+# --
+${1:auto ${2:end} = }std::transform_exclusive_scan(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:std::begin(${7:output})}, ${8:init}, ${9:[](auto ${10:const& }lhs, auto $10rhs) { ${11:return lhs + rhs;} }}, ${12:[](auto ${13:const& }elem) { ${14:return elem;} }});$0

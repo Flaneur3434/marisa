@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: search(FwdIt beg, FwdIt end, Searcher const& s) -> FwdIt
+# key: srh
+# --
+${1:auto ${2:pos} = }std::search(${3:std::begin(${4:container})}, ${5:std::end($4)}, ${6:searcher});
+if ($2 != $5) {
+  $0
+}
