@@ -85,7 +85,7 @@ With argument ARG, do this that many times."
   "Move cursor to beginning of code or comment or line"
   (interactive)
   (cond ((equal (point) (line-beginning-position))
-		 (re-search-backward "\n[\t ]*" nil 1))
+		 (re-search-backward "[^[:space:]\n]" nil 1))
 		((and (mwim-code-beginning)
 			  (<= (point) (mwim-code-beginning)))
 		 (move-beginning-of-line 1))
@@ -95,7 +95,7 @@ With argument ARG, do this that many times."
   "Move cursor to end of code or comment or line"
   (interactive)
   (cond ((equal (point) (line-end-position))
-		 (re-search-forward "\n[\t ]*" nil 1))
+		 (re-search-forward "\n[\t\n ]*" nil 1))
 		((and (mwim-line-comment-beginning)
 			  (>= (point) (mwim-line-comment-beginning)))
 		 (move-end-of-line 1))

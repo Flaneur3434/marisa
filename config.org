@@ -972,7 +972,7 @@ This package provides a minor mode that indicates which buffer is currently acti
     :ensure t
     :blackout t
     :custom
-    (dimmer-fraction 0.4)
+    (dimmer-fraction 0.6)
     :config
     (dimmer-mode t)
     (dimmer-configure-magit)

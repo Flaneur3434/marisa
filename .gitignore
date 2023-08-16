@@ -23,11 +23,9 @@ smex-items
 tramp
 emms
 auto-save-list
-elpa
 transient
 auto-complete-love
 auto-complete-lua
-elpa*
 transient*
 url*
 meghanada*
