@@ -2273,6 +2273,10 @@ Version 2020-04-09 2021-02-24"
    nil
    :special))
 
+(defun ken_nc/IBuffer ()
+  (interactive)
+  (ibuffer t nil nil nil t nil nil))
+
 ;; HHH___________________________________________________________________
 
 (defvar xah-run-current-file-before-hook nil "Hook for `xah-run-current-file'. Before the file is run.")
@@ -3861,7 +3865,8 @@ minor modes loaded later may override bindings in this map.")
    ("." . find-file)
    ;; ("." . affe-find)
    ("c" . bookmark-bmenu-list)
-   ("e" . ibuffer)
+   ;; ("e" . ibuffer)
+   ("e" . ken_nc/IBuffer)
    ("f" . xah-open-recently-closed)
    ("g" . xah-open-in-terminal)
    ("h" . recentf-open-files)
@@ -4437,8 +4442,8 @@ Version 2020-04-28"
   (setq xah-fly--deactivate-command-mode-func
         (set-transient-map xah-fly-command-map (lambda () t)))
   (modify-all-frames-parameters (list (cons 'cursor-type 'box)))
-  (when (not (display-graphic-p))
-	(xcc-change-cursor-color-and-shape "white smoke" 'box))
+  ;; change terminal cursor
+  (xcc-change-cursor-color-and-shape "" 'box)
   ;; (set-face-background 'cursor "red")
   (setq mode-line-front-space "c")
   (force-mode-line-update))
@@ -4460,10 +4465,10 @@ Version 2018-05-07"
   (funcall xah-fly--deactivate-command-mode-func)
   (unless no-indication
     (modify-all-frames-parameters '((cursor-type . bar)))
-	(when (not (display-graphic-p))
-	  (xcc-change-cursor-color-and-shape "white smoke" 'bar))
     ;; (set-face-background 'cursor "black")
     (setq mode-line-front-space "i"))
+  ;; change terminal cursor
+  (xcc-change-cursor-color-and-shape "" 'bar)
   (force-mode-line-update))
 
 (defun xah-fly-mode-toggle ()

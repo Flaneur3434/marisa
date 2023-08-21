@@ -110,6 +110,15 @@ that correspond to evil-XXX-state-cursor variables."
 ;; \e[4 q -- hbar(underline) without blink
 ;; \e[5 q -- bar(vertical) line with blink
 ;; \e[6 q -- bar(vertical) line without blink
+
+;; \x1b[\x30 q -- blinking block
+;; \x1b[\x31 q -- blinking block also
+;; \x1b[\x32 q -- steady block
+;; \x1b[\x33 q -- blinking underline
+;; \x1b[\x34 q -- steady underline
+;; \x1b[\x35 q -- blinking bar
+;; \x1b[\x36 q -- steady bar
+
 (defun xcc-get-cursor-shape-format (spec)
   "Extract adapt format from SPEC."
   (when spec

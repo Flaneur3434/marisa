@@ -69,24 +69,40 @@
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
+(xah-fly-command-mode-init)
+
+;; last t is for NO-ENABLE
+(load-theme 'naysayer t t)
+
+(unless (display-graphic-p)
+  (setq mouse-wheel-scroll-amount '(0.1)
+		mouse-wheel-progressive-speed nil
+		ring-bell-function 'ignore)
+  (bind-key "C-z" #'ken_nc/suspend))
+
+;; daemon mode settings
+
+(defun setup-client-graphical (frame)
+  (select-frame frame)
+  (enable-theme 'naysayer))
+
+(defun setup-client-term (frame)
+  (select-frame frame)
+  (enable-theme 'naysayer)
+  (xterm-mouse-mode t))
+
+(defun setup-client (frame)
+  (if (display-graphic-p)
+	  (setup-client-graphical frame)
+	(setup-client-term frame)))
 
 (when (daemonp)
-  (add-hook 'after-make-frame-functions
-            (lambda (frame)
-			  (load-theme 'naysayer t)
-			  (select-frame frame)
-			  (xah-fly-keys t)
-			  (gcmh-mode -1))))
-
-(when (not (display-graphic-p))
   (progn
-	;; (add-hook 'after-make-frame-functions
-	;; 		  (lambda (frame)
-	;; 			(load-theme 'xresources t)))
-	(xterm-mouse-mode t)
-	(setq mouse-wheel-scroll-amount '(0.1)
-		  mouse-wheel-progressive-speed nil
-		  ring-bell-function 'ignore)))
+	(gcmh-mode -1)
+	(xah-fly-command-mode-activate)
+	(add-hook 'after-make-frame-functions #'setup-client)))
+
+;; native comp settings
 
 (if (fboundp 'native-compile-async)
 	(progn

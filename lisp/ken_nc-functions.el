@@ -321,4 +321,6 @@ the cutomized version of go-to-char.el I have in this git repo"
   (if (not (display-graphic-p))
 	  (suspend-frame)))
 
+(bind-key "C-z" #'ken_nc/suspend)
+
 (provide 'ken_nc-functions)
