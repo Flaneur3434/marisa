@@ -44,25 +44,6 @@ USEAGE: update-git-packages.sh [OPTION]
 EOF
 }
 
-my_needed_commands="sregx"
-missing_counter=0
-for needed_command in $my_needed_commands; do
-  if ! hash "$needed_command" >/dev/null 2>&1; then
-    printf "Command not found in PATH: %s\n" "$needed_command" >&2
-	case "$needed_command" in
-		sregx)
-			echo "Can be installed from this repo: https://github.com/zyedidia/sregx"
-			;;
-	esac
-    ((missing_counter++))
-  fi
-done
-
-if ((missing_counter > 0)); then
-  printf "Minimum %d commands are missing in PATH, aborting\n" "$missing_counter" >&2
-  exit 1
-fi
-
 package_list="$(grep "path" .gitmodules | tr -d '\t ' | cut -d '=' -f 2)"
 
 if [[ $# != 0 ]]; then
