@@ -63,7 +63,7 @@ if ((missing_counter > 0)); then
   exit 1
 fi
 
-package_list="$(sregx 'x/.*\n/ g/[[:space:]]+path/p' .gitmodules | cut -d ' ' -f 3)"
+package_list="$(grep "path" .gitmodules | tr -d '\t ' | cut -d '=' -f 2)"
 
 if [[ $# != 0 ]]; then
 	while [[ ! $# == 0 ]]
