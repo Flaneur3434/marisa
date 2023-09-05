@@ -178,6 +178,21 @@ scrolling
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
 #+END_SRC
+** Highlight TODO and ERROR
+#+BEGIN_SRC emacs-lisp
+  ;; Bright-red TODOs
+  (setq fixme-modes '(c++-mode c-mode))
+  (make-face 'font-lock-fixme-face)
+  (make-face 'font-lock-error-face)
+  (mapc (lambda (mode)
+          (font-lock-add-keywords
+           mode
+           '(("\\<\\(TODO\\)" 1 'font-lock-fixme-face t)
+             ("\\<\\(ERROR\\)" 1 'font-lock-error-face t))))
+        fixme-modes)
+  (modify-face 'font-lock-fixme-face "Red" nil nil t nil t nil nil)
+  (modify-face 'font-lock-error-face "Yellow" nil nil t nil t nil nil)
+#+END_SRC
 ** Defer loading most packages for quicker startup times
 #+BEGIN_SRC emacs-lisp
   ;; (setq use-package-always-defer t)
@@ -515,7 +530,7 @@ Emacs has its own built-in functionality which enables TAB completion for elisp
    mpc-browser-tags '(Artist Album)
    mpc-songs-format "%-5{Time} %25{Title} %20{Album} %20{Artist}")
 #+END_SRC
-** Mode line Customization
+** Show number of lines and words in modeline
 #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook 'wc-mode)
   (add-hook 'prog-mode-hook 'wc-mode)
@@ -570,12 +585,13 @@ preceding white spaces, or just delete one character.
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 110) default-frame-alist)
-  (push '(height . 40) default-frame-alist)
+  (push '(height . 44) default-frame-alist)
   (push '(cursor-type . 'box) default-frame-alist)
   (push '(alpha . (100 95)) default-frame-alist)
   ;; (push '(cursor-color . "white smoke") default-frame-alist)
   ;; (push '(mouse-color . "white smoke") default-frame-alist)
-  (push '(font . "Comic Code Ligatures:size=15") default-frame-alist)
+  ;; (push '(font . "Comic Code Ligatures:size=15") default-frame-alist)
+  (push '(font . "Intel One Mono:size=15") default-frame-alist)
   (push '(alpha-background . 100) default-frame-alist)
 
   (setq initial-frame-alist default-frame-alist)
@@ -598,6 +614,7 @@ preceding white spaces, or just delete one character.
     (when (and window-system (eq 'right (get-scroll-bar-mode)))
       (setq reserve (- reserve 3)))
     (propertize " "
+                'face nil
                 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
   (setq-default mode-line-format
@@ -609,9 +626,7 @@ preceding white spaces, or just delete one character.
                       mode-line-remote
                       mode-line-frame-identification
                       mode-line-buffer-identification
-                      mode-line-front-space
                       mode-line-position
-                      mode-line-front-space
                       mode-line-modes
                       mode-line-misc-info
                       '(:eval (mode-line-fill 8))

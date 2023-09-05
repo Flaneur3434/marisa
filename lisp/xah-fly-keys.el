@@ -3191,7 +3191,7 @@ Version 2017-01-29"
     ("z" . "j")
 
     ("/" . "ß")
-    ("[" . "-")
+    ("" . "-")
     ("-" . "y"))
   "A alist, each element is of the form(\"e\" . \"d\"). First char is Dvorak, second is corresponding neo2 layout. Not all chars are in the list, such as digits. When not in this alist, they are assumed to be the same.")
 
@@ -4346,19 +4346,14 @@ minor modes loaded later may override bindings in this map.")
 (xah-fly--define-keys
  (define-prefix-command 'ken_nc/crux-keymap)
  '(
-   ("u" . consult-recent-file)
+   ("u" . crux-transpose-windows)
    ("p" . crux-rename-file-and-buffer)
-   ("q" . crux-transpose-windows)
    ("b" . darkroom-tentative-mode)
    ("o" . crux-sudo-edit)
    ("e" . crux-delete-file-and-buffer)
    ("i" . ken_nc/consult-ripgrep)
-   (">" . mpc-next)
-   ("<" . mpc-prev)
-   ("]" . mpc-pause)
-   ("+" . mpc-resume)
    ("m" . ken_nc/mozc-dwim)
-   ("h" . strip-regular-expression-string)))
+   ("h" . quick-calc)))
 ;;  TODO 2022-01-11: Add crux-open-with
 
 

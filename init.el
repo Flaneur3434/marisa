@@ -69,7 +69,7 @@
 (setq xah-fly-use-control-key nil)
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
-(xah-fly-command-mode-init)
+(xah-fly-command-mode-activate)
 
 ;; last t is for NO-ENABLE
 (load-theme 'naysayer t t)
@@ -92,6 +92,7 @@
   (xterm-mouse-mode t))
 
 (defun setup-client (frame)
+  (xah-fly-command-mode-activate)
   (if (display-graphic-p)
 	  (setup-client-graphical frame)
 	(setup-client-term frame)))
@@ -99,7 +100,6 @@
 (when (daemonp)
   (progn
 	(gcmh-mode -1)
-	(xah-fly-command-mode-activate)
 	(add-hook 'after-make-frame-functions #'setup-client)))
 
 ;; native comp settings

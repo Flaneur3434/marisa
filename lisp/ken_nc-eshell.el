@@ -68,11 +68,27 @@
     (while (re-search-forward "alias \\(.+\\)='\\(.+\\)'$" nil t)
       (eshell/alias (match-string 1) (match-string 2)))))
 
+(defun ken_nc/kill-process-buffer-when-exit (process event)
+  "Kill buffer of PROCESS when it's terminated.
+EVENT is ignored."
+  (ignore event)
+  (when (memq (process-status process) '(signal exit))
+    (kill-buffer (process-buffer process))))
+
+(defun ken_nc/kill-buffer-on-shell-exit ()
+  (let* ((proc (get-buffer-process (current-buffer)))
+         (shell (file-name-nondirectory (car (process-command proc)))))
+    ;; Don't waste time on dumb shell which `shell-write-history-on-exit' is binding to
+    (unless (string-match shell-dumb-shell-regexp shell)
+      (set-process-sentinel proc #'ken_nc/kill-process-buffer-when-exit))))
+
+(advice-add 'term-sentinel :after #'ken_nc/kill-process-buffer-when-exit)
 
 (use-package eshell
   :commands eshell
   :hook
   (eshell-mode . company-mode)
+  (eshell-mode . ken_nc/kill-buffer-on-shell-exit)
   :init
   (add-hook 'eshell-mode-hook
 			(lambda () (progn
