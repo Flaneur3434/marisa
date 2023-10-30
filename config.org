@@ -1613,13 +1613,16 @@ Some emacs settings that are useful for completions
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
     (eglot-sync-connect 0)
+    (eglot-events-buffer-size 0)
     :config
+    (advice-add 'jsonrpc--log-event :override #'ignore)
+
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
                    '((c-mode c++-mode)
                      . ("clangd"
                         "--enable-config"
-                        "-j=8"
+                        "-j=4"
                         "--function-arg-placeholders=false"
                         "--all-scopes-completion"
                         "--log=info"
