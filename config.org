@@ -580,6 +580,12 @@ preceding white spaces, or just delete one character.
 #+BEGIN_SRC emacs-lisp
   (electric-indent-mode nil)
 #+END_SRC
+** Desktop Save Mode
+Freeze the current state of emacs and reload later
+#+BEGIN_SRC emacs-lisp
+  ;; (desktop-save-mode 1)
+  ;; (setq desktop-load-locked-desktop t)
+#+END_SRC
 * Emacs Frame Customization
 #+BEGIN_SRC emacs-lisp
   (push '(width . 110) default-frame-alist)
@@ -1139,7 +1145,7 @@ which behaves correctly under all circumstances.
     :init
     (savehist-mode)
     :config
-    (add-to-list 'savehist-additional-variables 'command-history)
+    (add-to-list 'savehist-additional-variables 'command-history 'kill-ring)
     (setq
      history-delete-duplicates t
      history-length t
@@ -1537,6 +1543,17 @@ Some emacs settings that are useful for completions
     (setq enable-recursive-minibuffers t)
     :config
     (setq completion-styles '(hotfuzz orderless substring fussy basic)))
+#+END_SRC
+** Initialize fancy-compilation
+#+BEGIN_SRC emacs-lisp
+  (use-package fancy-compilation
+    :ensure t
+    :blackout t
+    :custom
+    (fancy-compilation-quiet-prelude t)
+    (fancy-compilation-term "xterm-direct")
+    :config
+    (fancy-compilation-mode t))
 #+END_SRC
 ** Initialize =company=
 #+BEGIN_SRC emacs-lisp

@@ -1,4 +1,4 @@
-*.html
+ *.html
 *.eld
 *.dat
 *ido*
@@ -53,4 +53,5 @@ undohist/
 projectile.cache
 .yas-compiled-snippets.el
 tree-sitter/
-elpa
+elpa/
+.emacs.desktop

@@ -56,6 +56,7 @@
 (require 'unfill)
 (require 'wc-mode)
 (require 'xterm-cursor-changer)
+(require 'desktop)
 
 ;; Minor Mode Settings
 (global-subword-mode 1) ;; Change all cursor movement/edit commands to stop in-between the camelCase words
@@ -94,6 +95,7 @@
   (xterm-mouse-mode t))
 
 (defun setup-client (frame)
+  ;; (desktop-read)
   (if (display-graphic-p)
 	  (setup-client-graphical frame)
 	(setup-client-term frame)))

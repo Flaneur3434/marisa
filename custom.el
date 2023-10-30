@@ -17,9 +17,10 @@
  '(dumb-jump-selector 'popup)
  '(frame-background-mode nil)
  '(ido-everywhere nil)
+ '(ispell-program-name "aspell")
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(amx zoom mwim dimmer ligature wgrep-ag ag exec-path-from-shell wrap-region aggressive-indent popwin undohist iedit wgrep git-timemachine color-identifiers-mode color-identifiers embark-consult embark diff-hl diff-hl-mode affe hungry-delete clang-format+ eglot hotfuzz fussy pcre2l hop projectile geiser-guile smart-hungry-delete pcmpl-args consult-ag consult-yasnippet pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg dired-toggle-sudo cfrs beacon auto-package-update))
+   '(fancy-compilation amx zoom mwim dimmer ligature wgrep-ag ag exec-path-from-shell wrap-region aggressive-indent popwin undohist iedit wgrep git-timemachine color-identifiers-mode color-identifiers embark-consult embark diff-hl diff-hl-mode affe hungry-delete clang-format+ eglot hotfuzz fussy pcre2l hop projectile geiser-guile smart-hungry-delete pcmpl-args consult-ag consult-yasnippet pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg dired-toggle-sudo cfrs beacon auto-package-update))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
