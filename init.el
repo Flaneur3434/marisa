@@ -84,15 +84,16 @@
 
 (defun setup-client-graphical (frame)
   (select-frame frame)
-  (enable-theme 'naysayer))
+  (enable-theme 'naysayer)
+  (xah-fly-command-mode-activate))
 
 (defun setup-client-term (frame)
   (select-frame frame)
-  (enable-theme 'naysayer)
+  (enable-theme 'xresources)
+  (xah-fly-command-mode-activate)
   (xterm-mouse-mode t))
 
 (defun setup-client (frame)
-  (xah-fly-command-mode-activate)
   (if (display-graphic-p)
 	  (setup-client-graphical frame)
 	(setup-client-term frame)))
