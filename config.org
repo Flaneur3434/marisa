@@ -609,7 +609,8 @@ Freeze the current state of emacs and reload later
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 #+END_SRC
-* Emacs Modeline
+* Emacs
+Modeline
 #+BEGIN_SRC emacs-lisp
   (defun mode-line-fill (reserve)
     "Return empty space using FACE and leaving RESERVE space on the right."
@@ -1485,8 +1486,9 @@ Color Identifiers is a minor mode for Emacs that highlights each source code ide
       (face-remap-add-relative 'font-lock-string-face '((:slant italic)))
       (face-remap-add-relative 'font-lock-constant-face '((:weight bold))))
     :hook
+    ;; (color-identifiers-mode . myfunc-color-identifiers-mode-hook)
     (c-mode . color-identifiers-mode)
-    (color-identifiers-mode . myfunc-color-identifiers-mode-hook))
+    (c++-mode . color-identifiers-mode))
 #+END_SRC
 ** Built-in entry: =eldoc=
 *** Code
@@ -1551,7 +1553,7 @@ Some emacs settings that are useful for completions
     :blackout t
     :custom
     (fancy-compilation-quiet-prelude t)
-    (fancy-compilation-term "xterm-direct")
+    (fancy-compilation-term "xterm-color")
     :config
     (fancy-compilation-mode t))
 #+END_SRC
@@ -1659,6 +1661,7 @@ Some emacs settings that are useful for completions
 
   ;; disable eldoc
   (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
 #+END_SRC
 ** Initialize =yasnippet=
 #+BEGIN_SRC emacs-lisp
@@ -1688,28 +1691,6 @@ Some emacs settings that are useful for completions
 Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package clang-format+
-  ;;   :ensure t
-  ;;   :blackout t
-  ;;   :hook
-  ;;   (c-mode . clang-format+-mode)
-  ;;   (c++-mode . clang-format+-mode)
-  ;;   :custom
-  ;;   (clang-format+-context 'buffer)
-  ;;   :config
-  ;;   ;; Fix clang-format (and clang-format+ mode) in tramp mode.
-  ;;   (defun tramp-aware-clang-format (orig-fun start end &optional style assume-file-name)
-  ;;     "If the file being edited is remote, use the .clang-format file in the
-  ;;         local HOME directory because the clang that gets run by the formatter is
-  ;;         not the remote executable, its the local one"
-  ;;     (unless assume-file-name
-  ;;       (setq assume-file-name
-  ;;             (if (file-remote-p buffer-file-name)
-  ;;                 (concat (getenv "HOME") "/" (file-name-nondirectory buffer-file-name))
-  ;;               buffer-file-name)))
-  ;;     (apply orig-fun (list start end style assume-file-name)))
-  ;;   (advice-add 'clang-format-region :around #'tramp-aware-clang-format))
-
   (defun c-mode-variables ()
     (setq-local tab-width 4)
     (setq-local flycheck-gcc-language-standard "gnu17")
@@ -1726,7 +1707,6 @@ Irony is the company backend for C and C++
     (c-mode . eglot-ensure)
     (c-mode . undo-hl-mode)
     (c-mode . wrap-region-mode)
-    ;; (add 'c-mode-hook . openbsd-set-knf-style)
     (c-mode . which-function-mode)
     (c-mode . flycheck-mode)
     (c-mode . c-mode-variables)
@@ -1735,10 +1715,26 @@ Irony is the company backend for C and C++
     (c++-mode . eglot-ensure)
     (c++-mode . undo-hl-mode)
     (c++-mode . wrap-region-mode)
-    ;; (add-hook 'c++-mode-hook . openbsd-set-knf-style)
     (c++-mode . which-function-mode)
     (c++-mode . flycheck-mode)
     (c++-mode . c++-mode-variables))
+#+END_SRC
+** Rust
+*** Code
+#+BEGIN_SRC emacs-lisp
+  (use-package rustic
+    :defer t
+    :ensure t
+    :hook
+    (rust-mode . company-mode)
+    (rust-mode . flycheck-mode)
+    (rust-mode . eglot-ensure)
+    (rust-mode . eglot-format-buffer-on-save)
+    (rust-mode . undo-hl-mode)
+    (rust-mode . wrap-region-mode)
+    :custom
+    (rust-format-on-save t)
+    (rustic-lsp-client 'eglot))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp

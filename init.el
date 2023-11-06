@@ -72,9 +72,6 @@
 (xah-fly-keys 1)
 (xah-fly-command-mode-activate)
 
-;; last t is for NO-ENABLE
-(load-theme 'naysayer t t)
-
 (unless (display-graphic-p)
   (setq mouse-wheel-scroll-amount '(0.1)
 		mouse-wheel-progressive-speed nil
@@ -85,12 +82,10 @@
 
 (defun setup-client-graphical (frame)
   (select-frame frame)
-  (enable-theme 'naysayer)
   (xah-fly-command-mode-activate))
 
 (defun setup-client-term (frame)
   (select-frame frame)
-  (enable-theme 'xresources)
   (xah-fly-command-mode-activate)
   (xterm-mouse-mode t))
 

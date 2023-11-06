@@ -20,7 +20,7 @@
  '(ispell-program-name "aspell")
  '(lsp-java-theme "")
  '(package-selected-packages
-   '(fancy-compilation amx zoom mwim dimmer ligature wgrep-ag ag exec-path-from-shell wrap-region aggressive-indent popwin undohist iedit wgrep git-timemachine color-identifiers-mode color-identifiers embark-consult embark diff-hl diff-hl-mode affe hungry-delete clang-format+ eglot hotfuzz fussy pcre2l hop projectile geiser-guile smart-hungry-delete pcmpl-args consult-ag consult-yasnippet pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg dired-toggle-sudo cfrs beacon auto-package-update))
+   '(rustic magit fancy-compilation amx zoom mwim dimmer ligature wgrep-ag ag exec-path-from-shell wrap-region aggressive-indent popwin undohist iedit wgrep git-timemachine color-identifiers-mode color-identifiers embark-consult embark diff-hl diff-hl-mode affe hungry-delete clang-format+ eglot hotfuzz fussy pcre2l hop projectile geiser-guile smart-hungry-delete pcmpl-args consult-ag consult-yasnippet pulsar pyvenv company-irony-c-headers company-quickhelp yasnippet-snippets pretty-hydra f dumb-jump company-irony caml-mode sml-mode corfu compnay mozc highlight auto-compplete which-key powerline pfuture page-break-lines ido-vertical-mode hydra htmlize ht goto-chg dired-toggle-sudo cfrs beacon auto-package-update))
  '(undo-hl-flash-duration 0.05))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -35,7 +35,6 @@
  '(flymake-warning ((t (:underline t))))
  '(highlight-changes ((t (:foreground "dim gray" :weight bold))))
  '(hl-line ((t nil)))
- '(mode-line-inactive ((t (:background "#09363f" :foreground "#d1b897" :box nil))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
  '(region ((t (:extend t :background "#86817b" :foreground "black"))))
  '(undo-hl-delete ((t (:background "coral2"))))
