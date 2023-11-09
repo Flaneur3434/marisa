@@ -4097,34 +4097,17 @@ minor modes loaded later may override bindings in this map.")
   "call different jump-to-definition functions depending on what's current major mode."
   (interactive)
   (cond
-   ((string-equal major-mode "java-mode") (xref-find-definitions (thing-at-point 'symbol)))
-   ((string-equal major-mode "c-mode") (xref-find-definitions (thing-at-point 'symbol)))
-   ((string-equal major-mode "c++-mode") (xref-find-definitions (thing-at-point 'symbol)))
-   ((string-equal major-mode "python-mode") (xref-find-definitions (thing-at-point 'symbol)))
-   ((string-equal major-mode "emacs-lisp-mode") (xref-find-definitions (thing-at-point 'symbol)))
    ((string-equal major-mode "go-mode") (godef-jump (point)))
    ((string-equal major-mode "geiser-mode") (geiser-edit-symbol-at-point (point)))
-   ;; more major-mode checking here
-
-   ;; if nothing match, do nothing
-   (t nil)))
+   (t (xref-find-definitions (thing-at-point 'symbol)))))
 
 (defun my-jump-back-wrapper ()
   "call different jump-back-definition functions depending on what's current major mode."
   (interactive)
   (cond
-   ((string-equal major-mode "java-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "go-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "c-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "c++-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "python-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "emacs-lisp-mode") (xref-pop-marker-stack))
-   ((string-equal major-mode "go-mode") (xref-pop-marker-stack))
    ((string-equal major-mode "geiser-mode") (geiser-pop-symbol-stack))
-   ;; more major-mode checking here
-
    ;; if nothing match, do nothing
-   (t nil)))
+   (t (xref-pop-marker-stack))))
 
 (xah-fly--define-keys
  (define-prefix-command 'ken_nc/dumbjump-keymap)

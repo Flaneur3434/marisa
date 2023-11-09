@@ -1314,9 +1314,7 @@ which behaves correctly under all circumstances.
     ;; add environment variables to emacs environment
     (dolist (var '("BROWSER" "PLAN9" "COLORTERM" "XTERM_VERSION" "TERM"))
       (add-to-list 'exec-path-from-shell-variables var))
-
-    (when (daemonp)
-      (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize))
 #+END_SRC
 ** Initialize =consult=
 *** Description
@@ -1726,12 +1724,12 @@ Irony is the company backend for C and C++
     :defer t
     :ensure t
     :hook
-    (rust-mode . company-mode)
-    (rust-mode . flycheck-mode)
-    (rust-mode . eglot-ensure)
-    (rust-mode . eglot-format-buffer-on-save)
-    (rust-mode . undo-hl-mode)
-    (rust-mode . wrap-region-mode)
+    (rustic-mode . company-mode)
+    (rustic-mode . flycheck-mode)
+    (rustic-mode . eglot-ensure)
+    (rustic-mode . eglot-format-buffer-on-save)
+    (rustic-mode . undo-hl-mode)
+    (rustic-mode . wrap-region-mode)
     :custom
     (rust-format-on-save t)
     (rustic-lsp-client 'eglot))

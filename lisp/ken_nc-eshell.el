@@ -84,17 +84,18 @@ EVENT is ignored."
 
 (advice-add 'term-sentinel :after #'ken_nc/kill-process-buffer-when-exit)
 
+(use-package esh-mode
+  :bind
+  (:map eshell-mode-map
+		("C-l" . ken_nc/esh-clear-buffer)
+		("C-r" . ken_nc/esh-history)
+		("<mouse-3>" . xah-open-file-at-cursor)))
+
 (use-package eshell
-  :commands eshell
+  :after esh-mode
   :hook
   (eshell-mode . company-mode)
   (eshell-mode . ken_nc/kill-buffer-on-shell-exit)
-  :init
-  (add-hook 'eshell-mode-hook
-			(lambda () (progn
-						 (define-key eshell-mode-map (kbd "C-l") 'ken_nc/esh-clear-buffer)
-						 (define-key eshell-mode-map (kbd "C-r") 'ken_nc/esh-history)
-						 (define-key eshell-mode-map (kbd "<mouse-3>") 'xah-open-file-at-cursor))))
   :custom
   (eshell-highlight-prompt nil)
   (eshell-buffer-shorthand t)
@@ -106,7 +107,6 @@ EVENT is ignored."
   (eshell-glob-case-insensitive t)
 
   (eshell-scroll-to-bottom-on-input 'all)
-  ;; (eshell-list-files-after-cd t)
   (eshell-aliases-file (concat user-emacs-directory "eshell/alias"))
   (eshell-banner-message "(´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~ (´ー`)y-~~\n\n")
   :config
@@ -117,7 +117,7 @@ EVENT is ignored."
 
 ;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
 ;; rather than every time `eshell-mode' is enabled.
-;; (add-hook 'eshell-alias-load-hook 'ken_nc/parse-bash-history)
+(add-hook 'eshell-alias-load-hook 'ken_nc/parse-bash-history)
 
 (message "loading init-eshell")
 (provide 'ken_nc-eshell)

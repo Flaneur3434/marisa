@@ -1,43 +1,17 @@
-alias youtube youtube-mp3-tag-editor
-alias yay paru --fm vim --fmflags t
-alias vim-his grep '\''^>'\'' .viminfo | cut -c3- | sed '\''s/~/\/home\/ken_nc\//'\''
-alias tm emacsclient -t
 alias tar-gz tar -czvf
-alias syslist systemctl list-unit-files --type=service --no-pager
-alias sxiv sxiv -p
 alias sudo doas
-alias running_service systemctl list-units --type=service
-alias reset_clock sudo timedatectl set-timezone UTC
-alias rand-vid-list find ./ \( -name "*.mp4" -or -name "*.webm" -or -name "*.mkv" \) -type f | shuf | mpv --loop-file=no --loop-playlist --playlist=-
-alias rand-vid mpv "$(find ./ -path ./@eaDir -prune -o \( -name "*.mp4" -o -name "*.mkv" -o -name "*.webm" \) -type f | shuf | head -1 )"
-alias rand-img-list find ./ -path ./@eaDir -prune -o \( -name "*.jpg" -o -name "*.png" \) | shuf | sxiv -p -
-alias rand-img find ./ -path ./@eaDir -prune -o \( -name "*.jpg" -o -name "*.png" \) | shuf | head -1 | sxiv -p -
-alias pacman pacman --color auto
-alias pSyyu sudo pacman -Syyu
-alias pSyu sudo pacman -Syu
-alias pSs pacman -Ss
-alias pSi pacman -Si
-alias pScc sudo pacman -Scc
-alias pS sudo pacman -S
-alias pRs sudo pacman -Rs
-alias pRnsc sudo pacman -Rnsc
-alias pQs pacman -Qs
-alias pQmq pacman -Qmq
-alias pQi pacman -Qi
-alias pQdt pacman -Qdt
-alias pD sudo pacman -D
-alias obsd ssh ken_nc@192.168.1.127
+alias seer seergdb
+alias rm rm -i
+alias reboot doas /sbin/reboot
+alias poweroff doas /sbin/poweroff
+alias play mpv --hwdec=auto --loop=no --playlist=-
+alias gp grep -i -E
 alias ngp gp -v
-alias mui ncmpcpp-ueberzug
-alias mu-up mpc update
-alias mu ncmpcpp
-alias moto ssh ken_nc@192.168.1.35 -p 8022
-alias ltm 9 ls -Qt
-alias ltc ls --all --human-readable --literal --time=ctime
-alias lt 9 ls -Qtu
-alias ll 9 ls -Q
-alias igo basilisk https://online-go.com/overview
-alias iftop sudo iftop -i wlan0
+alias mg emacsclient --socket-name=/tmp/emacs1000/server -t
+alias ltc ls -l --all --human-readable --literal --time=ctime
+alias lt dir --all -t -l -1 --color
+alias ls ls --color=auto
+alias ll dir --almost-all --escape -C --color=auto
 alias gwc git whatchanged
 alias gtagl git tag --list
 alias gtag git tag --sign
@@ -46,13 +20,13 @@ alias gsta git status
 alias gsho git show --oneline
 alias gsh git show
 alias grh git reset HEAD
+alias grep grep --colour=auto
 alias gpull git pull
 alias gpm git push -u origin main
 alias gph git push -u origin HEAD
 alias gpg-retrieve gpg2 --keyserver-options auto-key-retrieve --receive-keys
 alias gpg-check gpg2 --keyserver-options auto-key-retrieve --verify
 alias gpd git push origin --delete
-alias gp grep -i -E
 alias gmerge git merge --edit --stat
 alias gmerg git merge --edit --stat
 alias glog git log
@@ -68,31 +42,16 @@ alias gcl git clone --depth 1
 alias gchb git checkout -b
 alias gch git checkout
 alias gca git commit --amend
-alias gbl git branch --list
+alias gbl 'git branch --list'
 alias gbd git branch -d
 alias gall git add -Av
 alias gaddp git add --patch
 alias gaddi git add --interactive
-alias gadd git add -v
-alias ftc_code cd Documents/programming/Freight-Frenzy/TeamCode/src/main/java/org/firstinspires/ftc/teamcode
-alias ftc cd Documents/programming/Freight-Frenzy/
-alias ff ls | sor '\''test -f'\''
-alias fd ls | sor '\''test -d'\''
-alias emda systemctl --user restart emacs
-alias em sw emacsclient -c
-alias diskstation ssh ken_nc@192.168.1.115 -p 22
+alias gadd git-add
+alias eupg emerge --ask --verbose --update --deep --newuse @world
+alias emda doas rc-service emacs.ken_nc restart
+alias em sw emacsclient --socket-name='\''/tmp/emacs1000/server'\'' -c
 alias dfc dfc -d
-alias clock plan9_clock
-alias cleanup sudo pacman -Rns $(pacman -Qtdq)
-alias clamscan clamscan -vrz --bell --leave-temps --remove=yes
-alias caprine firejail --noprofile caprine
-alias blog blog.sh
-alias all-img find ./ -name "*.jpg" -or -name "*.png" -type f | sort -R | sxiv -ptbf -
-alias acme2 acme-start.sh
-alias UnBindL sudo umount -lv /home/ken_nc/Documents/bind/
-alias UnBind sudo umount -v /home/ken_nc/Documents/bind/
-alias Rsync rsync -avuz --progress --protect-args
-alias BindO sudo mount -t nfs 192.168.1.127:/mnt/sd4 /home/ken_nc/Documents/bind/ -o rsize=12288,wsize=12288,noatime,nodev,noexec,intr,soft,vers=3
-alias BindD sudo mount -t nfs 192.168.1.115:/volume2/backup /home/ken_nc/Documents/bind/
-alias BindA sudo mount -t nfs 192.168.1.36: /home/ken_nc/Documents/bind/
-alias 9term 9term rc
+alias blkrm xe -I{} rm "{}"
+alias audio mpv --loop=no --vo=null --hwdec=auto --no-video --term-osd-bar --no-resume-playback --playlist=-
+alias BindO sudo mount -t nfs 192.168.1.130:/mnt/sd4 /mnt/nfs -o ro,sloppy,noatime,nconnect=16,rdirplus,noexec,vers=3
