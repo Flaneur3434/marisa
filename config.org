@@ -1721,8 +1721,8 @@ Irony is the company backend for C and C++
 *** Code
 #+BEGIN_SRC emacs-lisp
   (use-package rustic
-    :defer t
     :ensure t
+    :blackout t
     :hook
     (rustic-mode . company-mode)
     (rustic-mode . flycheck-mode)
@@ -1731,8 +1731,9 @@ Irony is the company backend for C and C++
     (rustic-mode . undo-hl-mode)
     (rustic-mode . wrap-region-mode)
     :custom
-    (rust-format-on-save t)
-    (rustic-lsp-client 'eglot))
+    (rustic-lsp-client 'eglot)
+    (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
+    (rust-format-on-save t))
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp

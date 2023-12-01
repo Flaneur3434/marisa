@@ -87,6 +87,7 @@
 (defun setup-client-term (frame)
   (select-frame frame)
   (xah-fly-command-mode-activate)
+  (setq x-select-enable-clipboard t)
   (xterm-mouse-mode t))
 
 (defun setup-client (frame)
