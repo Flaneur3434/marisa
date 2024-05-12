@@ -99,6 +99,7 @@
 (when (daemonp)
   (progn
 	(gcmh-mode -1)
+	(exec-path-from-shell-initialize)
 	(add-hook 'after-make-frame-functions #'setup-client)))
 
 ;; native comp settings

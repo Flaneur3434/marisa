@@ -227,6 +227,7 @@ command. If prefix is given, it uses grep with the --invert-match flag."
 								"--with-filename "
 								"--line-number "
 								"--search-zip "
+								"--hidden "
 								invert-p)))
 	(consult-ripgrep directory-name)))
 

@@ -787,7 +787,8 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
     (setq dashboard-banner-logo-title "M A R I S A - Connect To The Wired Edition!")
     ;; (setq dashboard-startup-banner "~/.emacs.d/lain.png")
     ;; (setq dashboard-startup-banner "~/.emacs.d/athos_monk_emacs.png")
-    (setq dashboard-startup-banner "~/.emacs.d/xemacs_color.svg")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/xemacs_color.svg")
+    (setq dashboard-startup-banner "~/.emacs.d/VtuberEmacsLogo.png")
     (setq dashboard-center-content t)
     (setq dashboard-show-shortcuts nil)
     (setq dashboard-set-init-info t)
@@ -1380,11 +1381,12 @@ This package provides an orderless completion style that divides the pattern int
     :ensure t
     :demand t
     :config
+    ;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
     (defun consult--orderless-regexp-compiler (input type &rest _config)
       (setq input (orderless-pattern-compiler input))
       (cons
        (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-       (lambda (str) (orderless--highlight input str))))
+       (lambda (str) (orderless--highlight input t str))))
 
     (setq consult--regexp-compiler #'consult--orderless-regexp-compiler
           consult--grep-regexp-type 'pcre
