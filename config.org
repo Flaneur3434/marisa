@@ -1383,7 +1383,7 @@ This package provides an orderless completion style that divides the pattern int
     :config
     ;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
     (defun consult--orderless-regexp-compiler (input type &rest _config)
-      (setq input (orderless-pattern-compiler input))
+      (setq input (cdr (orderless-compile input)))
       (cons
        (mapcar (lambda (r) (consult--convert-regexp r type)) input)
        (lambda (str) (orderless--highlight input t str))))
@@ -1396,7 +1396,6 @@ This package provides an orderless completion style that divides the pattern int
 
     (add-to-list 'completion-category-overrides
                  '(file (styles partial-completion))))
-
 #+END_SRC
 ** Initialize =affe=
 *** Description
@@ -1787,47 +1786,48 @@ Also added google-java-format
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
-  ;; Probably need to install abunch of pip packages
-  (use-package pyvenv
-    :ensure t
-    :init
-    (setenv "~/.venvs/")
-    :config
-    ;; (pyvenv-mode t)
-    (setq pyvenv-post-activate-hooks
-          (list (lambda ()
-                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+    ;; Probably need to install abunch of pip packages
+    (use-package pyvenv
+      :ensure t
+      :init
+      (setenv "~/.venvs/")
+      :config
+      ;; (pyvenv-mode t)
+      (setq pyvenv-post-activate-hooks
+            (list (lambda ()
+                    (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
 
-    (setq pyvenv-post-deactivate-hooks
-          (list (lambda ()
-                  (setq python-shell-interpreter "python3.10")))))
+      (setq pyvenv-post-deactivate-hooks
+            (list (lambda ()
+                    (setq python-shell-interpreter "python3.10")))))
 
-  (use-package blacken
-    :ensure t
-    :config
-    (setq-default blacken-allow-p36 t)
-    (setq-default blacken-fast-unsafe t)
-    (setq-default blacken-line-length 120)
-    (setq-default blacken-skip-string-normalization t))
+    (use-package blacken
+      :ensure t
+      :config
+      (setq-default blacken-allow-p36 t)
+      (setq-default blacken-fast-unsafe t)
+      (setq-default blacken-line-length 120)
+      (setq-default blacken-skip-string-normalization t))
 
-  (defun ken_nc/python-format-on-save ()
-    (when (eq major-mode 'python-mode)
-      (let ((prev-pos (point)))
-        (call-interactively 'blacken-buffer)
-        (goto-char prev-pos))))
+    (defun ken_nc/python-format-on-save ()
+      (when (eq major-mode 'python-mode)
+        (let ((prev-pos (point)))
+          (call-interactively 'blacken-buffer)
+          (goto-char prev-pos))))
 
-  ;; (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
+    ;; (add-hook 'before-save-hook #'ken_nc/python-format-on-save)
 
-  (use-package python-mode
-    :ensure t
-    :custom
-    (python-shell-interpreter "python3")
-    :hook
-    (python-mode . pyvenv-mode)
-    (python-mode . flycheck-mode)
-    (python-mode . company-mode)
-    (python-mode . blacken-mode)
-    (python-mode . eglot-ensure))
+    (use-package python-mode
+      :ensure t
+      :custom
+      (python-shell-interpreter "python3")
+      :hook
+      ;; (python-mode . pyvenv-mode)
+      ;; (python-mode . flycheck-mode)
+      (python-mode . company-mode)
+      ;; (python-mode . blacken-mode)
+      ;; (python-mode . eglot-ensure)
+      )
 #+END_SRC
 ** Json
 #+BEGIN_SRC emacs-lisp
