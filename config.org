@@ -663,7 +663,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 ** Xah Fly Keys
 #+begin_src emacs-lisp
   (use-package xah-fly-keys
-    :vc (:fetcher github :repo "xahlee/xah-fly-keys")
+    :vc (:fetcher github :repo "Flaneur3434/xah-fly-keys")
     :demand t
     :blackout t
     :config
