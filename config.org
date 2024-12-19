@@ -663,6 +663,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 ** Xah Fly Keys
 #+begin_src emacs-lisp
   (use-package xah-fly-keys
+    :ensure nil
     :vc (:fetcher github :repo "Flaneur3434/xah-fly-keys")
     :demand t
     :blackout t
@@ -681,6 +682,7 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 Show number of lines and words in modeline
 #+begin_src emacs-lisp
   (use-package wc-mode
+    :ensure nil
     :vc (:fetcher github :repo "bnbeckwith/wc-mode")
     :blackout t
     :hook
@@ -1243,13 +1245,11 @@ Fuzzy matching for company eglot completion
     :config
     (setq company-idle-delay nil
           company-minimum-prefix-length 3
-          company-ctags-ignore-case t
-          company-ctags-fuzzy-match-p t
           company-dabbrev-downcase nil
           company-dabbrev-other-buffers nil
           company-dabbrev-ignore-case nil
           completion-ignore-case t
-          company-backends '((company-capf :with company-yasnippet :with company-files) (company-ctags)))
+          company-backends '((company-capf :with company-yasnippet :with company-files)))
     (advice-add 'company-capf--candidates :around #'just-one-face))
 
   (use-package company-quickhelp
