@@ -1,0 +1,6 @@
+var/
+eln-cache/
+elpa/
+etc/gnus/
+etc/yasnippet/
+config.el
