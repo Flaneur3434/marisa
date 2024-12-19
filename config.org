@@ -7,67 +7,32 @@ Emacs Radical Rationalist Edition
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
 #+end_src
-
-* Use-package configuration
-** Enable package.el and use-package macros
+* Use-package/Straight configuration
+Package `use-package' provides a handy macro by the same name which is
+essentially a wrapper around `with-eval-after-load' with a lot of handy
+syntactic sugar and useful features.
 #+begin_src emacs-lisp
-  (require 'use-package)
-  (require 'package)
+  (straight-use-package 'use-package)
 #+end_src
-** Refresh repository and enable packages
+When configuring a feature with `use-package', also tell straight.el to install
+a package of the same name, unless otherwise specified using the `:straight'
+keyword.
 #+begin_src emacs-lisp
-  ;; Change packages directory
-  (setq package-user-dir (convert-standard-filename
-                          (expand-file-name  "var/elpa/" user-emacs-directory)))
-  ;; Initialize melpa repo
-  (setq package-enable-at-startup nil)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/"))
-  (package-refresh-contents)
-  (package-initialize)
+  (setq straight-use-package-by-default t)
 #+end_src
-** Enable VC download support
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'vc-use-package)
-          (package-vc-install "https://github.com/slotThe/vc-use-package"))
-  (require 'vc-use-package)
-#+end_src
-** Enable lazy loading by default
 Tell `use-package' to always load features lazily unless told otherwise. It's
-nicer to have this kind of thing be deterministic: if `:demand t' is present, the
+nicer to have this kind of thing be deterministic: if `:demand' is present, the
 loading is eager; otherwise, the loading is lazy.
 #+begin_src emacs-lisp
   ;; See https://github.com/jwiegley/use-package#notes-about-lazy-loading.
   (customize-set-variable 'use-package-always-defer t)
 #+end_src
-** Enable downloading packages by default
-When configuring a feature with `use-package', also tell package.el to install
-a package of the same name, unless otherwise specified using the `:ensure'
-keyword.
-#+begin_src emacs-lisp
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t)
-#+end_src
-** Automatically update packages
-#+begin_src emacs-lisp
-  (use-package auto-package-update
-    :ensure nil
-    :config
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
-#+end_src
-** Ensure system binaries are installed before loading package.
-#+begin_src emacs-lisp
-  (require 'use-package-ensure-system-package)
-#+end_src
 * QoL section
 Minor quality-of-life modifications for a more pleasant Emacs experience
 ** No littering
-We want to enable no littering before loading anything else.
 #+begin_src emacs-lisp
   (use-package no-littering
-    :demand t
+    :demand
     :config
     (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 #+end_src
@@ -79,14 +44,11 @@ We want to enable no littering before loading anything else.
 ** Enable line numbers
 *** Toggle Display-Line-Numbers mode in all buffers
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook (lambda ()
-                              (progn
-                                (display-line-numbers-mode)
-                                (setq display-line-numbers t))))
-  (add-hook 'text-mode-hook (lambda ()
-                              (progn
-                                (display-line-numbers-mode)
-                                (setq display-line-numbers t))))
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'text-mode-hook 'display-line-numbers-mode)
+#+end_src
+*** Use absolute line numbers even when buffer is narrowed.
+#+begin_src emacs-lisp
   (customize-set-variable 'display-line-numbers-widen t)
 #+end_src
 ** Show parent parentheses
@@ -95,9 +57,12 @@ We want to enable no littering before loading anything else.
 #+end_src
 ** Show fill column
 #+begin_src emacs-lisp
-  (use-package display-fill-column-indicator-mode
-    :ensure nil
-    :hook (prog-mode text-mode))
+  (add-hook 'prog-mode-hook (lambda ()
+                              (progn
+                                (display-fill-column-indicator-mode))))
+  (add-hook 'text-mode-hook (lambda ()
+                              (progn
+                                (display-fill-column-indicator-mode))))
 #+end_src
 ** Disable the default startup screen
 #+begin_src emacs-lisp
@@ -178,7 +143,7 @@ We want to enable no littering before loading anything else.
 #+end_src
 ** Paragraph Filling
 #+begin_src emacs-lisp
-  (customize-set-variable 'fill-column 80)
+  (setq-default fill-column 80)
 #+end_src
 ** Enable prettify symbols mode
 #+begin_src emacs-lisp
@@ -325,12 +290,12 @@ We want to enable no littering before loading anything else.
 #+end_src
 ** Diff Mode
 #+begin_src emacs-lisp
-  (setq diff-default-read-only t
-        diff-advance-after-apply-hunk t
-        diff-update-on-the-fly t
-        diff-refine nil
-        diff-font-lock-prettify nil
-        diff-font-lock-syntax 'hunk-also)
+  (setq diff-default-read-only t)
+  (setq diff-advance-after-apply-hunk t)
+  (setq diff-update-on-the-fly t)
+  (setq diff-refine nil)
+  (setq diff-font-lock-prettify nil)
+  (setq diff-font-lock-syntax 'hunk-also)
 #+end_src
 ** Suspend Emacs
 #+begin_src emacs-lisp
@@ -343,7 +308,6 @@ We want to enable no littering before loading anything else.
   (global-set-key (kbd "M-RET") 'indent-new-comment-line)
   (global-set-key [mode-line C-mouse-1] 'tear-off-window)
   (global-set-key (kbd "C-c x") 'ken_nc/tear-off-window)
-  (global-set-key (kbd "C-x C-e") 'eval-last-sexp)
 #+end_src
 ** CSS color coding
 #+begin_src emacs-lisp
@@ -444,10 +408,11 @@ Display last searched string in minibuffer prompt
 ** Recentf mode
 #+begin_src emacs-lisp
   (use-package recentf
-    :ensure nil
+    :straight nil
     :demand t
-    :config
+    :init
     (recentf-mode 1)
+    :config
     ;; Set the number of recent files to remember
     (setq recentf-max-saved-items 50)
     (add-to-list 'recentf-exclude
@@ -455,20 +420,26 @@ Display last searched string in minibuffer prompt
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-etc-directory))
     :hook
-    (buffer-list-update . recentf-track-opened-file))
+    (buffer-list-update-hook . recentf-track-opened-file))
 #+end_src
 ** WGrep
 WGrep allows you to edit a grep buffer and apply those changes to the file buffer like sed interactively. No need to learn sed script, just learn Emacs.
 Save buffer automatically when wgrep-finish-edit
 #+begin_src emacs-lisp
   (use-package wgrep
-    :custom
-    (wgrep-auto-save-buffer t)
+    :straight (Emacs-wgrep :type git :host github :repo "mhayashi1120/Emacs-wgrep")
     :config
+    (setq wgrep-auto-save-buffer t)
     ;; Change the default key binding to switch to wgrep
+    (global-set-key (kbd "C-q") 'ken_nc/edit-buffer-dwim)
     (grep-apply-setting
      'grep-template
      "--color --ignore-case --line-number --with-filename --recursive --null --perl-regexp --regexp"))
+#+end_src
+** Emacs default completion
+Emacs has its own built-in functionality which enables TAB completion for elisp
+#+begin_src emacs-lisp
+  (customize-set-variable 'tab-always-indent 'complete)
 #+end_src
 ** Setup mouse click to highlight matching words
 #+begin_src emacs-lisp
@@ -481,12 +452,10 @@ Save buffer automatically when wgrep-finish-edit
   (global-set-key (kbd "<mouse-3>") 'ken_nc/find-word-on-click)
 #+end_src
 ** Disable flymake
-Load flymake on emacs startup and disable it
 #+begin_src emacs-lisp
   (use-package flymake
-    :ensure nil
-    :demand t
-    :config
+    :straight nil
+    :init
     (flymake-mode-off))
 #+end_src
 ** Disable auto indenting
@@ -497,7 +466,7 @@ Load flymake on emacs startup and disable it
 Blackout is a package which allows you to hide or customize the display of major and minor modes in the mode line.
 #+begin_src emacs-lisp
   (use-package blackout
-    :demand t)
+    :demand)
 #+end_src
 * Emacs Frame Customization
 #+begin_src emacs-lisp
@@ -559,19 +528,18 @@ One of the main selling points of Emacs! no Emacs distribution is complete
 without sensible and well-defined org-mode defaults
 #+begin_src emacs-lisp
   (use-package org
-    :ensure nil
+    :straight nil
     :hook
     (org-mode . org-indent-mode)
-    :init
+    :config
     (add-hook 'org-mode-hook
               '(lambda ()
                  (visual-line-mode 1)
                  (variable-pitch-mode -1)))
-    :custom
-    (org-startup-folded t))
+    (setq org-startup-folded t))
 
   (use-package org-faces
-    :ensure nil
+    :straight nil
     :custom-face
     (org-todo  ((nil (:weight bold))))
     (org-done  ((nil (:weight bold))))
@@ -663,9 +631,9 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 ** Xah Fly Keys
 #+begin_src emacs-lisp
   (use-package xah-fly-keys
-    :vc (:fetcher github :repo "xahlee/xah-fly-keys")
-    :demand t
-    :blackout t
+    :straight (:type git :host github :repo "xahlee/xah-fly-keys")
+    :demand
+    :blackout
     :config
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys 1)
@@ -675,25 +643,26 @@ Change to use aliases found in login shell. Also disable internal elisp commands
 ** MWIM
 #+begin_src emacs-lisp
   (use-package mwim
-    :demand t)
+    :demand)
 #+end_src
 ** wc-mode
 Show number of lines and words in modeline
 #+begin_src emacs-lisp
   (use-package wc-mode
-    :vc (:fetcher github :repo "bnbeckwith/wc-mode")
-    :blackout t
+    :straight (:type git :host github :repo "bnbeckwith/wc-mode")
+    :blackout
     :hook
-    (text-mode prog-mode)
-    :custom
+    (text-mode . wc-mode)
+    (prog-mode . wc-mode)
+    :config
     (wc-modeline-format "[Words: %tw, Lines: %tl]"))
 #+end_src
 ** Garbage Collection Magic Hack (gcmh)
 #+begin_src emacs-lisp
   (use-package gcmh
-    :blackout t
-    :demand t
-    :config
+    :blackout
+    :demand
+    :init
     (gcmh-mode 1)
     :custom
     (gcmh-verbose t))
@@ -702,16 +671,16 @@ Show number of lines and words in modeline
 Incredibly useful package; if you are in the middle of a command and don't know what to type next, just wait a second and you'll get a nice buffer with all possible completions
 #+begin_src emacs-lisp
   (use-package which-key
-    :blackout t
-    :demand t
-    :config
+    :blackout
+    :demand
+    :init
     (which-key-mode))
 #+end_src
 ** dashboard
 The frontend of Witchmacs; without this there'd be no Marisa in your Emacs startup screen
 #+begin_src emacs-lisp
   (use-package dashboard
-    :demand t
+    :demand
     :preface
     (defun update-config ()
       "Update Witchmacs to the latest version."
@@ -776,45 +745,46 @@ The frontend of Witchmacs; without this there'd be no Marisa in your Emacs start
 You might find beacon an unnecesary package but I find it very neat. It briefly highlights the cursor position when switching to a new window or buffer
 #+begin_src emacs-lisp
   (use-package beacon
-    :blackout t
-    :demand t
-    :config
+    :blackout
+    :demand
+    :init
     (beacon-mode -1))
 #+end_src
 ** ido and ido-vertical
 For the longest time I used the default way of switching and killing buffers in Emacs. Same for finding files. Ido-mode made these three tasks IMMENSELY easier and more intuitive. Please not that I still use the default way M - x works because I believe all you really need for it is which-key
 #+begin_src emacs-lisp
   (use-package ido
-    :ensure nil
+    :straight nil
     :config
     (setq ido-enable-flex-matching nil)
     (setq ido-create-new-buffer 'prompt)
     (setq ido-everywhere nil))
 
   (use-package ido-vertical-mode
-    :ensure nil
+    :straight nil
     :after ido
-    :hook
-    (ido-mode . ido-vertical-mode)
-    :config
+    :demand
+    :hook (ido-mode . ido-vertical-mode)
+    :init
     (ido-vertical-mode 1)
-    ;; This enables arrow keys to select while in ido mode. If you want to instead
-    ;; use the default Emacs keybindings, change it to "'C-n-and-C-p-only"
+    :config
+    ;; This enables arrow keys to select while in ido mode. If you want to
+    ;; instead use the default Emacs keybindings, change it to
+    ;; "'C-n-and-C-p-only"
     (setq ido-vertical-define-keys 'C-n-C-p-up-and-down))
 #+end_src
 ** async
 Utilize asynchronous processes whenever possible
 #+begin_src emacs-lisp
   (use-package async
-    :demand t
+    :demand
     :init
     (dired-async-mode 1))
 #+end_src
 ** crux
 A Collection of Ridiculously Useful eXtensions for Emac
 #+begin_src emacs-lisp
-  (use-package crux
-    :demand t)
+  (use-package crux)
 #+end_src
 ** amx
 Amx is an alternative interface for M-x in Emacs. It provides several
@@ -823,8 +793,7 @@ your most-used commands in the completion list and showing keyboard shortcuts,
 and it supports several completion systems for selecting commands, such as ido
 and ivy.
 #+begin_src emacs-lisp
-  (use-package amx
-    :demand t)
+  (use-package amx)
 #+end_src
 ** dired-toggle-sudo
 Allow to switch from current user to sudo when browsind `dired' buffers.
@@ -841,13 +810,29 @@ Expand region increases the selected region by semantic units. Just keep pressin
 #+begin_src emacs-lisp
     (use-package expand-region)
 #+end_src
+** dimmer
+This package provides a minor mode that indicates which buffer is currently active by dimming the faces in the other buffers. It does this nondestructively, and computes the dimmed faces dynamically such that your overall color scheme is shown in a muted form without requiring you to define what is a "dim" version of every face.
+#+begin_src emacs-lisp
+  (use-package dimmer
+    :demand
+    :blackout
+    :init
+    (dimmer-mode -1)
+    :config
+    (setq dimmer-fraction 0.6)
+    (add-to-list 'dimmer-buffer-exclusion-regexps "diff")
+    (dimmer-configure-magit)
+    (dimmer-configure-which-key)
+    (dimmer-configure-company-box))
+#+end_src
 ** projectile
 #+begin_src emacs-lisp
   (use-package projectile
-    :blackout t
-    :demand t
-    :config
+    :blackout
+    :demand
+    :init
     (projectile-mode 1)
+    :config
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'default))
@@ -856,11 +841,15 @@ Expand region increases the selected region by semantic units. Just keep pressin
 Pulse highlight line on demand or after running select functions
 #+begin_src emacs-lisp
   (use-package pulsar
-    :blackout t
+    :blackout
     :hook
-    (next-error find-file consult-after-jump consult-after-jump)
-    :config
+    (next-error-hook . pulsar-pulse-line)
+    (find-file-hook . pulsar-pulse-line)
+    (consult-after-jump-hook . pulsar-recenter-top)
+    (consult-after-jump-hook . pulsar-reveal-entry)
+    :init
     (pulsar-global-mode 1)
+    :config
     (setq pulsar-pulse-on-window-change t)
     (setq pulsar-pulse t)
     (setq pulsar-delay 0.055)
@@ -870,10 +859,11 @@ Pulse highlight line on demand or after running select functions
 ** diff-hl
 #+begin_src emacs-lisp
   (use-package diff-hl
-    :blackout t
-    :demand t
-    :config
+    :blackout
+    :demand
+    :init
     (global-diff-hl-mode)
+    :config
     (setq diff-hl-margin-mode t))
 #+end_src
 ** git timemachine
@@ -896,23 +886,24 @@ Pulse highlight line on demand or after running select functions
 ** undo-fu-session
 #+begin_src emacs-lisp
   (use-package undo-fu-session
-    :demand t
-    :config
+    :demand
+    :init
     (undo-fu-session-global-mode)
+    :config
     (setq undo-fu-session-directory no-littering-var-directory))
 #+end_src
 ** popwin
 #+begin_src emacs-lisp
   (use-package popwin
-    :demand t
-    :blackout t
-    :config
+    :demand
+    :blackout
+    :init
     (popwin-mode 1)
+    :config
     (push '("*ag search*" :dedicated t :stick t) popwin:special-display-config)
     (push '("*xref*" :dedicated t :stick t) popwin:special-display-config)
     (push '("*Occur*" :dedicated t :stick t) popwin:special-display-config)
     (push '("*eshell*" :dedicated t :stick t) popwin:special-display-config)
-    (push '("*vertm*." :dedicated t :stick t) popwin:special-display-config)
     (push '("*eldoc*" :noselect t :position bottom) popwin:special-display-config)
     (push '("*Ibuffer*" :dedicated t :stick t) popwin:special-display-config)
     (push '("*compilation*" :dedicated t :stick t) popwin:special-display-config)
@@ -925,7 +916,7 @@ Pulse highlight line on demand or after running select functions
 ** wrap-region
 #+begin_src emacs-lisp
   (use-package wrap-region
-    :demand t
+    :demand
     :config
     (wrap-region-add-wrappers
      '(("<" ">")
@@ -937,7 +928,7 @@ Pulse highlight line on demand or after running select functions
 ** exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
-    :demand t
+    :demand
     :config
     ;; add environment variables to emacs environment
     (dolist (var '("BROWSER" "PLAN9" "COLORTERM" "XTERM_VERSION" "TERM"))
@@ -947,13 +938,12 @@ Pulse highlight line on demand or after running select functions
 ** smart-hungry-delete
 #+begin_src emacs-lisp
   (use-package smart-hungry-delete
-    :demand t
+    :demand
     :bind (:map prog-mode-map
                 ([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
                 ([remap delete-backward-char] . smart-hungry-delete-backward-char)
                 ([remap delete-char] . smart-hungry-delete-forward-char))
-    :config
-    (smart-hungry-delete-add-default-hooks))
+    :init (smart-hungry-delete-add-default-hooks))
 #+end_src
 ** vertico
 Vertico provides a performant and minimalistic vertical completion UI based on
@@ -962,8 +952,8 @@ which behaves correctly under all circumstances.
 #+begin_src emacs-lisp
   ;; Persist history over Emacs restarts. Vertico sorts by history position.
   (use-package savehist
-    :ensure nil
-    :demand t
+    :straight nil
+    :demand
     :init
     (savehist-mode)
     :config
@@ -974,7 +964,8 @@ which behaves correctly under all circumstances.
 
   (use-package vertico
     :after minibuffer consult
-    :demand t
+    :demand
+    :init (vertico-mode 1)
     :bind
     (:map vertico-map
           ("TAB" . minibuffer-complete)
@@ -988,7 +979,6 @@ which behaves correctly under all circumstances.
           ("?" . minibuffer-completion-help)
           ("M-RET" . minibuffer-force-complete-and-exit))
     :config
-    (vertico-mode 1)
     (setq vertico-scroll-margin 0)
     (setq vertico-count 20)
     (setq vertico-resize t)
@@ -1003,12 +993,13 @@ which behaves correctly under all circumstances.
      :initial (thing-at-point 'symbol)))
 
   (use-package vertico-multiform
-    :ensure nil
+    :straight nil
     :commands vertico-multiform-mode
-    :demand t
+    :demand
     :after vertico
-    :config
+    :init
     (vertico-multiform-mode 1)
+    :config
     (setq vertico-multiform-commands
           '((load-theme reverse)
             (consult-history reverse mouse)
@@ -1026,17 +1017,17 @@ which behaves correctly under all circumstances.
             (consult-compile-error reverse))))
 
   (use-package vertico-buffer
-    :ensure nil
+    :straight nil
     :after vertico
-    :demand t
+    :demand
     :config
     (setq vertico-buffer-display-action 'display-buffer-reuse-window))
 
   ;; A few more useful configurations...
   (use-package emacs
-    :ensure nil
-    :demand t
-    :config
+    :straight nil
+    :demand
+    :init
     ;; Add prompt indicator to `completing-read-multiple'.
     ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
     (defun crm-indicator (args)
@@ -1071,7 +1062,7 @@ Consult provides practical commands based on the Emacs completion function
 completing-read.
 #+begin_src emacs-lisp
     (use-package consult
-      :demand t
+      :demand
       :config
       (setq consult--grep-regexp-type 'pcre)
       (setq consult-async-min-input 3)
@@ -1079,14 +1070,14 @@ completing-read.
       (setq xref-show-definitions-function #'consult-xref))
 
     (use-package consult-yasnippet
-      :demand t
+      :demand
       :after consult)
 #+end_src
 ** orderless
 This package provides an orderless completion style that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
 #+begin_src emacs-lisp
   (use-package orderless
-    :demand t
+    :demand
     :config
     ;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
     (defun consult--orderless-regexp-compiler (input type &rest _config)
@@ -1108,7 +1099,7 @@ This package provides an orderless completion style that divides the pattern int
 Fuzzy matching for find-file
 #+begin_src emacs-lisp
   (use-package affe
-    :demand t
+    :demand
     :after (orderless consult)
     :config
     (consult-customize affe-grep :preview-key '(:debounce 0.3 any))
@@ -1152,7 +1143,7 @@ Fuzzy matching for company eglot completion
     (setq fussy-score-fn 'fussy-hotfuzz-score))
 
   (use-package fussy
-    :demand t
+    :demand
     :after hotfuzz
     :config
     (setq
@@ -1191,18 +1182,31 @@ Fuzzy matching for company eglot completion
 ** eldoc
 #+begin_src emacs-lisp
   (use-package eldoc
-    :ensure nil
-    :blackout t)
+    :straight nil
+    :blackout)
 #+end_src
 ** 0xc (Base Convertion)
 #+BEGIN_SRC emacs-lisp
   (use-package 0xc)
 #+END_SRC
+** Xterm Change Cursor
+Change cursor when using emacs in terminal
+#+begin_src emacs-lisp
+  ;; currently broken ...
+  (use-package xterm-cursor-changer
+    :straight (:type git :host github :repo "yuutayamada/xterm-cursor-changer-el")
+    :demand
+    :blackout
+    :config
+    (advice-add 'xah-fly-command-mode-activate :before
+      (lambda (&rest _r) (xcc-change-cursor-color-and-shape "" 'box)))
+    (advice-add 'xah-fly-inster-mode-activate :before
+                (lambda (&rest _r) (xcc-change-cursor-color-and-shape "" 'bar))))
+#+end_src
 ** vterm
 #+BEGIN_SRC emacs-lisp
   (use-package vterm
-    :demand t
-    :unless (eq module-file-suffix nil)
+    :demand
     :config
     (setq vterm-kill-buffer-on-exit t)
     (setq vterm-always-compile-module nil)
@@ -1213,9 +1217,9 @@ Fuzzy matching for company eglot completion
 ** fancy-compilation
 #+BEGIN_SRC emacs-lisp
   (use-package fancy-compilation
-    :blackout t
+    :blackout
     :after compile
-    :demand t
+    :demand
     :custom
     (fancy-compilation-quiet-prelude t)
     (fancy-compilation-term "xterm-color")
@@ -1229,7 +1233,8 @@ Fuzzy matching for company eglot completion
       (apply fn args)))
 
   (use-package company
-    :hook prog-mode
+    :hook
+    (prog-mode . company-mode)
     :demand t
     :blackout t
     :bind
@@ -1261,9 +1266,11 @@ Fuzzy matching for company eglot completion
 ** aggressive-indent-mode
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent
-    :demand t
+    :demand
     :hook
-    (emacs-lisp-mode cc-mode python-mode)
+    (emacs-lisp-mode . aggressive-indent-mode)
+    (c-mode . aggressive-indent-mode)
+    (c++-mode . aggressive-indent-mode)
     :config
     (add-to-list
      'aggressive-indent-dont-indent-if
@@ -1274,16 +1281,17 @@ Fuzzy matching for company eglot completion
 ** dumb-jump
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
-    :demand t
-    :ensure-system-package
-    (rg . ripgrep)
+    :demand
     :custom
     (dumb-jump-git-grep-search-args "")
-    (dumb-jump-force-searcher 'rg)
-    (dumb-jump-prefer-searcher 'rg)
-    (dumb-jump-ag-search-args "")
     :config
-    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+    ;; only force dumb-jump to use ripgrep if it exists on system
+    (when (executable-find "rg")
+      (progn
+        (setq dumb-jump-force-searcher 'rg)
+        (setq dumb-jump-prefer-searcher 'rg)
+        (setq dumb-jump-ag-search-args ""))))
 #+END_SRC
 ** eglot
 #+BEGIN_SRC emacs-lisp
@@ -1297,9 +1305,6 @@ Fuzzy matching for company eglot completion
     (eglot-sync-connect 0)
     (eglot-events-buffer-size 0)
     :config
-    ;; disable eldoc
-    (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
-    (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
     (advice-add 'jsonrpc--log-event :override #'ignore)
 
     (with-eval-after-load 'eglot
@@ -1324,12 +1329,17 @@ Fuzzy matching for company eglot completion
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
     (define-key eglot-mode-map (kbd "C-c h") 'eldoc))
+
+  ;; disable eldoc
+  (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
 #+END_SRC
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :hook prog-mode
-    :blackout t)
+    :hook
+    (prog-mode .flycheck-mode)
+    :blackout)
 #+END_SRC
 ** C & C++
 #+BEGIN_SRC emacs-lisp
@@ -1344,14 +1354,14 @@ Fuzzy matching for company eglot completion
     (setq-local flycheck-clang-language-standard "c++20"))
 
   (use-package cc-mode
-    :ensure nil
+    :straight nil
     :hook
     (c-mode-common . wrap-region-mode)
     (c-mode-common . which-function-mode)
     (c-mode-common . c-mode-variables))
 
   (use-package modern-cpp-font-lock
-    :blackout t
+    :blackout
     :hook
     (c++-mode . modern-c++-font-lock-mode))
 #+END_SRC

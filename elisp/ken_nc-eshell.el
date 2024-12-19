@@ -85,7 +85,7 @@ EVENT is ignored."
 (advice-add 'term-sentinel :after #'ken_nc/kill-process-buffer-when-exit)
 
 (use-package esh-mode
-  :ensure nil
+  :straight (:type built-in)
   :bind
   (:map eshell-mode-map
 		("C-l" . ken_nc/esh-clear-buffer)
@@ -93,7 +93,7 @@ EVENT is ignored."
 		("<mouse-3>" . xah-open-file-at-cursor)))
 
 (use-package eshell
-  :ensure nil
+  :straight nil
   :after esh-mode
   :hook
   (eshell-mode . company-mode)
