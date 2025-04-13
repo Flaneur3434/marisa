@@ -213,29 +213,32 @@ command. If prefix is given, it uses grep with the --invert-match flag."
   (interactive "p")
   (when	(equal set-invert nil) (setq set-invert 0))
   (let* ((directory-name (read-directory-name "Which directory: "))
-		 (invert-p (when (= set-invert 4)
-					 "--invert"))
-		 (consult-ripgrep-args (concat
-								"rg "
-								"--null "
-								"--line-buffered "
-								"--color=never "
-								"--max-columns=1000 "
-								"--path-separator / "
-								"--smart-case "
-								"--no-heading "
-								"--with-filename "
-								"--line-number "
-								"--search-zip "
-								"--hidden "
-								invert-p)))
-	(consult-ripgrep directory-name)))
+	 (invert-p (when (= set-invert 4)
+		     "--invert"))
+	 (consult-ripgrep-args (concat
+				"rg "
+				"--null "
+				"--line-buffered "
+				"--color=never "
+				"--max-columns=1000 "
+				"--path-separator / "
+				"--smart-case "
+				"--no-heading "
+				"--with-filename "
+				"--line-number "
+				"--search-zip "
+				"--hidden "
+				invert-p)))
+    (consult-ripgrep directory-name)))
 
-(defun ken_nc/affe-find ()
-  "Call `consult-ripgrep' in specific directory"
+(defun ken_nc/consult-find ()
+  "Recursively search files starting from a user-specified directory using `consult-find'.
+The function prompts for a directory and then initiates the ripgrep search
+with that directory as the starting point."
   (interactive)
-  (let* ((directory-name (read-directory-name "Which directory: ")))
-	(affe-find directory-name)))
+  (let* ((dir (read-directory-name "Which directory: "))
+         (dir (file-name-as-directory dir)))  ; ensure it ends with a slash
+    (consult-find dir)))
 
 (defun ken_nc/grep-symbol-at-point (&optional occur-or-grep)
   "Call 'grep' on symbol at point. Default (no prefix) runs occur.

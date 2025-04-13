@@ -1211,6 +1211,19 @@ Fuzzy matching for company eglot completion
     (setq vterm-buffer-name-string "vterm %s")
     (setq vterm-environment '((format "EMACS_VTERM_ETC= %semacs-vterm-bash.sh" no-littering-etc-directory))))
 #+END_SRC
+** ripgrep
+#+BEGIN_SRC emacs-lisp
+  (use-package rg
+    :demand t
+    :commands (rg rg-menu rg-run)
+    :init
+    ;; Optional: Customize settings before loading rg.el, if desired.
+    (setq rg-group-result t      ;; Group search results by file
+          rg-show-columns t      ;; Show column numbers in the search results
+          rg-ignore-case t)      ;; Ignore case by default in searches
+    :config
+    (rg-enable-default-bindings)) ; Enable default keybindings for the rg search commands
+#+END_SRC
 * Programming section
 ** fancy-compilation
 #+BEGIN_SRC emacs-lisp
